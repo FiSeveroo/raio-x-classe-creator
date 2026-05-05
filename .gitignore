@@ -1,0 +1,13 @@
+.streamlit/secrets.toml
+raio_x.db
+*.db
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
