@@ -44,4 +44,4 @@ streamlit run app.py
 
 Código aberto para fins de pesquisa acadêmica. Ao utilizar resultados desta ferramenta em publicações, cite:
 
-> SEVERO, Filipe Machado Leal. *O Novo "You" do YouTube: a ascensão dos produtores plataformizados e a falência da promessa participativa no Brasil.* Dissertação (Mestrado em Comunicação) — Pontifícia Universidade Católica do Rio Grande do Sul, Porto Alegre, 2026.
+> SEVERO, Filipe. *O Novo "You" do YouTube: a ascensão dos produtores plataformizados e a falência da promessa participativa no Brasil.* Dissertação (Mestrado em Comunicação) — Pontifícia Universidade Católica do Rio Grande do Sul, Porto Alegre, 2026.
