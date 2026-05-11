@@ -1,0 +1,43 @@
+name: Exportação Semanal do Corpus Público
+
+on:
+  schedule:
+    # Toda segunda-feira às 06:00 UTC (03:00 BRT)
+    - cron: '0 6 * * 1'
+  workflow_dispatch:  # Permite execução manual
+
+permissions:
+  contents: write
+
+jobs:
+  exportar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install supabase
+
+      - name: Executar exportador
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: python exportador_corpus.py
+
+      - name: Commitar snapshot
+        run: |
+          git config --local user.email "observatorio-bot@noreply.github.com"
+          git config --local user.name "Observatório Bot"
+          git add dados-publicos/
+          # Só commita se houver mudança
+          git diff --staged --quiet || git commit -m "📚 Snapshot semanal do corpus — $(date -u +'%Y-%m-%d')"
+          git push
