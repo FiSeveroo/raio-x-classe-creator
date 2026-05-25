@@ -1,11 +1,11 @@
 # 📚 Corpus Público do Observatório Classe Creator
 
-## Snapshot gerado em 18/05/2026 às 14:39 UTC
+## Snapshot gerado em 25/05/2026 às 10:13 UTC
 
 Este diretório contém o corpus completo do Raio-X Classe Creator em formato
 CSV, atualizado semanalmente (segundas-feiras) via GitHub Actions.
 
-**Total de registros neste snapshot:** 4
+**Total de registros neste snapshot:** 58
 
 ## Tabelas exportadas
 
@@ -13,11 +13,11 @@ CSV, atualizado semanalmente (segundas-feiras) via GitHub Actions.
 |---|---:|---|
 | `snapshots.csv` | 0 | Cabeçalho dos snapshots semanais do Termômetro |
 | `videos_snapshot.csv` | 0 | Vídeos do trending classificados (Termômetro) |
-| `classificacoes_video.csv` | 1 | Análises individuais de vídeos (Lupa) |
-| `dossies_canal.csv` | 3 | Investigações estruturais de canais (Dossiê) |
-| `buscas_narrativa.csv` | 0 | Cabeçalho de auditorias temáticas (Disputa) |
-| `resultados_busca.csv` | 0 | Resultados detalhados das auditorias temáticas |
-| `analises_comentarios.csv` | 0 | Análises qualitativas de comentários (Voz da Base) |
+| `classificacoes_video.csv` | 2 | Análises individuais de vídeos (Lupa) |
+| `dossies_canal.csv` | 4 | Investigações estruturais de canais (Dossiê) |
+| `buscas_narrativa.csv` | 1 | Cabeçalho de auditorias temáticas (Disputa) |
+| `resultados_busca.csv` | 50 | Resultados detalhados das auditorias temáticas |
+| `analises_comentarios.csv` | 1 | Análises qualitativas de comentários (Voz da Base) |
 
 
 ## Como usar
