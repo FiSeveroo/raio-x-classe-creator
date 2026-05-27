@@ -170,13 +170,21 @@ PRODUTORES = [
         definicao=(
             "Canais oficiais de artistas, bandas e gravadoras, incluindo selos "
             "independentes, que publicam clipes, músicas e conteúdos relacionados "
-            "à carreira artística."
+            "à carreira artística. Inclui projetos de curadoria musical com identidade "
+            "artística própria — mesmo sem artista humano identificável — quando o canal "
+            "produz experiência sonora/visual original e consistente (lofi, ambient, "
+            "folk curation, gospel autoral, etc.)."
         ),
         sinais=(
-            "Verificação 'Artista' do YouTube; vínculo com gravadoras (Sony, Universal, "
-            "Warner, Som Livre, Kondzilla na função de selo); discografia disponível; "
-            "videoclipes oficiais; canais 'VEVO' ou agregadores; descrições com créditos "
-            "musicais e ISRCs; integração com YouTube Music."
+            "CANAL OFICIAL DE ARTISTA: verificação Artista do YouTube; vínculo com gravadoras "
+            "(Sony, Universal, Warner, Som Livre); discografia; videoclipes oficiais; VEVO; ISRCs. "
+            "PROJETO DE CURADORIA MUSICAL COM IDENTIDADE PRÓPRIA: nome artístico próprio do canal; "
+            "produz experiência visual+sonora consistente com estética definida (lofi, ambient, "
+            "cinematic folk, gospel autoral); descreve mood específico; curadoria editorial clara "
+            "— não agrega músicas aleatórias. Ex: lofi channels, Haven222, nature sounds com "
+            "identidade visual, selos digitais independentes. "
+            "NÃO É MÚSICO: canal que compila músicas de terceiros (gospel, sertanejo, pagode) "
+            "sem identidade artística própria → Reaproveitamento."
         ),
     ),
     Categoria(
@@ -209,15 +217,21 @@ PRODUTORES = [
         codigo="reaproveitamento",
         nome="Reaproveitamento e pirataria",
         definicao=(
-            "Republicações não autorizadas ou conteúdos de terceiros sem reelaboração "
-            "relevante. Inclui compilações sem créditos, dublagens não autorizadas, "
-            "rips de TV e canais de 'cortes' sem qualquer ligação com o autor original."
+            "Canais que agregam, compilam ou republicam conteúdo de terceiros como produto "
+            "principal, com ou sem autorização formal. A produção própria é mínima — o valor "
+            "está na seleção/agregação, não na criação. Inclui compilações musicais, rips de "
+            "TV, dublagens não autorizadas e cortes sem vínculo com o canal original."
         ),
         sinais=(
-            "Conteúdo evidentemente de terceiros sem autorização visível; marcas d'água "
-            "de outros canais; baixa qualidade técnica de re-encode; descrições genéricas; "
-            "ausência de produção original; nomes evasivos; tendência a serem derrubados "
-            "por Content ID."
+            "SINAL PRINCIPAL: canal não produz conteúdo original — agrega músicas ou vídeos "
+            "de terceiros. COMPILAÇÕES MUSICAIS (mesmo profissionais): 'melhores hinos "
+            "evangélicos', 'top sertanejo', 'louvores gospel', 'músicas para dormir' que "
+            "reúnem músicas de outros artistas. A embalagem profissional NÃO exclui: farms "
+            "de conteúdo gospel/sertanejo/pagode são Reaproveitamento mesmo com descrição "
+            "organizada e hashtags. OUTROS SINAIS: foco em 'os melhores X' sem produção "
+            "própria; ausência de artista vinculado ao canal; conteúdo não produzido pelo "
+            "canal. DISTINÇÃO COM MÚSICO: identidade artística própria + produção original "
+            "→ Músico. Agregação temática de terceiros → Reaproveitamento."
         ),
     ),
     Categoria(
