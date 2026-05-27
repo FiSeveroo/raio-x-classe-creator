@@ -291,20 +291,9 @@ st.markdown(
         font-family: 'DM Sans', sans-serif !important;
     }
 
-    /* Esconde menu e footer — mantém botão de toggle da sidebar */
-    #MainMenu, footer { visibility: hidden; }
-    [data-testid="stToolbar"] { visibility: hidden; }
-    header[data-testid="stHeader"] { background: transparent !important; }
-
-    /* Garante visibilidade do botão de toggle da sidebar */
-    [data-testid="stSidebarCollapsedControl"],
-    [data-testid="stSidebarCollapseButton"],
-    button[kind="header"] {
-        visibility: visible !important;
-        display: flex !important;
-        opacity: 1 !important;
-        z-index: 999999 !important;
-    }
+    /* Esconde apenas menu hamburger e footer */
+    #MainMenu { visibility: hidden; }
+    footer { visibility: hidden; }
     </style>
     """,
     unsafe_allow_html=True,
