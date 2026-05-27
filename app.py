@@ -1173,7 +1173,7 @@ def renderizar_termometro_painel() -> None:
                 f"Você tem {len(snapshots)}. Aguarde a próxima coleta automatizada "
                 "ou execute manualmente pelo GitHub Actions."
             )
-            return
+            pass  # não interrompe outras abas
 
         with st.spinner("Carregando corpus completo..."):
             todos = todos_videos_para_serie_temporal(cliente)
@@ -1221,7 +1221,7 @@ def renderizar_termometro_painel() -> None:
         df_c = pd.DataFrame(todos)
         if df_c.empty:
             st.info("Sem dados ainda.")
-            return
+            pass  # não interrompe outras abas
 
         recorrencia = (
             df_c.groupby(["canal_id", "canal_nome", "tipo_produtor"])
@@ -1258,7 +1258,7 @@ def renderizar_termometro_painel() -> None:
         df_exp = pd.DataFrame(todos)
         if df_exp.empty:
             st.info("Sem dados para exportar.")
-            return
+            pass  # não interrompe outras abas
 
         df_exp["data_coleta"] = df_exp["snapshots"].apply(lambda s: s["data_coleta"] if s else None)
         df_exp["semana_ano"] = df_exp["snapshots"].apply(lambda s: s["semana_ano"] if s else None)
