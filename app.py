@@ -493,6 +493,26 @@ REGRAS:
 5. Considere SEMPRE o canal como pista primária do Eixo A, e o conteúdo como pista do Eixo B.
 6. Atenção a "vlogs falsos" e estéticas de autenticidade roteirizada (Cunningham & Craig, 2017).
 
+TESTE DECISIVO — Produtora vs. YouTuber:
+"Se essa pessoa saísse do canal, o canal continuaria existindo como marca?"
+- SIM → produtora_digital (ex: Ei Nerd, Flow, Desimpedidos, CazéTV, Canal GOAT, Manual do Mundo)
+- NÃO → youtuber_profissional (ex: Whindersson, Felipe Neto, Casimiro, Gaules, Virgínia)
+
+EXEMPLOS VALIDADOS (use como calibração):
+- Ei Nerd → produtora_digital [marca com apresentadores rotativos, múltiplos canais, empresa]
+- Gaules → produtora_digital [ecossistema com múltiplos canais, empresa estruturada]
+- Flow Games → produtora_digital [sub-canal do ecossistema Flow]
+- Canal GOAT → produtora_digital [produtora nativa de esportes]
+- MrBeast → produtora_digital [empresa global, 100+ funcionários]
+- Enaldinho → produtora_digital [opera múltiplos canais como empresa]
+- Mendrake → youtuber_profissional [persona individual]
+- Tonigon → youtuber_profissional [criador individual]
+- rezendeevil → youtuber_profissional [persona individual de games]
+- Flamengo TV → marca [canal oficial do clube]
+- CONMEBOL → instituicao [entidade reguladora]
+- VALORANT Esports BR → marca [Riot Games divulgando o jogo]
+- Kings League → produtora_digital [campeonato existe para gerar conteúdo]
+
 FORMATO: APENAS JSON válido, sem markdown:
 {{
   "tipo_produtor": "<código exato do Eixo A>",
