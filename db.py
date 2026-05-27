@@ -622,6 +622,23 @@ def estatisticas_corpus_termometro(cliente: Client) -> dict:
 # UTILITÁRIOS
 # ==============================================================================
 
+def ultima_semana_coletada(cliente: Client) -> int | None:
+    """Retorna o número da semana ISO do snapshot mais recente, ou None se não houver."""
+    try:
+        resp = (
+            cliente.table("snapshots")
+            .select("semana_ano")
+            .order("id", desc=True)
+            .limit(1)
+            .execute()
+        )
+        if resp.data:
+            return resp.data[0]["semana_ano"]
+        return None
+    except Exception:
+        return None
+
+
 def calcular_proxima_coleta_semanal() -> tuple[int, str, str]:
     """
     Calcula em qual dia/horário a coleta DEVE acontecer hoje, replicando
