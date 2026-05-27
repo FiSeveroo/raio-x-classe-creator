@@ -639,6 +639,102 @@ def ultima_semana_coletada(cliente: Client) -> int | None:
         return None
 
 
+# ==============================================================================
+# CANAIS VALIDADOS — banco de classificações humanas
+# ==============================================================================
+
+def buscar_canal_validado(cliente: Client, canal_id: str) -> dict | None:
+    """
+    Consulta se um canal já tem classificação humana validada.
+    Retorna o registro ou None se não encontrado.
+    """
+    try:
+        resp = (
+            cliente.table("canais_validados")
+            .select("*")
+            .eq("canal_id", canal_id)
+            .limit(1)
+            .execute()
+        )
+        if resp.data:
+            return resp.data[0]
+        return None
+    except Exception:
+        return None
+
+
+def salvar_canal_validado(
+    cliente: Client,
+    canal_id: str,
+    canal_nome: str,
+    tipo_produtor: str,
+    tipo_conteudo: str | None,
+    justificativa: str,
+    fonte: str = "curadoria_humana",
+) -> None:
+    """
+    Salva ou atualiza a classificação validada de um canal.
+    Usa upsert — se o canal já existe, atualiza.
+    """
+    try:
+        cliente.table("canais_validados").upsert({
+            "canal_id": canal_id,
+            "canal_nome": canal_nome,
+            "tipo_produtor": tipo_produtor,
+            "tipo_conteudo": tipo_conteudo,
+            "justificativa": justificativa,
+            "fonte": fonte,
+        }, on_conflict="canal_id").execute()
+    except Exception as e:
+        print(f"⚠️  Erro ao salvar canal validado {canal_nome}: {e}")
+
+
+def propagar_classificacao_canal(
+    cliente: Client,
+    canal_id: str,
+    tipo_produtor: str,
+    tipo_conteudo: str | None,
+    justificativa: str,
+) -> int:
+    """
+    Propaga classificação humana para TODAS as aparições do canal
+    nas tabelas videos_snapshot e resultados_busca.
+    Retorna o total de registros atualizados.
+    """
+    total = 0
+    payload = {
+        "classificado_com": "curadoria_humana",
+        "justificativa": justificativa,
+        "tipo_produtor": tipo_produtor,
+    }
+    if tipo_conteudo:
+        payload["tipo_conteudo"] = tipo_conteudo
+
+    try:
+        r1 = (
+            cliente.table("videos_snapshot")
+            .update(payload)
+            .eq("canal_id", canal_id)
+            .execute()
+        )
+        total += len(r1.data) if r1.data else 0
+    except Exception as e:
+        print(f"⚠️  Erro ao propagar em videos_snapshot: {e}")
+
+    try:
+        r2 = (
+            cliente.table("resultados_busca")
+            .update(payload)
+            .eq("canal_id", canal_id)
+            .execute()
+        )
+        total += len(r2.data) if r2.data else 0
+    except Exception as e:
+        print(f"⚠️  Erro ao propagar em resultados_busca: {e}")
+
+    return total
+
+
 def calcular_proxima_coleta_semanal() -> tuple[int, str, str]:
     """
     Calcula em qual dia/horário a coleta DEVE acontecer hoje, replicando
