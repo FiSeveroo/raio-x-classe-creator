@@ -130,19 +130,29 @@ st.markdown(
     }
 
     /* Sidebar */
-    [data-testid="stSidebar"] {
-        background-color: #0d0d0d;
-        border-right: 1px solid #1a1a1a;
+    /* Sidebar — múltiplos seletores para compatibilidade */
+    [data-testid="stSidebar"],
+    section[data-testid="stSidebar"],
+    .stSidebar {
+        background-color: #0d0d0d !important;
+        border-right: 1px solid #1a1a1a !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
-    [data-testid="stSidebar"] * {
+    [data-testid="stSidebar"] *,
+    section[data-testid="stSidebar"] * {
         color: #F5F0E8 !important;
-        font-family: 'DM Sans', sans-serif;
+        font-family: 'CookConthic', sans-serif;
     }
     [data-testid="stSidebar"] h1,
     [data-testid="stSidebar"] h2,
-    [data-testid="stSidebar"] h3 {
+    [data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3 {
         font-family: 'Gunterz', sans-serif !important;
-        letter-spacing: 0.08em !important;
+        letter-spacing: 0.05em !important;
         color: #00E87A !important;
     }
 
@@ -511,17 +521,9 @@ DESCRIÇÃO DO VÍDEO:
 # ==============================================================================
 
 with st.sidebar:
-    st.markdown(
-        """
-        <div style="padding: 16px 0 8px;">
-            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 3px; color: #aaa; margin-bottom: 2px;">CLASSE CREATOR</div>
-            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: #00E87A; line-height: 1;">RAIO-X</div>
-            <div style="font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #555; margin-top: 2px;">OBSERVATÓRIO</div>
-        </div>
-        <hr style="border-color: #1a1a1a; margin: 12px 0;">
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown("# RAIO-X")
+    st.caption("CLASSE CREATOR — OBSERVATÓRIO")
+    st.divider()
 
     modulo = st.radio(
         "Módulos",
@@ -537,22 +539,11 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    st.markdown(
-        """
-        <hr style="border-color: #1a1a1a; margin: 12px 0;">
-        <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: #555; line-height: 1.6;">
-            Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.
-        </div>
-        <div style="margin-top: 16px; font-family: 'Space Mono', monospace; font-size: 10px; color: #7B2FFF; font-style: italic;">
-            "Criar é trabalho."
-        </div>
-        <hr style="border-color: #1a1a1a; margin: 12px 0;">
-        <div style="font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #333;">
-            <a href="https://escola.classecreator.com" target="_blank" style="color: #00E87A; text-decoration: none;">← ESCOLA CLASSE CREATOR</a>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.divider()
+    st.caption("Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.")
+    st.markdown("*"Criar é trabalho."*")
+    st.divider()
+    st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
 
 # ==============================================================================
