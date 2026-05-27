@@ -47,6 +47,7 @@ try:
         buscar_canal_validado,
         salvar_canal_validado,
         propagar_classificacao_canal,
+        buscar_exemplos_ancora,
         todos_videos_para_serie_temporal,
         registrar_busca,
         gravar_resultado_busca,
@@ -475,9 +476,10 @@ def buscar_metadados_canal(canal_id: str) -> dict:
 def classificar_com_claude(meta_video: dict, meta_canal: dict) -> dict:
     # Consulta banco âncora antes de chamar a IA
     canal_id = meta_video.get("canal_id", "")
-    if canal_id:
-        try:
-            cliente_db = conectar(modo="leitura")
+    exemplos_dinamicos = ""
+    try:
+        cliente_db = conectar(modo="leitura")
+        if canal_id:
             validado = buscar_canal_validado(cliente_db, canal_id)
             if validado:
                 return {
@@ -485,8 +487,22 @@ def classificar_com_claude(meta_video: dict, meta_canal: dict) -> dict:
                     "tipo_conteudo": validado.get("tipo_conteudo") or meta_video.get("tipo_conteudo", "outros"),
                     "justificativa": f"[ÂNCORA VALIDADA] {validado.get('justificativa', '')}",
                 }
-        except Exception:
-            pass  # falha silenciosa — segue para a IA
+        # Busca exemplos do banco para few-shot dinâmico
+        exemplos = buscar_exemplos_ancora(cliente_db, limite=15)
+        if exemplos:
+            linhas = []
+            for ex in exemplos:
+                just = ex.get("justificativa", "")[:80]
+                linhas.append(
+                    f"- {ex['canal_nome']} → {ex['tipo_produtor']}"
+                    f"{f' [{just}]' if just else ''}"
+                )
+            exemplos_dinamicos = (
+                "\n\nEXEMPLOS VALIDADOS PELO PESQUISADOR (aprendizado acumulado):\n"
+                + "\n".join(linhas)
+            )
+    except Exception:
+        pass  # falha silenciosa — segue para a IA sem exemplos
 
     cliente = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
@@ -540,7 +556,7 @@ FORMATO: APENAS JSON válido, sem markdown:
 
 CÓDIGOS Eixo A: {", ".join(codigos_produtor())}
 CÓDIGOS Eixo B: {", ".join(codigos_conteudo())}
-"""
+{exemplos_dinamicos}"""
 
     payload = f"""DADOS DO VÍDEO:
 - Título: {meta_video['titulo']}
@@ -1610,7 +1626,7 @@ FORMATO: APENAS JSON válido, sem markdown:
 
 CÓDIGOS Eixo A: {", ".join(codigos_produtor())}
 CÓDIGOS Eixo B: {", ".join(codigos_conteudo())}
-"""
+{exemplos_dinamicos_haiku}"""
 
     resposta = cliente.messages.create(
         model="claude-haiku-4-5",
@@ -2684,6 +2700,36 @@ def classificar_canal_haiku(canal_meta: dict, videos: list[dict], sintomas: dict
     Classificação básica do canal usando Haiku — Eixo A (produtor) e
     tipo predominante de conteúdo. Reusa a mesma tipologia.
     """
+    # Consulta banco âncora antes de chamar a IA
+    canal_id = canal_meta.get("id", "")
+    exemplos_dinamicos_haiku = ""
+    try:
+        cliente_db = conectar(modo="leitura")
+        if canal_id:
+            validado = buscar_canal_validado(cliente_db, canal_id)
+            if validado:
+                return {
+                    "tipo_produtor": validado["tipo_produtor"],
+                    "tipo_conteudo_predominante": validado.get("tipo_conteudo") or "outros",
+                    "justificativa_curta": f"[ÂNCORA VALIDADA] {validado.get('justificativa', '')}",
+                    "auto_classificacao": "",
+                }
+        exemplos = buscar_exemplos_ancora(cliente_db, limite=15)
+        if exemplos:
+            linhas = []
+            for ex in exemplos:
+                just = ex.get("justificativa", "")[:80]
+                linhas.append(
+                    f"- {ex['canal_nome']} → {ex['tipo_produtor']}"
+                    f"{f' [{just}]' if just else ''}"
+                )
+            exemplos_dinamicos_haiku = (
+                "\n\nEXEMPLOS VALIDADOS PELO PESQUISADOR:\n"
+                + "\n".join(linhas)
+            )
+    except Exception:
+        pass
+
     cliente = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
     snippet = canal_meta.get("snippet", {})
@@ -2813,7 +2859,7 @@ FORMATO: APENAS JSON válido:
 
 CÓDIGOS Eixo A: {", ".join(codigos_produtor())}
 CÓDIGOS Eixo B: {", ".join(codigos_conteudo())}
-"""
+{exemplos_dinamicos_haiku}"""
 
     resposta = cliente.messages.create(
         model="claude-haiku-4-5",
