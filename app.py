@@ -96,6 +96,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# Força sidebar sempre expandida
+st.session_state["sidebar_state"] = "expanded"
+
 # CSS — identidade visual Classe Creator
 st.markdown(
     """
@@ -291,9 +294,27 @@ st.markdown(
         font-family: 'DM Sans', sans-serif !important;
     }
 
-    /* Esconde apenas menu hamburger e footer */
+    /* Esconde menu hamburger, footer e botão de colapso da sidebar */
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
+
+    /* Esconde o botão de colapso/toggle — sidebar sempre visível no desktop */
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="stSidebarCollapseButton"],
+    button[data-testid="stBaseButton-headerNoPadding"] {
+        display: none !important;
+    }
+
+    /* Remove scroll da sidebar — conteúdo cabe na tela */
+    [data-testid="stSidebar"] > div:first-child {
+        overflow: hidden !important;
+        height: 100vh !important;
+    }
+
+    /* Remove padding extra do topo da sidebar */
+    [data-testid="stSidebar"] {
+        padding-top: 0 !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
