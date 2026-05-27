@@ -1278,101 +1278,108 @@ def renderizar_termometro_painel() -> None:
         st.markdown("### ✏️ Curadoria de classificações")
         st.markdown(
             "Corrija classificações incorretas do Termômetro. "
-            "Cada correção é registrada com autoria e justificativa."
+            "Cada correção é registrada com justificativa."
         )
+        try:
+            cliente_escrita = conectar(modo="escrita")
+        except Exception as e:
+            st.error(f"Erro ao conectar para escrita: {e}")
+            cliente_escrita = cliente
 
-        snapshots_cur = listar_snapshots(cliente)
-        if not snapshots_cur:
-            st.info("Nenhum snapshot disponível.")
-        else:
-            opcoes_cur = {
-                f"#{s['id']} — {s['data_coleta'][:10]} ({s['dia_semana']} {s['horario_coleta']})": s["id"]
-                for s in snapshots_cur
-            }
-            escolha_cur = st.selectbox(
-                "Snapshot a auditar", options=list(opcoes_cur.keys()), key="cur_snapshot"
-            )
-            snapshot_id_cur = opcoes_cur[escolha_cur]
-            videos_cur = videos_do_snapshot(cliente, snapshot_id_cur)
-
-            if not videos_cur:
-                st.warning("Snapshot vazio.")
+        try:
+            snapshots_cur = listar_snapshots(cliente)
+            if not snapshots_cur:
+                st.info("Nenhum snapshot disponível.")
             else:
-                df_cur = pd.DataFrame(videos_cur)
-
-                # Filtro rápido por tipo de produtor
-                tipos_presentes = ["(todos)"] + sorted(df_cur["tipo_produtor"].unique().tolist())
-                filtro_tipo = st.selectbox(
-                    "Filtrar por tipo de produtor", tipos_presentes, key="cur_filtro_tipo"
+                opcoes_cur = {
+                    f"#{s['id']} — {s['data_coleta'][:10]} ({s['dia_semana']} {s['horario_coleta']})": s["id"]
+                    for s in snapshots_cur
+                }
+                escolha_cur = st.selectbox(
+                    "Snapshot a auditar", options=list(opcoes_cur.keys()), key="cur_snapshot"
                 )
-                if filtro_tipo != "(todos)":
-                    df_cur = df_cur[df_cur["tipo_produtor"] == filtro_tipo]
+                snapshot_id_cur = opcoes_cur[escolha_cur]
+                videos_cur = videos_do_snapshot(cliente, snapshot_id_cur)
 
-                st.markdown(f"**{len(df_cur)} vídeos** — clique em um para corrigir:")
-
-                for _, row in df_cur.iterrows():
-                    produtor_atual = buscar_produtor(row["tipo_produtor"])
-                    conteudo_atual = buscar_conteudo(row["tipo_conteudo"])
-                    label = (
-                        f"**{row['canal_nome']}** — {row['titulo'][:60]}... "
-                        f"| Produtor: `{produtor_atual.nome if produtor_atual else row['tipo_produtor']}` "
-                        f"| Conteúdo: `{conteudo_atual.nome if conteudo_atual else row['tipo_conteudo']}`"
+                if not videos_cur:
+                    st.warning("Snapshot vazio.")
+                else:
+                    df_cur = pd.DataFrame(videos_cur)
+                    tipos_presentes = ["(todos)"] + sorted(df_cur["tipo_produtor"].unique().tolist())
+                    filtro_tipo = st.selectbox(
+                        "Filtrar por tipo de produtor", tipos_presentes, key="cur_filtro_tipo"
                     )
-                    with st.expander(label):
-                        col_a, col_b = st.columns(2)
-                        with col_a:
-                            novo_produtor = st.selectbox(
-                                "Tipo de produtor",
-                                options=codigos_produtor(),
-                                index=codigos_produtor().index(row["tipo_produtor"])
-                                if row["tipo_produtor"] in codigos_produtor() else 0,
-                                format_func=lambda c: buscar_produtor(c).nome,
-                                key=f"cur_prod_{row['id']}",
-                            )
-                        with col_b:
-                            novo_conteudo = st.selectbox(
-                                "Tipo de conteúdo",
-                                options=codigos_conteudo(),
-                                index=codigos_conteudo().index(row["tipo_conteudo"])
-                                if row["tipo_conteudo"] in codigos_conteudo() else 0,
-                                format_func=lambda c: buscar_conteudo(c).nome,
-                                key=f"cur_cont_{row['id']}",
-                            )
-                        justificativa_cor = st.text_area(
-                            "Justificativa da correção (obrigatória)",
-                            placeholder="Ex: Canal é produtora digital — opera múltiplos canais sob mesma marca...",
-                            key=f"cur_just_{row['id']}",
-                        )
-                        mudou_produtor = novo_produtor != row["tipo_produtor"]
-                        mudou_conteudo = novo_conteudo != row["tipo_conteudo"]
+                    if filtro_tipo != "(todos)":
+                        df_cur = df_cur[df_cur["tipo_produtor"] == filtro_tipo]
 
-                        if st.button("💾 Salvar correção", key=f"cur_btn_{row['id']}"):
-                            if not justificativa_cor.strip():
-                                st.error("Justificativa obrigatória.")
-                            elif not mudou_produtor and not mudou_conteudo:
-                                st.warning("Nenhuma alteração detectada.")
-                            else:
-                                try:
-                                    update_payload = {"classificado_com": "curadoria_humana"}
-                                    if mudou_produtor:
-                                        update_payload["tipo_produtor"] = novo_produtor
-                                    if mudou_conteudo:
-                                        update_payload["tipo_conteudo"] = novo_conteudo
-                                    update_payload["justificativa"] = (
-                                        f"[CURADORIA HUMANA] {justificativa_cor.strip()}"
-                                    )
-                                    cliente.table("videos_snapshot").update(
-                                        update_payload
-                                    ).eq("id", row["id"]).execute()
-                                    st.success(
-                                        f"✅ Corrigido: "
-                                        f"{buscar_produtor(novo_produtor).nome if mudou_produtor else ''}"
-                                        f"{' + ' if mudou_produtor and mudou_conteudo else ''}"
-                                        f"{buscar_conteudo(novo_conteudo).nome if mudou_conteudo else ''}"
-                                    )
-                                    st.rerun()
-                                except Exception as e:
-                                    st.error(f"Erro ao salvar: {e}")
+                    st.markdown(f"**{len(df_cur)} vídeos** — clique em um para corrigir:")
+
+                    for _, row in df_cur.iterrows():
+                        produtor_atual = buscar_produtor(row["tipo_produtor"])
+                        conteudo_atual = buscar_conteudo(row["tipo_conteudo"])
+                        label = (
+                            f"**{row['canal_nome']}** — {row['titulo'][:60]}... "
+                            f"| Produtor: `{produtor_atual.nome if produtor_atual else row['tipo_produtor']}` "
+                            f"| Conteúdo: `{conteudo_atual.nome if conteudo_atual else row['tipo_conteudo']}`"
+                        )
+                        with st.expander(label):
+                            col_a, col_b = st.columns(2)
+                            with col_a:
+                                novo_produtor = st.selectbox(
+                                    "Tipo de produtor",
+                                    options=codigos_produtor(),
+                                    index=codigos_produtor().index(row["tipo_produtor"])
+                                    if row["tipo_produtor"] in codigos_produtor() else 0,
+                                    format_func=lambda c: buscar_produtor(c).nome,
+                                    key=f"cur_prod_{row['id']}",
+                                )
+                            with col_b:
+                                novo_conteudo = st.selectbox(
+                                    "Tipo de conteúdo",
+                                    options=codigos_conteudo(),
+                                    index=codigos_conteudo().index(row["tipo_conteudo"])
+                                    if row["tipo_conteudo"] in codigos_conteudo() else 0,
+                                    format_func=lambda c: buscar_conteudo(c).nome,
+                                    key=f"cur_cont_{row['id']}",
+                                )
+                            justificativa_cor = st.text_area(
+                                "Justificativa da correção (obrigatória)",
+                                placeholder="Ex: Canal é produtora digital — opera múltiplos canais sob mesma marca...",
+                                key=f"cur_just_{row['id']}",
+                            )
+                            mudou_produtor = novo_produtor != row["tipo_produtor"]
+                            mudou_conteudo = novo_conteudo != row["tipo_conteudo"]
+
+                            if st.button("💾 Salvar correção", key=f"cur_btn_{row['id']}"):
+                                if not justificativa_cor.strip():
+                                    st.error("Justificativa obrigatória.")
+                                elif not mudou_produtor and not mudou_conteudo:
+                                    st.warning("Nenhuma alteração detectada.")
+                                else:
+                                    try:
+                                        update_payload = {"classificado_com": "curadoria_humana"}
+                                        if mudou_produtor:
+                                            update_payload["tipo_produtor"] = novo_produtor
+                                        if mudou_conteudo:
+                                            update_payload["tipo_conteudo"] = novo_conteudo
+                                        update_payload["justificativa"] = (
+                                            f"[CURADORIA HUMANA] {justificativa_cor.strip()}"
+                                        )
+                                        cliente_escrita.table("videos_snapshot").update(
+                                            update_payload
+                                        ).eq("id", row["id"]).execute()
+                                        st.success(
+                                            f"✅ Corrigido: "
+                                            f"{buscar_produtor(novo_produtor).nome if mudou_produtor else ''}"
+                                            f"{' + ' if mudou_produtor and mudou_conteudo else ''}"
+                                            f"{buscar_conteudo(novo_conteudo).nome if mudou_conteudo else ''}"
+                                        )
+                                        st.rerun()
+                                    except Exception as e:
+                                        st.error(f"Erro ao salvar: {e}")
+        except Exception as e:
+            st.error(f"Erro na curadoria: {e}")
+            st.exception(e)
 
 
 def renderizar_termometro() -> None:
