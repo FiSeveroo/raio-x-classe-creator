@@ -100,13 +100,32 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+    @font-face {
+        font-family: 'Gunterz';
+        src: url('https://escola.classecreator.com/Gunterz-Black.otf') format('opentype');
+        font-weight: 900;
+        font-display: swap;
+    }
+    @font-face {
+        font-family: 'Gunterz';
+        src: url('https://escola.classecreator.com/Gunterz-Bold.otf') format('opentype');
+        font-weight: 700;
+        font-display: swap;
+    }
+    @font-face {
+        font-family: 'CookConthic';
+        src: url('https://escola.classecreator.com/CookConthic.otf') format('opentype');
+        font-weight: 400;
+        font-display: swap;
+    }
 
     /* Base */
     .stApp {
         background-color: #0a0a0a;
         color: #F5F0E8;
-        font-family: 'DM Sans', sans-serif;
+        font-family: 'CookConthic', sans-serif;
         font-size: 16px;
     }
 
@@ -122,17 +141,17 @@ st.markdown(
     [data-testid="stSidebar"] h1,
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 {
-        font-family: 'Bebas Neue', sans-serif !important;
-        letter-spacing: 0.1em !important;
+        font-family: 'Gunterz', sans-serif !important;
+        letter-spacing: 0.08em !important;
         color: #00E87A !important;
     }
 
     /* Headings */
     h1, h2, h3 {
-        font-family: 'Bebas Neue', sans-serif !important;
-        letter-spacing: 0.08em !important;
+        font-family: 'Gunterz', sans-serif !important;
+        letter-spacing: 0.05em !important;
         color: #F5F0E8 !important;
-        font-weight: 400 !important;
+        font-weight: 900 !important;
     }
     h1 { font-size: 2.5rem !important; }
     h2 { font-size: 1.8rem !important; }
@@ -148,7 +167,8 @@ st.markdown(
         background-color: transparent;
         color: #00E87A;
         border: 1px solid #00E87A;
-        font-family: 'Space Mono', monospace;
+        font-family: 'CookConthic', sans-serif;
+        font-weight: 700;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.1em;
@@ -223,7 +243,8 @@ st.markdown(
         padding: 4px;
     }
     .stTabs [data-baseweb="tab"] {
-        font-family: 'Space Mono', monospace;
+        font-family: 'CookConthic', sans-serif;
+        font-weight: 700;
         font-size: 0.7rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
