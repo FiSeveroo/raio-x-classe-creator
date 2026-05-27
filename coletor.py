@@ -228,30 +228,25 @@ def executar_coleta() -> None:
     print(f"📅 Semana ISO {semana} | Slot programado: {dia} às {horario}")
     print(f"   Hora real do sistema (UTC): {inicio.strftime('%A %H:%M')}")
 
-    # Guard clause: só executa se hoje é o dia/horário correto do slot
-    # Mapeia nome do dia em português → weekday() do Python (0=segunda, 6=domingo)
-    DIAS_PT = {
-        "segunda": 0, "terça": 1, "quarta": 2, "quinta": 3,
-        "sexta": 4, "sábado": 5, "domingo": 6,
-    }
     FORCA_EXECUCAO = os.getenv("FORCA_EXECUCAO", "").lower() == "true"
 
-    dia_esperado = DIAS_PT.get(dia, -1)
-    hora_esperada = 5 if horario == "05h" else 17
-    dia_atual = inicio.weekday()       # em UTC, que é o que o GitHub Actions usa
-    hora_atual = inicio.hour           # hora UTC
+    # Guard clause: verifica se já coletamos nesta semana ISO
+    # Permite qualquer disparo do cron dentro da semana correta — não exige dia/hora exatos
+    # (GitHub Actions pode atrasar, e queremos garantir pelo menos 1 coleta por semana)
+    if not FORCA_EXECUCAO:
+        try:
+            from db import conectar, ultima_semana_coletada
+            cliente_guard = conectar()
+            ultima_semana = ultima_semana_coletada(cliente_guard)
+            if ultima_semana == semana:
+                print(f"⏭️  COLETA IGNORADA — semana ISO {semana} já foi coletada.")
+                print(f"   Para forçar nova coleta, defina FORCA_EXECUCAO=true.")
+                sys.exit(0)
+        except Exception as e:
+            print(f"⚠️  Não foi possível verificar última semana coletada: {e}")
+            print(f"   Prosseguindo com a coleta por precaução.")
 
-    # Tolerância: ±1 hora (GitHub Actions pode atrasar até 1h em momentos de pico)
-    horario_ok = abs(hora_atual - hora_esperada) <= 1
-    dia_ok = dia_atual == dia_esperado
-
-    if not FORCA_EXECUCAO and not (dia_ok and horario_ok):
-        print(f"⏭️  COLETA IGNORADA — hoje é {inicio.strftime('%A')} {hora_atual}h UTC,")
-        print(f"   mas o slot desta semana é {dia} às {horario} (hora Brasília).")
-        print(f"   Para forçar execução, defina a variável FORCA_EXECUCAO=true.")
-        sys.exit(0)
-
-    print(f"✅ Slot confirmado — executando coleta.")
+    print(f"✅ Semana ISO {semana} ainda não coletada — executando coleta.")
 
     # 2. Coletar trending
     print("\n📥 Coletando 50 vídeos do trending BR...")
