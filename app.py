@@ -96,40 +96,172 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# CSS — manifesto urbano-digital
+# CSS — identidade visual Classe Creator
 st.markdown(
     """
     <style>
-    .stApp { background-color: #0a0a0a; color: #f5f5f5; }
-    [data-testid="stSidebar"] { background-color: #000000; border-right: 1px solid #1a1a1a; }
-    h1, h2, h3 { color: #ffffff !important; font-weight: 700; letter-spacing: -0.02em; }
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
 
-    .neon-verde { color: #39FF14; font-weight: 700; text-shadow: 0 0 8px rgba(57,255,20,0.4); }
-    .neon-roxo { color: #b026ff; font-weight: 700; text-shadow: 0 0 8px rgba(176,38,255,0.4); }
+    /* Base */
+    .stApp {
+        background-color: #0a0a0a;
+        color: #F5F0E8;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 16px;
+    }
 
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #0d0d0d;
+        border-right: 1px solid #1a1a1a;
+    }
+    [data-testid="stSidebar"] * {
+        color: #F5F0E8 !important;
+        font-family: 'DM Sans', sans-serif;
+    }
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 {
+        font-family: 'Bebas Neue', sans-serif !important;
+        letter-spacing: 0.1em !important;
+        color: #00E87A !important;
+    }
+
+    /* Headings */
+    h1, h2, h3 {
+        font-family: 'Bebas Neue', sans-serif !important;
+        letter-spacing: 0.08em !important;
+        color: #F5F0E8 !important;
+        font-weight: 400 !important;
+    }
+    h1 { font-size: 2.5rem !important; }
+    h2 { font-size: 1.8rem !important; }
+    h3 { font-size: 1.4rem !important; }
+
+    /* Classes de cor alinhadas */
+    .neon-verde { color: #00E87A !important; font-weight: 700; }
+    .neon-roxo  { color: #7B2FFF !important; font-weight: 700; }
+    .cc-orange  { color: #FF5C1A !important; font-weight: 700; }
+
+    /* Botões */
     .stButton > button {
-        background-color: #000000; color: #39FF14; border: 1px solid #39FF14;
-        font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+        background-color: transparent;
+        color: #00E87A;
+        border: 1px solid #00E87A;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-radius: 8px;
+        padding: 0.5rem 1.2rem;
         transition: all 0.2s ease;
     }
     .stButton > button:hover {
-        background-color: #39FF14; color: #000000;
-        box-shadow: 0 0 20px rgba(57,255,20,0.5);
+        background-color: #00E87A;
+        color: #0a0a0a;
+    }
+    .stButton > button[kind="primary"] {
+        background-color: #7B2FFF;
+        border-color: #7B2FFF;
+        color: #fff;
+    }
+    .stButton > button[kind="primary"]:hover {
+        background-color: #6020e0;
+        border-color: #6020e0;
     }
 
-    .stTextInput > div > div > input {
-        background-color: #1a1a1a; color: #f5f5f5; border: 1px solid #2a2a2a;
+    /* Inputs */
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea,
+    .stSelectbox > div > div {
+        background-color: #1a1a1a !important;
+        color: #F5F0E8 !important;
+        border: 1px solid #2a2a2a !important;
+        border-radius: 8px !important;
+        font-family: 'DM Sans', sans-serif !important;
+    }
+    .stTextInput > div > div > input:focus,
+    .stTextArea > div > div > textarea:focus {
+        border-color: #7B2FFF !important;
     }
 
+    /* Cards de classificação */
     .cartao-classificacao {
-        background-color: #111111; border-left: 4px solid #39FF14;
-        padding: 1.5rem; margin: 1rem 0; border-radius: 4px;
+        background-color: #111111;
+        border-left: 4px solid #00E87A;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-radius: 8px;
     }
-    .cartao-classificacao.roxo { border-left-color: #b026ff; }
+    .cartao-classificacao.roxo { border-left-color: #7B2FFF; }
+    .cartao-classificacao.laranja { border-left-color: #FF5C1A; }
 
-    #MainMenu, footer { visibility: hidden; }
-    [data-testid="stSidebar"] * { color: #f5f5f5; }
-    [data-testid="stDataFrame"] { background-color: #111; }
+    /* Métricas */
+    [data-testid="stMetric"] {
+        background-color: #111;
+        border: 1px solid #1a1a1a;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+    [data-testid="stMetricValue"] {
+        font-family: 'Bebas Neue', sans-serif !important;
+        color: #00E87A !important;
+        font-size: 2rem !important;
+    }
+    [data-testid="stMetricLabel"] {
+        font-family: 'Space Mono', monospace !important;
+        font-size: 0.7rem !important;
+        letter-spacing: 0.1em !important;
+        color: #aaa !important;
+    }
+
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        background-color: #111;
+        border-radius: 10px;
+        gap: 4px;
+        padding: 4px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #aaa;
+        border-radius: 8px;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #7B2FFF !important;
+        color: #fff !important;
+    }
+
+    /* Expander */
+    .streamlit-expanderHeader {
+        font-family: 'Space Mono', monospace !important;
+        font-size: 0.8rem !important;
+        letter-spacing: 0.05em !important;
+        background-color: #111 !important;
+        border-radius: 8px !important;
+    }
+
+    /* Dataframe */
+    [data-testid="stDataFrame"] {
+        background-color: #111;
+        border-radius: 10px;
+    }
+
+    /* Divider */
+    hr { border-color: #1a1a1a !important; }
+
+    /* Info/warning/success boxes */
+    .stAlert {
+        border-radius: 10px !important;
+        border-left-width: 4px !important;
+        font-family: 'DM Sans', sans-serif !important;
+    }
+
+    /* Esconde menu e footer do Streamlit */
+    #MainMenu, footer, header { visibility: hidden; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -358,9 +490,17 @@ DESCRIÇÃO DO VÍDEO:
 # ==============================================================================
 
 with st.sidebar:
-    st.markdown("# 🔬 RAIO-X")
-    st.markdown("### Classe Creator")
-    st.markdown("---")
+    st.markdown(
+        """
+        <div style="padding: 16px 0 8px;">
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 3px; color: #aaa; margin-bottom: 2px;">CLASSE CREATOR</div>
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: #00E87A; line-height: 1;">RAIO-X</div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #555; margin-top: 2px;">OBSERVATÓRIO</div>
+        </div>
+        <hr style="border-color: #1a1a1a; margin: 12px 0;">
+        """,
+        unsafe_allow_html=True,
+    )
 
     modulo = st.radio(
         "Módulos",
@@ -376,15 +516,22 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    st.markdown("---")
-    st.markdown("**Observatório Classe Creator**")
     st.markdown(
-        '<small>Ferramenta de auditoria algorítmica e pesquisa acadêmica '
-        'do trabalho plataformizado.</small>',
+        """
+        <hr style="border-color: #1a1a1a; margin: 12px 0;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: #555; line-height: 1.6;">
+            Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.
+        </div>
+        <div style="margin-top: 16px; font-family: 'Space Mono', monospace; font-size: 10px; color: #7B2FFF; font-style: italic;">
+            "Criar é trabalho."
+        </div>
+        <hr style="border-color: #1a1a1a; margin: 12px 0;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #333;">
+            <a href="https://escola.classecreator.com" target="_blank" style="color: #00E87A; text-decoration: none;">← ESCOLA CLASSE CREATOR</a>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
-    st.markdown("---")
-    st.markdown('<small><i>"Criar é trabalho."</i></small>', unsafe_allow_html=True)
 
 
 # ==============================================================================
@@ -432,8 +579,8 @@ def oferecer_versao_canonica(canonica: dict, label_objeto: str, chave_estado: st
     st.markdown(
         f"""
         <div style='background:#0d1f0d; padding:1.2rem 1.5rem; border-radius:6px;
-                    border-left: 4px solid #39FF14; margin: 1rem 0;'>
-            <div style='color:#39FF14; font-size:0.8rem; letter-spacing:0.1em;
+                    border-left: 4px solid #00E87A; margin: 1rem 0;'>
+            <div style='color:#00E87A; font-size:0.8rem; letter-spacing:0.1em;
                         margin-bottom:0.5rem;'>📚 ANÁLISE EXISTENTE NO CORPUS</div>
             <p style='color:#fff; margin:0; line-height:1.6;'>
                 Já existe análise canônica {label_objeto} no Observatório
@@ -723,9 +870,9 @@ def _renderizar_resultado_lupa(meta: dict, resultado: dict, cache_aviso: bool = 
 # ==============================================================================
 
 CORES_PRODUTOR = {
-    "midia_tradicional": "#39FF14",
+    "midia_tradicional": "#00E87A",
     "produtora_digital": "#27D337",
-    "youtuber_profissional": "#b026ff",
+    "youtuber_profissional": "#7B2FFF",
     "criador_casual": "#7e6bff",
     "usuario_comum": "#888888",
     "instituicao": "#FFD700",
@@ -736,8 +883,8 @@ CORES_PRODUTOR = {
 }
 
 CORES_CONTEUDO = {
-    "informativo": "#39FF14",
-    "entretenimento_roteirizado": "#b026ff",
+    "informativo": "#00E87A",
+    "entretenimento_roteirizado": "#7B2FFF",
     "jogos": "#FF4FD8",
     "esportivo": "#FFD700",
     "musical": "#FF8C00",
@@ -943,7 +1090,7 @@ def renderizar_termometro_painel() -> None:
         cruzamento = pd.crosstab(df["tipo_produtor"], df["tipo_conteudo"])
         fig_heat = px.imshow(
             cruzamento, template="plotly_dark",
-            color_continuous_scale=["#0a0a0a", "#39FF14"],
+            color_continuous_scale=["#0a0a0a", "#00E87A"],
             aspect="auto", labels={"color": "Vídeos"},
         )
         fig_heat.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=500)
@@ -1657,7 +1804,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
                             "evidência sugestiva, mas não conclusiva."
                         )
                     else:
-                        cor_box = "#39FF14"
+                        cor_box = "#00E87A"
                         veredito = (
                             f"SEM DESVIO ESTATISTICAMENTE SIGNIFICATIVO (p = {p_valor:.4f}) — "
                             "a composição da busca é compatível com a linha de base do trending."
@@ -2007,7 +2154,7 @@ def renderizar_disputa_narrativa() -> None:
     if restantes > 0:
         st.markdown(
             f"<div style='background:#111; padding:0.7rem; border-radius:4px; "
-            f"border-left:3px solid #39FF14;'>"
+            f"border-left:3px solid #00E87A;'>"
             f"<small style='color:#888;'>SUA SESSÃO</small> · "
             f"<span class='neon-verde'>{restantes}</span> "
             f"busca(s) restante(s) nesta sessão</div>",
@@ -3078,7 +3225,7 @@ def renderizar_dossie_canal() -> None:
     if restantes > 0:
         st.markdown(
             f"<div style='background:#111; padding:0.7rem; border-radius:4px; "
-            f"border-left:3px solid #39FF14;'>"
+            f"border-left:3px solid #00E87A;'>"
             f"<small style='color:#888;'>SUA SESSÃO</small> · "
             f"<span class='neon-verde'>{restantes}</span> "
             f"dossiê(s) restante(s) nesta sessão</div>",
@@ -3290,7 +3437,7 @@ DIMENSOES_VOZ = {
     },
     "comunidade_afetiva": {
         "nome": "Comunidade afetiva",
-        "cor": "#39FF14",
+        "cor": "#00E87A",
         "descricao": (
             "Comentários de apoio, parasocialidade positiva, declarações "
             "de admiração, formação de vínculo emocional com o criador."
@@ -3306,7 +3453,7 @@ DIMENSOES_VOZ = {
     },
     "trabalho_invisivel_fa": {
         "nome": "Trabalho invisível do fã",
-        "cor": "#b026ff",
+        "cor": "#7B2FFF",
         "descricao": (
             "Comentários que defendem o criador de críticas, fazem "
             "propaganda voluntária, recrutam novos espectadores, "
@@ -3580,7 +3727,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
                 "comum entre os vídeos analisados."
             )
         else:
-            cor_indice = "#39FF14"
+            cor_indice = "#00E87A"
             label_indice = "✅ Pressão produtiva BAIXA (abaixo do P25 do corpus)"
             interpretacao = (
                 "Este IPP está entre os 25% mais baixos do corpus. Indica que o "
@@ -3711,7 +3858,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
         )
         st.markdown(
             f"<div style='background:#111; padding:1.5rem; border-radius:4px; "
-            f"border-left: 4px solid #b026ff; line-height:1.7;'>"
+            f"border-left: 4px solid #7B2FFF; line-height:1.7;'>"
             f"{analise['contradicao_estrutural']}</div>",
             unsafe_allow_html=True,
         )
@@ -3832,7 +3979,7 @@ def renderizar_voz_da_base() -> None:
     if restantes > 0:
         st.markdown(
             f"<div style='background:#111; padding:0.7rem; border-radius:4px; "
-            f"border-left:3px solid #39FF14;'>"
+            f"border-left:3px solid #00E87A;'>"
             f"<small style='color:#888;'>SUA SESSÃO</small> · "
             f"<span class='neon-verde'>{restantes}</span> "
             f"análise(s) restante(s) nesta sessão</div>",
@@ -4016,7 +4163,7 @@ DESCRITORES_MODULOS = [
         "icone": "🔍",
         "nome": "A Lupa",
         "escala": "Análise micro · 1 vídeo",
-        "cor": "#39FF14",
+        "cor": "#00E87A",
         "frase": (
             "Disseca um único artefato audiovisual. Extrai metadados via API "
             "oficial e classifica o vídeo na tipologia dupla, com justificativa "
@@ -4058,7 +4205,7 @@ DESCRITORES_MODULOS = [
         "icone": "⚔️",
         "nome": "Disputa de Narrativa",
         "escala": "Análise transversal · busca temática",
-        "cor": "#b026ff",
+        "cor": "#7B2FFF",
         "frase": (
             "Audita autoridade algorítmica em temas sensíveis. Você fornece "
             "um termo, a ferramenta classifica os 50 primeiros resultados e "
@@ -4404,8 +4551,8 @@ def renderizar_home() -> None:
                             flex-wrap: wrap;'>
                     <div style='flex:1; min-width: 140px; background: #111;
                                 padding: 1.2rem; border-radius: 4px;
-                                border-left: 3px solid #39FF14;'>
-                        <div style='font-size: 2.2rem; color: #39FF14;
+                                border-left: 3px solid #00E87A;'>
+                        <div style='font-size: 2.2rem; color: #00E87A;
                                     font-weight: 700; line-height: 1;'>{counts['snapshots_termometro']}</div>
                         <div style='font-size: 0.75rem; color: #888;
                                     letter-spacing: 0.1em; margin-top: 0.4rem;'>
@@ -4414,8 +4561,8 @@ def renderizar_home() -> None:
                     </div>
                     <div style='flex:1; min-width: 140px; background: #111;
                                 padding: 1.2rem; border-radius: 4px;
-                                border-left: 3px solid #b026ff;'>
-                        <div style='font-size: 2.2rem; color: #b026ff;
+                                border-left: 3px solid #7B2FFF;'>
+                        <div style='font-size: 2.2rem; color: #7B2FFF;
                                     font-weight: 700; line-height: 1;'>{counts['videos_no_termometro']}</div>
                         <div style='font-size: 0.75rem; color: #888;
                                     letter-spacing: 0.1em; margin-top: 0.4rem;'>
@@ -4492,10 +4639,10 @@ def renderizar_home() -> None:
 
     st.markdown(
         """
-        <div style='background: #111; border-left: 4px solid #39FF14;
+        <div style='background: #111; border-left: 4px solid #00E87A;
                     padding: 1.2rem 1.5rem; margin: 1.5rem 0;
                     border-radius: 4px;'>
-            <div style='font-size: 1.4rem; color: #39FF14;
+            <div style='font-size: 1.4rem; color: #00E87A;
                         font-weight: 700; font-style: italic;
                         text-shadow: 0 0 8px rgba(57,255,20,0.3);'>
                 "Criar é trabalho."
@@ -4605,7 +4752,7 @@ def renderizar_home() -> None:
         """
         <div style='background: linear-gradient(135deg, #0d1f0d 0%, #0a0a0a 100%);
                     padding: 1.5rem; border-radius: 6px;
-                    border-left: 4px solid #39FF14;
+                    border-left: 4px solid #00E87A;
                     margin: 1.5rem 0;'>
             <div style='display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;'>
                 <div style='flex: 1; min-width: 280px;'>
@@ -4620,7 +4767,7 @@ def renderizar_home() -> None:
                     </p>
                 </div>
                 <div style='font-size: 0.85rem; color: #888; min-width: 200px;'>
-                    <strong style='color: #39FF14;'>Snapshot semanal:</strong>
+                    <strong style='color: #00E87A;'>Snapshot semanal:</strong>
                     o corpus é exportado em CSV todas as segundas-feiras
                     para o repositório público de dados, permitindo download
                     direto sem onerar a infraestrutura.
@@ -4650,7 +4797,7 @@ def renderizar_home() -> None:
 
     for i, p in enumerate(PESQUISAS_SUGERIDAS, 1):
         modulos_badge = " · ".join(
-            f"<span style='background:#1a1a1a; color:#39FF14; padding:0.2rem 0.6rem; "
+            f"<span style='background:#1a1a1a; color:#00E87A; padding:0.2rem 0.6rem; "
             f"border-radius:3px; font-size:0.75rem; letter-spacing:0.05em;'>{m}</span>"
             for m in p["modulos"]
         )
@@ -4666,11 +4813,11 @@ def renderizar_home() -> None:
               </div>
               <div style='margin-bottom: 0.8rem;'>{modulos_badge}</div>
               <div style='margin-top: 0.7rem;'>
-                <strong style='color: #39FF14; font-size: 0.85rem;'>PERGUNTA:</strong>
+                <strong style='color: #00E87A; font-size: 0.85rem;'>PERGUNTA:</strong>
                 <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['pergunta']}</p>
               </div>
               <div style='margin-top: 0.7rem;'>
-                <strong style='color: #b026ff; font-size: 0.85rem;'>HIPÓTESE:</strong>
+                <strong style='color: #7B2FFF; font-size: 0.85rem;'>HIPÓTESE:</strong>
                 <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['hipotese']}</p>
               </div>
               <div style='margin-top: 0.7rem;'>
@@ -4705,7 +4852,7 @@ def renderizar_home() -> None:
             f"""
             <div style='background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
                         padding: 1.8rem; border-radius: 6px;
-                        border-left: 4px solid #39FF14;
+                        border-left: 4px solid #00E87A;
                         margin: 1.5rem 0;
                         box-shadow: 0 0 24px rgba(57,255,20,0.05);'>
               <div style='font-size: 0.75rem; color: #888;
@@ -4715,7 +4862,7 @@ def renderizar_home() -> None:
               <h3 style='margin: 0 0 0.5rem 0; color: #fff;
                          line-height: 1.3;'>{p['titulo']}</h3>
               <p style='color: #aaa; margin: 0.5rem 0;'>
-                <strong style='color: #39FF14;'>{p['autor']}</strong><br>
+                <strong style='color: #00E87A;'>{p['autor']}</strong><br>
                 <small>{p['instituicao']} — {p['programa']}</small>
               </p>
               <div style='margin-top: 1rem;'>
@@ -4919,17 +5066,17 @@ def _exibir_analise_video(registro: dict, cliente_db) -> None:
     st.markdown(
         f"""
         <div style='background:#0d0d0d; padding:1.5rem; border-radius:6px;
-                    border-left:3px solid #39FF14; margin-top:1rem;'>
+                    border-left:3px solid #00E87A; margin-top:1rem;'>
           <small style='color:#888;'>📺 ANÁLISE DE VÍDEO · v{registro.get('versao_numero', 1)} · {_formatar_data_curta(registro.get('data_classificacao', ''))}</small>
           <h4 style='color:#fff; margin:0.5rem 0;'>{registro.get('titulo', '')}</h4>
           <p style='color:#aaa; margin:0;'>Canal: <strong>{registro.get('canal_nome', '')}</strong></p>
           <div style='margin-top:1rem;'>
             <span style='background:#1a1a1a; padding:0.4rem 0.8rem; border-radius:3px;
-                         color:#39FF14; margin-right:0.5rem; font-size:0.85rem;'>
+                         color:#00E87A; margin-right:0.5rem; font-size:0.85rem;'>
               Produtor: {prod.nome if prod else registro['tipo_produtor']}
             </span>
             <span style='background:#1a1a1a; padding:0.4rem 0.8rem; border-radius:3px;
-                         color:#b026ff; font-size:0.85rem;'>
+                         color:#7B2FFF; font-size:0.85rem;'>
               Conteúdo: {cont.nome if cont else registro['tipo_conteudo']}
             </span>
           </div>
