@@ -295,6 +295,16 @@ st.markdown(
     #MainMenu, footer { visibility: hidden; }
     [data-testid="stToolbar"] { visibility: hidden; }
     header[data-testid="stHeader"] { background: transparent !important; }
+
+    /* Garante visibilidade do botão de toggle da sidebar */
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="stSidebarCollapseButton"],
+    button[kind="header"] {
+        visibility: visible !important;
+        display: flex !important;
+        opacity: 1 !important;
+        z-index: 999999 !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
