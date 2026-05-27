@@ -30,7 +30,7 @@ from datetime import datetime
 import anthropic
 import requests
 
-from db import conectar, criar_snapshot, gravar_video_classificado, calcular_proxima_coleta_semanal
+from db import conectar, criar_snapshot, gravar_video_classificado, calcular_proxima_coleta_semanal, ultima_semana_coletada
 from tipologia import codigos_produtor, codigos_conteudo, tipologia_para_prompt
 
 
@@ -235,7 +235,6 @@ def executar_coleta() -> None:
     # (GitHub Actions pode atrasar, e queremos garantir pelo menos 1 coleta por semana)
     if not FORCA_EXECUCAO:
         try:
-            from db import conectar, ultima_semana_coletada
             cliente_guard = conectar()
             ultima_semana = ultima_semana_coletada(cliente_guard)
             if ultima_semana == semana:
