@@ -104,19 +104,19 @@ st.markdown(
 
     @font-face {
         font-family: 'Gunterz';
-        src: url('https://escola.classecreator.com/Gunterz-Black.otf') format('opentype');
+        src: url('app/static/Gunterz-Black.otf') format('opentype');
         font-weight: 900;
         font-display: swap;
     }
     @font-face {
         font-family: 'Gunterz';
-        src: url('https://escola.classecreator.com/Gunterz-Bold.otf') format('opentype');
+        src: url('app/static/Gunterz-Bold.otf') format('opentype');
         font-weight: 700;
         font-display: swap;
     }
     @font-face {
         font-family: 'CookConthic';
-        src: url('https://escola.classecreator.com/CookConthic.otf') format('opentype');
+        src: url('app/static/CookConthic.otf') format('opentype');
         font-weight: 400;
         font-display: swap;
     }
