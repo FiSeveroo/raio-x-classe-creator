@@ -44,6 +44,9 @@ try:
         listar_snapshots,
         buscar_snapshot_mais_recente,
         videos_do_snapshot,
+        buscar_canal_validado,
+        salvar_canal_validado,
+        propagar_classificacao_canal,
         todos_videos_para_serie_temporal,
         registrar_busca,
         gravar_resultado_busca,
@@ -470,6 +473,21 @@ def buscar_metadados_canal(canal_id: str) -> dict:
 # ==============================================================================
 
 def classificar_com_claude(meta_video: dict, meta_canal: dict) -> dict:
+    # Consulta banco âncora antes de chamar a IA
+    canal_id = meta_video.get("canal_id", "")
+    if canal_id:
+        try:
+            cliente_db = conectar(modo="leitura")
+            validado = buscar_canal_validado(cliente_db, canal_id)
+            if validado:
+                return {
+                    "tipo_produtor": validado["tipo_produtor"],
+                    "tipo_conteudo": validado.get("tipo_conteudo") or meta_video.get("tipo_conteudo", "outros"),
+                    "justificativa": f"[ÂNCORA VALIDADA] {validado.get('justificativa', '')}",
+                }
+        except Exception:
+            pass  # falha silenciosa — segue para a IA
+
     cliente = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
     prompt_sistema = f"""Você é um pesquisador especialista em Estudos de Plataforma, \
@@ -1367,14 +1385,29 @@ def renderizar_termometro_painel() -> None:
                                         update_payload["justificativa"] = (
                                             f"[CURADORIA HUMANA] {justificativa_cor.strip()}"
                                         )
-                                        cliente_escrita.table("videos_snapshot").update(
-                                            update_payload
-                                        ).eq("id", row["id"]).execute()
+                                        # 1. Salva no banco âncora de canais validados
+                                        salvar_canal_validado(
+                                            cliente_escrita,
+                                            canal_id=row["canal_id"],
+                                            canal_nome=row["canal_nome"],
+                                            tipo_produtor=novo_produtor,
+                                            tipo_conteudo=novo_conteudo,
+                                            justificativa=justificativa_cor.strip(),
+                                        )
+                                        # 2. Propaga para TODO o banco
+                                        n_prop = propagar_classificacao_canal(
+                                            cliente_escrita,
+                                            canal_id=row["canal_id"],
+                                            tipo_produtor=novo_produtor,
+                                            tipo_conteudo=novo_conteudo if mudou_conteudo else None,
+                                            justificativa=f"[CURADORIA HUMANA] {justificativa_cor.strip()}",
+                                        )
                                         st.success(
-                                            f"✅ Corrigido: "
+                                            f"✅ {row['canal_nome']} → "
                                             f"{buscar_produtor(novo_produtor).nome if mudou_produtor else ''}"
                                             f"{' + ' if mudou_produtor and mudou_conteudo else ''}"
                                             f"{buscar_conteudo(novo_conteudo).nome if mudou_conteudo else ''}"
+                                            f" — {n_prop} registro(s) atualizados + canal salvo como âncora."
                                         )
                                         st.rerun()
                                     except Exception as e:
