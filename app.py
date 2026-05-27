@@ -291,8 +291,10 @@ st.markdown(
         font-family: 'DM Sans', sans-serif !important;
     }
 
-    /* Esconde menu e footer do Streamlit */
-    #MainMenu, footer, header { visibility: hidden; }
+    /* Esconde menu e footer — mantém botão de toggle da sidebar */
+    #MainMenu, footer { visibility: hidden; }
+    [data-testid="stToolbar"] { visibility: hidden; }
+    header[data-testid="stHeader"] { background: transparent !important; }
     </style>
     """,
     unsafe_allow_html=True,
