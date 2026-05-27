@@ -1072,94 +1072,96 @@ def renderizar_termometro_painel() -> None:
 
         if not videos:
             st.warning("Snapshot vazio.")
-            return
+            df = None
+        else:
+            df = pd.DataFrame(videos)
 
-        df = pd.DataFrame(videos)
+        if df is not None:
 
-        st.markdown("### Composição estrutural")
-        st.caption(
-            "Composição direta segundo a tipologia (Severo, 2026), sem agregados. "
-            "Cada categoria do Eixo A é apresentada na sua granularidade original."
-        )
-
-        n = len(df)
-        canais_unicos = df["canal_id"].nunique()
-        contagem_a = df["tipo_produtor"].value_counts().to_dict()
-
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric("Vídeos analisados", n)
-        c2.metric("Canais únicos", canais_unicos)
-        c3.metric(
-            "% Mídia tradicional",
-            f"{(contagem_a.get('midia_tradicional', 0) / n * 100):.1f}%",
-        )
-        c4.metric(
-            "% Usuário comum",
-            f"{(contagem_a.get('usuario_comum', 0) / n * 100):.1f}%",
-        )
-
-        st.markdown("---")
-
-        cA, cB = st.columns(2)
-        with cA:
-            st.markdown("#### Eixo A — Quem produz?")
-            cont_a = df["tipo_produtor"].value_counts().reset_index()
-            cont_a.columns = ["codigo", "n"]
-            cont_a["nome"] = cont_a["codigo"].apply(
-                lambda c: buscar_produtor(c).nome if buscar_produtor(c) else c
+            st.markdown("### Composição estrutural")
+            st.caption(
+                "Composição direta segundo a tipologia (Severo, 2026), sem agregados. "
+                "Cada categoria do Eixo A é apresentada na sua granularidade original."
             )
-            fig_a = px.bar(
-                cont_a, x="n", y="nome", orientation="h",
-                color="codigo", color_discrete_map=CORES_PRODUTOR,
-                template="plotly_dark", labels={"n": "Vídeos", "nome": ""},
-            )
-            fig_a.update_layout(
-                paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a",
-                showlegend=False, height=400,
-                yaxis={"categoryorder": "total ascending"},
-            )
-            st.plotly_chart(fig_a, use_container_width=True)
 
-        with cB:
-            st.markdown("#### Eixo B — Que gênero de trabalho?")
-            cont_b = df["tipo_conteudo"].value_counts().reset_index()
-            cont_b.columns = ["codigo", "n"]
-            cont_b["nome"] = cont_b["codigo"].apply(
-                lambda c: buscar_conteudo(c).nome if buscar_conteudo(c) else c
-            )
-            fig_b = px.bar(
-                cont_b, x="n", y="nome", orientation="h",
-                color="codigo", color_discrete_map=CORES_CONTEUDO,
-                template="plotly_dark", labels={"n": "Vídeos", "nome": ""},
-            )
-            fig_b.update_layout(
-                paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a",
-                showlegend=False, height=400,
-                yaxis={"categoryorder": "total ascending"},
-            )
-            st.plotly_chart(fig_b, use_container_width=True)
+            n = len(df)
+            canais_unicos = df["canal_id"].nunique()
+            contagem_a = df["tipo_produtor"].value_counts().to_dict()
 
-        st.markdown("#### Cruzamento Produtor × Conteúdo")
-        st.caption("Replica metodologia do Gráfico 11 (Severo, 2026, p. 80).")
-        cruzamento = pd.crosstab(df["tipo_produtor"], df["tipo_conteudo"])
-        fig_heat = px.imshow(
-            cruzamento, template="plotly_dark",
-            color_continuous_scale=["#0a0a0a", "#00E87A"],
-            aspect="auto", labels={"color": "Vídeos"},
-        )
-        fig_heat.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=500)
-        st.plotly_chart(fig_heat, use_container_width=True)
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Vídeos analisados", n)
+            c2.metric("Canais únicos", canais_unicos)
+            c3.metric(
+                "% Mídia tradicional",
+                f"{(contagem_a.get('midia_tradicional', 0) / n * 100):.1f}%",
+            )
+            c4.metric(
+                "% Usuário comum",
+                f"{(contagem_a.get('usuario_comum', 0) / n * 100):.1f}%",
+            )
 
-        st.markdown("#### Vídeos do snapshot")
-        df["taxa_engajamento"] = df.apply(
-            lambda r: f"{((r.get('likes', 0) + r.get('comentarios', 0)) / r['visualizacoes'] * 100):.2f}%"
-            if r.get("visualizacoes", 0) > 0 else "—", axis=1
-        )
-        df_exibir = df[["posicao_ranking", "canal_nome", "titulo",
-                        "tipo_produtor", "tipo_conteudo",
-                        "visualizacoes", "taxa_engajamento", "duracao_segundos"]].copy()
-        df_exibir.columns = ["#", "Canal", "Título", "Produtor", "Conteúdo", "Views", "Engajamento", "Duração (s)"]
-        st.dataframe(df_exibir, use_container_width=True, hide_index=True)
+            st.markdown("---")
+
+            cA, cB = st.columns(2)
+            with cA:
+                st.markdown("#### Eixo A — Quem produz?")
+                cont_a = df["tipo_produtor"].value_counts().reset_index()
+                cont_a.columns = ["codigo", "n"]
+                cont_a["nome"] = cont_a["codigo"].apply(
+                    lambda c: buscar_produtor(c).nome if buscar_produtor(c) else c
+                )
+                fig_a = px.bar(
+                    cont_a, x="n", y="nome", orientation="h",
+                    color="codigo", color_discrete_map=CORES_PRODUTOR,
+                    template="plotly_dark", labels={"n": "Vídeos", "nome": ""},
+                )
+                fig_a.update_layout(
+                    paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a",
+                    showlegend=False, height=400,
+                    yaxis={"categoryorder": "total ascending"},
+                )
+                st.plotly_chart(fig_a, use_container_width=True)
+
+            with cB:
+                st.markdown("#### Eixo B — Que gênero de trabalho?")
+                cont_b = df["tipo_conteudo"].value_counts().reset_index()
+                cont_b.columns = ["codigo", "n"]
+                cont_b["nome"] = cont_b["codigo"].apply(
+                    lambda c: buscar_conteudo(c).nome if buscar_conteudo(c) else c
+                )
+                fig_b = px.bar(
+                    cont_b, x="n", y="nome", orientation="h",
+                    color="codigo", color_discrete_map=CORES_CONTEUDO,
+                    template="plotly_dark", labels={"n": "Vídeos", "nome": ""},
+                )
+                fig_b.update_layout(
+                    paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a",
+                    showlegend=False, height=400,
+                    yaxis={"categoryorder": "total ascending"},
+                )
+                st.plotly_chart(fig_b, use_container_width=True)
+
+            st.markdown("#### Cruzamento Produtor × Conteúdo")
+            st.caption("Replica metodologia do Gráfico 11 (Severo, 2026, p. 80).")
+            cruzamento = pd.crosstab(df["tipo_produtor"], df["tipo_conteudo"])
+            fig_heat = px.imshow(
+                cruzamento, template="plotly_dark",
+                color_continuous_scale=["#0a0a0a", "#00E87A"],
+                aspect="auto", labels={"color": "Vídeos"},
+            )
+            fig_heat.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=500)
+            st.plotly_chart(fig_heat, use_container_width=True)
+
+            st.markdown("#### Vídeos do snapshot")
+            df["taxa_engajamento"] = df.apply(
+                lambda r: f"{((r.get('likes', 0) + r.get('comentarios', 0)) / r['visualizacoes'] * 100):.2f}%"
+                if r.get("visualizacoes", 0) > 0 else "—", axis=1
+            )
+            df_exibir = df[["posicao_ranking", "canal_nome", "titulo",
+                            "tipo_produtor", "tipo_conteudo",
+                            "visualizacoes", "taxa_engajamento", "duracao_segundos"]].copy()
+            df_exibir.columns = ["#", "Canal", "Título", "Produtor", "Conteúdo", "Views", "Engajamento", "Duração (s)"]
+            st.dataframe(df_exibir, use_container_width=True, hide_index=True)
 
     # === ABA 2: SÉRIE TEMPORAL ===
     with tab_serie:
