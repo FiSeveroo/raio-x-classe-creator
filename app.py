@@ -541,7 +541,7 @@ with st.sidebar:
 
     st.divider()
     st.caption("Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.")
-    st.markdown("*"Criar é trabalho."*")
+    st.markdown('*"Criar é trabalho."*')
     st.divider()
     st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
