@@ -42,7 +42,7 @@ YOUTUBE_API_KEY = os.environ["YOUTUBE_API_KEY"]
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 MODELO_CLASSIFICADOR = "claude-haiku-4-5"
 REGIAO = "BR"
-QUANTIDADE_VIDEOS = 50
+QUANTIDADE_VIDEOS = 100
 
 cliente_anthropic = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
@@ -51,22 +51,79 @@ cliente_anthropic = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 # COLETA — YouTube Data API
 # ==============================================================================
 
-def coletar_trending(quantidade: int = 50) -> list[dict]:
+def coletar_trending_por_fonte(categoria_id: str | None = None, quantidade: int = 100) -> list[dict]:
     """
     Consulta videos.list?chart=mostPopular&regionCode=BR
-    Custo: 1 unidade de cota — 1 chamada cobre os 50 vídeos.
+    categoria_id: None = geral, "17" = Sports, "25" = News & Politics
+    Custo: 2 chamadas de cota (maxResults=50 por chamada, paginado)
     """
     url = "https://www.googleapis.com/youtube/v3/videos"
     params = {
         "part": "snippet,statistics,contentDetails",
         "chart": "mostPopular",
         "regionCode": REGIAO,
-        "maxResults": quantidade,
+        "maxResults": 50,
         "key": YOUTUBE_API_KEY,
     }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    return resp.json().get("items", [])
+    if categoria_id:
+        params["videoCategoryId"] = categoria_id
+
+    items = []
+    page_token = None
+
+    while len(items) < quantidade:
+        if page_token:
+            params["pageToken"] = page_token
+        elif "pageToken" in params:
+            del params["pageToken"]
+
+        resp = requests.get(url, params=params, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+        items.extend(data.get("items", []))
+        page_token = data.get("nextPageToken")
+        if not page_token:
+            break
+
+    return items[:quantidade]
+
+
+def coletar_trending(quantidade: int = 100) -> list[dict]:
+    """
+    Coleta trending BR de 3 fontes: geral + Sports (cat.17) + News (cat.25).
+    Deduplica por video_id e retorna top N por visualizações.
+    Custo: ~6 unidades de cota (2 chamadas por fonte × 3 fontes).
+    """
+    vistos = set()
+    todos = []
+
+    fontes = [
+        (None,  "geral"),
+        ("17",  "Sports/Esportes"),
+        ("25",  "News & Politics"),
+    ]
+
+    for cat_id, label in fontes:
+        try:
+            items = coletar_trending_por_fonte(cat_id, quantidade=100)
+            novos = 0
+            for item in items:
+                vid_id = item["id"]
+                if vid_id not in vistos:
+                    vistos.add(vid_id)
+                    todos.append(item)
+                    novos += 1
+            print(f"   → {label}: {len(items)} coletados, {novos} únicos adicionados")
+        except Exception as e:
+            print(f"   ⚠️ Erro ao coletar {label}: {e}")
+
+    # Ordena por visualizações e retorna top N
+    todos.sort(
+        key=lambda x: int(x.get("statistics", {}).get("viewCount", 0)),
+        reverse=True
+    )
+    print(f"   → Total deduplicado: {len(todos)} vídeos | Retornando top {quantidade}")
+    return todos[:quantidade]
 
 
 def coletar_metadados_canais(canais_ids: list[str]) -> dict[str, dict]:
