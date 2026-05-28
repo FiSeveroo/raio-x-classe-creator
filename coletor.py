@@ -97,10 +97,22 @@ def coletar_trending(quantidade: int = 100) -> list[dict]:
     vistos = set()
     todos = []
 
+    # Todas as categorias válidas para BR que funcionam como filtro
+    # Excluídas: cat.19 (404), cat.27 (404) — não funcionam como filtro de mostPopular
     fontes = [
         (None,  "geral"),
-        ("17",  "Sports/Esportes"),
-        ("25",  "News & Politics"),
+        ("1",   "Filmes e desenhos"),
+        ("2",   "Automóveis"),
+        ("10",  "Música"),
+        ("15",  "Animais"),
+        ("17",  "Esportes"),
+        ("20",  "Jogos"),
+        ("22",  "Pessoas e blogs"),
+        ("23",  "Comédia"),
+        ("24",  "Entretenimento"),
+        ("25",  "Notícias e política"),
+        ("26",  "Tutoriais e estilo"),
+        ("28",  "Ciência e tecnologia"),
     ]
 
     for cat_id, label in fontes:
@@ -214,20 +226,32 @@ REGRAS DE CLASSIFICAÇÃO:
 1. Você DEVE escolher exatamente UMA categoria do Eixo A e UMA do Eixo B.
 2. As categorias são MUTUAMENTE EXCLUSIVAS — escolha a mais adequada.
 3. Use "outros" SOMENTE se nenhuma outra categoria fizer sentido.
-4. A justificativa deve ser SOCIOLÓGICA, não descritiva: explique o que a \
-classificação revela sobre as relações de produção.
-5. Considere SEMPRE o canal como pista primária do Eixo A (quem produz?), \
-e o conteúdo do vídeo como pista primária do Eixo B (que gênero de trabalho?).
-6. Atenção a "vlogs falsos" e estéticas de autenticidade roteirizada \
-(Cunningham & Craig, 2017): não confunda performance de espontaneidade com \
-amadorismo real.
+4. A justificativa deve ser SOCIOLÓGICA, não descritiva.
+5. Considere SEMPRE o canal como pista primária do Eixo A (quem produz?), e o conteúdo do vídeo como pista primária do Eixo B (que gênero de trabalho?).
+6. Atenção a "vlogs falsos": não confunda performance de espontaneidade com amadorismo real.
 
-FORMATO DA RESPOSTA: retorne APENAS um JSON válido, sem markdown, sem comentários:
-{{
-  "tipo_produtor": "<código exato do Eixo A>",
-  "tipo_conteudo": "<código exato do Eixo B>",
-  "justificativa": "<2 a 4 frases analíticas>"
-}}
+TESTE DECISIVO — Produtora vs. YouTuber:
+"Se essa pessoa saísse do canal, o canal continuaria existindo como marca?"
+- SIM → produtora_digital (ex: Ei Nerd, Flow, CazéTV, Canal GOAT, Manual do Mundo)
+- NÃO → youtuber_profissional (ex: Whindersson, Felipe Neto, Casimiro, Gaules, Virgínia)
+
+TESTE DECISIVO — Marca vs. Produtora vs. Instituição:
+"O conteúdo existe para divulgar algo que existe fora do YouTube?"
+- SIM → marca (clubes, empresas, jogos)
+- NÃO, o evento existe para gerar audiência → produtora_digital
+- A entidade regula atividade reconhecida → instituicao
+
+EXEMPLOS VALIDADOS PELO PESQUISADOR (calibração obrigatória):
+Produtora Digital: Ei Nerd, Gaules, CazéTV, Canal GOAT, MrBeast, Enaldinho, Flow Games, Cortes do Inteligência [OFICIAL], Kings League
+YouTuber Profissional: Mendrake, Tonigon, rezendeevil, Jazzghost, Natan por Aí
+Marca: Flamengo TV, UFC Brasil, VALORANT Esports BR, EA SPORTS FC MOBILE
+Instituição: CONMEBOL, Federação Catarinense de Futebol
+Reaproveitamento: canais de "melhores hinos evangélicos", "top sertanejo", compilações de lances de futebol sem produção própria
+
+ATENÇÃO CRÍTICA — EIXO B:
+O campo tipo_conteudo DEVE ser um gênero de conteúdo (Eixo B).
+NUNCA use códigos do Eixo A (como "reaproveitamento", "marca", "musico") no tipo_conteudo.
+Exemplos corretos de Eixo B: musical, esportivo, informativo, vlog, jogos, entretenimento_roteirizado
 
 CÓDIGOS VÁLIDOS Eixo A: {", ".join(codigos_produtor())}
 CÓDIGOS VÁLIDOS Eixo B: {", ".join(codigos_conteudo())}
