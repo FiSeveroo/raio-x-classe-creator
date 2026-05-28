@@ -1,0 +1,31 @@
+name: Importador — Arquivo Histórico Bruto
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Roda todo dia às 10h UTC (07h Brasília) — após as coletas do coletor arcaico
+    - cron: '0 10 * * *'
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: pip install requests supabase
+
+      - name: Executar importador
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python importador_historico.py
