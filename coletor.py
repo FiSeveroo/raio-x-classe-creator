@@ -42,7 +42,7 @@ YOUTUBE_API_KEY = os.environ["YOUTUBE_API_KEY"]
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 MODELO_CLASSIFICADOR = "claude-haiku-4-5"
 REGIAO = "BR"
-QUANTIDADE_VIDEOS = 100
+QUANTIDADE_VIDEOS = 50  # 50 por categoria × 12 categorias = 600 por snapshot
 
 cliente_anthropic = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
@@ -88,17 +88,22 @@ def coletar_trending_por_fonte(categoria_id: str | None = None, quantidade: int 
     return items[:quantidade]
 
 
-def coletar_trending(quantidade: int = 100) -> list[dict]:
+def coletar_trending(quantidade: int = 50) -> list[dict]:
     """
-    Coleta trending BR de 3 fontes: geral + Sports (cat.17) + News (cat.25).
-    Deduplica por video_id e retorna top N por visualizações.
-    Custo: ~6 unidades de cota (2 chamadas por fonte × 3 fontes).
+    Coleta trending BR de 12 categorias válidas + geral.
+    50 vídeos por categoria, deduplicados apenas por video_id.
+    Total esperado: ~600 vídeos por snapshot.
+
+    Metodologia: cada categoria entrega seus top 50 independentemente.
+    Não há hierarquização por views entre categorias — cada nicho tem
+    sua própria escala de audiência, incomparável entre si.
+    Custo: ~13 chamadas de cota (1 por fonte).
     """
     vistos = set()
     todos = []
 
     # Todas as categorias válidas para BR que funcionam como filtro
-    # Excluídas: cat.19 (404), cat.27 (404) — não funcionam como filtro de mostPopular
+    # Excluídas: cat.19 e cat.27 — retornam HTTP 404 como filtro de mostPopular
     fontes = [
         (None,  "geral"),
         ("1",   "Filmes e desenhos"),
@@ -117,25 +122,21 @@ def coletar_trending(quantidade: int = 100) -> list[dict]:
 
     for cat_id, label in fontes:
         try:
-            items = coletar_trending_por_fonte(cat_id, quantidade=100)
+            items = coletar_trending_por_fonte(cat_id, quantidade=quantidade)
             novos = 0
             for item in items:
                 vid_id = item["id"]
                 if vid_id not in vistos:
                     vistos.add(vid_id)
+                    item["_categoria_coleta"] = cat_id or "geral"
                     todos.append(item)
                     novos += 1
             print(f"   → {label}: {len(items)} coletados, {novos} únicos adicionados")
         except Exception as e:
             print(f"   ⚠️ Erro ao coletar {label}: {e}")
 
-    # Ordena por visualizações e retorna top N
-    todos.sort(
-        key=lambda x: int(x.get("statistics", {}).get("viewCount", 0)),
-        reverse=True
-    )
-    print(f"   → Total deduplicado: {len(todos)} vídeos | Retornando top {quantidade}")
-    return todos[:quantidade]
+    print(f"   → Total deduplicado: {len(todos)} vídeos em {len(fontes)} categorias")
+    return todos
 
 
 def coletar_metadados_canais(canais_ids: list[str]) -> dict[str, dict]:
@@ -367,6 +368,8 @@ def executar_coleta() -> None:
 
         try:
             classificacao = classificar_video(meta)
+            # Adiciona categoria de coleta nos metadados para rastreabilidade
+            meta["categoria_coleta"] = item.get("_categoria_coleta", "geral")
             gravar_video_classificado(
                 db, snapshot_id, posicao, meta, classificacao, MODELO_CLASSIFICADOR
             )
