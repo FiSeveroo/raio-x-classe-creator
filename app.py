@@ -322,16 +322,11 @@ st.markdown(
 
     /* Aumenta fonte dos textos descritivos da sidebar */
     [data-testid="stSidebar"] p,
-    [data-testid="stSidebar"] .stMarkdown p {
-        font-size: 0.95rem !important;
-        line-height: 1.5 !important;
-    }
-
-    /* Aumenta fonte do subtítulo CLASSE CREATOR — OBSERVATÓRIO */
-    [data-testid="stSidebar"] h5 {
-        font-size: 0.85rem !important;
-        letter-spacing: 0.05em !important;
-        opacity: 0.8;
+    [data-testid="stSidebar"] .stMarkdown p,
+    [data-testid="stSidebarContent"] p,
+    section[data-testid="stSidebar"] p {
+        font-size: 1.1rem !important;
+        line-height: 1.6 !important;
     }
     </style>
     """,
@@ -630,22 +625,8 @@ with st.sidebar:
     )
 
     st.divider()
-    st.markdown(
-        """
-        <style>
-        div[data-testid="stSidebarContent"] p {
-            font-size: 16px !important;
-            line-height: 1.6 !important;
-        }
-        div[data-testid="stSidebarContent"] a {
-            font-size: 14px !important;
-        }
-        </style>
-        <p>Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.</p>
-        <p><em>"O feed esconde quem faz a máquina girar. Nós mostramos."</em></p>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown("#### Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.")
+    st.markdown('#### *"O feed esconde quem faz a máquina girar. Nós mostramos."*')
     st.divider()
     st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
