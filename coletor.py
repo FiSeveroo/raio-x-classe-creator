@@ -8,13 +8,25 @@ horários, conforme Tabela 02 da dissertação Severo, 2026).
 
 Ele:
   1. Calcula em qual slot semanal estamos (qual dia/horário "tocar")
-  2. Coleta os 50 vídeos do trending do Brasil via YouTube Data API
-  3. Classifica cada um com Claude Haiku 4.5 (Eixo A + Eixo B + justificativa)
+  2. Coleta vídeos do trending do Brasil via YouTube Data API
+     (endpoint geral + 12 categorias)
+  3. (opcional, controlado por CLASSIFICACAO_ATIVA) Classifica cada vídeo
+     com Claude Haiku (Eixo A + Eixo B + justificativa)
   4. Persiste tudo no Supabase como um snapshot
 
-Custo por execução:
-  - YouTube API: ~3 unidades de cota
-  - Claude Haiku: ~50 vídeos × US$ 0,003 = US$ 0,15 ≈ R$ 0,75
+Modos de operação:
+  - CLASSIFICACAO_ATIVA=true  → coleta + classificação completa (custo alto)
+  - CLASSIFICACAO_ATIVA=false → só coleta YouTube; vídeos gravados com
+    placeholder "nao_classificado". Permite rodar classificação retroativa
+    quando houver orçamento.
+
+Custo por execução (com classificação ATIVA, 525 vídeos):
+  - YouTube API: ~14 unidades de cota
+  - Claude Haiku: ~525 vídeos × US$ 0,003 = ~US$ 1,63
+
+Custo por execução (com classificação INATIVA):
+  - YouTube API: ~14 unidades de cota
+  - Claude Haiku: US$ 0,00
 
 NÃO IMPORTA este arquivo do app Streamlit. Ele é independente.
 ==============================================================================
@@ -39,12 +51,24 @@ from tipologia import codigos_produtor, codigos_conteudo, tipologia_para_prompt
 # ==============================================================================
 
 YOUTUBE_API_KEY = os.environ["YOUTUBE_API_KEY"]
-ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")  # opcional agora
 MODELO_CLASSIFICADOR = "claude-haiku-4-5"
 REGIAO = "BR"
 QUANTIDADE_VIDEOS = 50  # 50 por categoria × 12 categorias = 600 por snapshot
 
-cliente_anthropic = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+# Controle de custo: quando "false", pula a classificação Anthropic.
+# Os vídeos são gravados com tipo_produtor="nao_classificado" e
+# tipo_conteudo="nao_classificado". Pode-se rodar classificação retroativa
+# depois, quando houver verba.
+CLASSIFICACAO_ATIVA = os.environ.get("CLASSIFICACAO_ATIVA", "false").lower() == "true"
+
+# Cliente Anthropic só é inicializado se a classificação estiver ativa
+# (evita erro caso ANTHROPIC_API_KEY não esteja disponível em modo coleta-apenas)
+cliente_anthropic = (
+    anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    if CLASSIFICACAO_ATIVA and ANTHROPIC_API_KEY
+    else None
+)
 
 
 # ==============================================================================
@@ -205,6 +229,26 @@ def normalizar_metadados_video(item: dict, dados_canal: dict) -> dict:
 # CLASSIFICAÇÃO — Claude Haiku
 # ==============================================================================
 
+def classificacao_placeholder() -> dict:
+    """
+    Retorna uma classificação stub quando CLASSIFICACAO_ATIVA=false.
+
+    Os campos tipo_produtor e tipo_conteudo são NOT NULL em videos_snapshot,
+    então usamos "nao_classificado" como sentinela. Permite identificar
+    posteriormente quais vídeos precisam de classificação retroativa:
+
+        SELECT * FROM videos_snapshot WHERE tipo_produtor = 'nao_classificado';
+    """
+    return {
+        "tipo_produtor": "nao_classificado",
+        "tipo_conteudo": "nao_classificado",
+        "justificativa": (
+            "Coleta realizada com CLASSIFICACAO_ATIVA=false (modo economia). "
+            "Classificação Anthropic adiada para execução retroativa."
+        ),
+    }
+
+
 def classificar_video(metadados: dict) -> dict:
     """
     Submete um vídeo ao Claude para classificação na tipologia dupla.
@@ -303,6 +347,8 @@ def executar_coleta() -> None:
     inicio = datetime.now()
     print(f"\n{'='*70}")
     print(f"INICIANDO COLETA — {inicio.isoformat()}")
+    modo = "ATIVA (Anthropic Haiku)" if CLASSIFICACAO_ATIVA else "PAUSADA (modo economia)"
+    print(f"   Classificação: {modo}")
     print(f"{'='*70}\n")
 
     # 1. Determinar slot da semana (replica metodologia da dissertação)
@@ -347,18 +393,27 @@ def executar_coleta() -> None:
     db = conectar(modo="escrita")
 
     # 5. Criar registro do snapshot
+    obs_modo = "[CLASSIFICAÇÃO ATIVA]" if CLASSIFICACAO_ATIVA else "[CLASSIFICAÇÃO PAUSADA]"
     snapshot_id = criar_snapshot(
         db,
         semana_ano=semana,
         dia_semana=dia,
         horario_coleta=horario,
         total_videos=len(items_trending),
-        observacoes=f"Coleta automatizada GitHub Actions. Hora real: {inicio.isoformat()}",
+        observacoes=f"{obs_modo} Coleta automatizada GitHub Actions. Hora real: {inicio.isoformat()}",
     )
     print(f"   → Snapshot ID #{snapshot_id} criado")
 
-    # 6. Classificar e persistir cada vídeo
-    print(f"\n🔬 Classificando {len(items_trending)} vídeos com {MODELO_CLASSIFICADOR}...\n")
+    # 6. Classificar (ou pular classificação) e persistir cada vídeo
+    if CLASSIFICACAO_ATIVA:
+        print(f"\n🔬 Classificando {len(items_trending)} vídeos com {MODELO_CLASSIFICADOR}...\n")
+        modelo_registrado = MODELO_CLASSIFICADOR
+    else:
+        print(f"\n⏸️  CLASSIFICAÇÃO PAUSADA (CLASSIFICACAO_ATIVA=false)")
+        print(f"   {len(items_trending)} vídeos serão gravados com placeholder.")
+        print(f"   Use 'nao_classificado' para filtrar e classificar depois.\n")
+        modelo_registrado = "nao_classificado"
+
     sucessos = 0
     falhas = 0
     for posicao, item in enumerate(items_trending, start=1):
@@ -367,24 +422,29 @@ def executar_coleta() -> None:
         meta = normalizar_metadados_video(item, dados_canal)
 
         try:
-            classificacao = classificar_video(meta)
+            if CLASSIFICACAO_ATIVA:
+                classificacao = classificar_video(meta)
+            else:
+                classificacao = classificacao_placeholder()
+
             # Adiciona categoria de coleta nos metadados para rastreabilidade
             meta["categoria_coleta"] = item.get("_categoria_coleta", "geral")
             gravar_video_classificado(
-                db, snapshot_id, posicao, meta, classificacao, MODELO_CLASSIFICADOR
+                db, snapshot_id, posicao, meta, classificacao, modelo_registrado
             )
             sucessos += 1
             print(
-                f"  [{posicao:02d}] {meta['canal_nome'][:40]:<40} "
+                f"  [{posicao:03d}] {meta['canal_nome'][:40]:<40} "
                 f"→ {classificacao['tipo_produtor']:<25} | {classificacao['tipo_conteudo']}"
             )
         except Exception as e:
             falhas += 1
-            print(f"  [{posicao:02d}] ❌ ERRO em '{meta['titulo'][:50]}': {e}")
+            print(f"  [{posicao:03d}] ❌ ERRO em '{meta['titulo'][:50]}': {e}")
             # Não interrompe a coleta inteira por causa de 1 vídeo problemático
 
-        # Pequena pausa para evitar rate limit da Anthropic
-        time.sleep(0.5)
+        # Pausa só faz sentido quando há chamada à Anthropic
+        if CLASSIFICACAO_ATIVA:
+            time.sleep(0.5)
 
     # 7. Relatório final
     fim = datetime.now()
