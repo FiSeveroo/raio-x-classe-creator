@@ -319,6 +319,20 @@ st.markdown(
     [data-testid="stSidebar"] {
         padding-top: 0 !important;
     }
+
+    /* Aumenta fonte dos textos descritivos da sidebar */
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] .stMarkdown p {
+        font-size: 0.95rem !important;
+        line-height: 1.5 !important;
+    }
+
+    /* Aumenta fonte do subtítulo CLASSE CREATOR — OBSERVATÓRIO */
+    [data-testid="stSidebar"] h5 {
+        font-size: 0.85rem !important;
+        letter-spacing: 0.05em !important;
+        opacity: 0.8;
+    }
     </style>
     """,
     unsafe_allow_html=True,
