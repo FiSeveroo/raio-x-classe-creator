@@ -124,6 +124,10 @@ def gravar_video_classificado(
         "justificativa": classificacao["justificativa"],
         "classificado_com": modelo_usado,
         "data_publicacao": metadados.get("data_publicacao"),
+        # Fonte da coleta: "geral" ou ID da categoria filtrada ("17", "25", etc.)
+        # Essencial para a Evidência 2 do paper (overlap entre endpoints).
+        # Campo adicionado em 29/mai/2026 — registros anteriores têm DEFAULT 'geral'.
+        "categoria_coleta": metadados.get("categoria_coleta", "geral"),
     }).execute()
 
 
