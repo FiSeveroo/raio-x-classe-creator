@@ -3339,10 +3339,15 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
         """,
         unsafe_allow_html=True,
     )
+    # Converte **negrito** markdown para HTML antes de renderizar
+    import re
+    veredito_html = re.sub(r'\*\*(.+?)\*\*', r'<strong></strong>', dossie['veredito_sonnet'])
+    veredito_html = veredito_html.replace('\n\n', '</p><p>').replace('\n', '<br>')
+    veredito_html = f'<p>{veredito_html}</p>'
     st.markdown(
         f"<div style='background:#111; padding:1.5rem; border-radius:4px; "
         f"border-left: 4px solid #ffffff; line-height:1.7;'>"
-        f"{dossie['veredito_sonnet']}</div>",
+        f"{veredito_html}</div>",
         unsafe_allow_html=True,
     )
 
