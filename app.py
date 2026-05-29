@@ -598,7 +598,7 @@ DESCRIÇÃO DO VÍDEO:
 
 with st.sidebar:
     st.markdown("# RAIO-X")
-    st.caption("CLASSE CREATOR — OBSERVATÓRIO")
+    st.markdown("##### CLASSE CREATOR — OBSERVATÓRIO")
     st.divider()
 
     modulo = st.radio(
@@ -609,15 +609,15 @@ with st.sidebar:
             "🌡️ Termômetro do Em Alta",
             "⚔️ Disputa de Narrativa",
             "📋 Dossiê do Canal",
-            "💬 Voz da Base",
+            "💬 Voz da Base *(em desenvolvimento)*",
             "📚 Biblioteca de Pesquisa",
         ],
         label_visibility="collapsed",
     )
 
     st.divider()
-    st.caption("Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.")
-    st.markdown('*"Criar é trabalho."*')
+    st.markdown("Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.")
+    st.markdown('*"A Revolução não cabe no feed."*')
     st.divider()
     st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
