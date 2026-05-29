@@ -630,8 +630,18 @@ with st.sidebar:
     )
 
     st.divider()
-    st.markdown("Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.")
-    st.markdown('*"O feed esconde quem faz a máquina girar. Nós mostramos."*')
+    st.markdown(
+        "<p style='font-size:1rem; line-height:1.5; margin:0;'>"
+        "Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube."
+        "</p>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<p style='font-size:0.95rem; font-style:italic; margin-top:0.75rem;'>"
+        "&ldquo;O feed esconde quem faz a máquina girar. Nós mostramos.&rdquo;"
+        "</p>",
+        unsafe_allow_html=True,
+    )
     st.divider()
     st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
