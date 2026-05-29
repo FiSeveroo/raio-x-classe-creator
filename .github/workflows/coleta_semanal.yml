@@ -5,6 +5,16 @@
 # O workflow dispara 2x por dia (05h e 17h Brasília).
 # O coletor.py decide se é o dia/horário correto da semana e só executa quando bate.
 # Para forçar uma coleta extra fora do slot: "Run workflow" com FORCA_EXECUCAO=true.
+#
+# CONTROLE DE CUSTO:
+#   - CLASSIFICACAO_ATIVA=false (padrão atual): coleta YouTube mas pula Anthropic.
+#     Vídeos são gravados com placeholder "nao_classificado".
+#     Custo: ~US$ 0,00 por coleta.
+#   - CLASSIFICACAO_ATIVA=true: pipeline completo com classificação Haiku.
+#     Custo: ~US$ 1,63 por coleta (525 vídeos × ~US$ 0,003).
+#
+# Para reativar a classificação, troque CLASSIFICACAO_ATIVA por 'true' abaixo,
+# ou rode manualmente via workflow_dispatch escolhendo classificacao=true.
 # =============================================================================
 
 name: Coleta Semanal — Termômetro do Em Alta
@@ -14,6 +24,12 @@ on:
     inputs:
       forca_execucao:
         description: 'Forçar coleta fora do slot programado?'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+      classificacao:
+        description: 'Ativar classificação Anthropic (CUIDADO: ~US$ 1,63 por coleta)?'
         required: false
         default: 'false'
         type: choice
@@ -52,4 +68,8 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           FORCA_EXECUCAO: ${{ github.event.inputs.forca_execucao || 'false' }}
+          # PADRÃO 'false' = só coleta YouTube, sem Anthropic.
+          # Disparos automáticos (cron) sempre vão usar este valor.
+          # Para reativar globalmente, troque 'false' por 'true' abaixo.
+          CLASSIFICACAO_ATIVA: ${{ github.event.inputs.classificacao || 'false' }}
         run: python coletor.py
