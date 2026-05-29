@@ -325,8 +325,8 @@ st.markdown(
     [data-testid="stSidebar"] .stMarkdown p,
     [data-testid="stSidebarContent"] p,
     section[data-testid="stSidebar"] p {
-        font-size: 1.1rem !important;
-        line-height: 1.6 !important;
+        font-size: 1.35rem !important;
+        line-height: 1.7 !important;
     }
     </style>
     """,
