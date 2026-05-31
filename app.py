@@ -620,6 +620,7 @@ with st.sidebar:
             "📋 Dossiê do Canal",
             "💬 Voz da Base *(em desenvolvimento)*",
             "📚 Biblioteca de Pesquisa",
+            "ℹ️ Sobre",
         ],
         label_visibility="collapsed",
     )
@@ -4952,50 +4953,50 @@ def renderizar_home() -> None:
     # PESQUISAS SUGERIDAS
     # =========================================================================
     st.markdown("---")
-    st.markdown("## 🔬 Agenda de pesquisa sugerida")
-    st.markdown(
-        "Sugestões abertas para a comunidade acadêmica brasileira. "
-        "Cada uma é um problema de pesquisa **operacionalizável** com "
-        "esta ferramenta. Use, adapte, expanda — e nos avise quando "
-        "publicar para incluirmos na vitrine de pesquisas concluídas."
-    )
-
-    for i, p in enumerate(PESQUISAS_SUGERIDAS, 1):
-        modulos_badge = " · ".join(
-            f"<span style='background:#1a1a1a; color:#00E87A; padding:0.2rem 0.6rem; "
-            f"border-radius:3px; font-size:0.75rem; letter-spacing:0.05em;'>{m}</span>"
-            for m in p["modulos"]
-        )
-
+    with st.expander("🔬 Agenda de pesquisa sugerida", expanded=False):
         st.markdown(
-            f"""
-            <div style='background: #0d0d0d; padding: 1.4rem; border-radius: 6px;
-                        border: 1px solid #1f1f1f; margin: 1rem 0;'>
-              <div style='display: flex; gap: 0.8rem; align-items: baseline;
-                          margin-bottom: 0.8rem;'>
-                <span style='color: #555; font-size: 0.85rem;'>#{i:02d}</span>
-                <h4 style='margin: 0; color: #fff;'>{p['titulo']}</h4>
-              </div>
-              <div style='margin-bottom: 0.8rem;'>{modulos_badge}</div>
-              <div style='margin-top: 0.7rem;'>
-                <strong style='color: #00E87A; font-size: 0.85rem;'>PERGUNTA:</strong>
-                <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['pergunta']}</p>
-              </div>
-              <div style='margin-top: 0.7rem;'>
-                <strong style='color: #7B2FFF; font-size: 0.85rem;'>HIPÓTESE:</strong>
-                <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['hipotese']}</p>
-              </div>
-              <div style='margin-top: 0.7rem;'>
-                <strong style='color: #FFD700; font-size: 0.85rem;'>MÉTODO SUGERIDO:</strong>
-                <p style='color: #ccc; margin: 0.3rem 0; line-height: 1.6;
-                          font-size: 0.95rem;'>{p['metodo_curto']}</p>
-              </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
+            "Sugestões abertas para a comunidade acadêmica brasileira. "
+            "Cada uma é um problema de pesquisa **operacionalizável** com "
+            "esta ferramenta. Use, adapte, expanda — e nos avise quando "
+            "publicar para incluirmos na vitrine de pesquisas concluídas."
         )
 
-    # =========================================================================
+        for i, p in enumerate(PESQUISAS_SUGERIDAS, 1):
+            modulos_badge = " · ".join(
+                f"<span style='background:#1a1a1a; color:#00E87A; padding:0.2rem 0.6rem; "
+                f"border-radius:3px; font-size:0.75rem; letter-spacing:0.05em;'>{m}</span>"
+                for m in p["modulos"]
+            )
+
+            st.markdown(
+                f"""
+                <div style='background: #0d0d0d; padding: 1.4rem; border-radius: 6px;
+                            border: 1px solid #1f1f1f; margin: 1rem 0;'>
+                  <div style='display: flex; gap: 0.8rem; align-items: baseline;
+                              margin-bottom: 0.8rem;'>
+                    <span style='color: #555; font-size: 0.85rem;'>#{i:02d}</span>
+                    <h4 style='margin: 0; color: #fff;'>{p['titulo']}</h4>
+                  </div>
+                  <div style='margin-bottom: 0.8rem;'>{modulos_badge}</div>
+                  <div style='margin-top: 0.7rem;'>
+                    <strong style='color: #00E87A; font-size: 0.85rem;'>PERGUNTA:</strong>
+                    <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['pergunta']}</p>
+                  </div>
+                  <div style='margin-top: 0.7rem;'>
+                    <strong style='color: #7B2FFF; font-size: 0.85rem;'>HIPÓTESE:</strong>
+                    <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['hipotese']}</p>
+                  </div>
+                  <div style='margin-top: 0.7rem;'>
+                    <strong style='color: #FFD700; font-size: 0.85rem;'>MÉTODO SUGERIDO:</strong>
+                    <p style='color: #ccc; margin: 0.3rem 0; line-height: 1.6;
+                              font-size: 0.95rem;'>{p['metodo_curto']}</p>
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        # =========================================================================
     # PESQUISAS CONCLUÍDAS — vitrine acadêmica
     # =========================================================================
     st.markdown("---")
@@ -5533,6 +5534,120 @@ def renderizar_biblioteca() -> None:
 # ROTEAMENTO
 # ==============================================================================
 
+
+def renderizar_sobre() -> None:
+    st.markdown(
+        """
+        <div style='padding: 2rem 0 1rem 0;'>
+            <div style='font-size: 0.85rem; color: #888; letter-spacing: 0.2em;
+                        margin-bottom: 0.5rem;'>OBSERVATÓRIO CLASSE CREATOR</div>
+            <h1 style='font-size: 3rem; line-height: 1.05; margin: 0;
+                       color: #ffffff; font-weight: 800;'>
+                SOBRE O<br>
+                <span style="color:#27D337;">RAIO-X</span>
+            </h1>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.divider()
+
+    # O PROJETO
+    st.markdown("## O Projeto")
+    st.markdown("""
+O **Raio-X Classe Creator** é uma ferramenta de auditoria algorítmica e pesquisa acadêmica
+do trabalho plataformizado no YouTube. Desenvolvida pelo Observatório Classe Creator,
+classifica artefatos audiovisuais segundo uma **tipologia dupla** — quem produz × que
+gênero de trabalho é produzido — ancorada em pesquisa acadêmica e operacionalizada por
+inteligência artificial.
+
+Mais do que um utilitário de análise, o Raio-X é uma proposta metodológica: tratar o YouTube
+não como vitrine de "criadores independentes", mas como **regime de produção plataformizada**
+com relações de classe, hierarquias de visibilidade e disputas concretas pela autoridade algorítmica.
+
+*"Criar é trabalho."*
+    """)
+
+    st.divider()
+
+    # O OBSERVATÓRIO
+    st.markdown("## O Observatório")
+    st.markdown("""
+O **Observatório Classe Creator** é o braço investigativo e acadêmico da Classe Creator —
+movimento de emancipação da nova classe trabalhadora digital no Brasil.
+
+Nosso propósito é romper com a visão alienante da "economia dos criadores" e elevar a
+consciência sobre o que significa trabalhar sob a governança algorítmica de plataformas
+capitalistas. Mapeamos a cadeia invisível — editores, roteiristas, criadores — para promover
+soberania digital e organização de classe.
+    """)
+
+    st.divider()
+
+    # A CLASSE CREATOR
+    st.markdown("## O Movimento")
+    st.markdown("""
+A **Classe Creator** reúne criadores, editores, roteiristas, designers e gestores de
+comunidade que querem trabalhar com liberdade e entender o sistema por dentro. Não é só
+um projeto de pesquisa — é um espaço de análise crítica e articulação coletiva.
+
+*A revolução não cabe no feed.*
+    """)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown("[⬡ Site](https://classecreator.com/)")
+    with col2:
+        st.markdown("[◉ Instagram](https://www.instagram.com/classecreator/)")
+    with col3:
+        st.markdown("[▶ YouTube](https://www.youtube.com/@ClasseCreator)")
+
+    st.divider()
+
+    # A ESCOLA
+    st.markdown("## Conhecimento sem pedágio")
+    st.markdown("""
+A **Escola Classe Creator** existe porque acreditamos que entender o jogo das plataformas
+digitais não pode ser privilégio de quem pode pagar. Criadores, editores, designers e
+gestores de comunidade merecem acesso à mesma profundidade de análise que pesquisadores
+e grandes agências têm.
+
+Tudo é gratuito — os vídeos, os materiais, os quizzes, os certificados. Sempre foi, sempre será.
+    """)
+    st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
+
+    st.divider()
+
+    # QUEM ESTÁ POR TRÁS
+    st.markdown("## Quem está por trás")
+    st.markdown("""
+**Filipe Severo** — Pesquisador · Estrategista de Conteúdo · Criador
+
+Sou Filipe Severo — pesquisador, estrategista de conteúdo e criador há mais de 10 anos.
+Estudei plataformas digitais no mestrado (PUCRS/FAMECOS, 2026) e aprendi uma coisa que
+ninguém te conta: o jogo é mais complexo do que parece, e quem não entende as regras
+trabalha para quem entende.
+
+A dissertação que originou o Raio-X classificou manualmente **1.049 vídeos** do trending
+brasileiro ao longo de **21 semanas**, desenvolvendo a tipologia dupla que a ferramenta
+operacionaliza com inteligência artificial.
+    """)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("[▶ YouTube](https://www.youtube.com/@FilipeSevero)")
+    with col2:
+        st.markdown("[◉ Instagram](https://www.instagram.com/severo_filipe/)")
+
+    st.divider()
+    st.markdown(
+        "<p style='color:#555; font-size:0.85rem;'>"
+        "Raio-X Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
+        "</p>",
+        unsafe_allow_html=True,
+    )
+
+
+
 if modulo.startswith("🏠"):
     renderizar_home()
 elif modulo.startswith("🔍"):
@@ -5547,5 +5662,7 @@ elif modulo.startswith("💬"):
     renderizar_voz_da_base()
 elif modulo.startswith("📚"):
     renderizar_biblioteca()
+elif modulo.startswith("ℹ️"):
+    renderizar_sobre()
 else:
     renderizar_home()
