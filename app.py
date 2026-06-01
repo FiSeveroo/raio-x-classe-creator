@@ -1164,7 +1164,7 @@ def renderizar_termometro_painel() -> None:
                     showlegend=False, height=400,
                     yaxis={"categoryorder": "total ascending"},
                 )
-                st.plotly_chart(fig_a, use_container_width=True)
+                st.plotly_chart(fig_a, use_container_width=True, key="chart_1")
 
             with cB:
                 st.markdown("#### Eixo B — Que gênero de trabalho?")
@@ -1183,7 +1183,7 @@ def renderizar_termometro_painel() -> None:
                     showlegend=False, height=400,
                     yaxis={"categoryorder": "total ascending"},
                 )
-                st.plotly_chart(fig_b, use_container_width=True)
+                st.plotly_chart(fig_b, use_container_width=True, key="chart_2")
 
             st.markdown("#### Cruzamento Produtor × Conteúdo")
             st.caption("Replica metodologia do Gráfico 11 (Severo, 2026, p. 80).")
@@ -1194,7 +1194,7 @@ def renderizar_termometro_painel() -> None:
                 aspect="auto", labels={"color": "Vídeos"},
             )
             fig_heat.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=500)
-            st.plotly_chart(fig_heat, use_container_width=True)
+            st.plotly_chart(fig_heat, use_container_width=True, key="termo_fig_heat")
 
             st.markdown("#### Vídeos do snapshot")
             df["taxa_engajamento"] = df.apply(
@@ -1239,7 +1239,7 @@ def renderizar_termometro_painel() -> None:
             labels={"data_coleta": "Coleta", "percentual": "% do trending"},
         )
         fig_serie_a.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=450)
-        st.plotly_chart(fig_serie_a, use_container_width=True)
+        st.plotly_chart(fig_serie_a, use_container_width=True, key="termo_serie_a")
 
         st.markdown("#### Composição por Tipo de Conteúdo (% por snapshot)")
         comp_b = df_t.groupby(["data_coleta", "tipo_conteudo"]).size().reset_index(name="n")
@@ -1252,7 +1252,7 @@ def renderizar_termometro_painel() -> None:
             labels={"data_coleta": "Coleta", "percentual": "% do trending"},
         )
         fig_serie_b.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=450)
-        st.plotly_chart(fig_serie_b, use_container_width=True)
+        st.plotly_chart(fig_serie_b, use_container_width=True, key="termo_serie_b")
 
     # === ABA 3: CANAIS ===
     with tab_canais:
@@ -1286,7 +1286,7 @@ def renderizar_termometro_painel() -> None:
             paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=700,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig_canais, use_container_width=True)
+        st.plotly_chart(fig_canais, use_container_width=True, key="termo_canais")
 
     # === ABA 4: EXPORTAR ===
     with tab_exportar:
@@ -2011,7 +2011,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
             showlegend=False, height=400,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig_a, use_container_width=True)
+        st.plotly_chart(fig_a, use_container_width=True, key="chart_3")
 
     with cB:
         st.markdown("#### Por tipo de conteúdo")
@@ -2030,7 +2030,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
             showlegend=False, height=400,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig_b, use_container_width=True)
+        st.plotly_chart(fig_b, use_container_width=True, key="chart_4")
 
     # =========================================================================
     # VOZES AUSENTES — duas camadas analíticas distintas
@@ -3263,7 +3263,7 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
             showlegend=False, height=350,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key="chart_5")
 
     # =========================================================================
     # REDE DE CANAIS DECLARADA
@@ -3982,7 +3982,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
         paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a",
         showlegend=False, height=400,
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key="chart_6")
 
     # =========================================================================
     # SÍNTESE QUALITATIVA (Sonnet)
