@@ -1,18 +1,18 @@
 # 📚 Corpus Público do Observatório Classe Creator
 
-## Snapshot gerado em 01/06/2026 às 11:40 UTC
+## Snapshot gerado em 08/06/2026 às 11:01 UTC
 
 Este diretório contém o corpus completo do Raio-X Classe Creator em formato
 CSV, atualizado semanalmente (segundas-feiras) via GitHub Actions.
 
-**Total de registros neste snapshot:** 3,413
+**Total de registros neste snapshot:** 10,700
 
 ## Tabelas exportadas
 
 | Tabela | Registros | Descrição |
 |---|---:|---|
-| `snapshots.csv` | 12 | Cabeçalho dos snapshots semanais do Termômetro |
-| `videos_snapshot.csv` | 3,338 | Vídeos do trending classificados (Termômetro) |
+| `snapshots.csv` | 26 | Cabeçalho dos snapshots semanais do Termômetro |
+| `videos_snapshot.csv` | 10,611 | Vídeos do trending classificados (Termômetro) |
 | `classificacoes_video.csv` | 4 | Análises individuais de vídeos (Lupa) |
 | `dossies_canal.csv` | 7 | Investigações estruturais de canais (Dossiê) |
 | `buscas_narrativa.csv` | 1 | Cabeçalho de auditorias temáticas (Disputa) |
