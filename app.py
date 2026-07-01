@@ -626,7 +626,7 @@ with st.sidebar:
     )
 
     st.divider()
-    st.markdown("#### Auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.")
+    st.markdown("#### Pesquisa e auditoria do ecossistema das plataformas digitais.")
     st.markdown('#### *"O feed esconde quem faz a máquina girar. Nós mostramos."*')
     st.divider()
     st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
@@ -748,7 +748,7 @@ def oferecer_versao_canonica(canonica: dict, label_objeto: str, chave_estado: st
 
 def renderizar_lupa() -> None:
     st.markdown("# 🔍 A Lupa")
-    st.markdown("##### Dissecação sociológica de um artefato audiovisual")
+    st.markdown("##### Análise de um vídeo, na profundidade que o feed esconde")
     st.markdown(
         "Cole abaixo o link de um vídeo do YouTube. A ferramenta extrairá os "
         "metadados via API oficial e classificará o artefato segundo a "
@@ -927,7 +927,7 @@ def _renderizar_resultado_lupa(meta: dict, resultado: dict, cache_aviso: bool = 
               help="(Likes + Comentários) / Visualizações × 100")
 
     st.markdown("---")
-    st.markdown("## DIAGNÓSTICO TIPOLÓGICO")
+    st.markdown("## ANÁLISE TIPOLÓGICA")
 
     produtor = buscar_produtor(resultado["tipo_produtor"])
     conteudo = buscar_conteudo(resultado["tipo_conteudo"])
@@ -952,7 +952,7 @@ def _renderizar_resultado_lupa(meta: dict, resultado: dict, cache_aviso: bool = 
             unsafe_allow_html=True,
         )
 
-    st.markdown("### Justificativa sociológica")
+    st.markdown("### Como chegamos nessa análise")
     st.markdown(
         f"""<div style="background:#111; padding:1.5rem; border-radius:4px;
                     border-left: 4px solid #ffffff;">{resultado['justificativa']}</div>""",
@@ -996,7 +996,7 @@ CORES_CONTEUDO = {
 
 def renderizar_termometro_publico() -> None:
     st.markdown("# 🌡️ Termômetro do Em Alta")
-    st.markdown("##### Auditoria longitudinal da curadoria algorítmica do YouTube Brasil")
+    st.markdown("##### Acompanhamento contínuo do que o YouTube Brasil está colocando em destaque")
 
     if not SUPABASE_DISPONIVEL:
         st.error(
@@ -1031,22 +1031,20 @@ def renderizar_termometro_publico() -> None:
     st.markdown("### Sobre este termômetro")
     st.markdown(
         """
-        O Termômetro é um **sistema de coleta longitudinal** que tira uma "fotografia"
-        semanal dos 50 vídeos em maior destaque no YouTube Brasil, classifica cada um
-        deles segundo a tipologia dupla (Produtor × Conteúdo) desenvolvida na dissertação
-        de mestrado de Filipe Severo (PUCRS/FAMECOS, 2026), e armazena o resultado em
-        um corpus auditável.
+        O Termômetro coleta, todas as semanas, uma fotografia dos 50 vídeos em maior
+        destaque no YouTube Brasil. Cada vídeo é classificado segundo uma tipologia dupla —
+        quem produz × que tipo de trabalho é produzido — desenvolvida na dissertação de
+        mestrado de Filipe Severo (PUCRS/FAMECOS, 2026).
 
-        A frequência de coleta replica a metodologia da pesquisa original
-        (**Tabela 02**, Severo, 2026): uma coleta semanal, alternando dias e horários
-        ao longo de um ciclo de 14 semanas, para evitar viés temporal.
+        A coleta acontece semanalmente, alternando dias e horários, para evitar viés
+        temporal. O resultado é guardado em um corpus aberto, que pode ser auditado
+        e usado em outras pesquisas.
 
-        **Por que não exibimos o trending em tempo real?** Porque a tese central da
-        pesquisa demonstra que a vitrine "Em Alta" do YouTube é uma construção editorial
-        corporativa, não um espelho neutro da audiência. Replicar essa vitrine sem
-        contexto reproduziria a opacidade que a ferramenta busca desnaturalizar.
-        O dado relevante é a **composição estrutural** acumulada ao longo do tempo —
-        e isso só fica visível com séries longitudinais.
+        **Por que não mostramos o trending em tempo real?** Porque a pesquisa mostra
+        que a vitrine "Em Alta" do YouTube não é um espelho neutro da audiência — é
+        uma escolha editorial da plataforma. Reproduzi-la sem contexto seria repetir
+        a mesma opacidade que a ferramenta tenta abrir. O dado que importa é a
+        composição acumulada ao longo do tempo. E isso só aparece em séries longitudinais.
         """
     )
 
@@ -1071,7 +1069,7 @@ def renderizar_termometro_publico() -> None:
 
 def renderizar_termometro_painel() -> None:
     st.markdown("# 🌡️ Termômetro — Painel Interno")
-    st.markdown("##### Análise sociológica da curadoria algorítmica do YouTube Brasil")
+    st.markdown("##### Análise contínua do que o YouTube Brasil escolhe destacar")
 
     col_voltar, _ = st.columns([1, 5])
     with col_voltar:
@@ -1167,7 +1165,7 @@ def renderizar_termometro_painel() -> None:
                 st.plotly_chart(fig_a, use_container_width=True, key="chart_1")
 
             with cB:
-                st.markdown("#### Eixo B — Que gênero de trabalho?")
+                st.markdown("#### Eixo B — Que tipo de trabalho?")
                 cont_b = df["tipo_conteudo"].value_counts().reset_index()
                 cont_b.columns = ["codigo", "n"]
                 cont_b["nome"] = cont_b["codigo"].apply(
@@ -1186,7 +1184,7 @@ def renderizar_termometro_painel() -> None:
                 st.plotly_chart(fig_b, use_container_width=True, key="chart_2")
 
             st.markdown("#### Cruzamento Produtor × Conteúdo")
-            st.caption("Replica metodologia do Gráfico 11 (Severo, 2026, p. 80).")
+            st.caption("Baseado no Gráfico 11 da dissertação (Severo, 2026, p. 80).")
             cruzamento = pd.crosstab(df["tipo_produtor"], df["tipo_conteudo"])
             fig_heat = px.imshow(
                 cruzamento, template="plotly_dark",
@@ -1196,7 +1194,7 @@ def renderizar_termometro_painel() -> None:
             fig_heat.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=500)
             st.plotly_chart(fig_heat, use_container_width=True, key="termo_fig_heat")
 
-            st.markdown("#### Vídeos do snapshot")
+            st.markdown("#### Vídeos dessa coleta")
             df["taxa_engajamento"] = df.apply(
                 lambda r: f"{((r.get('likes', 0) + r.get('comentarios', 0)) / r['visualizacoes'] * 100):.2f}%"
                 if r.get("visualizacoes", 0) > 0 else "—", axis=1
@@ -1209,7 +1207,7 @@ def renderizar_termometro_painel() -> None:
 
     # === ABA 2: SÉRIE TEMPORAL ===
     with tab_serie:
-        st.markdown("### Evolução longitudinal do trending BR")
+        st.markdown("### Como o trending BR muda ao longo do tempo")
 
         if len(snapshots) < 2:
             st.info(
@@ -1228,7 +1226,7 @@ def renderizar_termometro_painel() -> None:
         )
         df_t = df_t.dropna(subset=["data_coleta"])
 
-        st.markdown("#### Composição por Tipo de Produtor (% por snapshot)")
+        st.markdown("#### Composição por tipo de produtor (% por coleta)")
         comp_a = df_t.groupby(["data_coleta", "tipo_produtor"]).size().reset_index(name="n")
         total_a = comp_a.groupby("data_coleta")["n"].transform("sum")
         comp_a["percentual"] = (comp_a["n"] / total_a) * 100
@@ -1241,7 +1239,7 @@ def renderizar_termometro_painel() -> None:
         fig_serie_a.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=450)
         st.plotly_chart(fig_serie_a, use_container_width=True, key="termo_serie_a")
 
-        st.markdown("#### Composição por Tipo de Conteúdo (% por snapshot)")
+        st.markdown("#### Composição por tipo de conteúdo (% por coleta)")
         comp_b = df_t.groupby(["data_coleta", "tipo_conteudo"]).size().reset_index(name="n")
         total_b = comp_b.groupby("data_coleta")["n"].transform("sum")
         comp_b["percentual"] = (comp_b["n"] / total_b) * 100
@@ -1257,7 +1255,7 @@ def renderizar_termometro_painel() -> None:
     # === ABA 3: CANAIS ===
     with tab_canais:
         st.markdown("### Canais que mais aparecem no trending")
-        st.caption("Replica análise do Gráfico 03 (Severo, 2026, p. 69).")
+        st.caption("Baseado no Gráfico 03 da dissertação (Severo, 2026, p. 69).")
 
         with st.spinner("Calculando recorrências..."):
             todos = todos_videos_para_serie_temporal(cliente)
@@ -1290,7 +1288,7 @@ def renderizar_termometro_painel() -> None:
 
     # === ABA 4: EXPORTAR ===
     with tab_exportar:
-        st.markdown("### Exportar corpus")
+        st.markdown("### Exportar dados")
         st.markdown(
             "Baixe os dados completos em CSV para análise estatística avançada "
             "(SPSS, R, Python, Excel)."
@@ -1321,7 +1319,7 @@ def renderizar_termometro_painel() -> None:
 
     # === ABA 5: CURADORIA ===
     with tab_curadoria:
-        st.markdown("### ✏️ Curadoria de classificações")
+        st.markdown("### ✏️ Revisar classificações")
         st.markdown(
             "Corrija classificações incorretas do Termômetro. "
             "Cada correção é registrada com justificativa."
@@ -1800,9 +1798,9 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
     n = len(df)
     contagem = df["tipo_produtor"].value_counts().to_dict()
 
-    st.markdown("### Quem ganhou o microfone?")
+    st.markdown("### Quem ganhou visibilidade?")
     st.caption(
-        "Categorias-chave do Eixo A para este tema, em sua granularidade original."
+        "Categorias principais do Eixo A para este tema, sem agrupamento."
     )
     c1, c2, c3, c4 = st.columns(4)
     c1.metric(
@@ -1826,7 +1824,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
     # DESVIO EDITORIAL — qui-quadrado de aderência (com fallback se corpus pequeno)
     # =========================================================================
     st.markdown("---")
-    st.markdown("### Desvio em relação à linha de base do trending")
+    st.markdown("### Diferença em relação à média do trending")
     st.caption(
         "Compara a composição desta busca com a composição do corpus do Termômetro. "
         "Quando o corpus tem snapshots suficientes (mínimo 10), aplica-se "
@@ -3114,7 +3112,7 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
     # CONFRONTO: AUTO-NARRATIVA × REALIDADE ESTRUTURAL
     # =========================================================================
     st.markdown("---")
-    st.markdown("### 🪞 Auto-narrativa × Realidade estrutural")
+    st.markdown("### 🪞 O que o canal diz que é × o que os dados mostram")
     st.caption(
         "Comparação entre como o canal se APRESENTA publicamente "
         "e como sua estrutura de produção se REVELA aos sintomas."
@@ -3153,7 +3151,7 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
     # SINTOMAS ESTRUTURAIS — cards visuais com evidências
     # =========================================================================
     st.markdown("---")
-    st.markdown("### 🔬 Sintomas estruturais")
+    st.markdown("### 🔬 O que os dados apontam")
     st.caption(
         "Indicadores extraídos dos vídeos analisados que sustentam a classificação. "
         "Todos são heurísticas exploratórias — sinalizam padrões, não determinam classe."
@@ -3293,7 +3291,7 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
     # PRESENÇA HISTÓRICA — cruzamento com Termômetro e Disputa
     # =========================================================================
     st.markdown("---")
-    st.markdown("### 📈 Presença histórica nos outros módulos")
+    st.markdown("### 📈 Presença nos outros módulos")
 
     aparicoes_termo = aparicoes_canal_no_termometro(cliente_db, dossie["canal_id"])
     aparicoes_busca = aparicoes_canal_em_buscas(cliente_db, dossie["canal_id"])
@@ -3331,7 +3329,7 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
     # VEREDITO SOCIOLÓGICO (gerado por Sonnet)
     # =========================================================================
     st.markdown("---")
-    st.markdown("### ⚖️ Veredito sociológico")
+    st.markdown("### ⚖️ Leitura final")
     st.markdown(
         """
         <div style='background:#1a0d00; padding:0.9rem 1.2rem; border-radius:4px;
@@ -3931,7 +3929,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
     # DISTRIBUIÇÃO POR DIMENSÃO
     # =========================================================================
     st.markdown("---")
-    st.markdown("### 🔬 Distribuição por dimensão sociológica")
+    st.markdown("### 🔬 Distribuição por dimensão da análise")
     st.markdown(
         """
         <div style='background:#1a0d00; padding:0.9rem 1.2rem; border-radius:4px;
@@ -4017,7 +4015,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
     # =========================================================================
     if analise.get("contradicao_estrutural"):
         st.markdown("---")
-        st.markdown("### ⚖️ Contradição estrutural detectada")
+        st.markdown("### ⚖️ Contradição detectada")
         st.caption(
             "Gap entre o que o canal entrega (estrutura real) e o que "
             "o público pede. Cruzamento com o Dossiê do canal."
@@ -4097,7 +4095,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
 
 def renderizar_voz_da_base() -> None:
     st.markdown("# 💬 A Voz da Base")
-    st.markdown("##### O termômetro do chão de fábrica e das relações parassociais")
+    st.markdown("##### O que os comentários dizem — e o que revelam sobre a relação com o canal")
     st.markdown(
         "Este módulo analisa qualitativamente os **100 principais comentários** "
         "de um vídeo segundo **6 dimensões sociológicas**, calcula o "
@@ -4110,20 +4108,20 @@ def renderizar_voz_da_base() -> None:
     with st.expander("⚖️ Notas éticas e metodológicas (importante)"):
         st.markdown(
             """
-            **Sobre a amostra:** o YouTube ordena comentários por *relevância* (likes + recência),
-            que é um corte editorial — não amostra estatística. As conclusões valem para
-            *o que algoritmicamente recebeu visibilidade*, não para o universo total
+            **Sobre a amostra.** O YouTube ordena comentários por relevância (likes + recência).
+            Isso é um corte editorial da plataforma, não uma amostra estatística. As conclusões
+            valem para o que a plataforma decidiu tornar visível — não para o universo total
             de comentários.
 
-            **Sobre os comentaristas:** comentários públicos do YouTube são públicos por
-            definição, mas isso não suspende cuidado ético. A ferramenta analisa
-            **padrões coletivos** — não indivíduos isolados. Não use o output para
-            constranger, expor ou perseguir comentaristas específicos. Pesquisa acadêmica
-            que cite comentários nominalmente deve seguir as diretrizes do CEP/CONEP.
+            **Sobre os comentaristas.** Comentários públicos do YouTube são públicos por
+            definição, mas isso não dispensa cuidado ético. A ferramenta analisa padrões
+            coletivos, não indivíduos. Não use o resultado para expor, constranger ou
+            perseguir comentaristas específicos. Pesquisa acadêmica que cite comentários
+            nominalmente deve seguir as diretrizes do CEP/CONEP.
 
-            **Sobre o LLM:** Claude Sonnet 4.6 é altamente capaz, mas pode errar na
-            classificação de ironia, sarcasmo regional ou referências de nicho. Trate
-            os resultados como **leitura analítica assistida**, não como verdade absoluta.
+            **Sobre o modelo.** O Claude Sonnet 4.6 é capaz, mas pode errar em ironia,
+            sarcasmo regional ou referência de nicho. Trate os resultados como leitura
+            analítica assistida, não como verdade absoluta.
             """
         )
 
@@ -5000,7 +4998,7 @@ def renderizar_home() -> None:
     # PESQUISAS CONCLUÍDAS — vitrine acadêmica
     # =========================================================================
     st.markdown("---")
-    st.markdown("## 📚 Pesquisas concluídas com esta ferramenta")
+    st.markdown("## 📚 Pesquisas que usaram esta ferramenta")
     st.markdown(
         "<p style='color:#aaa;'>Trabalhos acadêmicos cuja metodologia "
         "ou achados deram origem a, ou foram realizados com, o "
@@ -5059,7 +5057,7 @@ def renderizar_home() -> None:
         "cite os trabalhos que sustentam sua metodologia."
     )
 
-    st.markdown("**Citação ABNT — pesquisa fundadora:**")
+    st.markdown("**Citação ABNT — pesquisa de origem:**")
     st.code(
         "SEVERO, Filipe Machado Leal. O Novo \"You\" do YouTube: a ascensão dos "
         "produtores plataformizados e a falência da promessa participativa no Brasil. "
@@ -5247,7 +5245,7 @@ def _exibir_analise_video(registro: dict, cliente_db) -> None:
             </span>
           </div>
           <p style='color:#ddd; margin-top:1rem; line-height:1.6;'>
-            <strong>Justificativa sociológica:</strong><br>
+            <strong>Como chegamos nessa análise:</strong><br>
             {registro.get('justificativa', '—')}
           </p>
         </div>
@@ -5350,7 +5348,7 @@ def renderizar_aba_canais(cliente_db) -> None:
 
 def renderizar_aba_temas(cliente_db) -> None:
     """Aba: buscas temáticas (Disputa de Narrativa)."""
-    st.markdown("##### ⚔️ Temas auditados pela Disputa de Narrativa")
+    st.markdown("##### ⚔️ Temas analisados pela Disputa de Narrativa")
     st.caption(
         "Cada linha é a busca mais recente (canônica) de um termo. "
         "Cliques abrem a análise de composição completa."
@@ -5478,7 +5476,7 @@ def renderizar_aba_comentarios(cliente_db) -> None:
 def renderizar_biblioteca() -> None:
     """Página principal da Biblioteca de Pesquisa."""
     st.markdown("# 📚 Biblioteca de Pesquisa")
-    st.markdown("##### Corpus longitudinal do Observatório Classe Creator")
+    st.markdown("##### Corpus de dados do Observatório Classe Creator")
     st.markdown(
         "Navegue por todas as análises já realizadas pela ferramenta. "
         "Cada análise é versionada — o que você vê é sempre a versão canônica "
@@ -5574,13 +5572,9 @@ com relações de classe, hierarquias de visibilidade e disputas concretas pela 
     # O OBSERVATÓRIO
     st.markdown("## O Observatório")
     st.markdown("""
-O **Observatório Classe Creator** é o braço investigativo e acadêmico da Classe Creator —
-movimento de emancipação da nova classe trabalhadora digital no Brasil.
+O **Observatório Classe Creator** é o núcleo de pesquisa da Classe Creator. Investiga o ecossistema das plataformas digitais e publica o que encontra — dados, análises, ferramentas abertas.
 
-Nosso propósito é romper com a visão alienante da "economia dos criadores" e elevar a
-consciência sobre o que significa trabalhar sob a governança algorítmica de plataformas
-capitalistas. Mapeamos a cadeia invisível — editores, roteiristas, criadores — para promover
-soberania digital e organização de classe.
+Nosso trabalho parte de uma pergunta: o que a "economia dos criadores" prefere não olhar? Mapeamos a cadeia inteira — quem aparece, quem edita, quem escreve, quem gerencia — para dar visibilidade ao trabalho que a plataforma prefere manter em segundo plano.
     """)
 
     st.divider()
@@ -5588,11 +5582,9 @@ soberania digital e organização de classe.
     # A CLASSE CREATOR
     st.markdown("## O Movimento")
     st.markdown("""
-A **Classe Creator** reúne criadores, editores, roteiristas, designers e gestores de
-comunidade que querem trabalhar com liberdade e entender o sistema por dentro. Não é só
-um projeto de pesquisa — é um espaço de análise crítica e articulação coletiva.
+A Classe Creator é um projeto de pesquisa, formação e pensamento crítico sobre o ecossistema das plataformas digitais. Fundado por Filipe Severo, é o espaço para quem quer entender o sistema onde cria — não só performar dentro dele.
 
-*A revolução não cabe no feed.*
+*A Revolução não cabe no feed.*
     """)
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -5607,12 +5599,9 @@ um projeto de pesquisa — é um espaço de análise crítica e articulação co
     # A ESCOLA
     st.markdown("## Conhecimento sem pedágio")
     st.markdown("""
-A **Escola Classe Creator** existe porque acreditamos que entender o jogo das plataformas
-digitais não pode ser privilégio de quem pode pagar. Criadores, editores, designers e
-gestores de comunidade merecem acesso à mesma profundidade de análise que pesquisadores
-e grandes agências têm.
+A **Escola Classe Creator** é formação gratuita sobre o ecossistema das plataformas — como os algoritmos funcionam, como as plataformas ganham dinheiro, como o seu trabalho se encaixa nisso tudo. Para quem quer entender antes de otimizar.
 
-Tudo é gratuito — os vídeos, os materiais, os quizzes, os certificados. Sempre foi, sempre será.
+Tudo gratuito: vídeos, materiais, quizzes, certificados. Sempre foi. Sempre será.
     """)
     st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
@@ -5621,16 +5610,11 @@ Tudo é gratuito — os vídeos, os materiais, os quizzes, os certificados. Semp
     # QUEM ESTÁ POR TRÁS
     st.markdown("## Quem está por trás")
     st.markdown("""
-**Filipe Severo** — Pesquisador · Estrategista de Conteúdo · Criador
+**Filipe Severo** — Pesquisador · Consultor · Criador
 
-Sou Filipe Severo — pesquisador, estrategista de conteúdo e criador há mais de 10 anos.
-Estudei plataformas digitais no mestrado (PUCRS/FAMECOS, 2026) e aprendi uma coisa que
-ninguém te conta: o jogo é mais complexo do que parece, e quem não entende as regras
-trabalha para quem entende.
+Sou pesquisador em comunicação e plataformização, e criador de conteúdo há mais de 15 anos. Fundei a Classe Creator para reunir num só lugar o que estudo, o que atendo como consultor e o que vivo como creator.
 
-A dissertação que originou o Raio-X classificou manualmente **1.049 vídeos** do trending
-brasileiro ao longo de **21 semanas**, desenvolvendo a tipologia dupla que a ferramenta
-operacionaliza com inteligência artificial.
+A dissertação que originou o Raio-X (PUCRS/FAMECOS, 2026, defendida com láurea) classificou manualmente **1.049 vídeos** do trending brasileiro ao longo de **21 semanas**, desenvolvendo a tipologia dupla que a ferramenta agora opera em escala com inteligência artificial.
     """)
     col1, col2 = st.columns(2)
     with col1:
