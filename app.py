@@ -319,15 +319,6 @@ st.markdown(
     [data-testid="stSidebar"] {
         padding-top: 0 !important;
     }
-
-    /* Aumenta fonte dos textos descritivos da sidebar */
-    [data-testid="stSidebar"] p,
-    [data-testid="stSidebar"] .stMarkdown p,
-    [data-testid="stSidebarContent"] p,
-    section[data-testid="stSidebar"] p {
-        font-size: 1.35rem !important;
-        line-height: 1.7 !important;
-    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -607,7 +598,7 @@ DESCRIÇÃO DO VÍDEO:
 
 with st.sidebar:
     st.markdown("# RAIO-X")
-    st.markdown("##### CLASSE CREATOR — OBSERVATÓRIO")
+    st.caption("CLASSE CREATOR — OBSERVATÓRIO")
     st.divider()
 
     modulo = st.radio(
@@ -618,16 +609,15 @@ with st.sidebar:
             "🌡️ Termômetro do Em Alta",
             "⚔️ Disputa de Narrativa",
             "📋 Dossiê do Canal",
-            "💬 Voz da Base *(em desenvolvimento)*",
+            "💬 Voz da Base",
             "📚 Biblioteca de Pesquisa",
-            "ℹ️ Sobre",
         ],
         label_visibility="collapsed",
     )
 
     st.divider()
-    st.markdown("#### Pesquisa e auditoria do ecossistema das plataformas digitais.")
-    st.markdown('#### *"O feed esconde quem faz a máquina girar. Nós mostramos."*')
+    st.caption("Pesquisa e auditoria do ecossistema das plataformas digitais.")
+    st.markdown('*"Criar é trabalho."*')
     st.divider()
     st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
@@ -1120,7 +1110,7 @@ def renderizar_termometro_painel() -> None:
 
         if df is not None:
 
-            st.markdown("### Composição estrutural")
+            st.markdown("### Composição do trending")
             st.caption(
                 "Composição direta segundo a tipologia (Severo, 2026), sem agregados. "
                 "Cada categoria do Eixo A é apresentada na sua granularidade original."
@@ -1162,7 +1152,7 @@ def renderizar_termometro_painel() -> None:
                     showlegend=False, height=400,
                     yaxis={"categoryorder": "total ascending"},
                 )
-                st.plotly_chart(fig_a, use_container_width=True, key="chart_1")
+                st.plotly_chart(fig_a, use_container_width=True)
 
             with cB:
                 st.markdown("#### Eixo B — Que tipo de trabalho?")
@@ -1181,7 +1171,7 @@ def renderizar_termometro_painel() -> None:
                     showlegend=False, height=400,
                     yaxis={"categoryorder": "total ascending"},
                 )
-                st.plotly_chart(fig_b, use_container_width=True, key="chart_2")
+                st.plotly_chart(fig_b, use_container_width=True)
 
             st.markdown("#### Cruzamento Produtor × Conteúdo")
             st.caption("Baseado no Gráfico 11 da dissertação (Severo, 2026, p. 80).")
@@ -1192,7 +1182,7 @@ def renderizar_termometro_painel() -> None:
                 aspect="auto", labels={"color": "Vídeos"},
             )
             fig_heat.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=500)
-            st.plotly_chart(fig_heat, use_container_width=True, key="termo_fig_heat")
+            st.plotly_chart(fig_heat, use_container_width=True)
 
             st.markdown("#### Vídeos dessa coleta")
             df["taxa_engajamento"] = df.apply(
@@ -1237,7 +1227,7 @@ def renderizar_termometro_painel() -> None:
             labels={"data_coleta": "Coleta", "percentual": "% do trending"},
         )
         fig_serie_a.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=450)
-        st.plotly_chart(fig_serie_a, use_container_width=True, key="termo_serie_a")
+        st.plotly_chart(fig_serie_a, use_container_width=True)
 
         st.markdown("#### Composição por tipo de conteúdo (% por coleta)")
         comp_b = df_t.groupby(["data_coleta", "tipo_conteudo"]).size().reset_index(name="n")
@@ -1250,7 +1240,7 @@ def renderizar_termometro_painel() -> None:
             labels={"data_coleta": "Coleta", "percentual": "% do trending"},
         )
         fig_serie_b.update_layout(paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=450)
-        st.plotly_chart(fig_serie_b, use_container_width=True, key="termo_serie_b")
+        st.plotly_chart(fig_serie_b, use_container_width=True)
 
     # === ABA 3: CANAIS ===
     with tab_canais:
@@ -1284,7 +1274,7 @@ def renderizar_termometro_painel() -> None:
             paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a", height=700,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig_canais, use_container_width=True, key="termo_canais")
+        st.plotly_chart(fig_canais, use_container_width=True)
 
     # === ABA 4: EXPORTAR ===
     with tab_exportar:
@@ -1989,7 +1979,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
     # GRÁFICOS DE COMPOSIÇÃO
     # =========================================================================
     st.markdown("---")
-    st.markdown("### Composição estrutural")
+    st.markdown("### Composição do trending")
 
     cA, cB = st.columns(2)
     with cA:
@@ -2009,7 +1999,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
             showlegend=False, height=400,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig_a, use_container_width=True, key="chart_3")
+        st.plotly_chart(fig_a, use_container_width=True)
 
     with cB:
         st.markdown("#### Por tipo de conteúdo")
@@ -2028,7 +2018,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
             showlegend=False, height=400,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig_b, use_container_width=True, key="chart_4")
+        st.plotly_chart(fig_b, use_container_width=True)
 
     # =========================================================================
     # VOZES AUSENTES — duas camadas analíticas distintas
@@ -3033,41 +3023,32 @@ PRESENÇA HISTÓRICA NO TRENDING BRASIL:
 Este canal apareceu {aparicoes_termometro} vez(es) nos snapshots do Termômetro do Observatório.
 """
 
-    prompt_sistema = """Você é um assistente de pesquisa que ajuda pesquisadores a identificar
-tensões, contradições e pontos de atenção em canais do YouTube.
+    prompt_sistema = """Você é um analista que produz vereditos sociológicos sobre canais do YouTube.
+Você tem domínio dos Estudos de Plataforma e da economia política da atenção digital.
 
-Seu papel NÃO é concluir, julgar intenções ou fazer diagnósticos fechados.
-Seu papel É apontar o que merece atenção, o que é contraditório e o que exige
-investigação qualitativa humana para ser interpretado.
+O veredito deve:
+1. Ser PROSA ANALÍTICA, não bullets nem JSON.
+2. Ter 3 a 5 parágrafos curtos.
+3. CONFRONTAR a auto-narrativa do canal com a realidade estrutural detectada nos dados.
+4. Identificar a "fachada" quando o canal se apresenta como uma coisa mas as evidências
+   mostram outra — ex: canal que se diz "independente" mas opera como empresa estruturada.
+5. Interpretar os dados estruturais (frequência, duração, padronização, rede) como
+   sintomas de uma posição no campo de produção — não apenas descrevê-los.
+6. Usar tom DIRETO e RIGOROSO. Sem elogios, sem neutralidade vaga.
+7. NÃO repetir fatos numéricos que o leitor já viu nos cards.
+   INTERPRETÁ-LOS — o que essa frequência de postagem revela sobre a estrutura de trabalho?
+8. Encerrar com uma frase-síntese sobre a posição real do canal no ecossistema.
 
-O texto deve ser organizado em TRÊS BLOCOS com cabeçalhos simples:
+REGRAS DE VOZ:
+- NÃO escreva em primeira pessoa ("eu observo", "concluo").
+- Use construções impessoais: "a evidência sugere", "os dados revelam",
+  "configura-se um caso de", "observa-se que", "a estrutura indica".
+- NÃO mencione a dissertação, o pesquisador, a PUCRS ou referências bibliográficas.
+  O veredito fala sobre O CANAL, não sobre a teoria. A teoria é o olhar, não o assunto.
+- NÃO use frases como "conforme a tipologia", "segundo a pesquisa", "como demonstrado".
+  Aja como um analista que já internalizou o referencial — não como quem o cita.
 
-**O que chama atenção**
-Aponte tensões entre a auto-narrativa do canal e os dados estruturais.
-Não interprete intenções — descreva contradições observáveis.
-Ex: "A frequência X é estruturalmente incompatível com Y. Ao mesmo tempo, o canal se
-apresenta como Z. Essa tensão entre discurso e estrutura merece atenção."
-
-**O que investigar**
-Liste perguntas concretas que o pesquisador deveria buscar responder.
-Baseie-se nos dados disponíveis (links externos, rede de canais, frequência, duração).
-Ex: "A presença de X em Y descrições sugere Z — vale verificar se há produtos pagos
-associados." Nunca afirme — sempre sugira o que verificar.
-
-**O que os dados não respondem**
-Seja explícito sobre os limites da análise automatizada.
-Indique o que só análise qualitativa humana pode responder.
-Ex: "Se o volume reflete produção profissional ou acúmulo histórico."
-"Se o engajamento é fidelização de nicho ou vínculo parassocial."
-
-REGRAS:
-- NÃO conclua. NÃO julgue intenções. NÃO psicologize o produtor.
-- NÃO use frases como "a fachada encobre", "estratégia deliberada", "encenação".
-- Use linguagem de investigação: "sugere", "pode indicar", "merece verificação",
-  "é compatível com", "contrasta com", "levanta a questão de".
-- NÃO repita números que já aparecem nos cards — referencie-os brevemente.
-- Máximo de 4 parágrafos no total. Seja conciso.
-- NÃO mencione a dissertação, o pesquisador ou a PUCRS.
+NÃO use markdown. NÃO use bullets. NÃO use cabeçalhos. Apenas parágrafos.
 """
 
     resposta = cliente.messages.create(
@@ -3261,7 +3242,7 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
             showlegend=False, height=350,
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig, use_container_width=True, key="chart_5")
+        st.plotly_chart(fig, use_container_width=True)
 
     # =========================================================================
     # REDE DE CANAIS DECLARADA
@@ -3347,15 +3328,10 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
         """,
         unsafe_allow_html=True,
     )
-    # Converte **negrito** markdown para HTML antes de renderizar
-    import re
-    veredito_html = re.sub(r'\*\*(.+?)\*\*', r'<strong></strong>', dossie['veredito_sonnet'])
-    veredito_html = veredito_html.replace('\n\n', '</p><p>').replace('\n', '<br>')
-    veredito_html = f'<p>{veredito_html}</p>'
     st.markdown(
         f"<div style='background:#111; padding:1.5rem; border-radius:4px; "
         f"border-left: 4px solid #ffffff; line-height:1.7;'>"
-        f"{veredito_html}</div>",
+        f"{dossie['veredito_sonnet']}</div>",
         unsafe_allow_html=True,
     )
 
@@ -3980,7 +3956,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
         paper_bgcolor="#0a0a0a", plot_bgcolor="#0a0a0a",
         showlegend=False, height=400,
     )
-    st.plotly_chart(fig, use_container_width=True, key="chart_6")
+    st.plotly_chart(fig, use_container_width=True)
 
     # =========================================================================
     # SÍNTESE QUALITATIVA (Sonnet)
@@ -4777,27 +4753,24 @@ def renderizar_home() -> None:
     st.markdown("### O que esta ferramenta faz")
     st.markdown(
         """
-        Pesquisas sobre plataformas digitais como o YouTube dependem, em
-        larga medida, de categorias produzidas pela própria plataforma —
-        rótulos como “Entretenimento”, “Notícias” ou “Educação” que servem
-        ao inventário publicitário, não à compreensão sociológica do trabalho
-        criativo. O resultado é uma pesquisa que reproduz, em vez de
-        problematizar, a opacidade do objeto investigado.
+        A maior parte das pesquisas sobre YouTube depende das categorias que
+        a própria plataforma inventou — “Entretenimento”, “Notícias”, “Educação”.
+        Categorias que servem para vender publicidade, não para entender o
+        trabalho que acontece por trás dos vídeos. O resultado é uma pesquisa
+        que reproduz a opacidade da plataforma em vez de investigá-la.
 
-        O **Raio-X Classe Creator** propõe uma alternativa: classificar
-        artefatos do YouTube segundo uma **tipologia dupla** —
-        Eixo A (quem produz?) × Eixo B (que gênero de trabalho é produzido?) —
-        ancorada em pesquisa acadêmica e operacionalizada por inteligência
-        artificial. A ferramenta automatiza, em escala, a análise qualitativa
-        que pesquisadores precisariam fazer manualmente, devolvendo
-        materialidade ao trabalho que a plataforma achata em categorias
-        comerciais.
+        O **Raio-X Classe Creator** propõe outra abordagem: classificar cada
+        vídeo por duas perguntas — **quem produz?** e **que tipo de trabalho
+        é produzido?**. A tipologia foi desenvolvida na dissertação de mestrado
+        de Filipe Severo (PUCRS/FAMECOS, 2026) e é operacionalizada por
+        inteligência artificial, o que permite analisar em escala o que antes
+        só era possível manualmente.
 
-        Mais do que um utilitário de análise, o Raio-X é uma proposta
-        metodológica: tratar o YouTube não como vitrine de “criadores
-        independentes”, mas como **regime de produção plataformizada** com
-        relações de classe, hierarquias de visibilidade e disputas concretas
-        pela autoridade algorítmica.
+        Mais do que uma ferramenta de análise, o Raio-X é uma proposta
+        metodológica: olhar para o YouTube não como uma vitrine neutra de
+        “criadores independentes”, mas como um ecossistema com hierarquias
+        de visibilidade, disputas concretas pela atenção e trabalho por trás
+        de cada vídeo.
         """
     )
 
@@ -4951,50 +4924,50 @@ def renderizar_home() -> None:
     # PESQUISAS SUGERIDAS
     # =========================================================================
     st.markdown("---")
-    with st.expander("🔬 Agenda de pesquisa sugerida", expanded=False):
-        st.markdown(
-            "Sugestões abertas para a comunidade acadêmica brasileira. "
-            "Cada uma é um problema de pesquisa **operacionalizável** com "
-            "esta ferramenta. Use, adapte, expanda — e nos avise quando "
-            "publicar para incluirmos na vitrine de pesquisas concluídas."
+    st.markdown("## 🔬 Agenda de pesquisa sugerida")
+    st.markdown(
+        "Sugestões abertas para a comunidade acadêmica brasileira. "
+        "Cada uma é um problema de pesquisa **operacionalizável** com "
+        "esta ferramenta. Use, adapte, expanda — e nos avise quando "
+        "publicar para incluirmos na vitrine de pesquisas concluídas."
+    )
+
+    for i, p in enumerate(PESQUISAS_SUGERIDAS, 1):
+        modulos_badge = " · ".join(
+            f"<span style='background:#1a1a1a; color:#00E87A; padding:0.2rem 0.6rem; "
+            f"border-radius:3px; font-size:0.75rem; letter-spacing:0.05em;'>{m}</span>"
+            for m in p["modulos"]
         )
 
-        for i, p in enumerate(PESQUISAS_SUGERIDAS, 1):
-            modulos_badge = " · ".join(
-                f"<span style='background:#1a1a1a; color:#00E87A; padding:0.2rem 0.6rem; "
-                f"border-radius:3px; font-size:0.75rem; letter-spacing:0.05em;'>{m}</span>"
-                for m in p["modulos"]
-            )
+        st.markdown(
+            f"""
+            <div style='background: #0d0d0d; padding: 1.4rem; border-radius: 6px;
+                        border: 1px solid #1f1f1f; margin: 1rem 0;'>
+              <div style='display: flex; gap: 0.8rem; align-items: baseline;
+                          margin-bottom: 0.8rem;'>
+                <span style='color: #555; font-size: 0.85rem;'>#{i:02d}</span>
+                <h4 style='margin: 0; color: #fff;'>{p['titulo']}</h4>
+              </div>
+              <div style='margin-bottom: 0.8rem;'>{modulos_badge}</div>
+              <div style='margin-top: 0.7rem;'>
+                <strong style='color: #00E87A; font-size: 0.85rem;'>PERGUNTA:</strong>
+                <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['pergunta']}</p>
+              </div>
+              <div style='margin-top: 0.7rem;'>
+                <strong style='color: #7B2FFF; font-size: 0.85rem;'>HIPÓTESE:</strong>
+                <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['hipotese']}</p>
+              </div>
+              <div style='margin-top: 0.7rem;'>
+                <strong style='color: #FFD700; font-size: 0.85rem;'>MÉTODO SUGERIDO:</strong>
+                <p style='color: #ccc; margin: 0.3rem 0; line-height: 1.6;
+                          font-size: 0.95rem;'>{p['metodo_curto']}</p>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-            st.markdown(
-                f"""
-                <div style='background: #0d0d0d; padding: 1.4rem; border-radius: 6px;
-                            border: 1px solid #1f1f1f; margin: 1rem 0;'>
-                  <div style='display: flex; gap: 0.8rem; align-items: baseline;
-                              margin-bottom: 0.8rem;'>
-                    <span style='color: #555; font-size: 0.85rem;'>#{i:02d}</span>
-                    <h4 style='margin: 0; color: #fff;'>{p['titulo']}</h4>
-                  </div>
-                  <div style='margin-bottom: 0.8rem;'>{modulos_badge}</div>
-                  <div style='margin-top: 0.7rem;'>
-                    <strong style='color: #00E87A; font-size: 0.85rem;'>PERGUNTA:</strong>
-                    <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['pergunta']}</p>
-                  </div>
-                  <div style='margin-top: 0.7rem;'>
-                    <strong style='color: #7B2FFF; font-size: 0.85rem;'>HIPÓTESE:</strong>
-                    <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['hipotese']}</p>
-                  </div>
-                  <div style='margin-top: 0.7rem;'>
-                    <strong style='color: #FFD700; font-size: 0.85rem;'>MÉTODO SUGERIDO:</strong>
-                    <p style='color: #ccc; margin: 0.3rem 0; line-height: 1.6;
-                              font-size: 0.95rem;'>{p['metodo_curto']}</p>
-                  </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        # =========================================================================
+    # =========================================================================
     # PESQUISAS CONCLUÍDAS — vitrine acadêmica
     # =========================================================================
     st.markdown("---")
@@ -5082,15 +5055,15 @@ def renderizar_home() -> None:
     st.markdown("## 🤝 Contribuir com o Observatório")
     st.markdown(
         """
-        O **Observatório Classe Creator** é um think tank e movimento de
-        emancipação da nova classe trabalhadora digital no Brasil. A ferramenta
-        Raio-X é seu braço investigativo — código aberto, gratuito, e em
-        constante refinamento.
+        O **Observatório Classe Creator** é o núcleo de pesquisa do projeto.
+        Investiga o ecossistema das plataformas digitais — quem domina a
+        visibilidade, como os algoritmos operam, o que fica invisível — e
+        publica o que encontra. O Raio-X é seu braço aberto: código público,
+        gratuito, em desenvolvimento contínuo.
 
-        Pesquisadores, jornalistas, sindicalistas e organizações da sociedade
-        civil que queiram colaborar — seja submetendo pesquisas para a vitrine,
-        sugerindo refinamentos metodológicos, ou propondo novos módulos —
-        podem entrar em contato pelos canais oficiais do Observatório.
+        Pesquisadores, jornalistas, estudantes e organizações que queiram
+        colaborar — com pesquisa, refinamento metodológico ou novos módulos —
+        podem entrar em contato pelos canais do Observatório.
         """
     )
 
@@ -5532,106 +5505,6 @@ def renderizar_biblioteca() -> None:
 # ROTEAMENTO
 # ==============================================================================
 
-
-def renderizar_sobre() -> None:
-    st.markdown(
-        """
-        <div style='padding: 2rem 0 1rem 0;'>
-            <div style='font-size: 0.85rem; color: #888; letter-spacing: 0.2em;
-                        margin-bottom: 0.5rem;'>OBSERVATÓRIO CLASSE CREATOR</div>
-            <h1 style='font-size: 3rem; line-height: 1.05; margin: 0;
-                       color: #ffffff; font-weight: 800;'>
-                SOBRE O<br>
-                <span style="color:#27D337;">RAIO-X</span>
-            </h1>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.divider()
-
-    # O PROJETO
-    st.markdown("## O Projeto")
-    st.markdown("""
-O **Raio-X Classe Creator** é uma ferramenta de auditoria algorítmica e pesquisa acadêmica
-do trabalho plataformizado no YouTube. Desenvolvida pelo Observatório Classe Creator,
-classifica artefatos audiovisuais segundo uma **tipologia dupla** — quem produz × que
-gênero de trabalho é produzido — ancorada em pesquisa acadêmica e operacionalizada por
-inteligência artificial.
-
-Mais do que um utilitário de análise, o Raio-X é uma proposta metodológica: tratar o YouTube
-não como vitrine de "criadores independentes", mas como **regime de produção plataformizada**
-com relações de classe, hierarquias de visibilidade e disputas concretas pela autoridade algorítmica.
-
-*"Criar é trabalho."*
-    """)
-
-    st.divider()
-
-    # O OBSERVATÓRIO
-    st.markdown("## O Observatório")
-    st.markdown("""
-O **Observatório Classe Creator** é o núcleo de pesquisa da Classe Creator. Investiga o ecossistema das plataformas digitais e publica o que encontra — dados, análises, ferramentas abertas.
-
-Nosso trabalho parte de uma pergunta: o que a "economia dos criadores" prefere não olhar? Mapeamos a cadeia inteira — quem aparece, quem edita, quem escreve, quem gerencia — para dar visibilidade ao trabalho que a plataforma prefere manter em segundo plano.
-    """)
-
-    st.divider()
-
-    # A CLASSE CREATOR
-    st.markdown("## O Movimento")
-    st.markdown("""
-A Classe Creator é um projeto de pesquisa, formação e pensamento crítico sobre o ecossistema das plataformas digitais. Fundado por Filipe Severo, é o espaço para quem quer entender o sistema onde cria — não só performar dentro dele.
-
-*A Revolução não cabe no feed.*
-    """)
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("[⬡ Site](https://classecreator.com/)")
-    with col2:
-        st.markdown("[◉ Instagram](https://www.instagram.com/classecreator/)")
-    with col3:
-        st.markdown("[▶ YouTube](https://www.youtube.com/@ClasseCreator)")
-
-    st.divider()
-
-    # A ESCOLA
-    st.markdown("## Conhecimento sem pedágio")
-    st.markdown("""
-A **Escola Classe Creator** é formação gratuita sobre o ecossistema das plataformas — como os algoritmos funcionam, como as plataformas ganham dinheiro, como o seu trabalho se encaixa nisso tudo. Para quem quer entender antes de otimizar.
-
-Tudo gratuito: vídeos, materiais, quizzes, certificados. Sempre foi. Sempre será.
-    """)
-    st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
-
-    st.divider()
-
-    # QUEM ESTÁ POR TRÁS
-    st.markdown("## Quem está por trás")
-    st.markdown("""
-**Filipe Severo** — Pesquisador · Consultor · Criador
-
-Sou pesquisador em comunicação e plataformização, e criador de conteúdo há mais de 15 anos. Fundei a Classe Creator para reunir num só lugar o que estudo, o que atendo como consultor e o que vivo como creator.
-
-A dissertação que originou o Raio-X (PUCRS/FAMECOS, 2026, defendida com láurea) classificou manualmente **1.049 vídeos** do trending brasileiro ao longo de **21 semanas**, desenvolvendo a tipologia dupla que a ferramenta agora opera em escala com inteligência artificial.
-    """)
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("[▶ YouTube](https://www.youtube.com/@FilipeSevero)")
-    with col2:
-        st.markdown("[◉ Instagram](https://www.instagram.com/severo_filipe/)")
-
-    st.divider()
-    st.markdown(
-        "<p style='color:#555; font-size:0.85rem;'>"
-        "Raio-X Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
-        "</p>",
-        unsafe_allow_html=True,
-    )
-
-
-
 if modulo.startswith("🏠"):
     renderizar_home()
 elif modulo.startswith("🔍"):
@@ -5646,7 +5519,5 @@ elif modulo.startswith("💬"):
     renderizar_voz_da_base()
 elif modulo.startswith("📚"):
     renderizar_biblioteca()
-elif modulo.startswith("ℹ️"):
-    renderizar_sobre()
 else:
     renderizar_home()
