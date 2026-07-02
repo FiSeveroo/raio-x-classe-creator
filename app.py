@@ -1031,20 +1031,22 @@ def renderizar_termometro_publico() -> None:
     st.markdown("### Sobre este termômetro")
     st.markdown(
         """
-        O Termômetro coleta, todas as semanas, uma fotografia dos 50 vídeos em maior
-        destaque no YouTube Brasil. Cada vídeo é classificado segundo uma tipologia dupla —
-        quem produz × que tipo de trabalho é produzido — desenvolvida na dissertação de
-        mestrado de Filipe Severo (PUCRS/FAMECOS, 2026).
+        O Termômetro é um **sistema de coleta longitudinal** que tira uma "fotografia"
+        semanal dos 50 vídeos em maior destaque no YouTube Brasil, classifica cada um
+        deles segundo a tipologia dupla (Produtor × Conteúdo) desenvolvida na dissertação
+        de mestrado de Filipe Severo (PUCRS/FAMECOS, 2026), e armazena o resultado em
+        um corpus auditável.
 
-        A coleta acontece semanalmente, alternando dias e horários, para evitar viés
-        temporal. O resultado é guardado em um corpus aberto, que pode ser auditado
-        e usado em outras pesquisas.
+        A frequência de coleta replica a metodologia da pesquisa original
+        (**Tabela 02**, Severo, 2026): uma coleta semanal, alternando dias e horários
+        ao longo de um ciclo de 14 semanas, para evitar viés temporal.
 
-        **Por que não mostramos o trending em tempo real?** Porque a pesquisa mostra
-        que a vitrine "Em Alta" do YouTube não é um espelho neutro da audiência — é
-        uma escolha editorial da plataforma. Reproduzi-la sem contexto seria repetir
-        a mesma opacidade que a ferramenta tenta abrir. O dado que importa é a
-        composição acumulada ao longo do tempo. E isso só aparece em séries longitudinais.
+        **Por que não exibimos o trending em tempo real?** Porque a tese central da
+        pesquisa demonstra que a vitrine "Em Alta" do YouTube é uma construção editorial
+        corporativa, não um espelho neutro da audiência. Replicar essa vitrine sem
+        contexto reproduziria a opacidade que a ferramenta busca desnaturalizar.
+        O dado relevante é a **composição estrutural** acumulada ao longo do tempo —
+        e isso só fica visível com séries longitudinais.
         """
     )
 
@@ -1092,7 +1094,7 @@ def renderizar_termometro_painel() -> None:
         )
         return
 
-    st.success(f"📊 {len(snapshots)} snapshot(s) disponível(is) no corpus.")
+    st.success(f"📊 {len(snapshots)} coleta(s) disponível(is) no corpus.")
 
     tab_atual, tab_serie, tab_canais, tab_exportar, tab_curadoria = st.tabs([
         "📸 Snapshot atual",
@@ -1108,12 +1110,12 @@ def renderizar_termometro_painel() -> None:
             f"#{s['id']} — {s['data_coleta'][:10]} ({s['dia_semana']} {s['horario_coleta']})": s["id"]
             for s in snapshots
         }
-        escolha = st.selectbox("Snapshot a examinar", options=list(opcoes.keys()), index=0)
+        escolha = st.selectbox("Coleta a examinar", options=list(opcoes.keys()), index=0)
         snapshot_id = opcoes[escolha]
         videos = videos_do_snapshot(cliente, snapshot_id)
 
         if not videos:
-            st.warning("Snapshot vazio.")
+            st.warning("Coleta vazia.")
             df = None
         else:
             df = pd.DataFrame(videos)
@@ -1165,7 +1167,7 @@ def renderizar_termometro_painel() -> None:
                 st.plotly_chart(fig_a, use_container_width=True, key="chart_1")
 
             with cB:
-                st.markdown("#### Eixo B — Que tipo de trabalho?")
+                st.markdown("#### Eixo B — Que gênero de trabalho?")
                 cont_b = df["tipo_conteudo"].value_counts().reset_index()
                 cont_b.columns = ["codigo", "n"]
                 cont_b["nome"] = cont_b["codigo"].apply(
@@ -1288,7 +1290,7 @@ def renderizar_termometro_painel() -> None:
 
     # === ABA 4: EXPORTAR ===
     with tab_exportar:
-        st.markdown("### Exportar dados")
+        st.markdown("### Exportar corpus")
         st.markdown(
             "Baixe os dados completos em CSV para análise estatística avançada "
             "(SPSS, R, Python, Excel)."
@@ -1319,7 +1321,7 @@ def renderizar_termometro_painel() -> None:
 
     # === ABA 5: CURADORIA ===
     with tab_curadoria:
-        st.markdown("### ✏️ Revisar classificações")
+        st.markdown("### ✏️ Curadoria de classificações")
         st.markdown(
             "Corrija classificações incorretas do Termômetro. "
             "Cada correção é registrada com justificativa."
@@ -1340,13 +1342,13 @@ def renderizar_termometro_painel() -> None:
                     for s in snapshots_cur
                 }
                 escolha_cur = st.selectbox(
-                    "Snapshot a auditar", options=list(opcoes_cur.keys()), key="cur_snapshot"
+                    "Coleta a revisar", options=list(opcoes_cur.keys()), key="cur_snapshot"
                 )
                 snapshot_id_cur = opcoes_cur[escolha_cur]
                 videos_cur = videos_do_snapshot(cliente, snapshot_id_cur)
 
                 if not videos_cur:
-                    st.warning("Snapshot vazio.")
+                    st.warning("Coleta vazia.")
                 else:
                     df_cur = pd.DataFrame(videos_cur)
                     tipos_presentes = ["(todos)"] + sorted(df_cur["tipo_produtor"].unique().tolist())
@@ -1800,7 +1802,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
 
     st.markdown("### Quem ganhou visibilidade?")
     st.caption(
-        "Categorias principais do Eixo A para este tema, sem agrupamento."
+        "Categorias-chave do Eixo A para este tema, em sua granularidade original."
     )
     c1, c2, c3, c4 = st.columns(4)
     c1.metric(
@@ -1966,8 +1968,8 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
                             font-size: 0.85rem; color: #ffcc99;'>
                     <strong>⏳ LEITURA PRELIMINAR</strong><br>
                     O corpus do Termômetro tem hoje apenas <strong>{n_snapshots}</strong>
-                    snapshot(s). O teste estatístico (qui-quadrado de aderência) só é
-                    ativado a partir de {MIN_SNAPSHOTS_PARA_QUIQUADRADO} snapshots
+                    coleta(s). O teste estatístico (qui-quadrado de aderência) só é
+                    ativado a partir de {MIN_SNAPSHOTS_PARA_QUIQUADRADO} coletas
                     para ter base de comparação robusta. Até lá, os desvios mostrados
                     abaixo devem ser tratados como sugestivos, não conclusivos.
                 </div>
@@ -1989,7 +1991,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
     # GRÁFICOS DE COMPOSIÇÃO
     # =========================================================================
     st.markdown("---")
-    st.markdown("### Composição do trending")
+    st.markdown("### Composição estrutural")
 
     cA, cB = st.columns(2)
     with cA:
@@ -2034,7 +2036,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
     # VOZES AUSENTES — duas camadas analíticas distintas
     # =========================================================================
     st.markdown("---")
-    st.markdown("### 🔇 Vozes ausentes")
+    st.markdown("### 🔇 Quem ficou de fora")
 
     # Categorias estruturalmente extintas do topo da plataforma
     # Não são "silenciadas neste tema" — são categorias cuja ausência
@@ -3368,7 +3370,7 @@ def renderizar_dossie_canal() -> None:
         "do YouTube. Cole abaixo o link, handle (@) ou ID de qualquer canal — "
         "a ferramenta extrairá os 50 vídeos mais recentes, calculará sintomas "
         "estruturais objetivos, mapeará a rede de canais declarados, e emitirá "
-        "um veredito sociológico ancorado na tipologia de SEVERO (2026)."
+        "uma leitura final ancorada na tipologia de SEVERO (2026)."
     )
 
     if not SUPABASE_DISPONIVEL:
@@ -3507,7 +3509,7 @@ def renderizar_dossie_canal() -> None:
         with st.spinner("Cruzando com corpus do Observatório..."):
             aparicoes_termo = aparicoes_canal_no_termometro(cliente_db, canal_id_real)
 
-        with st.spinner("Submetendo a Claude Sonnet para veredito sociológico..."):
+        with st.spinner("Submetendo a Claude Sonnet para leitura final..."):
             veredito = emitir_veredito_sonnet(
                 canal_meta, classif, sintomas,
                 canais_relacionados, len(aparicoes_termo),
@@ -4108,20 +4110,22 @@ def renderizar_voz_da_base() -> None:
     with st.expander("⚖️ Notas éticas e metodológicas (importante)"):
         st.markdown(
             """
-            **Sobre a amostra.** O YouTube ordena comentários por relevância (likes + recência).
-            Isso é um corte editorial da plataforma, não uma amostra estatística. As conclusões
-            valem para o que a plataforma decidiu tornar visível — não para o universo total
-            de comentários.
+            **Sobre a amostra.** O YouTube ordena comentários por *relevância*
+            (likes + recência). Isso é um corte editorial da plataforma, não uma
+            amostra estatística. As conclusões valem para *o que a plataforma
+            decidiu tornar visível* — não para o universo total de comentários.
 
-            **Sobre os comentaristas.** Comentários públicos do YouTube são públicos por
-            definição, mas isso não dispensa cuidado ético. A ferramenta analisa padrões
-            coletivos, não indivíduos. Não use o resultado para expor, constranger ou
-            perseguir comentaristas específicos. Pesquisa acadêmica que cite comentários
-            nominalmente deve seguir as diretrizes do CEP/CONEP.
+            **Sobre os comentaristas.** Comentários públicos do YouTube são
+            públicos por definição, mas isso não dispensa cuidado ético. A
+            ferramenta analisa **padrões coletivos**, não indivíduos. Não use o
+            resultado para expor, constranger ou perseguir comentaristas
+            específicos. Pesquisa acadêmica que cite comentários nominalmente
+            deve seguir as diretrizes do CEP/CONEP.
 
-            **Sobre o modelo.** O Claude Sonnet 4.6 é capaz, mas pode errar em ironia,
-            sarcasmo regional ou referência de nicho. Trate os resultados como leitura
-            analítica assistida, não como verdade absoluta.
+            **Sobre o modelo.** O Claude Sonnet 4.6 é capaz, mas pode errar em
+            ironia, sarcasmo regional ou referência de nicho. Trate os
+            resultados como **leitura analítica assistida**, não como verdade
+            absoluta.
             """
         )
 
@@ -4355,7 +4359,7 @@ DESCRITORES_MODULOS = [
             "da dissertação). Acumula corpus longitudinal auditável."
         ),
         "quando_usar": (
-            "Para auditar a curadoria algorítmica em escala. Responde "
+            "Para analisar as escolhas da plataforma em escala. Responde "
             "perguntas como: quem domina o trending? Como a composição "
             "muda ao longo do tempo? Quais canais são recorrentes?"
         ),
@@ -4399,7 +4403,7 @@ DESCRITORES_MODULOS = [
         "quando_usar": (
             "Para desmascarar “falsos criadores independentes” que operam "
             "como braços de produtoras digitais ou da mídia tradicional. "
-            "Modelo híbrido Haiku + Sonnet emite veredito sociológico."
+            "Modelo híbrido Haiku + Sonnet emite leitura final."
         ),
         "casos_uso": [
             "Investigar coligações de canais sob mesma estrutura empresarial",
@@ -4777,19 +4781,19 @@ def renderizar_home() -> None:
     st.markdown("### O que esta ferramenta faz")
     st.markdown(
         """
-        Pesquisas sobre plataformas digitais como o YouTube dependem, em
-        larga medida, de categorias produzidas pela própria plataforma —
-        rótulos como “Entretenimento”, “Notícias” ou “Educação” que servem
-        ao inventário publicitário, não à compreensão sociológica do trabalho
-        criativo. O resultado é uma pesquisa que reproduz, em vez de
-        problematizar, a opacidade do objeto investigado.
+        A maior parte das pesquisas sobre YouTube depende das categorias que
+        a própria plataforma inventou — “Entretenimento”, “Notícias”,
+        “Educação”. Categorias que servem para vender publicidade, não para
+        entender o trabalho que acontece por trás dos vídeos. O resultado é
+        uma pesquisa que reproduz a opacidade da plataforma em vez de
+        investigá-la.
 
         O **Raio-X Classe Creator** propõe outra abordagem: classificar cada
         vídeo por duas perguntas — **quem produz?** e **que tipo de trabalho
-        é produzido?**. A tipologia foi desenvolvida na dissertação de mestrado
-        de Filipe Severo (PUCRS/FAMECOS, 2026) e é operacionalizada por
-        inteligência artificial, o que permite analisar em escala o que antes
-        só era possível manualmente.
+        é produzido?**. A tipologia foi desenvolvida na dissertação de
+        mestrado de Filipe Severo (PUCRS/FAMECOS, 2026) e é operacionalizada
+        por inteligência artificial, o que permite analisar em escala o que
+        antes só era possível manualmente.
 
         Mais do que uma ferramenta de análise, o Raio-X é uma proposta
         metodológica: olhar para o YouTube não como uma vitrine neutra de
@@ -4797,24 +4801,6 @@ def renderizar_home() -> None:
         de visibilidade, disputas concretas pela atenção e trabalho por trás
         de cada vídeo.
         """
-    )
-
-    st.markdown(
-        """
-        <div style='background: #111; border-left: 4px solid #00E87A;
-                    padding: 1.2rem 1.5rem; margin: 1.5rem 0;
-                    border-radius: 4px;'>
-            <div style='font-size: 1.4rem; color: #00E87A;
-                        font-weight: 700; font-style: italic;
-                        text-shadow: 0 0 8px rgba(57,255,20,0.3);'>
-                "Criar é trabalho."
-            </div>
-            <div style='color: #888; font-size: 0.85rem; margin-top: 0.5rem;'>
-                — princípio operacional do Observatório Classe Creator
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
     )
 
     # =========================================================================
@@ -4996,7 +4982,7 @@ def renderizar_home() -> None:
     # PESQUISAS CONCLUÍDAS — vitrine acadêmica
     # =========================================================================
     st.markdown("---")
-    st.markdown("## 📚 Pesquisas que usaram esta ferramenta")
+    st.markdown("## 📚 Pesquisas concluídas com esta ferramenta")
     st.markdown(
         "<p style='color:#aaa;'>Trabalhos acadêmicos cuja metodologia "
         "ou achados deram origem a, ou foram realizados com, o "
@@ -5055,7 +5041,7 @@ def renderizar_home() -> None:
         "cite os trabalhos que sustentam sua metodologia."
     )
 
-    st.markdown("**Citação ABNT — pesquisa de origem:**")
+    st.markdown("**Citação ABNT — pesquisa fundadora:**")
     st.code(
         "SEVERO, Filipe Machado Leal. O Novo \"You\" do YouTube: a ascensão dos "
         "produtores plataformizados e a falência da promessa participativa no Brasil. "
@@ -5080,15 +5066,15 @@ def renderizar_home() -> None:
     st.markdown("## 🤝 Contribuir com o Observatório")
     st.markdown(
         """
-        O **Observatório Classe Creator** é um think tank e movimento de
-        emancipação da nova classe trabalhadora digital no Brasil. A ferramenta
-        Raio-X é seu braço investigativo — código aberto, gratuito, e em
-        constante refinamento.
+        O **Observatório Classe Creator** é o núcleo de pesquisa do projeto.
+        Investiga o ecossistema das plataformas digitais — quem domina a
+        visibilidade, como os algoritmos operam, o que fica invisível — e
+        publica o que encontra. O Raio-X é seu braço aberto: código público,
+        gratuito, em desenvolvimento contínuo.
 
-        Pesquisadores, jornalistas, sindicalistas e organizações da sociedade
-        civil que queiram colaborar — seja submetendo pesquisas para a vitrine,
-        sugerindo refinamentos metodológicos, ou propondo novos módulos —
-        podem entrar em contato pelos canais oficiais do Observatório.
+        Pesquisadores, jornalistas, estudantes e organizações que queiram
+        colaborar — com pesquisa, refinamento metodológico ou novos módulos —
+        podem entrar em contato pelos canais do Observatório.
         """
     )
 
@@ -5243,7 +5229,7 @@ def _exibir_analise_video(registro: dict, cliente_db) -> None:
             </span>
           </div>
           <p style='color:#ddd; margin-top:1rem; line-height:1.6;'>
-            <strong>Como chegamos nessa análise:</strong><br>
+            <strong>Justificativa sociológica:</strong><br>
             {registro.get('justificativa', '—')}
           </p>
         </div>
@@ -5346,7 +5332,7 @@ def renderizar_aba_canais(cliente_db) -> None:
 
 def renderizar_aba_temas(cliente_db) -> None:
     """Aba: buscas temáticas (Disputa de Narrativa)."""
-    st.markdown("##### ⚔️ Temas analisados pela Disputa de Narrativa")
+    st.markdown("##### ⚔️ Temas auditados pela Disputa de Narrativa")
     st.caption(
         "Cada linha é a busca mais recente (canônica) de um termo. "
         "Cliques abrem a análise de composição completa."
@@ -5474,7 +5460,7 @@ def renderizar_aba_comentarios(cliente_db) -> None:
 def renderizar_biblioteca() -> None:
     """Página principal da Biblioteca de Pesquisa."""
     st.markdown("# 📚 Biblioteca de Pesquisa")
-    st.markdown("##### Corpus de dados do Observatório Classe Creator")
+    st.markdown("##### Corpus longitudinal do Observatório Classe Creator")
     st.markdown(
         "Navegue por todas as análises já realizadas pela ferramenta. "
         "Cada análise é versionada — o que você vê é sempre a versão canônica "
@@ -5498,7 +5484,7 @@ def renderizar_biblioteca() -> None:
     try:
         counts = contadores_publicos(cliente_db)
         c1, c2, c3, c4, c5 = st.columns(5)
-        c1.metric("Snapshots", counts["snapshots_termometro"])
+        c1.metric("Coletas", counts["snapshots_termometro"])
         c2.metric("Vídeos no Termômetro", counts["videos_no_termometro"])
         c3.metric("Temas auditados", counts["buscas_realizadas"])
         c4.metric("Canais investigados", counts["dossies_canais"])
@@ -5552,17 +5538,15 @@ def renderizar_sobre() -> None:
     # O PROJETO
     st.markdown("## O Projeto")
     st.markdown("""
-O **Raio-X Classe Creator** é uma ferramenta de auditoria algorítmica e pesquisa acadêmica
-do trabalho plataformizado no YouTube. Desenvolvida pelo Observatório Classe Creator,
-classifica artefatos audiovisuais segundo uma **tipologia dupla** — quem produz × que
-gênero de trabalho é produzido — ancorada em pesquisa acadêmica e operacionalizada por
-inteligência artificial.
+O **Raio-X Classe Creator** é a ferramenta de pesquisa do Observatório Classe Creator.
+Investiga o YouTube Brasil a partir de duas perguntas simples: **quem produz** e
+**que tipo de trabalho é produzido**. A partir daí, olha para hierarquias de
+visibilidade, concentração de audiência e para o que a plataforma prefere manter
+invisível.
 
-Mais do que um utilitário de análise, o Raio-X é uma proposta metodológica: tratar o YouTube
-não como vitrine de "criadores independentes", mas como **regime de produção plataformizada**
-com relações de classe, hierarquias de visibilidade e disputas concretas pela autoridade algorítmica.
-
-*"Criar é trabalho."*
+A tipologia foi desenvolvida na dissertação de mestrado de Filipe Severo
+(PUCRS/FAMECOS, 2026) e é operacionalizada por inteligência artificial, o que
+permite analisar em escala o que antes só era possível manualmente.
     """)
 
     st.divider()
@@ -5570,9 +5554,14 @@ com relações de classe, hierarquias de visibilidade e disputas concretas pela 
     # O OBSERVATÓRIO
     st.markdown("## O Observatório")
     st.markdown("""
-O **Observatório Classe Creator** é o núcleo de pesquisa da Classe Creator. Investiga o ecossistema das plataformas digitais e publica o que encontra — dados, análises, ferramentas abertas.
+O **Observatório Classe Creator** é o núcleo de pesquisa da Classe Creator.
+Investiga o ecossistema das plataformas digitais e publica o que encontra — dados,
+análises, ferramentas abertas.
 
-Nosso trabalho parte de uma pergunta: o que a "economia dos criadores" prefere não olhar? Mapeamos a cadeia inteira — quem aparece, quem edita, quem escreve, quem gerencia — para dar visibilidade ao trabalho que a plataforma prefere manter em segundo plano.
+Nosso trabalho parte de uma pergunta: o que a "economia dos criadores" prefere não
+olhar? Mapeamos a cadeia inteira — quem aparece, quem edita, quem escreve, quem
+gerencia — para dar visibilidade ao trabalho que a plataforma prefere manter em
+segundo plano.
     """)
 
     st.divider()
@@ -5580,7 +5569,9 @@ Nosso trabalho parte de uma pergunta: o que a "economia dos criadores" prefere n
     # A CLASSE CREATOR
     st.markdown("## O Movimento")
     st.markdown("""
-A Classe Creator é um projeto de pesquisa, formação e pensamento crítico sobre o ecossistema das plataformas digitais. Fundado por Filipe Severo, é o espaço para quem quer entender o sistema onde cria — não só performar dentro dele.
+A **Classe Creator** é um projeto de pesquisa, formação e pensamento crítico sobre o
+ecossistema das plataformas digitais. Fundado por Filipe Severo, é o espaço para quem
+quer entender o sistema onde cria — não só performar dentro dele.
 
 *A Revolução não cabe no feed.*
     """)
@@ -5597,7 +5588,9 @@ A Classe Creator é um projeto de pesquisa, formação e pensamento crítico sob
     # A ESCOLA
     st.markdown("## Conhecimento sem pedágio")
     st.markdown("""
-A **Escola Classe Creator** é formação gratuita sobre o ecossistema das plataformas — como os algoritmos funcionam, como as plataformas ganham dinheiro, como o seu trabalho se encaixa nisso tudo. Para quem quer entender antes de otimizar.
+A **Escola Classe Creator** é formação gratuita sobre o ecossistema das plataformas —
+como os algoritmos funcionam, como as plataformas ganham dinheiro, como o seu trabalho
+se encaixa nisso tudo. Para quem quer entender antes de otimizar.
 
 Tudo gratuito: vídeos, materiais, quizzes, certificados. Sempre foi. Sempre será.
     """)
@@ -5610,9 +5603,14 @@ Tudo gratuito: vídeos, materiais, quizzes, certificados. Sempre foi. Sempre ser
     st.markdown("""
 **Filipe Severo** — Pesquisador · Consultor · Criador
 
-Sou pesquisador em comunicação e plataformização, e criador de conteúdo há mais de 15 anos. Fundei a Classe Creator para reunir num só lugar o que estudo, o que atendo como consultor e o que vivo como creator.
+Sou pesquisador em comunicação e plataformização, e criador de conteúdo há mais de
+15 anos. Fundei a Classe Creator para reunir num só lugar o que estudo, o que atendo
+como consultor e o que vivo como creator.
 
-A dissertação que originou o Raio-X (PUCRS/FAMECOS, 2026, defendida com láurea) classificou manualmente **1.049 vídeos** do trending brasileiro ao longo de **21 semanas**, desenvolvendo a tipologia dupla que a ferramenta agora opera em escala com inteligência artificial.
+A dissertação que originou o Raio-X (PUCRS/FAMECOS, 2026)
+classificou manualmente **1.049 vídeos** do trending brasileiro ao longo de
+**21 semanas**, desenvolvendo a tipologia dupla que a ferramenta agora opera em escala
+com inteligência artificial.
     """)
     col1, col2 = st.columns(2)
     with col1:
