@@ -10,7 +10,6 @@ Este arquivo é o ponto de entrada do Streamlit. Implementa:
       • Página pública (status da coleta + metodologia)
       • Painel interno (com senha) com gráficos e série temporal
 
-Fonte teórica: SEVERO, Filipe Machado Leal. Dissertação PUCRS/FAMECOS, 2026.
 ==============================================================================
 """
 
@@ -408,24 +407,54 @@ def exigir_recaptcha() -> bool:
         "para utilizar as ferramentas de análise."
     )
 
-    recaptcha_html = f"""
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    # Container no documento principal (domínio correto para o Google)
+    st.markdown(
+        '<div id="recaptcha-container" '
+        'style="display:flex;justify-content:center;padding:12px 0;">'
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    # Script executa no iframe do componente mas renderiza no parent (domínio válido)
+    recaptcha_js = f"""
     <script>
-    function onRecaptchaSuccess(token) {{
-        var url = new URL(window.parent.location.href);
-        url.searchParams.set('captcha_token', token);
-        window.parent.location.href = url.toString();
-    }}
+    (function() {{
+        var par = window.parent.document;
+        var container = par.getElementById('recaptcha-container');
+        if (!container || container.dataset.rendered === 'true') return;
+
+        // Callback global no parent
+        window.parent.onRecaptchaSuccess = function(token) {{
+            var url = new URL(window.parent.location.href);
+            url.searchParams.set('captcha_token', token);
+            window.parent.location.href = url.toString();
+        }};
+
+        function renderWidget() {{
+            if (window.parent.grecaptcha && window.parent.grecaptcha.render) {{
+                container.dataset.rendered = 'true';
+                window.parent.grecaptcha.render(container, {{
+                    'sitekey': '{RECAPTCHA_SITE_KEY}',
+                    'theme': 'dark',
+                    'callback': window.parent.onRecaptchaSuccess
+                }});
+            }} else {{
+                setTimeout(renderWidget, 300);
+            }}
+        }}
+
+        if (!par.querySelector('script[src*="recaptcha"]')) {{
+            var s = par.createElement('script');
+            s.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+            s.onload = function() {{ setTimeout(renderWidget, 500); }};
+            par.head.appendChild(s);
+        }} else {{
+            renderWidget();
+        }}
+    }})();
     </script>
-    <div style="display:flex;justify-content:center;padding:12px 0;">
-        <div class="g-recaptcha"
-             data-sitekey="{RECAPTCHA_SITE_KEY}"
-             data-callback="onRecaptchaSuccess"
-             data-theme="dark">
-        </div>
-    </div>
     """
-    components_v1.html(recaptcha_html, height=100)
+    components_v1.html(recaptcha_js, height=0)
 
     return False
 
