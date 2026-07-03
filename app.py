@@ -750,9 +750,7 @@ with st.sidebar:
     st.markdown('#### *"O feed esconde quem faz a máquina girar. Nós mostramos."*')
     st.divider()
 
-    # =========================================================================
-    # CARRINHO DE ANÁLISES — acumula resultados da sessão para exportação
-    # =========================================================================
+    # Carrinho inicializado aqui, renderizado no final do script (após módulos rodarem)
     if "carrinho" not in st.session_state:
         st.session_state["carrinho"] = {
             "lupa": [],
@@ -760,53 +758,6 @@ with st.sidebar:
             "dossie": [],
             "voz_da_base": [],
         }
-
-    cart = st.session_state["carrinho"]
-    total_itens = sum(len(v) for v in cart.values())
-
-    if total_itens > 0:
-        st.markdown(f"##### 🧺 Análises na sessão: **{total_itens}**")
-        detalhes = []
-        if cart["lupa"]:
-            detalhes.append(f"🔍 Lupa: {len(cart['lupa'])}")
-        if cart["disputa"]:
-            detalhes.append(f"⚔️ Disputa: {len(cart['disputa'])}")
-        if cart["dossie"]:
-            detalhes.append(f"📋 Dossiê: {len(cart['dossie'])}")
-        if cart["voz_da_base"]:
-            detalhes.append(f"💬 Voz: {len(cart['voz_da_base'])}")
-        st.caption(" · ".join(detalhes))
-
-        # Gera xlsx em memória com uma aba por módulo
-        import io
-        buffer = io.BytesIO()
-        with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
-            if cart["lupa"]:
-                pd.DataFrame(cart["lupa"]).to_excel(
-                    writer, sheet_name="Lupa", index=False
-                )
-            if cart["disputa"]:
-                pd.DataFrame(cart["disputa"]).to_excel(
-                    writer, sheet_name="Disputa", index=False
-                )
-            if cart["dossie"]:
-                pd.DataFrame(cart["dossie"]).to_excel(
-                    writer, sheet_name="Dossiê", index=False
-                )
-            if cart["voz_da_base"]:
-                pd.DataFrame(cart["voz_da_base"]).to_excel(
-                    writer, sheet_name="Voz da Base", index=False
-                )
-        buffer.seek(0)
-
-        st.download_button(
-            label="📥 Exportar tudo (.xlsx)",
-            data=buffer,
-            file_name=f"raio-x-sessao-{datetime.now().strftime('%Y-%m-%d_%H%M')}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            use_container_width=True,
-        )
-        st.divider()
 
 
 # ==============================================================================
@@ -5863,3 +5814,52 @@ elif modulo.startswith("ℹ️"):
     renderizar_sobre()
 else:
     renderizar_home()
+
+# ==============================================================================
+# CARRINHO DE ANÁLISES — renderizado APÓS módulos para capturar dados da sessão
+# ==============================================================================
+with st.sidebar:
+    cart = st.session_state.get("carrinho", {})
+    total_itens = sum(len(v) for v in cart.values())
+
+    if total_itens > 0:
+        st.markdown(f"##### 🧺 Análises na sessão: **{total_itens}**")
+        detalhes = []
+        if cart.get("lupa"):
+            detalhes.append(f"🔍 Lupa: {len(cart['lupa'])}")
+        if cart.get("disputa"):
+            detalhes.append(f"⚔️ Disputa: {len(cart['disputa'])}")
+        if cart.get("dossie"):
+            detalhes.append(f"📋 Dossiê: {len(cart['dossie'])}")
+        if cart.get("voz_da_base"):
+            detalhes.append(f"💬 Voz: {len(cart['voz_da_base'])}")
+        st.caption(" · ".join(detalhes))
+
+        import io
+        buffer = io.BytesIO()
+        with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+            if cart.get("lupa"):
+                pd.DataFrame(cart["lupa"]).to_excel(
+                    writer, sheet_name="Lupa", index=False
+                )
+            if cart.get("disputa"):
+                pd.DataFrame(cart["disputa"]).to_excel(
+                    writer, sheet_name="Disputa", index=False
+                )
+            if cart.get("dossie"):
+                pd.DataFrame(cart["dossie"]).to_excel(
+                    writer, sheet_name="Dossiê", index=False
+                )
+            if cart.get("voz_da_base"):
+                pd.DataFrame(cart["voz_da_base"]).to_excel(
+                    writer, sheet_name="Voz da Base", index=False
+                )
+        buffer.seek(0)
+
+        st.download_button(
+            label="📥 Exportar tudo (.xlsx)",
+            data=buffer,
+            file_name=f"raio-x-sessao-{datetime.now().strftime('%Y-%m-%d_%H%M')}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True,
+        )
