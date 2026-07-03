@@ -10,6 +10,7 @@ Este arquivo é o ponto de entrada do Streamlit. Implementa:
       • Página pública (status da coleta + metodologia)
       • Painel interno (com senha) com gráficos e série temporal
 
+Fonte teórica: SEVERO, Filipe Machado Leal. Dissertação PUCRS/FAMECOS, 2026.
 ==============================================================================
 """
 
@@ -410,53 +411,56 @@ def exigir_recaptcha() -> bool:
     # Container no documento principal (domínio correto para o Google)
     st.markdown(
         '<div id="recaptcha-container" '
-        'style="display:flex;justify-content:center;padding:12px 0;">'
+        'style="display:flex;justify-content:center;padding:16px 0;">'
         "</div>",
         unsafe_allow_html=True,
     )
 
-    # Tudo executa no parent: callback + render + redirect.
-    # O callback usa string name para que o grecaptcha o resolva
-    # no escopo global do parent (mesmo documento onde o widget vive).
+    # Injeta um <script> tag diretamente no parent document.
+    # Esse script executa 100% no contexto do Streamlit (window, document,
+    # location — tudo referente ao domínio correto). Nenhuma chamada cross-frame.
     recaptcha_js = f"""
     <script>
     (function() {{
-        var par = window.parent;
-        var doc = par.document;
+        var doc = window.parent.document;
         var container = doc.getElementById('recaptcha-container');
         if (!container || container.dataset.rendered === 'true') return;
+        container.dataset.rendered = 'true';
 
-        // Callback registrado como global no parent — string name no render
-        par.onRecaptchaSuccess = function(token) {{
-            var url = new URL(par.location.href);
-            url.searchParams.set('captcha_token', token);
-            par.location.replace(url.toString());
-        }};
+        // Cria <script> no parent — executa no escopo global do parent
+        var tag = doc.createElement('script');
+        tag.textContent = `
+            window.__recaptchaSiteKey = '{RECAPTCHA_SITE_KEY}';
 
-        function renderWidget() {{
-            if (par.grecaptcha && par.grecaptcha.render) {{
-                try {{
-                    container.dataset.rendered = 'true';
-                    par.grecaptcha.render(container, {{
-                        'sitekey': '{RECAPTCHA_SITE_KEY}',
-                        'theme': 'dark',
-                        'callback': 'onRecaptchaSuccess'
-                    }});
-                }} catch(e) {{
-                    // Widget já renderizado neste container
+            window.onRecaptchaSuccess = function(token) {{
+                var url = new URL(window.location.href);
+                url.searchParams.set('captcha_token', token);
+                window.location.replace(url.toString());
+            }};
+
+            (function tryRender() {{
+                var c = document.getElementById('recaptcha-container');
+                if (!c) return;
+                if (window.grecaptcha && window.grecaptcha.render) {{
+                    try {{
+                        window.grecaptcha.render(c, {{
+                            sitekey: window.__recaptchaSiteKey,
+                            theme: 'dark',
+                            callback: 'onRecaptchaSuccess'
+                        }});
+                    }} catch(e) {{}}
+                }} else {{
+                    setTimeout(tryRender, 300);
                 }}
-            }} else {{
-                setTimeout(renderWidget, 300);
-            }}
-        }}
+            }})();
+        `;
+        doc.body.appendChild(tag);
 
+        // Carrega API do Google no parent (se ainda não carregou)
         if (!doc.querySelector('script[src*="recaptcha"]')) {{
-            var s = doc.createElement('script');
-            s.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
-            s.onload = function() {{ setTimeout(renderWidget, 500); }};
-            doc.head.appendChild(s);
-        }} else {{
-            renderWidget();
+            var api = doc.createElement('script');
+            api.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+            doc.head.appendChild(api);
         }}
     }})();
     </script>
