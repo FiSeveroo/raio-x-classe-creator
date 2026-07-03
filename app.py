@@ -10,6 +10,7 @@ Este arquivo é o ponto de entrada do Streamlit. Implementa:
       • Página pública (status da coleta + metodologia)
       • Painel interno (com senha) com gráficos e série temporal
 
+Fonte teórica: SEVERO, Filipe Machado Leal. Dissertação PUCRS/FAMECOS, 2026.
 ==============================================================================
 """
 
@@ -34,7 +35,8 @@ from tipologia import (
     codigos_conteudo,
     tipologia_para_prompt,
 )
-from components.recaptcha import st_recaptcha
+
+import streamlit.components.v1 as components_v1
 
 # Tentamos importar o db.py (Supabase). Se falhar, o Termômetro mostra aviso.
 try:
@@ -369,6 +371,22 @@ def verificar_token_recaptcha(token: str) -> bool:
         return False
 
 
+def _processar_token_recaptcha() -> None:
+    """Verifica se há token reCAPTCHA nos query params (retorno do widget)."""
+    params = st.query_params
+    token = params.get("captcha_token")
+    if token:
+        if verificar_token_recaptcha(token):
+            st.session_state["recaptcha_ok"] = True
+        st.query_params.clear()
+        st.rerun()
+
+
+# Processar token de retorno no início da execução (antes de renderizar qualquer coisa)
+if RECAPTCHA_SITE_KEY:
+    _processar_token_recaptcha()
+
+
 def exigir_recaptcha() -> bool:
     """
     Gate reCAPTCHA reutilizável por todos os módulos de análise.
@@ -389,14 +407,25 @@ def exigir_recaptcha() -> bool:
         "🔒 **Verificação necessária** — confirme que você é humano "
         "para utilizar as ferramentas de análise."
     )
-    token = st_recaptcha(site_key=RECAPTCHA_SITE_KEY, key="recaptcha_gate")
 
-    if token:
-        if verificar_token_recaptcha(token):
-            st.session_state["recaptcha_ok"] = True
-            st.rerun()
-        else:
-            st.error("Verificação falhou. Tente novamente.")
+    recaptcha_html = f"""
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+    function onRecaptchaSuccess(token) {{
+        var url = new URL(window.parent.location.href);
+        url.searchParams.set('captcha_token', token);
+        window.parent.location.href = url.toString();
+    }}
+    </script>
+    <div style="display:flex;justify-content:center;padding:12px 0;">
+        <div class="g-recaptcha"
+             data-sitekey="{RECAPTCHA_SITE_KEY}"
+             data-callback="onRecaptchaSuccess"
+             data-theme="dark">
+        </div>
+    </div>
+    """
+    components_v1.html(recaptcha_html, height=100)
 
     return False
 
