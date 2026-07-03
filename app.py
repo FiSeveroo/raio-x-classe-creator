@@ -749,7 +749,6 @@ with st.sidebar:
     st.markdown("#### Pesquisa e auditoria do ecossistema das plataformas digitais.")
     st.markdown('#### *"O feed esconde quem faz a máquina girar. Nós mostramos."*')
     st.divider()
-    st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
 
 # ==============================================================================
@@ -4914,59 +4913,28 @@ def renderizar_home() -> None:
     )
 
     # =========================================================================
-    # OS 5 MÓDULOS — cards com casos de uso
+    # OS 5 MÓDULOS — compactos, expandíveis
     # =========================================================================
     st.markdown("---")
     st.markdown("## 🧰 Os 5 módulos da ferramenta")
     st.markdown(
         "<p style='color:#aaa;'>Cinco lentes de investigação distintas, "
-        "operáveis individualmente ou de forma cruzada. Cada uma responde a "
-        "uma escala analítica diferente do mesmo objeto.</p>",
+        "operáveis individualmente ou de forma cruzada. Clique para ver "
+        "detalhes de cada uma.</p>",
         unsafe_allow_html=True,
     )
 
     for desc in DESCRITORES_MODULOS:
-        casos_html = "".join([
-            f"<li style='margin-bottom: 0.3rem; color: #ccc;'>{c}</li>"
-            for c in desc["casos_uso"]
-        ])
-
-        st.markdown(
-            f"""
-            <div style='background: #111; padding: 1.5rem; border-radius: 6px;
-                        border-left: 4px solid {desc['cor']};
-                        margin: 1rem 0;'>
-              <div style='display: flex; align-items: baseline; gap: 0.8rem;'>
-                <span style='font-size: 2rem;'>{desc['icone']}</span>
-                <div>
-                  <h3 style='margin: 0; color: {desc['cor']};
-                             text-shadow: 0 0 8px {desc['cor']}55;'>
-                    {desc['nome']}
-                  </h3>
-                  <small style='color: #888; letter-spacing: 0.05em;'>
-                    {desc['escala']}
-                  </small>
-                </div>
-              </div>
-              <p style='color: #f5f5f5; margin-top: 1rem; line-height: 1.6;'>
-                {desc['frase']}
-              </p>
-              <div style='margin-top: 1rem;'>
-                <strong style='color: #fff; font-size: 0.9rem;'>Quando usar:</strong>
-                <p style='color: #ccc; margin-top: 0.3rem; line-height: 1.5;'>
-                  {desc['quando_usar']}
-                </p>
-              </div>
-              <div style='margin-top: 1rem;'>
-                <strong style='color: #fff; font-size: 0.9rem;'>Casos de uso típicos:</strong>
-                <ul style='margin-top: 0.4rem; padding-left: 1.2rem;'>
-                  {casos_html}
-                </ul>
-              </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        with st.expander(
+            f"{desc['icone']} **{desc['nome']}** — {desc['escala']}"
+        ):
+            st.markdown(desc["frase"])
+            st.markdown("")
+            st.markdown(f"**Quando usar:** {desc['quando_usar']}")
+            st.markdown("")
+            st.markdown("**Casos de uso típicos:**")
+            for c in desc["casos_uso"]:
+                st.markdown(f"- {c}")
 
     # =========================================================================
     # METODOLOGIA — A TIPOLOGIA DUPLA
@@ -5042,103 +5010,45 @@ def renderizar_home() -> None:
     )
 
     # =========================================================================
-    # PESQUISAS SUGERIDAS
+    # PESQUISAS SUGERIDAS — agenda aberta
     # =========================================================================
     st.markdown("---")
-    with st.expander("🔬 Agenda de pesquisa sugerida", expanded=False):
-        st.markdown(
-            "Sugestões abertas para a comunidade acadêmica brasileira. "
-            "Cada uma é um problema de pesquisa **operacionalizável** com "
-            "esta ferramenta. Use, adapte, expanda — e nos avise quando "
-            "publicar para incluirmos na vitrine de pesquisas concluídas."
-        )
+    st.markdown("## 🔬 Agenda de pesquisa sugerida")
+    st.markdown(
+        "Sugestões abertas para a comunidade acadêmica brasileira. "
+        "Cada uma é um problema de pesquisa **operacionalizável** com "
+        "esta ferramenta. Use, adapte, expanda — e nos avise quando "
+        "publicar para incluirmos na vitrine de pesquisas concluídas."
+    )
 
-        for i, p in enumerate(PESQUISAS_SUGERIDAS, 1):
-            modulos_badge = " · ".join(
-                f"<span style='background:#1a1a1a; color:#00E87A; padding:0.2rem 0.6rem; "
-                f"border-radius:3px; font-size:0.75rem; letter-spacing:0.05em;'>{m}</span>"
-                for m in p["modulos"]
-            )
+    for i, p in enumerate(PESQUISAS_SUGERIDAS, 1):
+        modulos_txt = " · ".join(p["modulos"])
+        with st.expander(f"#{i:02d} — {p['titulo']}"):
+            st.caption(modulos_txt)
+            st.markdown(f"**Pergunta:** {p['pergunta']}")
+            st.markdown(f"**Hipótese:** {p['hipotese']}")
+            st.markdown(f"**Método sugerido:** {p['metodo_curto']}")
 
-            st.markdown(
-                f"""
-                <div style='background: #0d0d0d; padding: 1.4rem; border-radius: 6px;
-                            border: 1px solid #1f1f1f; margin: 1rem 0;'>
-                  <div style='display: flex; gap: 0.8rem; align-items: baseline;
-                              margin-bottom: 0.8rem;'>
-                    <span style='color: #555; font-size: 0.85rem;'>#{i:02d}</span>
-                    <h4 style='margin: 0; color: #fff;'>{p['titulo']}</h4>
-                  </div>
-                  <div style='margin-bottom: 0.8rem;'>{modulos_badge}</div>
-                  <div style='margin-top: 0.7rem;'>
-                    <strong style='color: #00E87A; font-size: 0.85rem;'>PERGUNTA:</strong>
-                    <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['pergunta']}</p>
-                  </div>
-                  <div style='margin-top: 0.7rem;'>
-                    <strong style='color: #7B2FFF; font-size: 0.85rem;'>HIPÓTESE:</strong>
-                    <p style='color: #ddd; margin: 0.3rem 0; line-height: 1.6;'>{p['hipotese']}</p>
-                  </div>
-                  <div style='margin-top: 0.7rem;'>
-                    <strong style='color: #FFD700; font-size: 0.85rem;'>MÉTODO SUGERIDO:</strong>
-                    <p style='color: #ccc; margin: 0.3rem 0; line-height: 1.6;
-                              font-size: 0.95rem;'>{p['metodo_curto']}</p>
-                  </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        # =========================================================================
+    # =========================================================================
     # PESQUISAS CONCLUÍDAS — vitrine acadêmica
     # =========================================================================
     st.markdown("---")
-    st.markdown("## 📚 Pesquisas concluídas com esta ferramenta")
-    st.markdown(
-        "<p style='color:#aaa;'>Trabalhos acadêmicos cuja metodologia "
-        "ou achados deram origem a, ou foram realizados com, o "
-        "Raio-X Classe Creator.</p>",
-        unsafe_allow_html=True,
-    )
-
-    for p in PESQUISAS_CONCLUIDAS:
-        achados_html = "".join([
-            f"<li style='margin-bottom: 0.4rem; color: #ddd;'>{a}</li>"
-            for a in p["achados"]
-        ])
-
+    with st.expander("📚 **Pesquisas concluídas com esta ferramenta**", expanded=False):
         st.markdown(
-            f"""
-            <div style='background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
-                        padding: 1.8rem; border-radius: 6px;
-                        border-left: 4px solid #00E87A;
-                        margin: 1.5rem 0;
-                        box-shadow: 0 0 24px rgba(57,255,20,0.05);'>
-              <div style='font-size: 0.75rem; color: #888;
-                          letter-spacing: 0.15em; margin-bottom: 0.5rem;'>
-                {p['tipo'].upper()} · {p['ano']}
-              </div>
-              <h3 style='margin: 0 0 0.5rem 0; color: #fff;
-                         line-height: 1.3;'>{p['titulo']}</h3>
-              <p style='color: #aaa; margin: 0.5rem 0;'>
-                <strong style='color: #00E87A;'>{p['autor']}</strong><br>
-                <small>{p['instituicao']} — {p['programa']}</small>
-              </p>
-              <div style='margin-top: 1rem;'>
-                <strong style='color: #fff; font-size: 0.9rem;'>Resumo:</strong>
-                <p style='color: #ddd; margin-top: 0.4rem; line-height: 1.7;'>
-                  {p['resumo']}
-                </p>
-              </div>
-              <div style='margin-top: 1rem;'>
-                <strong style='color: #fff; font-size: 0.9rem;'>Principais achados:</strong>
-                <ul style='margin-top: 0.4rem; padding-left: 1.2rem;'>
-                  {achados_html}
-                </ul>
-              </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
+            "Trabalhos acadêmicos cuja metodologia ou achados deram "
+            "origem a, ou foram realizados com, o Raio-X Classe Creator."
         )
+
+        for p in PESQUISAS_CONCLUIDAS:
+            st.markdown("---")
+            st.markdown(
+                f"**{p['titulo']}**  \n"
+                f"*{p['autor']}* — {p['instituicao']} · {p['programa']} · {p['ano']}"
+            )
+            st.markdown(f"**Resumo:** {p['resumo']}")
+            st.markdown("**Principais achados:**")
+            for a in p["achados"]:
+                st.markdown(f"- {a}")
 
     # =========================================================================
     # COMO CITAR
@@ -5165,9 +5075,89 @@ def renderizar_home() -> None:
         "OBSERVATÓRIO CLASSE CREATOR. Raio-X Classe Creator: ferramenta de auditoria "
         "algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube. "
         "Versão 1.0. Porto Alegre, 2026. Disponível em: "
-        "<https://raio-x-classe-creator.streamlit.app>.",
+        "<https://raiox.classecreator.com>.",
         language="text",
     )
+
+    # =========================================================================
+    # FAQ
+    # =========================================================================
+    st.markdown("---")
+    st.markdown("## ❓ Perguntas frequentes")
+
+    with st.expander("Como a IA classifica os vídeos?"):
+        st.markdown(
+            "A ferramenta utiliza modelos de linguagem da Anthropic (Claude) para "
+            "classificar cada vídeo nos dois eixos da tipologia. O modelo recebe os "
+            "metadados do vídeo (título, descrição, tags, dados do canal) e as "
+            "definições operacionais de cada categoria. A classificação é "
+            "probabilística e passível de erro — por isso existe o sistema de "
+            "curadoria humana (`canais_validados`) que corrige e ancora as decisões."
+        )
+
+    with st.expander("Posso usar os resultados na minha pesquisa?"):
+        st.markdown(
+            "Sim. A ferramenta foi projetada para uso acadêmico. Pedimos apenas "
+            "que cite a pesquisa fundadora e a ferramenta conforme as referências "
+            "acima. O corpus público é exportado semanalmente em CSV no repositório "
+            "de dados abertos do Observatório."
+        )
+
+    with st.expander("Qual a diferença entre esta tipologia e as categorias do YouTube?"):
+        st.markdown(
+            "As categorias do YouTube (Entretenimento, Música, Educação etc.) "
+            "foram criadas para organizar publicidade, não para descrever o "
+            "trabalho por trás dos vídeos. A tipologia dupla de Severo (2026) "
+            "classifica por **quem controla a produção** (Eixo A) e **que tipo "
+            "de trabalho é produzido** (Eixo B), tornando visíveis relações "
+            "de poder que as categorias comerciais escondem."
+        )
+
+    with st.expander("Os dados que eu analiso são armazenados?"):
+        st.markdown(
+            "Sim. Toda análise realizada alimenta o corpus público do "
+            "Observatório, ficando disponível na Biblioteca de Pesquisa para "
+            "outros pesquisadores. Não coletamos dados pessoais dos usuários "
+            "da ferramenta — apenas os metadados públicos dos vídeos e canais "
+            "do YouTube analisados, obtidos via API oficial."
+        )
+
+    with st.expander("A ferramenta tem custo?"):
+        st.markdown(
+            "Não. O Raio-X é gratuito e de código aberto. A infraestrutura "
+            "(APIs do YouTube, Anthropic e Supabase) tem custos operacionais "
+            "mantidos pelo Observatório, por isso cada módulo possui um limite "
+            "de uso por sessão para preservar recursos coletivos."
+        )
+
+    # =========================================================================
+    # PRIVACIDADE E DADOS
+    # =========================================================================
+    st.markdown("---")
+    with st.expander("🔐 **Privacidade e tratamento de dados**"):
+        st.markdown(
+            """
+            O Raio-X Classe Creator opera exclusivamente com **dados públicos**
+            obtidos via YouTube Data API v3 (metadados de vídeos, canais e
+            comentários publicamente acessíveis).
+
+            **Sobre os usuários da ferramenta:** não coletamos nome, e-mail,
+            IP ou qualquer dado pessoal. A verificação reCAPTCHA é processada
+            pelo Google e serve apenas para proteger a infraestrutura contra
+            uso automatizado.
+
+            **Sobre os dados analisados:** as classificações geradas alimentam
+            um corpus público de pesquisa. Comentários analisados pelo módulo
+            Voz da Base são processados pela API da Anthropic para fins de
+            análise qualitativa e não são armazenados fora do Supabase do
+            Observatório.
+
+            **Base legal (LGPD):** o tratamento de dados públicos para fins
+            de pesquisa acadêmica está amparado pelo Art. 7º, IV (estudos por
+            órgão de pesquisa) e Art. 7º, IX (legítimo interesse) da
+            Lei 13.709/2018.
+            """
+        )
 
     # =========================================================================
     # CONTRIBUIR
@@ -5692,19 +5682,6 @@ quer entender o sistema onde cria — não só performar dentro dele.
         st.markdown("[◉ Instagram](https://www.instagram.com/classecreator/)")
     with col3:
         st.markdown("[▶ YouTube](https://www.youtube.com/@ClasseCreator)")
-
-    st.divider()
-
-    # A ESCOLA
-    st.markdown("## Conhecimento sem pedágio")
-    st.markdown("""
-A **Escola Classe Creator** é formação gratuita sobre o ecossistema das plataformas —
-como os algoritmos funcionam, como as plataformas ganham dinheiro, como o seu trabalho
-se encaixa nisso tudo. Para quem quer entender antes de otimizar.
-
-Tudo gratuito: vídeos, materiais, quizzes, certificados. Sempre foi. Sempre será.
-    """)
-    st.markdown("[← ESCOLA CLASSE CREATOR](https://escola.classecreator.com)")
 
     st.divider()
 
