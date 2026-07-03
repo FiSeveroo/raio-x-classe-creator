@@ -415,39 +415,46 @@ def exigir_recaptcha() -> bool:
         unsafe_allow_html=True,
     )
 
-    # Script executa no iframe do componente mas renderiza no parent (domínio válido)
+    # Tudo executa no parent: callback + render + redirect.
+    # O callback usa string name para que o grecaptcha o resolva
+    # no escopo global do parent (mesmo documento onde o widget vive).
     recaptcha_js = f"""
     <script>
     (function() {{
-        var par = window.parent.document;
-        var container = par.getElementById('recaptcha-container');
+        var par = window.parent;
+        var doc = par.document;
+        var container = doc.getElementById('recaptcha-container');
         if (!container || container.dataset.rendered === 'true') return;
 
-        // Callback global no parent
-        window.parent.onRecaptchaSuccess = function(token) {{
-            var url = new URL(window.parent.location.href);
+        // Callback registrado como global no parent — string name no render
+        par.onRecaptchaSuccess = function(token) {{
+            var url = new URL(par.location.href);
             url.searchParams.set('captcha_token', token);
-            window.parent.location.href = url.toString();
+            par.location.replace(url.toString());
         }};
 
         function renderWidget() {{
-            if (window.parent.grecaptcha && window.parent.grecaptcha.render) {{
-                container.dataset.rendered = 'true';
-                window.parent.grecaptcha.render(container, {{
-                    'sitekey': '{RECAPTCHA_SITE_KEY}',
-                    'theme': 'dark',
-                    'callback': window.parent.onRecaptchaSuccess
-                }});
+            if (par.grecaptcha && par.grecaptcha.render) {{
+                try {{
+                    container.dataset.rendered = 'true';
+                    par.grecaptcha.render(container, {{
+                        'sitekey': '{RECAPTCHA_SITE_KEY}',
+                        'theme': 'dark',
+                        'callback': 'onRecaptchaSuccess'
+                    }});
+                }} catch(e) {{
+                    // Widget já renderizado neste container
+                }}
             }} else {{
                 setTimeout(renderWidget, 300);
             }}
         }}
 
-        if (!par.querySelector('script[src*="recaptcha"]')) {{
-            var s = par.createElement('script');
+        if (!doc.querySelector('script[src*="recaptcha"]')) {{
+            var s = doc.createElement('script');
             s.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
             s.onload = function() {{ setTimeout(renderWidget, 500); }};
-            par.head.appendChild(s);
+            doc.head.appendChild(s);
         }} else {{
             renderWidget();
         }}
