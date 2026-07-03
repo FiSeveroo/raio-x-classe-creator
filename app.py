@@ -750,6 +750,64 @@ with st.sidebar:
     st.markdown('#### *"O feed esconde quem faz a máquina girar. Nós mostramos."*')
     st.divider()
 
+    # =========================================================================
+    # CARRINHO DE ANÁLISES — acumula resultados da sessão para exportação
+    # =========================================================================
+    if "carrinho" not in st.session_state:
+        st.session_state["carrinho"] = {
+            "lupa": [],
+            "disputa": [],
+            "dossie": [],
+            "voz_da_base": [],
+        }
+
+    cart = st.session_state["carrinho"]
+    total_itens = sum(len(v) for v in cart.values())
+
+    if total_itens > 0:
+        st.markdown(f"##### 🧺 Análises na sessão: **{total_itens}**")
+        detalhes = []
+        if cart["lupa"]:
+            detalhes.append(f"🔍 Lupa: {len(cart['lupa'])}")
+        if cart["disputa"]:
+            detalhes.append(f"⚔️ Disputa: {len(cart['disputa'])}")
+        if cart["dossie"]:
+            detalhes.append(f"📋 Dossiê: {len(cart['dossie'])}")
+        if cart["voz_da_base"]:
+            detalhes.append(f"💬 Voz: {len(cart['voz_da_base'])}")
+        st.caption(" · ".join(detalhes))
+
+        # Gera xlsx em memória com uma aba por módulo
+        import io
+        buffer = io.BytesIO()
+        with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+            if cart["lupa"]:
+                pd.DataFrame(cart["lupa"]).to_excel(
+                    writer, sheet_name="Lupa", index=False
+                )
+            if cart["disputa"]:
+                pd.DataFrame(cart["disputa"]).to_excel(
+                    writer, sheet_name="Disputa", index=False
+                )
+            if cart["dossie"]:
+                pd.DataFrame(cart["dossie"]).to_excel(
+                    writer, sheet_name="Dossiê", index=False
+                )
+            if cart["voz_da_base"]:
+                pd.DataFrame(cart["voz_da_base"]).to_excel(
+                    writer, sheet_name="Voz da Base", index=False
+                )
+        buffer.seek(0)
+
+        st.download_button(
+            label="📥 Exportar tudo (.xlsx)",
+            data=buffer,
+            file_name=f"raio-x-sessao-{datetime.now().strftime('%Y-%m-%d_%H%M')}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True,
+        )
+        st.divider()
+
 
 # ==============================================================================
 # UTILITÁRIO: OFERECER VERSÃO CANÔNICA ANTES DE GASTAR ANÁLISE
@@ -1083,6 +1141,27 @@ def _renderizar_resultado_lupa(meta: dict, resultado: dict, cache_aviso: bool = 
 
     with st.expander("🔧 Metadados brutos (para auditoria)"):
         st.json(meta)
+
+    # Acumular no carrinho da sessão
+    item_lupa = {
+        "video_id": meta.get("video_id", ""),
+        "titulo": meta.get("titulo", ""),
+        "canal": meta.get("canal_nome", ""),
+        "canal_id": meta.get("canal_id", ""),
+        "tipo_produtor": resultado.get("tipo_produtor", ""),
+        "tipo_conteudo": resultado.get("tipo_conteudo", ""),
+        "justificativa": resultado.get("justificativa", ""),
+        "visualizacoes": meta.get("visualizacoes", 0),
+        "likes": meta.get("likes", 0),
+        "comentarios": meta.get("comentarios", 0),
+        "inscritos": meta.get("inscritos", 0),
+        "data_publicacao": meta.get("publicado_em", ""),
+        "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
+    }
+    # Evitar duplicatas por video_id na mesma sessão
+    ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["lupa"]}
+    if item_lupa["video_id"] not in ids_existentes:
+        st.session_state["carrinho"]["lupa"].append(item_lupa)
 
 
 # ==============================================================================
@@ -2365,9 +2444,24 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
         mime="text/csv",
     )
 
+    # Acumular no carrinho da sessão
+    for _, row in df.iterrows():
+        item_disputa = {
+            "termo_busca": termo,
+            "busca_id": busca_id,
+            "posicao": row.get("posicao_ranking", ""),
+            "video_id": row.get("video_id", ""),
+            "titulo": row.get("titulo", ""),
+            "canal": row.get("canal_nome", ""),
+            "tipo_produtor": row.get("tipo_produtor", ""),
+            "tipo_conteudo": row.get("tipo_conteudo", ""),
+            "visualizacoes": row.get("visualizacoes", 0),
+            "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        }
+        st.session_state["carrinho"]["disputa"].append(item_disputa)
+
 
 def renderizar_disputa_narrativa() -> None:
-    st.markdown("# ⚔️ Disputa de Narrativa")
     st.markdown("##### Para quem o YouTube está dando o microfone?")
     st.markdown(
         "Este módulo audita a **autoridade algorítmica** em temas sensíveis. "
@@ -3464,9 +3558,32 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
         unsafe_allow_html=True,
     )
 
+    # Acumular no carrinho da sessão
+    item_dossie = {
+        "canal": dossie.get("canal_nome", ""),
+        "canal_id": dossie.get("canal_id", ""),
+        "inscritos": dossie.get("inscritos", 0),
+        "total_videos": dossie.get("total_videos", 0),
+        "auto_classificacao": dossie.get("auto_classificacao", ""),
+        "classificacao_sociologica": dossie.get("classificacao_sociologica", ""),
+        "tipo_conteudo_predominante": dossie.get("tipo_conteudo_predominante", ""),
+        "veredito": dossie.get("veredito_sonnet", "")[:500],
+        "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
+    }
+    # Parsear sintomas se disponível
+    try:
+        sint = json.loads(dossie.get("sintomas_estruturais", "{}"))
+        item_dossie["ipp"] = sint.get("ipp", "")
+        item_dossie["desvio_editorial"] = sint.get("desvio_editorial", "")
+        item_dossie["frequencia_media_dias"] = sint.get("frequencia_media_dias", "")
+    except (json.JSONDecodeError, TypeError):
+        pass
+    ids_existentes = {r["canal_id"] for r in st.session_state["carrinho"]["dossie"]}
+    if item_dossie["canal_id"] not in ids_existentes:
+        st.session_state["carrinho"]["dossie"].append(item_dossie)
+
 
 def renderizar_dossie_canal() -> None:
-    st.markdown("# 📋 Dossiê do Canal")
     st.markdown("##### Quem realmente está por trás deste canal?")
     st.markdown(
         "Este módulo investiga a **estrutura real de produção** de um canal "
@@ -4200,9 +4317,22 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
             mime="text/csv",
         )
 
+        # Acumular no carrinho da sessão (resumo por vídeo, não cada comentário)
+        item_voz = {
+            "video_id": analise.get("video_id", ""),
+            "titulo": analise.get("titulo_video", ""),
+            "canal": analise.get("canal_nome", ""),
+            "total_comentarios": len(comentarios),
+            "ipp": analise.get("ipp", ""),
+            "sintese": analise.get("sintese_qualitativa", "")[:500],
+            "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        }
+        ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["voz_da_base"]}
+        if item_voz["video_id"] not in ids_existentes:
+            st.session_state["carrinho"]["voz_da_base"].append(item_voz)
+
 
 def renderizar_voz_da_base() -> None:
-    st.markdown("# 💬 A Voz da Base")
     st.markdown("##### O que os comentários dizem — e o que revelam sobre a relação com o canal")
     st.markdown(
         "Este módulo analisa qualitativamente os **100 principais comentários** "
