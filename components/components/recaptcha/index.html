@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      margin: 0;
+      padding: 8px 0;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 78px;
+    }
+    #recaptcha-box {
+      display: flex;
+      justify-content: center;
+    }
+    .status-msg {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: #27D337;
+      text-align: center;
+      padding: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="recaptcha-box"></div>
+
+  <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
+
+  <script>
+    // =====================================================================
+    // Streamlit Component API — comunicação bidirecional
+    // =====================================================================
+    let siteKey = "";
+    let rendered = false;
+
+    function sendToken(token) {
+      if (window.Streamlit) {
+        window.Streamlit.setComponentValue(token);
+      }
+    }
+
+    function onRecaptchaLoad() {
+      if (!siteKey || rendered) return;
+      rendered = true;
+
+      grecaptcha.render("recaptcha-box", {
+        sitekey: siteKey,
+        theme: "dark",
+        callback: function (token) {
+          // Substituir widget por mensagem de sucesso
+          document.getElementById("recaptcha-box").innerHTML =
+            '<div class="status-msg">✔ Verificação concluída</div>';
+          sendToken(token);
+        },
+        "expired-callback": function () {
+          sendToken("");
+        },
+      });
+    }
+
+    // Streamlit envia argumentos via onRender
+    function onRender(event) {
+      const data = event.detail;
+      if (data.args && data.args.site_key) {
+        siteKey = data.args.site_key;
+      }
+      // Se reCAPTCHA API já carregou, renderizar
+      if (window.grecaptcha && window.grecaptcha.render && !rendered) {
+        onRecaptchaLoad();
+      }
+      if (window.Streamlit) {
+        window.Streamlit.setFrameHeight();
+      }
+    }
+
+    // Registrar listener do Streamlit Component API
+    if (window.Streamlit) {
+      window.Streamlit.events.addEventListener(
+        window.Streamlit.RENDER_EVENT,
+        onRender
+      );
+      window.Streamlit.setComponentReady();
+      window.Streamlit.setFrameHeight();
+    } else {
+      // Fallback: esperar Streamlit ficar disponível
+      const interval = setInterval(function () {
+        if (window.Streamlit) {
+          clearInterval(interval);
+          window.Streamlit.events.addEventListener(
+            window.Streamlit.RENDER_EVENT,
+            onRender
+          );
+          window.Streamlit.setComponentReady();
+          window.Streamlit.setFrameHeight();
+        }
+      }, 50);
+    }
+  </script>
+</body>
+</html>
