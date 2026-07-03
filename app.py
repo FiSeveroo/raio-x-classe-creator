@@ -10,12 +10,10 @@ Este arquivo é o ponto de entrada do Streamlit. Implementa:
       • Página pública (status da coleta + metodologia)
       • Painel interno (com senha) com gráficos e série temporal
 
-Fonte teórica: SEVERO, Filipe Machado Leal. Dissertação PUCRS/FAMECOS, 2026.
 ==============================================================================
 """
 
 import json
-import random
 import re
 import sqlite3
 from datetime import datetime
@@ -36,6 +34,7 @@ from tipologia import (
     codigos_conteudo,
     tipologia_para_prompt,
 )
+from components.recaptcha import st_recaptcha
 
 # Tentamos importar o db.py (Supabase). Se falhar, o Termômetro mostra aviso.
 try:
@@ -348,6 +347,58 @@ except (FileNotFoundError, KeyError):
 # Senha de acesso ao painel interno do Termômetro (opcional).
 # Se vazia, o painel fica liberado (modo desenvolvimento/early access).
 SENHA_PAINEL_INTERNO = st.secrets.get("SENHA_PAINEL_INTERNO", "")
+
+# reCAPTCHA v2 — proteção anti-bot nos módulos de análise.
+# Se as chaves não estiverem configuradas, o gate é desabilitado (dev mode).
+RECAPTCHA_SITE_KEY = st.secrets.get("RECAPTCHA_SITE_KEY", "")
+RECAPTCHA_SECRET_KEY = st.secrets.get("RECAPTCHA_SECRET_KEY", "")
+
+
+def verificar_token_recaptcha(token: str) -> bool:
+    """Valida o token reCAPTCHA com o servidor do Google."""
+    if not RECAPTCHA_SECRET_KEY:
+        return True
+    try:
+        resp = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={"secret": RECAPTCHA_SECRET_KEY, "response": token},
+            timeout=5,
+        )
+        return resp.json().get("success", False)
+    except Exception:
+        return False
+
+
+def exigir_recaptcha() -> bool:
+    """
+    Gate reCAPTCHA reutilizável por todos os módulos de análise.
+
+    Retorna True se o usuário já foi verificado nesta sessão.
+    Se não, renderiza o widget e retorna False (o módulo deve parar).
+
+    Se as chaves não estiverem configuradas, retorna True sempre (dev mode).
+    """
+    if not RECAPTCHA_SITE_KEY:
+        return True  # Dev mode — sem reCAPTCHA configurado
+
+    if st.session_state.get("recaptcha_ok"):
+        return True
+
+    st.markdown("---")
+    st.markdown(
+        "🔒 **Verificação necessária** — confirme que você é humano "
+        "para utilizar as ferramentas de análise."
+    )
+    token = st_recaptcha(site_key=RECAPTCHA_SITE_KEY, key="recaptcha_gate")
+
+    if token:
+        if verificar_token_recaptcha(token):
+            st.session_state["recaptcha_ok"] = True
+            st.rerun()
+        else:
+            st.error("Verificação falhou. Tente novamente.")
+
+    return False
 
 
 # ==============================================================================
@@ -756,6 +807,9 @@ def renderizar_lupa() -> None:
         "*O Novo 'You' do YouTube* (SEVERO, 2026)."
     )
 
+    if not exigir_recaptcha():
+        return
+
     init_db_local()
 
     url_input = st.text_input(
@@ -1032,10 +1086,22 @@ def renderizar_termometro_publico() -> None:
     st.markdown(
         """
         O Termômetro é um **sistema de coleta longitudinal** que tira uma "fotografia"
-        semanal dos 50 vídeos em maior destaque no YouTube Brasil, classifica cada um
-        deles segundo a tipologia dupla (Produtor × Conteúdo) desenvolvida na dissertação
-        de mestrado de Filipe Severo (PUCRS/FAMECOS, 2026), e armazena o resultado em
-        um corpus auditável.
+        semanal do YouTube Brasil, classifica cada vídeo segundo a tipologia dupla
+        (Produtor × Conteúdo) desenvolvida na dissertação de mestrado de Filipe Severo
+        (PUCRS/FAMECOS, 2026), e armazena o resultado em um corpus auditável.
+
+        **Por que coletamos ~600 vídeos e não 50?** A pesquisa original usava o
+        endpoint geral `chart=mostPopular`, que retorna apenas 50 vídeos. Descobrimos
+        empiricamente — e depois confirmamos na documentação oficial do Google (jul/2025)
+        — que esse endpoint **exclui sistematicamente** quase todas as categorias
+        (Esportes, Notícias, Entretenimento, Música, etc.). Essa exclusão é um achado
+        de pesquisa em si: a vitrine "Em Alta" do YouTube é *mais opaca* do que aparenta.
+
+        A solução: coletamos os 50 vídeos mais populares de **cada uma das 12 categorias
+        válidas para o Brasil**, mais o endpoint geral — totalizando 13 chamadas e
+        aproximadamente **525–600 vídeos únicos por snapshot** (após deduplicação).
+        Cada vídeo registra qual endpoint o capturou (`categoria_coleta`), preservando
+        rastreabilidade metodológica.
 
         A frequência de coleta replica a metodologia da pesquisa original
         (**Tabela 02**, Severo, 2026): uma coleta semanal, alternando dias e horários
@@ -1507,12 +1573,6 @@ SUGESTOES_BUSCA = {
 LIMITE_BUSCAS_POR_SESSAO = 3
 DIAS_VALIDADE_CACHE = 7
 
-
-def gerar_pergunta_humana() -> tuple[str, int]:
-    """Gera uma pergunta matemática simples para barrar bots básicos."""
-    a = random.randint(2, 9)
-    b = random.randint(2, 9)
-    return f"Para confirmar que você é humano, quanto é {a} + {b}?", a + b
 
 
 def buscar_no_youtube(termo: str, max_resultados: int = 50) -> list[dict]:
@@ -2249,6 +2309,9 @@ def renderizar_disputa_narrativa() -> None:
         "(SEVERO, 2026)."
     )
 
+    if not exigir_recaptcha():
+        return
+
     if not SUPABASE_DISPONIVEL:
         st.error("⚠️ Banco de dados não configurado.")
         return
@@ -2262,12 +2325,6 @@ def renderizar_disputa_narrativa() -> None:
     # Inicializar contador de buscas na sessão
     if "buscas_feitas" not in st.session_state:
         st.session_state["buscas_feitas"] = 0
-    if "humano_validado" not in st.session_state:
-        st.session_state["humano_validado"] = False
-    if "pergunta_humana" not in st.session_state:
-        pergunta, resposta = gerar_pergunta_humana()
-        st.session_state["pergunta_humana"] = pergunta
-        st.session_state["resposta_humana"] = resposta
 
     # =========================================================================
     # BARRA DE STATUS DA SESSÃO
@@ -2316,16 +2373,6 @@ def renderizar_disputa_narrativa() -> None:
         placeholder="Ex: reforma trabalhista, cotas raciais, MST...",
     )
 
-    # Verificação humana (uma vez por sessão)
-    if not st.session_state["humano_validado"]:
-        col_p, col_r = st.columns([3, 1])
-        with col_p:
-            st.markdown(f"**{st.session_state['pergunta_humana']}**")
-        with col_r:
-            resposta_user = st.text_input(
-                "Sua resposta", key="resp_humana", label_visibility="collapsed"
-            )
-
     botao = st.button(
         "AUDITAR ESTE TEMA",
         disabled=(restantes <= 0),
@@ -2335,18 +2382,6 @@ def renderizar_disputa_narrativa() -> None:
 
     if not (botao and termo.strip()):
         return
-
-    # Validação anti-bot
-    if not st.session_state["humano_validado"]:
-        try:
-            if int(resposta_user.strip()) == st.session_state["resposta_humana"]:
-                st.session_state["humano_validado"] = True
-            else:
-                st.error("Resposta incorreta à pergunta de verificação. Tente novamente.")
-                return
-        except (ValueError, AttributeError):
-            st.error("Por favor, responda à pergunta de verificação humana.")
-            return
 
     # =========================================================================
     # EXECUÇÃO DA BUSCA
@@ -3373,6 +3408,9 @@ def renderizar_dossie_canal() -> None:
         "uma leitura final ancorada na tipologia de SEVERO (2026)."
     )
 
+    if not exigir_recaptcha():
+        return
+
     if not SUPABASE_DISPONIVEL:
         st.error("⚠️ Banco de dados não configurado.")
         return
@@ -4129,6 +4167,9 @@ def renderizar_voz_da_base() -> None:
             """
         )
 
+    if not exigir_recaptcha():
+        return
+
     if not SUPABASE_DISPONIVEL:
         st.error("⚠️ Banco de dados não configurado.")
         return
@@ -4354,9 +4395,9 @@ DESCRITORES_MODULOS = [
         "escala": "Análise macro longitudinal · trending BR",
         "cor": "#27D337",
         "frase": (
-            "Coleta automatizada semanal dos 50 vídeos do trending BR, "
-            "alternando dias e horários (replica metodologia da Tabela 02 "
-            "da dissertação). Acumula corpus longitudinal auditável."
+            "Coleta automatizada semanal de ~600 vídeos do trending BR "
+            "via 13 endpoints (12 categorias + geral), alternando dias e "
+            "horários. Acumula corpus longitudinal auditável."
         ),
         "quando_usar": (
             "Para analisar as escolhas da plataforma em escala. Responde "
