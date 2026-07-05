@@ -726,13 +726,30 @@ DESCRIÇÃO DO VÍDEO:
 # ==============================================================================
 
 with st.sidebar:
+    # CSS para compactar radio buttons e adaptar a telas menores
     st.markdown(
-        "<p style='margin:0; padding:0; font-size:1.8rem; font-weight:900; "
-        "letter-spacing:0.1em; line-height:1;'>RAIO-X</p>"
-        "<p style='margin:0; padding:0 0 0.5rem 0; font-size:0.7rem; "
-        "color:#888; letter-spacing:0.15em;'>CLASSE CREATOR · OBSERVATÓRIO</p>",
+        """
+        <style>
+        /* Radio buttons menores na sidebar */
+        section[data-testid="stSidebar"] .stRadio label {
+            font-size: 0.85rem !important;
+            padding: 0.15rem 0 !important;
+            min-height: unset !important;
+        }
+        section[data-testid="stSidebar"] .stRadio > div {
+            gap: 0.1rem !important;
+        }
+        /* Em telas pequenas, esconder tagline */
+        @media (max-height: 700px) {
+            .sidebar-tagline { display: none !important; }
+        }
+        </style>
+        """,
         unsafe_allow_html=True,
     )
+
+    st.markdown("# RAIO-X")
+    st.markdown("##### CLASSE CREATOR — OBSERVATÓRIO")
 
     modulo = st.radio(
         "Módulos",
@@ -5823,18 +5840,18 @@ with st.sidebar:
 
     st.markdown(
         f"<div style='background:#0d0d0d; border:1px solid #1f1f1f; "
-        f"border-radius:6px; padding:0.5rem 0.8rem;'>"
-        f"<span style='font-size:0.85rem;'>🧺 Sessão</span>"
+        f"border-radius:6px; padding:0.4rem 0.7rem; margin-top:0.3rem;'>"
+        f"<span style='font-size:0.8rem;'>🧺 Sessão</span>"
         f"<span style='float:right; background:{'#27D337' if total_itens > 0 else '#333'}; "
         f"color:{'#000' if total_itens > 0 else '#888'}; "
-        f"padding:0.1rem 0.45rem; border-radius:10px; font-size:0.75rem; "
+        f"padding:0.05rem 0.4rem; border-radius:10px; font-size:0.7rem; "
         f"font-weight:bold;'>{total_itens}</span>"
         f"</div>",
         unsafe_allow_html=True,
     )
 
     if total_itens == 0:
-        st.caption("Análises acumulam aqui. Exporte tudo junto ao final.")
+        st.caption("Use os módulos · exporte tudo junto")
     else:
         detalhes = []
         if cart.get("lupa"):
@@ -5869,11 +5886,16 @@ with st.sidebar:
         buffer.seek(0)
 
         st.download_button(
-            label="📥 Exportar tudo (.xlsx)",
+            label="📥 Exportar (.xlsx)",
             data=buffer,
             file_name=f"raio-x-sessao-{datetime.now().strftime('%Y-%m-%d_%H%M')}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             use_container_width=True,
         )
 
-    st.caption('*"O feed esconde quem faz a máquina girar."*')
+    st.markdown(
+        "<p class='sidebar-tagline' style='color:#444; font-size:0.7rem; "
+        "font-style:italic; margin-top:0.5rem;'>"
+        "\"O feed esconde quem faz a máquina girar.\"</p>",
+        unsafe_allow_html=True,
+    )
