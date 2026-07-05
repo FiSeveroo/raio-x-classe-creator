@@ -726,9 +726,13 @@ DESCRIÇÃO DO VÍDEO:
 # ==============================================================================
 
 with st.sidebar:
-    st.markdown("# RAIO-X")
-    st.markdown("##### CLASSE CREATOR — OBSERVATÓRIO")
-    st.divider()
+    st.markdown(
+        "<p style='margin:0; padding:0; font-size:1.8rem; font-weight:900; "
+        "letter-spacing:0.1em; line-height:1;'>RAIO-X</p>"
+        "<p style='margin:0; padding:0 0 0.5rem 0; font-size:0.7rem; "
+        "color:#888; letter-spacing:0.15em;'>CLASSE CREATOR · OBSERVATÓRIO</p>",
+        unsafe_allow_html=True,
+    )
 
     modulo = st.radio(
         "Módulos",
@@ -738,7 +742,7 @@ with st.sidebar:
             "🌡️ Termômetro do Em Alta",
             "⚔️ Disputa de Narrativa",
             "📋 Dossiê do Canal",
-            "💬 Voz da Base *(em desenvolvimento)*",
+            "💬 Voz da Base",
             "📚 Biblioteca de Pesquisa",
             "ℹ️ Sobre",
         ],
@@ -5819,30 +5823,28 @@ with st.sidebar:
 
     st.markdown(
         f"<div style='background:#0d0d0d; border:1px solid #1f1f1f; "
-        f"border-radius:6px; padding:0.8rem 1rem; margin-top:0.5rem;'>"
-        f"<span style='font-size:0.9rem;'>🧺 Sessão de pesquisa</span>"
-        f"<span style='float:right; background:#27D337; color:#000; "
-        f"padding:0.1rem 0.5rem; border-radius:10px; font-size:0.8rem; "
+        f"border-radius:6px; padding:0.5rem 0.8rem;'>"
+        f"<span style='font-size:0.85rem;'>🧺 Sessão</span>"
+        f"<span style='float:right; background:{'#27D337' if total_itens > 0 else '#333'}; "
+        f"color:{'#000' if total_itens > 0 else '#888'}; "
+        f"padding:0.1rem 0.45rem; border-radius:10px; font-size:0.75rem; "
         f"font-weight:bold;'>{total_itens}</span>"
         f"</div>",
         unsafe_allow_html=True,
     )
 
     if total_itens == 0:
-        st.caption(
-            "Suas análises desta sessão aparecem aqui. "
-            "Use os módulos e exporte tudo junto em uma planilha."
-        )
+        st.caption("Análises acumulam aqui. Exporte tudo junto ao final.")
     else:
         detalhes = []
         if cart.get("lupa"):
-            detalhes.append(f"🔍 {len(cart['lupa'])}")
+            detalhes.append(f"🔍{len(cart['lupa'])}")
         if cart.get("disputa"):
-            detalhes.append(f"⚔️ {len(cart['disputa'])}")
+            detalhes.append(f"⚔️{len(cart['disputa'])}")
         if cart.get("dossie"):
-            detalhes.append(f"📋 {len(cart['dossie'])}")
+            detalhes.append(f"📋{len(cart['dossie'])}")
         if cart.get("voz_da_base"):
-            detalhes.append(f"💬 {len(cart['voz_da_base'])}")
+            detalhes.append(f"💬{len(cart['voz_da_base'])}")
         st.caption(" · ".join(detalhes))
 
         import io
@@ -5874,6 +5876,4 @@ with st.sidebar:
             use_container_width=True,
         )
 
-    st.divider()
-    st.caption("Pesquisa e auditoria do ecossistema das plataformas digitais.")
-    st.caption('*"O feed esconde quem faz a máquina girar. Nós mostramos."*')
+    st.caption('*"O feed esconde quem faz a máquina girar."*')
