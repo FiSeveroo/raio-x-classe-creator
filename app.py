@@ -745,11 +745,6 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    st.divider()
-    st.markdown("#### Pesquisa e auditoria do ecossistema das plataformas digitais.")
-    st.markdown('#### *"O feed esconde quem faz a máquina girar. Nós mostramos."*')
-    st.divider()
-
     # Carrinho inicializado aqui, renderizado no final do script (após módulos rodarem)
     if "carrinho" not in st.session_state:
         st.session_state["carrinho"] = {
@@ -5878,3 +5873,7 @@ with st.sidebar:
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             use_container_width=True,
         )
+
+    st.divider()
+    st.caption("Pesquisa e auditoria do ecossistema das plataformas digitais.")
+    st.caption('*"O feed esconde quem faz a máquina girar. Nós mostramos."*')
