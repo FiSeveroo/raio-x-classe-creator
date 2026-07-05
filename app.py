@@ -5822,17 +5822,32 @@ with st.sidebar:
     cart = st.session_state.get("carrinho", {})
     total_itens = sum(len(v) for v in cart.values())
 
-    if total_itens > 0:
-        st.markdown(f"##### 🧺 Análises na sessão: **{total_itens}**")
+    st.markdown(
+        f"<div style='background:#0d0d0d; border:1px solid #1f1f1f; "
+        f"border-radius:6px; padding:0.8rem 1rem; margin-top:0.5rem;'>"
+        f"<span style='font-size:0.9rem;'>🧺 Sessão de pesquisa</span>"
+        f"<span style='float:right; background:#27D337; color:#000; "
+        f"padding:0.1rem 0.5rem; border-radius:10px; font-size:0.8rem; "
+        f"font-weight:bold;'>{total_itens}</span>"
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+
+    if total_itens == 0:
+        st.caption(
+            "Suas análises desta sessão aparecem aqui. "
+            "Use os módulos e exporte tudo junto em uma planilha."
+        )
+    else:
         detalhes = []
         if cart.get("lupa"):
-            detalhes.append(f"🔍 Lupa: {len(cart['lupa'])}")
+            detalhes.append(f"🔍 {len(cart['lupa'])}")
         if cart.get("disputa"):
-            detalhes.append(f"⚔️ Disputa: {len(cart['disputa'])}")
+            detalhes.append(f"⚔️ {len(cart['disputa'])}")
         if cart.get("dossie"):
-            detalhes.append(f"📋 Dossiê: {len(cart['dossie'])}")
+            detalhes.append(f"📋 {len(cart['dossie'])}")
         if cart.get("voz_da_base"):
-            detalhes.append(f"💬 Voz: {len(cart['voz_da_base'])}")
+            detalhes.append(f"💬 {len(cart['voz_da_base'])}")
         st.caption(" · ".join(detalhes))
 
         import io
