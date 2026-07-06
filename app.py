@@ -470,6 +470,25 @@ def exigir_recaptcha() -> bool:
     return False
 
 
+def notificar_carrinho() -> None:
+    """
+    Notifica o usuário que o resultado foi salvo no carrinho.
+    Na primeira vez da sessão, mostra um info explicativo.
+    Nas demais, mostra apenas um toast discreto.
+    """
+    if not st.session_state.get("carrinho_explicado"):
+        st.session_state["carrinho_explicado"] = True
+        st.info(
+            "📥 **Resultado salvo na sessão!** Cada análise que você fizer "
+            "é acumulada automaticamente. Ao final, clique em "
+            "**\"Exportar sessão\"** na barra lateral para baixar tudo "
+            "em uma planilha única — com uma aba por módulo.",
+            icon="🧺",
+        )
+    else:
+        st.toast("Resultado salvo na sessão.", icon="🧺")
+
+
 # ==============================================================================
 # BANCO LOCAL — cache do Módulo 1
 # ==============================================================================
@@ -1128,7 +1147,7 @@ def _renderizar_resultado_lupa(meta: dict, resultado: dict, cache_aviso: bool = 
     ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["lupa"]}
     if item_lupa["video_id"] not in ids_existentes:
         st.session_state["carrinho"]["lupa"].append(item_lupa)
-        st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
+        notificar_carrinho()
 
 
 # ==============================================================================
@@ -2426,7 +2445,7 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
             "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
         }
         st.session_state["carrinho"]["disputa"].append(item_disputa)
-    st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
+    notificar_carrinho()
 
 
 def renderizar_disputa_narrativa() -> None:
@@ -3550,7 +3569,7 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
     ids_existentes = {r["canal_id"] for r in st.session_state["carrinho"]["dossie"]}
     if item_dossie["canal_id"] not in ids_existentes:
         st.session_state["carrinho"]["dossie"].append(item_dossie)
-        st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
+        notificar_carrinho()
 
 
 def renderizar_dossie_canal() -> None:
@@ -4301,7 +4320,7 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
         ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["voz_da_base"]}
         if item_voz["video_id"] not in ids_existentes:
             st.session_state["carrinho"]["voz_da_base"].append(item_voz)
-            st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
+            notificar_carrinho()
 
 
 def renderizar_voz_da_base() -> None:
@@ -5844,28 +5863,19 @@ with st.sidebar:
     cart = st.session_state.get("carrinho", {})
     total_itens = sum(len(v) for v in cart.values())
 
-    # Só aparece quando há análises acumuladas
     if total_itens > 0:
         detalhes = []
         if cart.get("lupa"):
-            detalhes.append(f"🔍{len(cart['lupa'])}")
+            detalhes.append(f"Lupa: {len(cart['lupa'])}")
         if cart.get("disputa"):
-            detalhes.append(f"⚔️{len(cart['disputa'])}")
+            detalhes.append(f"Disputa: {len(cart['disputa'])}")
         if cart.get("dossie"):
-            detalhes.append(f"📋{len(cart['dossie'])}")
+            detalhes.append(f"Dossiê: {len(cart['dossie'])}")
         if cart.get("voz_da_base"):
-            detalhes.append(f"💬{len(cart['voz_da_base'])}")
+            detalhes.append(f"Voz: {len(cart['voz_da_base'])}")
 
-        st.markdown(
-            f"<div style='background:#0d0d0d; border:1px solid #27D337; "
-            f"border-radius:6px; padding:0.5rem 0.7rem;'>"
-            f"<span style='font-size:0.8rem; color:#27D337;'>"
-            f"🧺 {total_itens} análise{'s' if total_itens > 1 else ''} salva{'s' if total_itens > 1 else ''}</span>"
-            f"<br><span style='font-size:0.7rem; color:#888;'>"
-            f"{' · '.join(detalhes)}</span>"
-            f"</div>",
-            unsafe_allow_html=True,
-        )
+        st.divider()
+        st.caption(f"🧺 {total_itens} análise{'s' if total_itens > 1 else ''} · {' · '.join(detalhes)}")
 
         import io
         buffer = io.BytesIO()
