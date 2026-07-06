@@ -726,11 +726,15 @@ DESCRIÇÃO DO VÍDEO:
 # ==============================================================================
 
 with st.sidebar:
-    # CSS para compactar radio buttons e adaptar a telas menores
     st.markdown(
         """
         <style>
-        /* Radio buttons menores na sidebar */
+        /* Impedir overflow na sidebar */
+        section[data-testid="stSidebar"] > div {
+            overflow-x: hidden !important;
+            word-wrap: break-word !important;
+        }
+        /* Radio buttons compactos */
         section[data-testid="stSidebar"] .stRadio label {
             font-size: 0.85rem !important;
             padding: 0.15rem 0 !important;
@@ -739,17 +743,13 @@ with st.sidebar:
         section[data-testid="stSidebar"] .stRadio > div {
             gap: 0.1rem !important;
         }
-        /* Em telas pequenas, esconder tagline */
-        @media (max-height: 700px) {
-            .sidebar-tagline { display: none !important; }
-        }
         </style>
         """,
         unsafe_allow_html=True,
     )
 
     st.markdown("# RAIO-X")
-    st.markdown("##### CLASSE CREATOR — OBSERVATÓRIO")
+    st.caption("OBSERVATÓRIO CLASSE CREATOR")
 
     modulo = st.radio(
         "Módulos",
@@ -766,7 +766,6 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    # Carrinho inicializado aqui, renderizado no final do script (após módulos rodarem)
     if "carrinho" not in st.session_state:
         st.session_state["carrinho"] = {
             "lupa": [],
@@ -891,7 +890,7 @@ def oferecer_versao_canonica(canonica: dict, label_objeto: str, chave_estado: st
 # ==============================================================================
 
 def renderizar_lupa() -> None:
-    st.markdown("# 🔍 A Lupa")
+    st.markdown("## 🔍 A Lupa")
     st.markdown("##### Análise de um vídeo, na profundidade que o feed esconde")
     st.markdown(
         "Cole abaixo o link de um vídeo do YouTube. A ferramenta extrairá os "
@@ -1129,6 +1128,7 @@ def _renderizar_resultado_lupa(meta: dict, resultado: dict, cache_aviso: bool = 
     ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["lupa"]}
     if item_lupa["video_id"] not in ids_existentes:
         st.session_state["carrinho"]["lupa"].append(item_lupa)
+        st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
 
 
 # ==============================================================================
@@ -1163,7 +1163,7 @@ CORES_CONTEUDO = {
 
 
 def renderizar_termometro_publico() -> None:
-    st.markdown("# 🌡️ Termômetro do Em Alta")
+    st.markdown("## 🌡️ Termômetro do Em Alta")
     st.markdown("##### Acompanhamento contínuo do que o YouTube Brasil está colocando em destaque")
 
     if not SUPABASE_DISPONIVEL:
@@ -1250,7 +1250,7 @@ def renderizar_termometro_publico() -> None:
 
 
 def renderizar_termometro_painel() -> None:
-    st.markdown("# 🌡️ Termômetro — Painel Interno")
+    st.markdown("## 🌡️ Termômetro — Painel Interno")
     st.markdown("##### Análise contínua do que o YouTube Brasil escolhe destacar")
 
     col_voltar, _ = st.columns([1, 5])
@@ -2426,9 +2426,11 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
             "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
         }
         st.session_state["carrinho"]["disputa"].append(item_disputa)
+    st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
 
 
 def renderizar_disputa_narrativa() -> None:
+    st.markdown("## ⚔️ Disputa de Narrativa")
     st.markdown("##### Para quem o YouTube está dando o microfone?")
     st.markdown(
         "Este módulo audita a **autoridade algorítmica** em temas sensíveis. "
@@ -3548,9 +3550,11 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
     ids_existentes = {r["canal_id"] for r in st.session_state["carrinho"]["dossie"]}
     if item_dossie["canal_id"] not in ids_existentes:
         st.session_state["carrinho"]["dossie"].append(item_dossie)
+        st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
 
 
 def renderizar_dossie_canal() -> None:
+    st.markdown("## 📋 Dossiê do Canal")
     st.markdown("##### Quem realmente está por trás deste canal?")
     st.markdown(
         "Este módulo investiga a **estrutura real de produção** de um canal "
@@ -4297,9 +4301,11 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
         ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["voz_da_base"]}
         if item_voz["video_id"] not in ids_existentes:
             st.session_state["carrinho"]["voz_da_base"].append(item_voz)
+            st.toast("✅ Resultado salvo na sessão — exporte tudo pela barra lateral.", icon="🧺")
 
 
 def renderizar_voz_da_base() -> None:
+    st.markdown("## 💬 Voz da Base")
     st.markdown("##### O que os comentários dizem — e o que revelam sobre a relação com o canal")
     st.markdown(
         "Este módulo analisa qualitativamente os **100 principais comentários** "
@@ -5656,7 +5662,7 @@ def renderizar_aba_comentarios(cliente_db) -> None:
 
 def renderizar_biblioteca() -> None:
     """Página principal da Biblioteca de Pesquisa."""
-    st.markdown("# 📚 Biblioteca de Pesquisa")
+    st.markdown("## 📚 Biblioteca de Pesquisa")
     st.markdown("##### Corpus longitudinal do Observatório Classe Creator")
     st.markdown(
         "Navegue por todas as análises já realizadas pela ferramenta. "
@@ -5838,21 +5844,8 @@ with st.sidebar:
     cart = st.session_state.get("carrinho", {})
     total_itens = sum(len(v) for v in cart.values())
 
-    st.markdown(
-        f"<div style='background:#0d0d0d; border:1px solid #1f1f1f; "
-        f"border-radius:6px; padding:0.4rem 0.7rem; margin-top:0.3rem;'>"
-        f"<span style='font-size:0.8rem;'>🧺 Sessão</span>"
-        f"<span style='float:right; background:{'#27D337' if total_itens > 0 else '#333'}; "
-        f"color:{'#000' if total_itens > 0 else '#888'}; "
-        f"padding:0.05rem 0.4rem; border-radius:10px; font-size:0.7rem; "
-        f"font-weight:bold;'>{total_itens}</span>"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-
-    if total_itens == 0:
-        st.caption("Use os módulos · exporte tudo junto")
-    else:
+    # Só aparece quando há análises acumuladas
+    if total_itens > 0:
         detalhes = []
         if cart.get("lupa"):
             detalhes.append(f"🔍{len(cart['lupa'])}")
@@ -5862,7 +5855,17 @@ with st.sidebar:
             detalhes.append(f"📋{len(cart['dossie'])}")
         if cart.get("voz_da_base"):
             detalhes.append(f"💬{len(cart['voz_da_base'])}")
-        st.caption(" · ".join(detalhes))
+
+        st.markdown(
+            f"<div style='background:#0d0d0d; border:1px solid #27D337; "
+            f"border-radius:6px; padding:0.5rem 0.7rem;'>"
+            f"<span style='font-size:0.8rem; color:#27D337;'>"
+            f"🧺 {total_itens} análise{'s' if total_itens > 1 else ''} salva{'s' if total_itens > 1 else ''}</span>"
+            f"<br><span style='font-size:0.7rem; color:#888;'>"
+            f"{' · '.join(detalhes)}</span>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
         import io
         buffer = io.BytesIO()
@@ -5886,16 +5889,9 @@ with st.sidebar:
         buffer.seek(0)
 
         st.download_button(
-            label="📥 Exportar (.xlsx)",
+            label="📥 Exportar sessão (.xlsx)",
             data=buffer,
             file_name=f"raio-x-sessao-{datetime.now().strftime('%Y-%m-%d_%H%M')}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             use_container_width=True,
         )
-
-    st.markdown(
-        "<p class='sidebar-tagline' style='color:#444; font-size:0.7rem; "
-        "font-style:italic; margin-top:0.5rem;'>"
-        "\"O feed esconde quem faz a máquina girar.\"</p>",
-        unsafe_allow_html=True,
-    )
