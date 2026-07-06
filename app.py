@@ -1769,6 +1769,38 @@ def classificar_resultado_busca(item: dict, dados_extras: dict) -> dict:
     """
     cliente = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
+    # Gerar exemplos dinâmicos do canais_validados (few-shot anchoring)
+    exemplos_dinamicos_haiku = ""
+    try:
+        cliente_db_local = conectar(modo="leitura")
+
+        # Verificar se o canal deste item já foi validado manualmente
+        canal_id_item = item["snippet"].get("channelId", "")
+        if canal_id_item:
+            validado = buscar_canal_validado(cliente_db_local, canal_id_item)
+            if validado:
+                return {
+                    "tipo_produtor": validado["tipo_produtor"],
+                    "tipo_conteudo": validado.get("tipo_conteudo") or "outros",
+                    "justificativa": f"[ÂNCORA VALIDADA] {validado.get('justificativa', '')}",
+                }
+
+        exemplos = buscar_exemplos_ancora(cliente_db_local, limite=15)
+        if exemplos:
+            linhas = []
+            for ex in exemplos:
+                just = ex.get("justificativa", "")[:80]
+                linhas.append(
+                    f"- {ex['canal_nome']} → {ex['tipo_produtor']}"
+                    f"{f' [{just}]' if just else ''}"
+                )
+            exemplos_dinamicos_haiku = (
+                "\n\nEXEMPLOS VALIDADOS PELO PESQUISADOR:\n"
+                + "\n".join(linhas)
+            )
+    except Exception:
+        pass
+
     tipo_item = item["id"]["kind"].replace("youtube#", "")  # video, channel, playlist
     snippet = item["snippet"]
 
@@ -1910,6 +1942,12 @@ def executar_busca_completa(
                 "tipo_conteudo": "outros",
                 "justificativa": f"Falha na classificação automática: {e}",
             }
+            # Logar o primeiro erro para diagnóstico (só uma vez, não polui a tela)
+            if i == 0:
+                st.warning(
+                    f"⚠️ Classificação automática falhou no primeiro item: `{type(e).__name__}: {e}`. "
+                    f"Se todos os resultados aparecerem como 'outros', verifique os créditos/chave da API Anthropic."
+                )
 
         canal_id_final = item["snippet"].get("channelId", "")
         canal_nome_final = item["snippet"].get("channelTitle", "")
