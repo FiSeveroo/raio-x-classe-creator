@@ -5477,6 +5477,29 @@ def _exibir_analise_video(registro: dict, cliente_db) -> None:
         except Exception:
             pass
 
+    # Botão para adicionar ao carrinho da sessão
+    vid = registro.get("video_id", "")
+    ids_no_carrinho = {r["video_id"] for r in st.session_state.get("carrinho", {}).get("lupa", [])}
+    if vid and vid not in ids_no_carrinho:
+        if st.button("🧺 Adicionar à sessão de exportação", key=f"bib_add_lupa_{registro.get('id', '')}"):
+            st.session_state["carrinho"]["lupa"].append({
+                "video_id": vid,
+                "titulo": registro.get("titulo", ""),
+                "canal": registro.get("canal_nome", ""),
+                "canal_id": registro.get("canal_id", ""),
+                "tipo_produtor": registro.get("tipo_produtor", ""),
+                "tipo_conteudo": registro.get("tipo_conteudo", ""),
+                "justificativa": registro.get("justificativa", ""),
+                "visualizacoes": registro.get("visualizacoes", 0),
+                "likes": registro.get("likes", 0),
+                "comentarios": registro.get("comentarios", 0),
+                "inscritos": registro.get("inscritos", 0),
+                "data_publicacao": registro.get("publicado_em", ""),
+                "data_analise": registro.get("data_classificacao", ""),
+                "origem": "biblioteca",
+            })
+            notificar_carrinho()
+
 
 def renderizar_aba_canais(cliente_db) -> None:
     """Aba: dossiês de canais."""
