@@ -351,29 +351,60 @@ def executar_coleta() -> None:
     print(f"   Classificação: {modo}")
     print(f"{'='*70}\n")
 
-    # 1. Determinar slot da semana (replica metodologia da dissertação)
-    semana, dia, horario = calcular_proxima_coleta_semanal()
-    print(f"📅 Semana ISO {semana} | Slot programado: {dia} às {horario}")
-    print(f"   Hora real do sistema (UTC): {inicio.strftime('%A %H:%M')}")
+    # 1. Determinar semana ISO e registrar dia/horário REAIS da coleta
+    semana_ano = int(inicio.strftime("%V"))  # ISO week number
+    dias_semana_pt = {
+        "Monday": "segunda", "Tuesday": "terça", "Wednesday": "quarta",
+        "Thursday": "quinta", "Friday": "sexta", "Saturday": "sábado",
+        "Sunday": "domingo",
+    }
+    # Converte UTC para Brasília (UTC-3) para registrar o dia correto
+    hora_brasilia = inicio.hour - 3
+    dia_real = inicio
+    if hora_brasilia < 0:
+        hora_brasilia += 24
+        from datetime import timedelta
+        dia_real = inicio - timedelta(days=1)
+
+    dia_semana_real = dias_semana_pt.get(dia_real.strftime("%A"), "desconhecido")
+    horario_real = f"{hora_brasilia:02d}h"
+
+    print(f"📅 Semana ISO {semana_ano} | {dia_semana_real} às {horario_real} (Brasília)")
+    print(f"   Hora UTC: {inicio.strftime('%A %H:%M')}")
 
     FORCA_EXECUCAO = os.getenv("FORCA_EXECUCAO", "").lower() == "true"
 
-    # Guard clause: verifica se já coletamos nesta semana ISO
-    # Permite qualquer disparo do cron dentro da semana correta — não exige dia/hora exatos
-    # (GitHub Actions pode atrasar, e queremos garantir pelo menos 1 coleta por semana)
+    # Guard clause: impede mais de 2 coletas no mesmo dia (proteção contra reruns)
     if not FORCA_EXECUCAO:
         try:
             cliente_guard = conectar()
-            ultima_semana = ultima_semana_coletada(cliente_guard)
-            if ultima_semana == semana:
-                print(f"⏭️  COLETA IGNORADA — semana ISO {semana} já foi coletada.")
-                print(f"   Para forçar nova coleta, defina FORCA_EXECUCAO=true.")
-                sys.exit(0)
+            resp = (
+                cliente_guard.table("snapshots")
+                .select("id, data_coleta")
+                .order("id", desc=True)
+                .limit(1)
+                .execute()
+            )
+            if resp.data:
+                ultima_data = resp.data[0]["data_coleta"][:10]  # YYYY-MM-DD
+                hoje = inicio.strftime("%Y-%m-%d")
+                # Contar snapshots de hoje
+                resp_hoje = (
+                    cliente_guard.table("snapshots")
+                    .select("id", count="exact")
+                    .gte("data_coleta", f"{hoje}T00:00:00")
+                    .lte("data_coleta", f"{hoje}T23:59:59")
+                    .execute()
+                )
+                coletas_hoje = resp_hoje.count if resp_hoje.count else 0
+                if coletas_hoje >= 2:
+                    print(f"⏭️  COLETA IGNORADA — já há {coletas_hoje} coletas hoje ({hoje}).")
+                    print(f"   Para forçar, defina FORCA_EXECUCAO=true.")
+                    sys.exit(0)
+                print(f"✅ {coletas_hoje} coleta(s) hoje — executando ({2 - coletas_hoje} restante(s)).")
         except Exception as e:
-            print(f"⚠️  Não foi possível verificar última semana coletada: {e}")
-            print(f"   Prosseguindo com a coleta por precaução.")
-
-    print(f"✅ Semana ISO {semana} ainda não coletada — executando coleta.")
+            print(f"⚠️  Não foi possível verificar coletas de hoje: {e}")
+            print(f"   Prosseguindo por precaução.")
 
     # 2. Coletar trending
     print("\n📥 Coletando 50 vídeos do trending BR...")
@@ -396,9 +427,9 @@ def executar_coleta() -> None:
     obs_modo = "[CLASSIFICAÇÃO ATIVA]" if CLASSIFICACAO_ATIVA else "[CLASSIFICAÇÃO PAUSADA]"
     snapshot_id = criar_snapshot(
         db,
-        semana_ano=semana,
-        dia_semana=dia,
-        horario_coleta=horario,
+        semana_ano=semana_ano,
+        dia_semana=dia_semana_real,
+        horario_coleta=horario_real,
         total_videos=len(items_trending),
         observacoes=f"{obs_modo} Coleta automatizada GitHub Actions. Hora real: {inicio.isoformat()}",
     )
