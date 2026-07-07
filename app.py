@@ -84,6 +84,7 @@ try:
         calcular_peso_atualizacao,
         pode_atualizar,
         COOLDOWN_ATUALIZACAO_DIAS,
+        contar_uso_diario,
     )
     SUPABASE_DISPONIVEL = True
 except ImportError:
@@ -908,6 +909,43 @@ def oferecer_versao_canonica(canonica: dict, label_objeto: str, chave_estado: st
 # MÓDULO 1 — A LUPA
 # ==============================================================================
 
+LIMITE_LUPA_POR_SESSAO = 15
+
+# Limites diários globais (todos os usuários somados).
+# Margem generosa para não travar pesquisa legítima — é proteção de orçamento.
+LIMITES_DIARIOS = {
+    "lupa": 80,
+    "disputa": 30,
+    "dossie": 40,
+    "voz": 25,
+}
+
+
+def verificar_limite_diario(modulo: str) -> bool:
+    """
+    Verifica se o limite diário global de um módulo foi atingido.
+    Retorna True se pode prosseguir, False se atingiu o limite.
+    Se Supabase não estiver disponível, libera (dev mode).
+    """
+    if not SUPABASE_DISPONIVEL:
+        return True
+    limite = LIMITES_DIARIOS.get(modulo, 999)
+    try:
+        cliente = conectar(modo="leitura")
+        uso = contar_uso_diario(cliente, modulo)
+        if uso >= limite:
+            st.warning(
+                f"⚠️ Limite diário da ferramenta atingido para este módulo "
+                f"({uso}/{limite} análises hoje). "
+                f"Tente novamente amanhã ou entre em contato com o Observatório "
+                f"para acesso ampliado."
+            )
+            return False
+        return True
+    except Exception:
+        return True  # em caso de falha, não bloqueia
+
+
 def renderizar_lupa() -> None:
     st.markdown("## 🔍 A Lupa")
     st.markdown("##### Análise de um vídeo, na profundidade que o feed esconde")
@@ -923,6 +961,26 @@ def renderizar_lupa() -> None:
 
     init_db_local()
 
+    # Inicializar contador de sessão
+    if "lupas_feitas" not in st.session_state:
+        st.session_state["lupas_feitas"] = 0
+
+    restantes = LIMITE_LUPA_POR_SESSAO - st.session_state["lupas_feitas"]
+    if restantes > 0:
+        st.markdown(
+            f"<div style='background:#111; padding:0.7rem; border-radius:4px; "
+            f"border-left:3px solid #00E87A;'>"
+            f"<small style='color:#888;'>SUA SESSÃO</small> · "
+            f"<span style='color:#00E87A;'>{restantes}</span> "
+            f"análise(s) restante(s)</div>",
+            unsafe_allow_html=True,
+        )
+    else:
+        st.warning(
+            f"⛔ Limite de {LIMITE_LUPA_POR_SESSAO} análises por sessão atingido. "
+            "Recarregue a página para continuar."
+        )
+
     url_input = st.text_input(
         "URL do vídeo",
         placeholder="https://www.youtube.com/watch?v=...",
@@ -930,7 +988,8 @@ def renderizar_lupa() -> None:
     )
     col_a, _ = st.columns([1, 5])
     with col_a:
-        botao = st.button("ANALISAR", use_container_width=True, key="btn_lupa")
+        botao = st.button("ANALISAR", use_container_width=True, key="btn_lupa",
+                          disabled=(restantes <= 0))
 
     if not (botao and url_input):
         return
@@ -938,6 +997,10 @@ def renderizar_lupa() -> None:
     video_id = extrair_video_id(url_input)
     if not video_id:
         st.error("URL inválida.")
+        return
+
+    # Check diário global
+    if not verificar_limite_diario("lupa"):
         return
 
     # =========================================================================
@@ -1061,6 +1124,7 @@ def renderizar_lupa() -> None:
                     pass  # falha aqui não bloqueia o usuário
 
             meta = {**meta_video, **meta_canal}
+            st.session_state["lupas_feitas"] = st.session_state.get("lupas_feitas", 0) + 1
         except (ValueError, requests.HTTPError) as e:
             st.error(f"Erro na análise: {e}")
             return
@@ -2571,6 +2635,10 @@ def renderizar_disputa_narrativa() -> None:
     if not (botao and termo.strip()):
         return
 
+    # Check diário global
+    if not verificar_limite_diario("disputa"):
+        return
+
     # =========================================================================
     # EXECUÇÃO DA BUSCA
     # =========================================================================
@@ -3673,6 +3741,10 @@ def renderizar_dossie_canal() -> None:
     if not (botao and entrada.strip()):
         return
 
+    # Check diário global
+    if not verificar_limite_diario("dossie"):
+        return
+
     # =========================================================================
     # PIPELINE DE EXECUÇÃO
     # =========================================================================
@@ -4445,6 +4517,10 @@ def renderizar_voz_da_base() -> None:
     )
 
     if not (botao and url_input.strip()):
+        return
+
+    # Check diário global
+    if not verificar_limite_diario("voz"):
         return
 
     video_id = extrair_video_id(url_input)
@@ -5777,21 +5853,24 @@ def renderizar_biblioteca() -> None:
 
     st.markdown("---")
 
-    # Abas das 4 fontes de dados
-    aba_videos, aba_canais, aba_temas, aba_voz = st.tabs([
-        "🔍 Vídeos",
-        "📋 Canais",
-        "⚔️ Temas",
-        "💬 Voz da Base",
-    ])
+    # Radio horizontal em vez de st.tabs — garante que só a aba ativa renderiza
+    aba_selecionada = st.radio(
+        "Tipo de análise",
+        options=["🔍 Vídeos", "📋 Canais", "⚔️ Temas", "💬 Voz da Base"],
+        horizontal=True,
+        key="biblioteca_aba",
+        label_visibility="collapsed",
+    )
 
-    with aba_videos:
+    st.markdown("---")
+
+    if aba_selecionada == "🔍 Vídeos":
         renderizar_aba_videos(cliente_db)
-    with aba_canais:
+    elif aba_selecionada == "📋 Canais":
         renderizar_aba_canais(cliente_db)
-    with aba_temas:
+    elif aba_selecionada == "⚔️ Temas":
         renderizar_aba_temas(cliente_db)
-    with aba_voz:
+    elif aba_selecionada == "💬 Voz da Base":
         renderizar_aba_comentarios(cliente_db)
 
 
