@@ -643,6 +643,37 @@ def ultima_semana_coletada(cliente: Client) -> int | None:
         return None
 
 
+def contar_uso_diario(cliente: Client, modulo: str) -> int:
+    """
+    Conta quantas análises de um módulo foram feitas hoje (UTC).
+    Usa a tabela existente de cada módulo para contar registros do dia.
+
+    Módulos suportados: 'lupa', 'disputa', 'dossie', 'voz'
+    """
+    hoje = datetime.now().strftime("%Y-%m-%d")
+    try:
+        tabelas = {
+            "lupa": ("classificacoes_video", "data_classificacao"),
+            "disputa": ("buscas_narrativa", "data_busca"),
+            "dossie": ("dossies_canal", "data_dossie"),
+            "voz": ("analises_comentarios", "data_analise"),
+        }
+        tabela, coluna = tabelas.get(modulo, (None, None))
+        if not tabela:
+            return 0
+
+        resp = (
+            cliente.table(tabela)
+            .select("id", count="exact")
+            .gte(coluna, f"{hoje}T00:00:00")
+            .lte(coluna, f"{hoje}T23:59:59")
+            .execute()
+        )
+        return resp.count if resp.count else 0
+    except Exception:
+        return 0
+
+
 # ==============================================================================
 # CANAIS VALIDADOS — banco de classificações humanas
 # ==============================================================================
