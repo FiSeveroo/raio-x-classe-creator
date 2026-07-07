@@ -2073,7 +2073,7 @@ def executar_busca_completa(
     return busca_id
 
 
-def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cliente_db) -> None:
+def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cliente_db, auto_carrinho: bool = True) -> None:
     """Renderiza visualização sociológica completa de uma busca."""
     resultados = resultados_de_busca(cliente_db, busca_id)
     if not resultados:
@@ -2532,22 +2532,23 @@ def renderizar_resultados_disputa(termo: str, busca_id: int, do_cache: bool, cli
         mime="text/csv",
     )
 
-    # Acumular no carrinho da sessão
-    for _, row in df.iterrows():
-        item_disputa = {
-            "termo_busca": termo,
-            "busca_id": busca_id,
-            "posicao": row.get("posicao_ranking", ""),
-            "video_id": row.get("video_id", ""),
-            "titulo": row.get("titulo", ""),
-            "canal": row.get("canal_nome", ""),
-            "tipo_produtor": row.get("tipo_produtor", ""),
-            "tipo_conteudo": row.get("tipo_conteudo", ""),
-            "visualizacoes": row.get("visualizacoes", 0),
-            "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        }
-        st.session_state["carrinho"]["disputa"].append(item_disputa)
-    notificar_carrinho()
+    # Acumular no carrinho da sessão (apenas se auto_carrinho=True)
+    if auto_carrinho:
+        for _, row in df.iterrows():
+            item_disputa = {
+                "termo_busca": termo,
+                "busca_id": busca_id,
+                "posicao": row.get("posicao_ranking", ""),
+                "video_id": row.get("video_id", ""),
+                "titulo": row.get("titulo", ""),
+                "canal": row.get("canal_nome", ""),
+                "tipo_produtor": row.get("tipo_produtor", ""),
+                "tipo_conteudo": row.get("tipo_conteudo", ""),
+                "visualizacoes": row.get("visualizacoes", 0),
+                "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            }
+            st.session_state["carrinho"]["disputa"].append(item_disputa)
+        notificar_carrinho()
 
 
 def renderizar_disputa_narrativa() -> None:
@@ -3373,7 +3374,7 @@ REGRAS:
     return resposta.content[0].text.strip()
 
 
-def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None:
+def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db, auto_carrinho: bool = True) -> None:
     """
     Apresenta o dossiê completo: identidade, sintomas, classificação dupla,
     confronto auto×real, rede, presença histórica e veredito narrativo.
@@ -3652,30 +3653,30 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db) -> None
         unsafe_allow_html=True,
     )
 
-    # Acumular no carrinho da sessão
-    item_dossie = {
-        "canal": dossie.get("canal_nome", ""),
-        "canal_id": dossie.get("canal_id", ""),
-        "inscritos": dossie.get("inscritos", 0),
-        "total_videos": dossie.get("total_videos", 0),
-        "auto_classificacao": dossie.get("auto_classificacao", ""),
-        "classificacao_sociologica": dossie.get("classificacao_sociologica", ""),
-        "tipo_conteudo_predominante": dossie.get("tipo_conteudo_predominante", ""),
-        "veredito": dossie.get("veredito_sonnet", "")[:500],
-        "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
-    }
-    # Parsear sintomas se disponível
-    try:
-        sint = json.loads(dossie.get("sintomas_estruturais", "{}"))
-        item_dossie["ipp"] = sint.get("ipp", "")
-        item_dossie["desvio_editorial"] = sint.get("desvio_editorial", "")
-        item_dossie["frequencia_media_dias"] = sint.get("frequencia_media_dias", "")
-    except (json.JSONDecodeError, TypeError):
-        pass
-    ids_existentes = {r["canal_id"] for r in st.session_state["carrinho"]["dossie"]}
-    if item_dossie["canal_id"] not in ids_existentes:
-        st.session_state["carrinho"]["dossie"].append(item_dossie)
-        notificar_carrinho()
+    # Acumular no carrinho da sessão (apenas se auto_carrinho=True)
+    if auto_carrinho:
+        item_dossie = {
+            "canal": dossie.get("canal_nome", ""),
+            "canal_id": dossie.get("canal_id", ""),
+            "inscritos": dossie.get("inscritos", 0),
+            "total_videos": dossie.get("total_videos", 0),
+            "auto_classificacao": dossie.get("auto_classificacao", ""),
+            "classificacao_sociologica": dossie.get("classificacao_sociologica", ""),
+            "tipo_conteudo_predominante": dossie.get("tipo_conteudo_predominante", ""),
+            "veredito": dossie.get("veredito_sonnet", "")[:500],
+            "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        }
+        try:
+            sint = json.loads(dossie.get("sintomas_estruturais", "{}"))
+            item_dossie["ipp"] = sint.get("ipp", "")
+            item_dossie["desvio_editorial"] = sint.get("desvio_editorial", "")
+            item_dossie["frequencia_media_dias"] = sint.get("frequencia_media_dias", "")
+        except (json.JSONDecodeError, TypeError):
+            pass
+        ids_existentes = {r["canal_id"] for r in st.session_state["carrinho"]["dossie"]}
+        if item_dossie["canal_id"] not in ids_existentes:
+            st.session_state["carrinho"]["dossie"].append(item_dossie)
+            notificar_carrinho()
 
 
 def renderizar_dossie_canal() -> None:
@@ -4133,7 +4134,7 @@ COMENTÁRIOS NUMERADOS (analise TODOS):
     return resultado
 
 
-def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_cache: bool, key_suffix: str = "") -> None:
+def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_cache: bool, key_suffix: str = "", auto_carrinho: bool = True) -> None:
     """Apresenta a análise completa: índice, distribuição, síntese, contradição, comentários."""
 
     if do_cache:
@@ -4418,19 +4419,20 @@ def renderizar_voz_completa(analise: dict, comentarios: list[dict] | None, do_ca
         )
 
         # Acumular no carrinho da sessão (resumo por vídeo, não cada comentário)
-        item_voz = {
-            "video_id": analise.get("video_id", ""),
-            "titulo": analise.get("titulo_video", ""),
-            "canal": analise.get("canal_nome", ""),
-            "total_comentarios": len(comentarios),
-            "ipp": analise.get("ipp", ""),
-            "sintese": analise.get("sintese_qualitativa", "")[:500],
-            "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        }
-        ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["voz_da_base"]}
-        if item_voz["video_id"] not in ids_existentes:
-            st.session_state["carrinho"]["voz_da_base"].append(item_voz)
-            notificar_carrinho()
+        if auto_carrinho:
+            item_voz = {
+                "video_id": analise.get("video_id", ""),
+                "titulo": analise.get("titulo_video", ""),
+                "canal": analise.get("canal_nome", ""),
+                "total_comentarios": len(comentarios),
+                "ipp": analise.get("ipp", ""),
+                "sintese": analise.get("sintese_qualitativa", "")[:500],
+                "data_analise": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            }
+            ids_existentes = {r["video_id"] for r in st.session_state["carrinho"]["voz_da_base"]}
+            if item_voz["video_id"] not in ids_existentes:
+                st.session_state["carrinho"]["voz_da_base"].append(item_voz)
+                notificar_carrinho()
 
 
 def renderizar_voz_da_base() -> None:
@@ -5686,7 +5688,26 @@ def renderizar_aba_canais(cliente_db) -> None:
             dossie = buscar_analise_por_id(cliente_db, "dossies_canal", registro_id)
             if dossie:
                 st.success("✓ Carregando dossiê canônico do corpus")
-                renderizar_dossie_completo(dossie, do_cache=True, cliente_db=cliente_db)
+                renderizar_dossie_completo(dossie, do_cache=True, cliente_db=cliente_db, auto_carrinho=False)
+
+                # Botão explícito para adicionar ao carrinho
+                canal_id = dossie.get("canal_id", "")
+                ids_no_carrinho = {r["canal_id"] for r in st.session_state.get("carrinho", {}).get("dossie", [])}
+                if canal_id and canal_id not in ids_no_carrinho:
+                    if st.button("🧺 Adicionar ao carrinho de exportação", key=f"bib_add_dossie_{registro_id}"):
+                        item_dossie = {
+                            "canal": dossie.get("canal_nome", ""),
+                            "canal_id": canal_id,
+                            "inscritos": dossie.get("inscritos", 0),
+                            "total_videos": dossie.get("total_videos", 0),
+                            "classificacao_sociologica": dossie.get("classificacao_sociologica", ""),
+                            "tipo_conteudo_predominante": dossie.get("tipo_conteudo_predominante", ""),
+                            "veredito": dossie.get("veredito_sonnet", "")[:500],
+                            "data_analise": dossie.get("data_dossie", ""),
+                            "origem": "biblioteca",
+                        }
+                        st.session_state["carrinho"]["dossie"].append(item_dossie)
+                        notificar_carrinho()
 
 
 def renderizar_aba_temas(cliente_db) -> None:
@@ -5747,8 +5768,30 @@ def renderizar_aba_temas(cliente_db) -> None:
                 st.success("✓ Carregando análise canônica do corpus")
                 renderizar_resultados_disputa(
                     busca["termo_buscado"], busca["id"],
-                    do_cache=True, cliente_db=cliente_db,
+                    do_cache=True, cliente_db=cliente_db, auto_carrinho=False,
                 )
+
+                # Botão explícito para adicionar ao carrinho
+                if st.button("🧺 Adicionar ao carrinho de exportação", key=f"bib_add_disputa_{registro_id}"):
+                    try:
+                        resultados = cliente_db.table("resultados_busca").select("*").eq("busca_id", busca["id"]).execute()
+                        for r in resultados.data:
+                            st.session_state["carrinho"]["disputa"].append({
+                                "termo_busca": busca["termo_buscado"],
+                                "busca_id": busca["id"],
+                                "posicao": r.get("posicao_ranking", ""),
+                                "video_id": r.get("video_id", ""),
+                                "titulo": r.get("titulo", ""),
+                                "canal": r.get("canal_nome", ""),
+                                "tipo_produtor": r.get("tipo_produtor", ""),
+                                "tipo_conteudo": r.get("tipo_conteudo", ""),
+                                "visualizacoes": r.get("visualizacoes", 0),
+                                "data_analise": busca.get("data_busca", ""),
+                                "origem": "biblioteca",
+                            })
+                        notificar_carrinho()
+                    except Exception:
+                        st.error("Erro ao adicionar ao carrinho.")
 
 
 def renderizar_aba_comentarios(cliente_db) -> None:
@@ -5813,7 +5856,23 @@ def renderizar_aba_comentarios(cliente_db) -> None:
             analise = buscar_analise_por_id(cliente_db, "analises_comentarios", registro_id)
             if analise:
                 st.success("✓ Carregando análise canônica do corpus")
-                renderizar_voz_completa(analise, comentarios=None, do_cache=True, key_suffix=f"_bib_{registro_id}")
+                renderizar_voz_completa(analise, comentarios=None, do_cache=True, key_suffix=f"_bib_{registro_id}", auto_carrinho=False)
+
+                # Botão explícito para adicionar ao carrinho
+                vid = analise.get("video_id", "")
+                ids_no_carrinho = {r["video_id"] for r in st.session_state.get("carrinho", {}).get("voz_da_base", [])}
+                if vid and vid not in ids_no_carrinho:
+                    if st.button("🧺 Adicionar ao carrinho de exportação", key=f"bib_add_voz_{registro_id}"):
+                        st.session_state["carrinho"]["voz_da_base"].append({
+                            "video_id": vid,
+                            "titulo": analise.get("titulo_video", ""),
+                            "canal": analise.get("canal_nome", ""),
+                            "total_comentarios": analise.get("total_analisados", 0),
+                            "ipp": analise.get("indice_pressao_produtiva", ""),
+                            "data_analise": analise.get("data_analise", ""),
+                            "origem": "biblioteca",
+                        })
+                        notificar_carrinho()
 
 
 def renderizar_biblioteca() -> None:
