@@ -1,6 +1,6 @@
 """
 ==============================================================================
-RAIO-X CLASSE CREATOR — APP PRINCIPAL
+RAIO-X DA CLASSE CREATOR — APP PRINCIPAL
 ==============================================================================
 
 Este arquivo é o ponto de entrada do Streamlit. Implementa:
@@ -96,7 +96,7 @@ except ImportError:
 # ==============================================================================
 
 st.set_page_config(
-    page_title="Raio-X Classe Creator",
+    page_title="Raio-X da Classe Creator",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -4658,7 +4658,7 @@ def renderizar_voz_da_base() -> None:
 
 
 # ==============================================================================
-# 🏠 HOME — APRESENTAÇÃO INSTITUCIONAL DO RAIO-X CLASSE CREATOR
+# 🏠 HOME — APRESENTAÇÃO INSTITUCIONAL DO RAIO-X DA CLASSE CREATOR
 # ==============================================================================
 #
 # Página de boas-vindas e manifesto operacional do Observatório.
@@ -5009,7 +5009,7 @@ PESQUISAS_CONCLUIDAS = [
         "resumo": (
             "A pesquisa cunha e operacionaliza a tipologia dupla "
             "(Eixo A: Produtor × Eixo B: Conteúdo) que constitui o cérebro "
-            "do Raio-X Classe Creator. Demonstra empiricamente, a partir de "
+            "do Raio-X da Classe Creator. Demonstra empiricamente, a partir de "
             "21 semanas de coleta do trending BR, que mais de 90% da "
             "visibilidade no YouTube brasileiro é controlada por agentes "
             "corporativos profissionalizados — Mídia Tradicional, Produtoras "
@@ -5135,7 +5135,7 @@ def renderizar_home() -> None:
         uma pesquisa que reproduz a opacidade da plataforma em vez de
         investigá-la.
 
-        O **Raio-X Classe Creator** propõe outra abordagem: classificar cada
+        O **Raio-X da Classe Creator** propõe outra abordagem: classificar cada
         vídeo por duas perguntas — **quem produz?** e **que tipo de trabalho
         é produzido?**. A tipologia foi desenvolvida na dissertação de
         mestrado de Filipe Severo (PUCRS/FAMECOS, 2026) e é operacionalizada
@@ -5274,7 +5274,7 @@ def renderizar_home() -> None:
     with st.expander("📚 **Pesquisas concluídas com esta ferramenta**", expanded=False):
         st.markdown(
             "Trabalhos acadêmicos cuja metodologia ou achados deram "
-            "origem a, ou foram realizados com, o Raio-X Classe Creator."
+            "origem a, ou foram realizados com, o Raio-X da Classe Creator."
         )
 
         for p in PESQUISAS_CONCLUIDAS:
@@ -5310,7 +5310,7 @@ def renderizar_home() -> None:
 
     st.markdown("**Citação ABNT — ferramenta:**")
     st.code(
-        "OBSERVATÓRIO CLASSE CREATOR. Raio-X Classe Creator: ferramenta de auditoria "
+        "OBSERVATÓRIO CLASSE CREATOR. Raio-X da Classe Creator: ferramenta de auditoria "
         "algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube. "
         "Versão 1.0. Porto Alegre, 2026. Disponível em: "
         "<https://raiox.classecreator.com>.",
@@ -5375,7 +5375,7 @@ def renderizar_home() -> None:
     with st.expander("🔐 **Privacidade e tratamento de dados**"):
         st.markdown(
             """
-            O Raio-X Classe Creator opera exclusivamente com **dados públicos**
+            O Raio-X da Classe Creator opera exclusivamente com **dados públicos**
             obtidos via YouTube Data API v3 (metadados de vídeos, canais e
             comentários publicamente acessíveis).
 
@@ -5420,7 +5420,7 @@ def renderizar_home() -> None:
         """
         <div style='text-align: center; padding: 2rem 0; color: #555;
                     font-size: 0.85rem;'>
-            🔬 Raio-X Classe Creator · v1.0 · Observatório Classe Creator · 2026
+            🔬 Raio-X da Classe Creator · v1.0 · Observatório Classe Creator · 2026
         </div>
         """,
         unsafe_allow_html=True,
@@ -5959,7 +5959,7 @@ def renderizar_sobre() -> None:
     # O PROJETO
     st.markdown("## O Projeto")
     st.markdown("""
-O **Raio-X Classe Creator** é a ferramenta de pesquisa do Observatório Classe Creator.
+O **Raio-X da Classe Creator** é a ferramenta de pesquisa do Observatório Classe Creator.
 Investiga o YouTube Brasil a partir de duas perguntas simples: **quem produz** e
 **que tipo de trabalho é produzido**. A partir daí, olha para hierarquias de
 visibilidade, concentração de audiência e para o que a plataforma prefere manter
@@ -6029,7 +6029,7 @@ com inteligência artificial.
     st.divider()
     st.markdown(
         "<p style='color:#555; font-size:0.85rem;'>"
-        "Raio-X Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
+        "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
         "</p>",
         unsafe_allow_html=True,
     )
