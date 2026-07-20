@@ -132,3 +132,48 @@ A recorrência do bit.ly em quase todos os vídeos sugere um destino único ou r
 **O que os dados não respondem**
 
 Os dados disponíveis não permitem determinar se o volume reduzido de vídeos reflete escolha editorial deliberada, interrupção da produção, ou uma estratégia de conteúdo evergreen em nicho especializado. Tampouco é possível identificar, apenas pelos metadados, o destino real dos links externos e sua relação com a economia do canal. Se o engajamento elevado representa fidelização de uma comunidade técnica de modding ou outro tipo de vínculo com a audiência é uma questão que só a análise qualitativa do conteúdo dos comentários pode responder.","1","","True"
+"14","2026-07-14T17:43:42.101992+00:00","UCyx-slX7dFEfgYJtHtFNTWQ","Canal do Gamba","Bem-vindos ao Canal do Gamba — o novo hub de entretenimento do Rio Grande do Sul!
+
+Aqui, a resenha é original, o conteúdo é de verdade e toda semana tem programação inédita pra te divertir, informar e conectar.
+
+Confira nossa grade semanal:
+
+Segunda | 18h
+Hora do Job
+
+Terça | 18h
+Fala, Corno! Que Eu Te Escuto
+
+Quarta | 18h
+Zona Proibida
+
+Quinta | 18h
+Os Vingadores
+
+🚀 Inscreva-se e faça parte dessa transformação.
+
+Canal do Gamba — conteúdo original, repercussão real e entretenimento toda semana.
+","154000","760","50","Hub de entretenimento regional (RS) com programação semanal estruturada e múltiplos formatos roteirizados.","produtora_digital","entretenimento_roteirizado","{""frequencia_videos_por_dia"": 2.29877228532021, ""duracao_mediana_segundos"": 79, ""link_externo_repetido"": {""dominio"": ""wa.me"", ""n_aparicoes"": 19}, ""pct_titulos_padronizados"": 0.0, ""taxa_engajamento_mediana"": 3.5824583075972827, ""inscritos"": 154000, ""total_videos_canal"": 760, ""n_videos_analisados"": 50}","[]","{""entretenimento_roteirizado"": 50}","**O que chama atenção**
+
+A auto-descrição posiciona o canal como um hub de entretenimento regional com grade semanal estruturada — quatro programas fixos, dias e horários definidos, linguagem de emissora. Essa narrativa de programação organizada contrasta com uma frequência de 2,3 vídeos por dia e duração mediana de 1,3 minuto, estrutura incompatível com o modelo editorial descrito. Canais de entretenimento roteirizado com múltiplos formatos tipicamente apresentam vídeos mais longos e ritmo mais espaçado. Essa tensão entre o discurso de ""conteúdo original"" e os indicadores estruturais — volume altíssimo, duração brevíssima — merece atenção.
+
+**O que investigar**
+
+O domínio `wa.me` (WhatsApp) aparece em 19 descrições, o que sugere um fluxo de redirecionamento ativo para fora da plataforma — vale verificar se esse link está associado a grupos pagos, vendas de produtos ou serviços, ou captação de audiência para outros ambientes. A ausência total de formatação padronizada nos títulos (0%) levanta a questão de se os vídeos seguem, de fato, a grade declarada ou se constituem um volume heterogêneo de uploads sem curadoria consistente. Também vale investigar se os 760 vídeos se distribuem historicamente ou se refletem produção concentrada em período recente, o que alteraria significativamente a leitura da frequência.
+
+**O que os dados não respondem**
+
+Os dados estruturais não permitem determinar se a duração mediana de 1,3 minuto reflete um formato intencional (clipes, cortes, teasers) ou ausência de produção aprofundada. Também não é possível identificar, automaticamente, se o engajamento de 3,58% corresponde a uma base fiel de audiência regional ou a padrões de interação de outra natureza. A ausência de canais relacionados declarados não informa se há rede informal de distribuição — apenas que ela não está tornada pública. O que a programação semanal descrita efetivamente entrega em termos de conteúdo só pode ser avaliado por análise qualitativa direta dos vídeos.","1","","True"
+"15","2026-07-15T18:26:09.239866+00:00","UCZiYbVptd3PVPf4f6eR6UaQ","CazéTV","
+
+","40300000","29650","50","CazéTV é uma produtora nativa digital especializada em cobertura esportiva de futebol e eventos internacionais, operando como ecossistema multiformato (lives, resumos, análises, games).","produtora_digital","esportivo","{""frequencia_videos_por_dia"": 0.7619344598793004, ""duracao_mediana_segundos"": 70, ""link_externo_repetido"": null, ""pct_titulos_padronizados"": 0.0, ""taxa_engajamento_mediana"": 2.728264823572208, ""inscritos"": 40300000, ""total_videos_canal"": 29650, ""n_videos_analisados"": 50}","[]","{""esportivo"": 27, ""entretenimento_roteirizado"": 23}","**O que chama atenção**
+
+Um acervo de quase 30 mil vídeos combinado com duração mediana de 1,2 minuto sugere uma lógica de publicação orientada a recortes, highlights e conteúdo efêmero — estruturalmente compatível com cobertura ao vivo de eventos esportivos, mas que contrasta com a auto-descrição de ""ecossistema multiformato"" que implicaria variedade substancial de durações e formatos. A taxa de engajamento mediana de 2,73% em um canal desta escala levanta a questão de como esse índice se distribui entre transmissões ao vivo, clipes pós-jogo e vídeos de análise — se a mediana é puxada por um subconjunto específico de formato, a caracterização de ""ecossistema"" pode não se confirmar na prática do consumo.
+
+**O que investigar**
+
+Vale verificar se os 29.650 vídeos se concentram em períodos específicos (grandes torneios, Copas, Olimpíadas), o que indicaria produção por pulso de evento em vez de fluxo contínuo diversificado. A ausência de qualquer link externo recorrente merece verificação: canais de produtoras digitais com modelo de negócio declarado tendem a referenciar parceiros comerciais, plataformas de streaming ou produtos associados — a ausência pode indicar monetização exclusivamente via AdSense e direitos de transmissão, ou simplesmente que esses vínculos estão em outras camadas (descrições individuais, lives, redes sociais externas). A presença recorrente no Trending (100 aparições) sugere capacidade de mobilização de audiência em momentos específicos — vale investigar se essa concentração coincide com eventos de calendário esportivo ou se há outros gatilhos.
+
+**O que os dados não respondem**
+
+Os dados disponíveis não permitem distinguir se o volume de vídeos reflete uma operação editorial profissional de grande porte ou acúmulo histórico de clipes automatizados pós-transmissão. Tampouco é possível determinar, só pela análise quantitativa, se o engajamento observado corresponde a uma audiência fidelizada ao jornalismo esportivo da produtora ou a picos pontuais vinculados a eventos específicos — distinção que exige análise qualitativa vídeo a vídeo e leitura dos padrões de comentário ao longo do tempo.","1","","True"
