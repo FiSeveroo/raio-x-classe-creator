@@ -236,5 +236,165 @@ jobs:
 
           if not video_lookup.ok:
               print(
-                  "::error::Falha ao*
-
+                  "::error::Falha ao consultar videos.list: "
+                  f"{video_lookup.status_code}"
+              )
+              print(video_lookup.text[:1000])
+              video_lookup.raise_for_status()
+
+          lookup_payload = video_lookup.json()
+          video_items = lookup_payload.get("items", [])
+
+          results = []
+
+          for idx, item in enumerate(video_items, start=1):
+              video_id = item.get("id", "")
+              snippet = item.get("snippet") or {}
+              content = item.get("contentDetails") or {}
+              player = item.get("player") or {}
+
+              title = snippet.get("title", "")
+              description = snippet.get("description", "")
+              tags = snippet.get("tags") or []
+
+              duration_iso = content.get("duration", "")
+              duration_seconds = parse_duration(duration_iso)
+
+              embed_width = get_int(player.get("embedWidth"))
+              embed_height = get_int(player.get("embedHeight"))
+
+              if embed_width and embed_height:
+                  player_dimensions = f"{embed_width}x{embed_height}"
+              else:
+                  player_dimensions = "SEM_DADOS"
+
+              decision = classify_video(
+                  duration_seconds,
+                  embed_width,
+                  embed_height,
+              )
+
+              aspect_ratio = decision["aspect_ratio"]
+              aspect_text = (
+                  f"{aspect_ratio:.4f}"
+                  if aspect_ratio is not None
+                  else ""
+              )
+
+              search_match = next(
+                  (
+                      entry
+                      for entry in items
+                      if entry.get("id", {}).get("videoId") == video_id
+                  ),
+                  None,
+              )
+
+              channel_title = (
+                  snippet.get("channelTitle", "")
+                  if snippet
+                  else ""
+              )
+
+              searchable_text = (
+                  f"{title} {description} {' '.join(tags)}"
+              ).lower()
+              has_shorts_hashtag = "#shorts" in searchable_text
+
+              results.append(
+                  {
+                      "rank": idx,
+                      "video_id": video_id,
+                      "url": f"https://www.youtube.com/watch?v={video_id}",
+                      "title": title,
+                      "channel_title": channel_title,
+                      "published_at": snippet.get("publishedAt", ""),
+                      "duration_iso": duration_iso,
+                      "duration_seconds": duration_seconds,
+                      "embed_width": embed_width or "",
+                      "embed_height": embed_height or "",
+                      "player_dimensions": player_dimensions,
+                      "aspect_ratio": aspect_text,
+                      "format": decision["format"],
+                      "classification": decision["classification"],
+                      "binary_result": decision["binary_result"],
+                      "has_shorts_hashtag": has_shorts_hashtag,
+                      "reason": decision["reason"],
+                  }
+              )
+
+
+          print(f"{'#':<4} {'RESULTADO':<24} {'DURAÇÃO':<9} {'PLAYER':<14} {'FORMATO':<11} {'#SHORTS':<8} TÍTULO")
+          print("=" * 165)
+
+          for row in results:
+              print(
+                  f"{row['rank']:<4} "
+                  f"{row['classification']:<24} "
+                  f"{str(row['duration_seconds']) + 's':<9} "
+                  f"{row['player_dimensions']:<14} "
+                  f"{row['format']:<11} "
+                  f"{'SIM' if row['has_shorts_hashtag'] else 'NÃO':<8} "
+                  f"{row['title'][:70]}"
+              )
+              print(f"  ↳ {row['url']}")
+              print(f"  Motivo: {row['reason']}")
+              print()
+
+          shorts_count = sum(
+              row["binary_result"] == "SHORT"
+              for row in results
+          )
+
+          long_count = sum(
+              row["binary_result"] == "NAO_SHORT"
+              and row["classification"] == "NAO_SHORT_LONGO"
+              for row in results
+          )
+
+          nao_short_quadrado = sum(
+              row["classification"] == "NAO_SHORT_QUADRADO"
+              for row in results
+          )
+
+          nao_short_horizontal = sum(
+              row["classification"] == "NAO_SHORT_HORIZONTAL"
+              for row in results
+          )
+
+          inconclusive_count = sum(
+              row["binary_result"] == "INCONCLUSIVO"
+              for row in results
+          )
+
+          print("📊 RESUMO")
+          print(f"   Total consultado: {len(results)}")
+          print(f"   Shorts automáticos: {shorts_count}")
+          print(f"   Longos: {long_count}")
+          print(f"   Não shorts em quadrado: {nao_short_quadrado}")
+          print(f"   Não shorts horizontais: {nao_short_horizontal}")
+          print(f"   Inconclusivos: {inconclusive_count}")
+          print()
+          print("ℹ️ Não há revisão manual nesta etapa.")
+          print("ℹ️ O objetivo é detectar Shorts por estrutura oficial da API.")
+          print("ℹ️ A hashtag #shorts é apenas uma evidência adicional.")
+
+          csv_path = "shorts_search_result.csv"
+
+          with open(csv_path, "w", newline="", encoding="utf-8") as csv_file:
+              fieldnames = list(results[0].keys())
+              writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+              writer.writeheader()
+              writer.writerows(results)
+
+          print(f"\n✅ CSV salvo em {csv_path}")
+          PY
+
+      - name: Publicar CSV de resultado
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shorts-search-result
+          path: shorts_search_result.csv
+          if-no-files-found: ignore
+          retention-days: 14
