@@ -1,21 +1,26 @@
-name: Classificação Automatizada de Shorts
+name: Pesquisa Shorts por Search API
 
 on:
   workflow_dispatch:
     inputs:
+      search_query:
+        description: "Termo da busca do YouTube (ex.: shorts, shorts music, memes)"
+        required: false
+        default: "shorts"
+        type: string
       region_code:
-        description: "Região dos vídeos mais populares, por exemplo BR ou US"
+        description: "Região do YouTube (ex.: BR, US)"
         required: false
         default: "BR"
         type: string
       quantidade:
-        description: "Quantidade de vídeos a consultar, máximo 100"
+        description: "Quantidade de vídeos para consultar (máximo 50)"
         required: false
-        default: "100"
+        default: "25"
         type: string
 
 jobs:
-  classificar:
+  pesquisa:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,9 +37,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Consultar e classificar vídeos
+      - name: Buscar Shorts na API do YouTube
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          SEARCH_QUERY: ${{ inputs.search_query }}
           REGION_CODE: ${{ inputs.region_code }}
           QUANTITY: ${{ inputs.quantidade }}
         run: |
@@ -47,31 +53,22 @@ jobs:
 
           import requests
 
-
           API_KEY = os.environ.get("YOUTUBE_API_KEY", "").strip()
-          REGION_CODE = (
-              os.environ.get("REGION_CODE", "BR").strip().upper()
-              or "BR"
-          )
+          SEARCH_QUERY = os.environ.get("SEARCH_QUERY", "shorts").strip()
+          REGION_CODE = os.environ.get("REGION_CODE", "BR").strip().upper() or "BR"
 
           try:
-              QUANTITY = int(os.environ.get("QUANTITY", "100"))
+              QUANTITY = int(os.environ.get("QUANTITY", "25"))
           except ValueError:
-              QUANTITY = 100
+              QUANTITY = 25
 
-          QUANTITY = max(1, min(QUANTITY, 100))
-
-          # Limite experimental baseado no benchmark:
-          # vídeos de até 180 segundos podem ser Shorts.
-          SHORT_MAX_SECONDS = 180
-
-          # O vídeo precisa ser claramente mais alto do que largo.
-          # Isso exclui formatos quadrados 1:1.
-          VERTICAL_RATIO_MIN = 1.05
+          QUANTITY = max(1, min(QUANTITY, 50))
 
           if not API_KEY:
               print("::error::YOUTUBE_API_KEY está ausente ou vazia.")
               sys.exit(1)
+
+          SHORT_MAX_SECONDS = 180
 
 
           def parse_duration(duration: str | None) -> int:
@@ -87,7 +84,6 @@ jobs:
                   return 0
 
               hours, minutes, seconds = match.groups()
-
               return (
                   int(hours or 0) * 3600
                   + int(minutes or 0) * 60
@@ -95,10 +91,9 @@ jobs:
               )
 
 
-          def get_dimension(value: Any) -> int | None:
+          def get_int(value: Any) -> int | None:
               try:
-                  number = int(value)
-                  return number if number > 0 else None
+                  return int(value)
               except (TypeError, ValueError):
                   return None
 
@@ -108,358 +103,138 @@ jobs:
               embed_width: int | None,
               embed_height: int | None,
           ) -> dict[str, Any]:
-              """
-              Classificação totalmente automática.
-
-              Esta função não depende de hashtag, título, descrição,
-              histórico do Supabase ou verificação HTTP da URL /shorts.
-              """
-
+              # Vídeos longos
               if duration_seconds > SHORT_MAX_SECONDS:
                   return {
                       "classification": "NAO_SHORT_LONGO",
                       "binary_result": "NAO_SHORT",
-                      "confidence": "ALTA",
-                      "reason": (
-                          f"duração acima de "
-                          f"{SHORT_MAX_SECONDS} segundos"
-                      ),
-                      "aspect_ratio": None,
+                      "reason": "duração acima de 180 segundos",
                       "format": "LONGO",
+                      "aspect_ratio": None,
                   }
 
+              # Sem proporção do player
               if not embed_width or not embed_height:
                   return {
                       "classification": "INCONCLUSIVO",
                       "binary_result": "INCONCLUSIVO",
-                      "confidence": "BAIXA",
-                      "reason": (
-                          "duração curta, mas a API não retornou "
-                          "as dimensões do player"
-                      ),
-                      "aspect_ratio": None,
+                      "reason": "duração curta, mas proporção do player indisponível",
                       "format": "SEM_DADOS",
+                      "aspect_ratio": None,
                   }
 
               width = float(embed_width)
               height = float(embed_height)
-
-              # width / height:
-              # 1.0000 = quadrado
-              # 0.5625 = vertical 9:16
-              # 1.7778 = horizontal 16:9
               aspect_ratio = width / height
 
-              height_width_ratio = height / width
-
-              if height_width_ratio >= VERTICAL_RATIO_MIN:
+              # Vídeo vertical ou quase vertical
+              if height > width * 1.05:
                   return {
                       "classification": "SHORT_AUTOMATICO",
                       "binary_result": "SHORT",
-                      "confidence": "ALTA",
-                      "reason": (
-                          f"duração <= {SHORT_MAX_SECONDS}s + "
-                          "formato vertical"
-                      ),
-                      "aspect_ratio": aspect_ratio,
+                      "reason": "duração <= 180s + player vertical",
                       "format": "VERTICAL",
+                      "aspect_ratio": aspect_ratio,
                   }
 
-              # Aproximadamente 1:1. Estes foram os vídeos musicais
-              # com capa de álbum observados no benchmark.
+              # Quadrado: água de música / capa de álbum / visual de música
               if 0.95 <= aspect_ratio <= 1.05:
                   return {
                       "classification": "NAO_SHORT_QUADRADO",
                       "binary_result": "NAO_SHORT",
-                      "confidence": "ALTA",
-                      "reason": (
-                          f"duração <= {SHORT_MAX_SECONDS}s + "
-                          "formato quadrado"
-                      ),
-                      "aspect_ratio": aspect_ratio,
+                      "reason": "duração <= 180s + player quadrado",
                       "format": "QUADRADO",
+                      "aspect_ratio": aspect_ratio,
                   }
 
-              # Qualquer proporção em que a largura seja maior que a
-              # altura é tratada como conteúdo horizontal, incluindo
-              # 16:9, 21:9 e outras proporções ultrawide.
+              # Ultrawide / horizontais
               if width > height:
                   if aspect_ratio >= 1.90:
                       format_name = "ULTRAWIDE"
-                      classification = "NAO_SHORT_ULTRAWIDE"
+                      classificacao = "NAO_SHORT_ULTRAWIDE"
                   else:
                       format_name = "HORIZONTAL"
-                      classification = "NAO_SHORT_HORIZONTAL"
+                      classificacao = "NAO_SHORT_HORIZONTAL"
 
                   return {
-                      "classification": classification,
+                      "classification": classificacao,
                       "binary_result": "NAO_SHORT",
-                      "confidence": "ALTA",
-                      "reason": (
-                          f"duração <= {SHORT_MAX_SECONDS}s + "
-                          f"formato {format_name.lower()}"
-                      ),
-                      "aspect_ratio": aspect_ratio,
+                      "reason": f"duração <= 180s + formato {format_name.lower()}",
                       "format": format_name,
+                      "aspect_ratio": aspect_ratio,
                   }
 
               return {
                   "classification": "INCONCLUSIVO",
                   "binary_result": "INCONCLUSIVO",
-                  "confidence": "BAIXA",
                   "reason": "proporção não reconhecida",
-                  "aspect_ratio": aspect_ratio,
                   "format": "DESCONHECIDO",
+                  "aspect_ratio": aspect_ratio,
               }
 
 
-          def fetch_most_popular(quantity: int) -> list[dict[str, Any]]:
-              videos = []
-              seen_ids = set()
-              page_token = None
-
-              while len(videos) < quantity:
-                  params = {
-                      "chart": "mostPopular",
-                      "regionCode": REGION_CODE,
-                      "part": "snippet,contentDetails,player",
-                      "maxResults": min(
-                          50,
-                          quantity - len(videos),
-                      ),
-                      "maxWidth": 1000,
-                      "maxHeight": 1000,
-                      "key": API_KEY,
-                  }
-
-                  if page_token:
-                      params["pageToken"] = page_token
-
-                  response = requests.get(
-                      "https://www.googleapis.com/youtube/v3/videos",
-                      params=params,
-                      timeout=30,
-                  )
-
-                  if not response.ok:
-                      print(
-                          "::error::YouTube API retornou "
-                          f"HTTP {response.status_code}"
-                      )
-                      print(response.text[:1000])
-                      response.raise_for_status()
-
-                  payload = response.json()
-                  items = payload.get("items", [])
-
-                  if not items:
-                      break
-
-                  for item in items:
-                      video_id = item.get("id")
-
-                      if video_id and video_id not in seen_ids:
-                          seen_ids.add(video_id)
-                          videos.append(item)
-
-                  page_token = payload.get("nextPageToken")
-
-                  if not page_token:
-                      break
-
-              return videos[:quantity]
-
-
-          print("📡 Consultando os vídeos mais populares")
+          print("🔎 Fazendo busca do YouTube")
+          print(f"   Query: {SEARCH_QUERY}")
           print(f"   Região: {REGION_CODE}")
           print(f"   Quantidade: {QUANTITY}")
-          print("   Endpoint: videos.list")
-          print("   chart=mostPopular")
-          print("   maxWidth=1000")
-          print("   maxHeight=1000")
           print()
 
-          items = fetch_most_popular(QUANTITY)
+          search_response = requests.get(
+              "https://www.googleapis.com/youtube/v3/search",
+              params={
+                  "part": "snippet",
+                  "q": SEARCH_QUERY,
+                  "type": "video",
+                  "videoDuration": "short",
+                  "regionCode": REGION_CODE,
+                  "maxResults": QUANTITY,
+                  "key": API_KEY,
+              },
+              timeout=30,
+          )
+
+          if not search_response.ok:
+              print(
+                  "::error::Falha na busca do YouTube: "
+                  f"{search_response.status_code}"
+              )
+              print(search_response.text[:1000])
+              search_response.raise_for_status()
+
+          search_payload = search_response.json()
+          items = search_payload.get("items", [])
+
+          print(f"   Vídeos encontrados na busca: {len(items)}")
+          print()
 
           if not items:
-              print("::error::A API não retornou vídeos.")
+              print("::error::Nenhum vídeo encontrado para a busca.")
               sys.exit(1)
 
-          print(f"✅ Vídeos recebidos: {len(items)}")
-          print()
+          video_ids = [
+              item["id"]["videoId"]
+              for item in items
+              if item.get("id", {}).get("videoId")
+          ]
 
+          if not video_ids:
+              print("::error::A busca retornou itens sem videoId.")
+              sys.exit(1)
 
-          results = []
-
-          for rank, item in enumerate(items, start=1):
-              video_id = item.get("id", "")
-              snippet = item.get("snippet") or {}
-              content = item.get("contentDetails") or {}
-              player = item.get("player") or {}
-
-              title = snippet.get("title", "")
-              description = snippet.get("description", "")
-              tags = snippet.get("tags") or []
-              duration_iso = content.get("duration", "")
-              duration_seconds = parse_duration(duration_iso)
-
-              embed_width = get_dimension(player.get("embedWidth"))
-              embed_height = get_dimension(player.get("embedHeight"))
-
-              if embed_width and embed_height:
-                  player_dimensions = (
-                      f"{embed_width}x{embed_height}"
-                  )
-              else:
-                  player_dimensions = "SEM_DADOS"
-
-              decision = classify_video(
-                  duration_seconds=duration_seconds,
-                  embed_width=embed_width,
-                  embed_height=embed_height,
-              )
-
-              searchable_text = (
-                  f"{title} {description} {' '.join(tags)}"
-              ).lower()
-
-              has_shorts_hashtag = "#shorts" in searchable_text
-
-              aspect_ratio = decision["aspect_ratio"]
-
-              results.append(
-                  {
-                      "rank": rank,
-                      "video_id": video_id,
-                      "url": (
-                          "https://www.youtube.com/watch?v="
-                          f"{video_id}"
-                      ),
-                      "title": title,
-                      "channel_title": snippet.get(
-                          "channelTitle",
-                          "",
-                      ),
-                      "published_at": snippet.get(
-                          "publishedAt",
-                          "",
-                      ),
-                      "duration_iso": duration_iso,
-                      "duration_seconds": duration_seconds,
-                      "embed_width": embed_width or "",
-                      "embed_height": embed_height or "",
-                      "player_dimensions": player_dimensions,
-                      "aspect_ratio": (
-                          f"{aspect_ratio:.4f}"
-                          if aspect_ratio is not None
-                          else ""
-                      ),
-                      "format": decision["format"],
-                      "classification": decision["classification"],
-                      "binary_result": decision["binary_result"],
-                      "confidence": decision["confidence"],
-                      "has_shorts_hashtag": has_shorts_hashtag,
-                      "reason": decision["reason"],
-                  }
-              )
-
-
-          print(
-              f"{'#':<4} "
-              f"{'RESULTADO':<24} "
-              f"{'CONFIANÇA':<10} "
-              f"{'DURAÇÃO':<9} "
-              f"{'FORMATO':<11} "
-              f"{'PLAYER':<14} "
-              "TÍTULO"
+          print("📡 Consultando metadados dos vídeos retornados")
+          video_lookup = requests.get(
+              "https://www.googleapis.com/youtube/v3/videos",
+              params={
+                  "id": ",".join(video_ids),
+                  "part": "snippet,contentDetails,player",
+                  "maxWidth": 1000,
+                  "maxHeight": 1000,
+                  "key": API_KEY,
+              },
+              timeout=30,
           )
-          print("=" * 165)
 
-          for row in results:
+          if not video_lookup.ok:
               print(
-                  f"{row['rank']:<4} "
-                  f"{row['classification']:<24} "
-                  f"{row['confidence']:<10} "
-                  f"{str(row['duration_seconds']) + 's':<9} "
-                  f"{row['format']:<11} "
-                  f"{row['player_dimensions']:<14} "
-                  f"{row['title'][:65]}"
-              )
-              print(f"  ↳ {row['url']}")
-              print(f"  Motivo: {row['reason']}")
-              print()
-
-
-          def count_by(field: str, value: str) -> int:
-              return sum(row[field] == value for row in results)
-
-
-          print("📊 RESUMO AUTOMÁTICO")
-          print(f"   Total analisado: {len(results)}")
-          print(
-              "   Shorts automáticos: "
-              f"{count_by('binary_result', 'SHORT')}"
-          )
-          print(
-              "   Não Shorts longos: "
-              f"{count_by('classification', 'NAO_SHORT_LONGO')}"
-          )
-          print(
-              "   Não Shorts quadrados: "
-              f"{count_by('classification', 'NAO_SHORT_QUADRADO')}"
-          )
-          print(
-              "   Não Shorts horizontais: "
-              f"{count_by('classification', 'NAO_SHORT_HORIZONTAL')}"
-          )
-          print(
-              "   Não Shorts ultrawide: "
-              f"{count_by('classification', 'NAO_SHORT_ULTRAWIDE')}"
-          )
-          print(
-              "   Inconclusivos: "
-              f"{count_by('binary_result', 'INCONCLUSIVO')}"
-          )
-          print()
-          print(
-              "ℹ️ A hashtag #shorts foi registrada, mas não decide."
-          )
-          print(
-              "ℹ️ A classificação não consulta o Supabase."
-          )
-          print(
-              "ℹ️ A classificação não verifica a URL /shorts."
-          )
-          print(
-              "ℹ️ O resultado é automatizado, mas é uma heurística."
-          )
-
-
-          csv_path = "classificacao_automatizada_shorts.csv"
-
-          with open(
-              csv_path,
-              "w",
-              newline="",
-              encoding="utf-8",
-          ) as csv_file:
-              fieldnames = list(results[0].keys())
-              writer = csv.DictWriter(
-                  csv_file,
-                  fieldnames=fieldnames,
-              )
-              writer.writeheader()
-              writer.writerows(results)
-
-          print()
-          print(f"✅ CSV salvo em {csv_path}")
-          PY
-
-      - name: Publicar relatório CSV
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: classificacao-automatizada-shorts
-          path: classificacao_automatizada_shorts.csv
-          if-no-files-found: ignore
-          retention-days: 14
+                  "::error::Falha ao*
+
