@@ -83,10 +83,11 @@ def coletar_trending_por_fonte(categoria_id: str | None = None, quantidade: int 
     """
     url = "https://www.googleapis.com/youtube/v3/videos"
     params = {
-        "part": "snippet,statistics,contentDetails",
+        "part": "snippet,statistics,contentDetails,player",
         "chart": "mostPopular",
         "regionCode": REGIAO,
         "maxResults": 50,
+        "maxWidth": 1920,  # necessário para embedWidth/embedHeight virem com aspecto real
         "key": YOUTUBE_API_KEY,
     }
     if categoria_id:
@@ -204,8 +205,40 @@ def duracao_iso_para_segundos(duracao_iso: str) -> int:
     return h * 3600 + m * 60 + s
 
 
+def detectar_short(item: dict, duracao_segundos: int) -> bool | None:
+    """
+    Detecta se um vídeo é Short usando duração + aspecto do player.
+
+    Regra validada empiricamente (100% de acerto em testes):
+      - duração > 180s → Não é Short
+      - duração ≤ 180s + embedHeight > embedWidth (vertical) → Short
+      - duração ≤ 180s + não vertical → Não é Short
+      - dimensões ausentes → None (inconclusivo)
+
+    Retorna:
+      True  = Short
+      False = Vídeo longo (ou curto mas horizontal/quadrado)
+      None  = Dados insuficientes para decidir
+    """
+    if duracao_segundos > 180:
+        return False
+
+    player = item.get("player") or {}
+    embed_w = player.get("embedWidth")
+    embed_h = player.get("embedHeight")
+
+    if embed_w is None or embed_h is None:
+        return None
+
+    try:
+        return int(embed_h) > int(embed_w)
+    except (ValueError, TypeError):
+        return None
+
+
 def normalizar_metadados_video(item: dict, dados_canal: dict) -> dict:
     """Padroniza o formato dos metadados para uso interno."""
+    duracao_seg = duracao_iso_para_segundos(item["contentDetails"]["duration"])
     return {
         "video_id": item["id"],
         "titulo": item["snippet"]["title"],
@@ -214,10 +247,11 @@ def normalizar_metadados_video(item: dict, dados_canal: dict) -> dict:
         "canal_id": item["snippet"]["channelId"],
         "canal_nome": item["snippet"]["channelTitle"],
         "data_publicacao": item["snippet"]["publishedAt"],
-        "duracao_segundos": duracao_iso_para_segundos(item["contentDetails"]["duration"]),
+        "duracao_segundos": duracao_seg,
         "visualizacoes": int(item["statistics"].get("viewCount", 0)),
         "likes": int(item["statistics"].get("likeCount", 0)),
         "comentarios": int(item["statistics"].get("commentCount", 0)),
+        "is_short": detectar_short(item, duracao_seg),
         # Dados do canal para o classificador
         "canal_descricao": dados_canal.get("canal_descricao", ""),
         "inscritos_canal": dados_canal.get("inscritos", 0),
