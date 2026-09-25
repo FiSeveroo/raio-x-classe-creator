@@ -573,10 +573,34 @@ def duracao_iso_para_segundos(duracao_iso: str) -> int:
     return h * 3600 + m * 60 + s
 
 
+def _detectar_short(item: dict, duracao_segundos: int) -> bool | None:
+    """
+    Detecta se é Short usando duração + aspecto do player.
+    True=Short, False=Longo, None=inconclusivo (sem dimensões).
+    Regra validada: duração ≤ 180s + embedHeight > embedWidth.
+    """
+    if duracao_segundos > 180:
+        return False
+    player = item.get("player") or {}
+    embed_w = player.get("embedWidth")
+    embed_h = player.get("embedHeight")
+    if embed_w is None or embed_h is None:
+        return None
+    try:
+        return int(embed_h) > int(embed_w)
+    except (ValueError, TypeError):
+        return None
+
+
 def buscar_metadados_video(video_id: str) -> dict:
     resp = requests.get(
         "https://www.googleapis.com/youtube/v3/videos",
-        params={"id": video_id, "part": "snippet,statistics,contentDetails", "key": YOUTUBE_API_KEY},
+        params={
+            "id": video_id,
+            "part": "snippet,statistics,contentDetails,player",
+            "maxWidth": 1920,  # necessário para embedWidth/embedHeight virem com aspecto real
+            "key": YOUTUBE_API_KEY,
+        },
         timeout=10,
     )
     resp.raise_for_status()
@@ -584,6 +608,8 @@ def buscar_metadados_video(video_id: str) -> dict:
     if not data.get("items"):
         raise ValueError("Vídeo não encontrado. Verifique se a URL está correta e se o vídeo é público.")
     item = data["items"][0]
+    duracao_iso = item["contentDetails"]["duration"]
+    duracao_seg = duracao_iso_para_segundos(duracao_iso)
     return {
         "video_id": video_id,
         "titulo": item["snippet"]["title"],
@@ -592,10 +618,12 @@ def buscar_metadados_video(video_id: str) -> dict:
         "canal_id": item["snippet"]["channelId"],
         "canal_nome": item["snippet"]["channelTitle"],
         "data_publicacao": item["snippet"]["publishedAt"],
-        "duracao_iso": item["contentDetails"]["duration"],
+        "duracao_iso": duracao_iso,
+        "duracao_segundos": duracao_seg,
         "visualizacoes": int(item["statistics"].get("viewCount", 0)),
         "likes": int(item["statistics"].get("likeCount", 0)),
         "comentarios": int(item["statistics"].get("commentCount", 0)),
+        "is_short": _detectar_short(item, duracao_seg),
     }
 
 
@@ -1079,6 +1107,7 @@ def renderizar_lupa() -> None:
                     metadados_json=json.dumps(meta, ensure_ascii=False),
                     versao_numero=1,
                     versao_anterior_id=None,
+                    is_short=meta.get("is_short"),
                 )
             except Exception:
                 pass  # falha de sincronização não bloqueia o usuário
@@ -1119,6 +1148,7 @@ def renderizar_lupa() -> None:
                         metadados_json=json.dumps({**meta_video, **meta_canal}, ensure_ascii=False),
                         versao_numero=proxima_versao,
                         versao_anterior_id=versao_anterior_id,
+                        is_short=meta_video.get("is_short"),
                     )
                 except Exception:
                     pass  # falha aqui não bloqueia o usuário
@@ -1142,6 +1172,24 @@ def _renderizar_resultado_lupa(meta: dict, resultado: dict, cache_aviso: bool = 
     st.markdown("---")
     st.markdown(f"### 🎬 {meta.get('titulo', '')}")
     st.markdown(f"*Canal:* **{meta.get('canal_nome', '')}**")
+
+    # Badge de formato (Short vs. Vídeo longo)
+    _is_short = meta.get("is_short")
+    _dur_seg = meta.get("duracao_segundos", 0)
+    if _is_short is True:
+        st.markdown(
+            f"<span style='background:#560BF2; color:white; padding:0.2rem 0.6rem; "
+            f"border-radius:4px; font-size:0.85rem;'>📱 SHORT · {_dur_seg}s</span>",
+            unsafe_allow_html=True,
+        )
+    elif _is_short is False:
+        _min = _dur_seg // 60
+        _sec = _dur_seg % 60
+        st.markdown(
+            f"<span style='background:#27D337; color:black; padding:0.2rem 0.6rem; "
+            f"border-radius:4px; font-size:0.85rem;'>🎥 VÍDEO LONGO · {_min}min {_sec}s</span>",
+            unsafe_allow_html=True,
+        )
 
     _views = meta.get('visualizacoes', 0)
     _likes = meta.get('likes', 0)
@@ -1406,6 +1454,32 @@ def renderizar_termometro_painel() -> None:
                 "% Usuário comum",
                 f"{(contagem_a.get('usuario_comum', 0) / n * 100):.1f}%",
             )
+
+            # Composição por formato (Shorts vs. Longos) — se dado disponível
+            if "is_short" in df.columns and df["is_short"].notna().any():
+                st.markdown("#### Formato dos vídeos no trending")
+                st.caption(
+                    "Detecção estrutural: duração ≤ 180s + player vertical = Short. "
+                    "Vídeos coletados antes desta funcionalidade aparecem como 'sem dados'."
+                )
+                shorts_n = int((df["is_short"] == True).sum())
+                longos_n = int((df["is_short"] == False).sum())
+                sem_dados = int(df["is_short"].isna().sum())
+                total_classificado = shorts_n + longos_n
+
+                fc1, fc2, fc3, fc4 = st.columns(4)
+                fc1.metric("📱 Shorts", f"{shorts_n}")
+                fc2.metric("🎥 Vídeos longos", f"{longos_n}")
+                fc3.metric(
+                    "% Shorts",
+                    f"{(shorts_n / total_classificado * 100):.1f}%" if total_classificado else "—",
+                    help="Sobre o total de vídeos com dados de formato disponíveis.",
+                )
+                fc4.metric(
+                    "Sem dados",
+                    f"{sem_dados}",
+                    help="Coletados antes da detecção de formato ou sem dimensões de player.",
+                )
 
             st.markdown("---")
 
@@ -1800,7 +1874,8 @@ def enriquecer_metadados_video(video_ids: list[str]) -> dict[str, dict]:
         "https://www.googleapis.com/youtube/v3/videos",
         params={
             "id": ",".join(video_ids[:50]),
-            "part": "snippet,statistics,contentDetails",
+            "part": "snippet,statistics,contentDetails,player",
+            "maxWidth": 1920,
             "key": YOUTUBE_API_KEY,
         },
         timeout=15,
@@ -2849,11 +2924,13 @@ def buscar_uploads_recentes(canal_id: str, max_videos: int = 50) -> list[dict]:
         return []
 
     # 3. Pega metadados completos em batch (até 50 IDs por chamada)
+    # part=player + maxWidth para detectar Shorts via aspecto do embed
     resp = requests.get(
         "https://www.googleapis.com/youtube/v3/videos",
         params={
             "id": ",".join(video_ids),
-            "part": "snippet,statistics,contentDetails",
+            "part": "snippet,statistics,contentDetails,player",
+            "maxWidth": 1920,
             "key": YOUTUBE_API_KEY,
         },
         timeout=20,
@@ -2916,27 +2993,60 @@ def calcular_sintomas_estruturais(videos: list[dict], canal_meta: dict) -> dict:
     if not videos:
         return {}
 
-    # Frequência de postagem (vídeos por dia, com base nos N mais recentes)
-    datas = []
+    # Detecção de Shorts (duração ≤ 180s + player vertical)
+    # Separa os vídeos em: shorts / longos / inconclusivos
+    videos_shorts = []
+    videos_longos = []
+    videos_inconclusivos = []
     for v in videos:
-        try:
-            datas.append(datetime.fromisoformat(v["snippet"]["publishedAt"].replace("Z", "+00:00")))
-        except (KeyError, ValueError):
-            pass
+        d = duracao_iso_para_segundos(v.get("contentDetails", {}).get("duration", ""))
+        is_short = _detectar_short(v, d)
+        if is_short is True:
+            videos_shorts.append(v)
+        elif is_short is False:
+            videos_longos.append(v)
+        else:
+            videos_inconclusivos.append(v)
 
-    freq_videos_dia = None
-    if len(datas) >= 2:
-        intervalo = (max(datas) - min(datas)).total_seconds() / 86400
-        if intervalo > 0:
-            freq_videos_dia = len(datas) / intervalo
+    total_shorts = len(videos_shorts)
+    total_longos = len(videos_longos)
+    total_inconclusivos = len(videos_inconclusivos)
+    pct_shorts = (total_shorts / len(videos)) * 100 if videos else 0
 
-    # Duração mediana
-    duracoes = []
+    def _freq(vlist):
+        """Frequência de postagem (vídeos/dia) para uma lista de vídeos."""
+        datas_v = []
+        for v in vlist:
+            try:
+                datas_v.append(datetime.fromisoformat(v["snippet"]["publishedAt"].replace("Z", "+00:00")))
+            except (KeyError, ValueError):
+                pass
+        if len(datas_v) < 2:
+            return None
+        intervalo = (max(datas_v) - min(datas_v)).total_seconds() / 86400
+        return len(datas_v) / intervalo if intervalo > 0 else None
+
+    # Frequência geral (mantida por retrocompatibilidade)
+    freq_videos_dia = _freq(videos)
+    # Frequências separadas (novo — mais honestas)
+    freq_shorts_dia = _freq(videos_shorts) if videos_shorts else None
+    freq_longos_dia = _freq(videos_longos) if videos_longos else None
+
+    # Duração mediana — só de vídeos LONGOS (Shorts distorcem essa métrica)
+    duracoes_longos = []
+    for v in videos_longos:
+        d = duracao_iso_para_segundos(v.get("contentDetails", {}).get("duration", ""))
+        if d > 0:
+            duracoes_longos.append(d)
+    duracao_mediana = sorted(duracoes_longos)[len(duracoes_longos) // 2] if duracoes_longos else 0
+
+    # Duração mediana geral (mantida por retrocompatibilidade)
+    duracoes_todas = []
     for v in videos:
         d = duracao_iso_para_segundos(v.get("contentDetails", {}).get("duration", ""))
         if d > 0:
-            duracoes.append(d)
-    duracao_mediana = sorted(duracoes)[len(duracoes) // 2] if duracoes else 0
+            duracoes_todas.append(d)
+    duracao_mediana_geral = sorted(duracoes_todas)[len(duracoes_todas) // 2] if duracoes_todas else 0
 
     # Heurística: links monetizados consistentes (mesma loja/marca em várias descrições)
     import re as _re
@@ -2987,7 +3097,14 @@ def calcular_sintomas_estruturais(videos: list[dict], canal_meta: dict) -> dict:
 
     return {
         "frequencia_videos_por_dia": freq_videos_dia,
-        "duracao_mediana_segundos": duracao_mediana,
+        "frequencia_shorts_por_dia": freq_shorts_dia,
+        "frequencia_longos_por_dia": freq_longos_dia,
+        "duracao_mediana_segundos": duracao_mediana,  # só de longos (mais honesto)
+        "duracao_mediana_geral_segundos": duracao_mediana_geral,
+        "total_shorts": total_shorts,
+        "total_longos": total_longos,
+        "total_inconclusivos": total_inconclusivos,
+        "pct_shorts": pct_shorts,
         "link_externo_repetido": link_mais_repetido,
         "pct_titulos_padronizados": pct_padronizados,
         "taxa_engajamento_mediana": taxa_eng_mediana,
@@ -3473,32 +3590,80 @@ def renderizar_dossie_completo(dossie: dict, do_cache: bool, cliente_db, auto_ca
         unsafe_allow_html=True,
     )
 
-    # Cards dos 4 sintomas — sem rótulos qualitativos inventados
+    # Composição do canal: Shorts vs. Vídeos longos
+    # Sem essa separação, um canal com muitos Shorts parece hiperindustrial
+    # quando pode ser apenas casual com celular vertical.
+    total_shorts = sintomas.get("total_shorts", 0)
+    total_longos = sintomas.get("total_longos", 0)
+    total_inconc = sintomas.get("total_inconclusivos", 0)
+    pct_shorts = sintomas.get("pct_shorts", 0)
+
+    if total_shorts > 0 or total_longos > 0:
+        st.markdown("#### Composição por formato")
+        comp_cols = st.columns(3)
+        comp_cols[0].metric(
+            "📱 Shorts",
+            f"{total_shorts}",
+            help="Vídeos com duração ≤ 180s e player vertical (embedHeight > embedWidth).",
+        )
+        comp_cols[1].metric(
+            "🎥 Vídeos longos",
+            f"{total_longos}",
+            help="Vídeos > 180s ou ≤ 180s com player horizontal/quadrado.",
+        )
+        comp_cols[2].metric(
+            "% Shorts",
+            f"{pct_shorts:.0f}%",
+            help=(
+                f"Do total de {total_shorts + total_longos + total_inconc} vídeos analisados. "
+                f"{total_inconc} inconclusivos (sem dimensões do player)."
+            ),
+        )
+
+    # Cards dos sintomas — agora com frequências separadas
+    st.markdown("#### Frequência de postagem")
     sin_cols = st.columns(3)
 
-    freq = sintomas.get("frequencia_videos_por_dia") or 0
+    freq_geral = sintomas.get("frequencia_videos_por_dia") or 0
+    freq_shorts = sintomas.get("frequencia_shorts_por_dia") or 0
+    freq_longos = sintomas.get("frequencia_longos_por_dia") or 0
+
     sin_cols[0].metric(
-        "Frequência de postagem",
-        f"{freq:.2f} vídeos/dia",
+        "Total (todos formatos)",
+        f"{freq_geral:.2f}/dia" if freq_geral else "—",
         help=(
-            "Calculada a partir do intervalo entre o vídeo mais antigo e o mais recente "
-            "dos 50 analisados. Frequências altas sugerem profissionalização, mas não há "
-            "threshold validado na literatura. Dado bruto para interpretação contextual."
+            "Frequência calculada com TODOS os vídeos analisados (Shorts + longos). "
+            "Métrica distorcida quando o canal mistura muitos Shorts com poucos longos."
         ),
     )
+    sin_cols[1].metric(
+        "📱 Shorts",
+        f"{freq_shorts:.2f}/dia" if freq_shorts else "—",
+        help="Frequência de postagem considerando apenas Shorts.",
+    )
+    sin_cols[2].metric(
+        "🎥 Vídeos longos",
+        f"{freq_longos:.2f}/dia" if freq_longos else "—",
+        help=(
+            "Frequência de postagem considerando apenas vídeos longos. "
+            "Mais representativa do trabalho de produção estruturada."
+        ),
+    )
+
+    st.markdown("#### Outros sintomas")
+    sin_cols2 = st.columns(2)
 
     dur_min = sintomas.get("duracao_mediana_segundos", 0) / 60
-    sin_cols[1].metric(
-        "Duração mediana",
-        f"{dur_min:.1f} min",
+    sin_cols2[0].metric(
+        "Duração mediana (só longos)",
+        f"{dur_min:.1f} min" if dur_min else "—",
         help=(
-            "Severo (2026) identificou duração média de 35min57s no trending BR, "
-            "com Produtoras Digitais (18min30s) e YouTubers Profissionais (16min38s) "
-            "liderando entre conteúdos de entretenimento."
+            "Duração mediana APENAS dos vídeos longos (Shorts excluídos do cálculo, "
+            "por distorcerem a métrica). Severo (2026) identificou 35min57s no trending BR."
         ),
     )
 
-    sin_cols[2].metric(
+    sin_cols2[1].metric(
         "% títulos padronizados",
         f"{sintomas.get('pct_titulos_padronizados', 0):.0f}%",
         help=(
