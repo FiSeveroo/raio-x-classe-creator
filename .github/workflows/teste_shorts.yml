@@ -1,4 +1,4 @@
-name: Benchmark Shorts x Longos
+name: Benchmark Shorts — API Player
 
 on:
   workflow_dispatch:
@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Baixar código
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Configurar Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -19,185 +21,424 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Testar 10 vídeos conhecidos
+      - name: Consultar API do YouTube
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           python - <<'PY'
+          import csv
           import os
           import re
+          import sys
+          from typing import Any
+
           import requests
-          import csv
 
-          API_KEY = os.environ["YOUTUBE_API_KEY"]
 
-          # Base conhecida de teste
-          videos = [
-              ("-pEoW7iNkgI", "longo"),
-              ("R_UKPGu7Jt0", "longo"),
-              ("ITm6R6W9ZoQ", "longo"),
-              ("yLfMt8HIBZM", "short"),
-              ("kpm7BJdgn0Y", "short"),
-              ("PTYDcTKREtE", "short"),
-              ("9U_hyEYFWA4", "short"),
-              ("jlPnSpAPZvU", "longo"),
-              ("fKF2HIjxtNA", "longo"),
-              ("-ndOcHguPVw", "longo"),
+          API_KEY = os.environ.get("YOUTUBE_API_KEY", "").strip()
+
+          if not API_KEY:
+              print("::error::YOUTUBE_API_KEY está ausente ou vazia.")
+              sys.exit(1)
+
+
+          # Amostra manual de referência.
+          # expected é a classificação conhecida manualmente.
+          VIDEOS = [
+              {"video_id": "-pEoW7iNkgI", "expected": "longo"},
+              {"video_id": "R_UKPGu7Jt0", "expected": "longo"},
+              {"video_id": "ITm6R6W9ZoQ", "expected": "longo"},
+              {"video_id": "yLfMt8HIBZM", "expected": "short"},
+              {"video_id": "kpm7BJdgn0Y", "expected": "short"},
+              {"video_id": "PTYDcTKREtE", "expected": "short"},
+              {"video_id": "9U_hyEYFWA4", "expected": "short"},
+              {"video_id": "jlPnSpAPZvU", "expected": "longo"},
+              {"video_id": "fKF2HIjxtNA", "expected": "longo"},
+              {"video_id": "-ndOcHguPVw", "expected": "longo"},
           ]
 
+
           def parse_duration(duration: str | None) -> int:
+              """Converte duração ISO 8601 do YouTube em segundos."""
               if not duration:
                   return 0
-              m = re.fullmatch(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", duration)
-              if not m:
-                  return 0
-              h = int(m.group(1) or 0)
-              mi = int(m.group(2) or 0)
-              s = int(m.group(3) or 0)
-              return h * 3600 + mi * 60 + s
 
-          def normalize(url_or_id: str) -> str:
-              if "youtube.com" in url_or_id:
-                  if "/shorts/" in url_or_id:
-                      return url_or_id.split("/shorts/")[-1].split("&")[0].split("?")[0]
-                  if "v=" in url_or_id:
-                      return url_or_id.split("v=")[-1].split("&")[0]
-              return url_or_id.split("&")[0].split("?")[0]
-
-          def score_prediction(video):
-              dur = video["duracao_seg"]
-              vertical = video["vertical"]
-              hashtag = video["hashtag_shorts"]
-              title = video["titulo"].lower()
-              desc = video["descricao"].lower()
-
-              score = 0
-
-              # Duração
-              if dur <= 60:
-                  score += 2
-              elif dur <= 180:
-                  score += 1
-              elif dur > 600:
-                  score -= 2
-
-              # Formato/vertical
-              if vertical is True:
-                  score += 2
-              elif vertical is False:
-                  score -= 1
-
-              # Hashtag curta
-              if hashtag:
-                  score += 2
-
-              # Título/descrição
-              if "shorts" in title or "shorts" in desc:
-                  score += 1
-
-              # Regra experimental
-              if score >= 4:
-                  return "SHORT"
-              return "LONGO"
-
-          batch = [normalize(v[0]) for v in videos]
-          results = []
-
-          # Consulta a API em lotes
-          for i in range(0, len(batch), 50):
-              chunk = ",".join(batch[i:i+50])
-              r = requests.get(
-                  "https://www.googleapis.com/youtube/v3/videos",
-                  params={
-                      "id": chunk,
-                      "part": "snippet,contentDetails,player",
-                      "key": API_KEY,
-                  },
-                  timeout=30,
+              match = re.fullmatch(
+                  r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?",
+                  duration,
               )
-              r.raise_for_status()
-              items = r.json().get("items", [])
 
-              for item in items:
-                  vid = item.get("id")
-                  snippet = item.get("snippet", {})
-                  content = item.get("contentDetails", {})
-                  player = item.get("player", {})
+              if not match:
+                  return 0
 
-                  titulo = snippet.get("title", "")
-                  descricao = snippet.get("description", "")
-                  tags = snippet.get("tags", [])
-                  duracao = parse_duration(content.get("duration"))
+              hours, minutes, seconds = match.groups()
 
-                  embed_w = player.get("embedWidth")
-                  embed_h = player.get("embedHeight")
+              return (
+                  int(hours or 0) * 3600
+                  + int(minutes or 0) * 60
+                  + int(seconds or 0)
+              )
 
-                  if embed_w and embed_h:
-                      vertical = embed_h > embed_w
-                      ratio = f"{embed_w}x{embed_h}"
-                  else:
-                      vertical = None
-                      ratio = "SEM DADOS"
 
-                  texto = f"{titulo} {descricao} {' '.join(tags)}".lower()
-                  hashtag_shorts = "#shorts" in texto
+          def classify_video(
+              duration_seconds: int,
+              embed_width: int | None,
+              embed_height: int | None,
+          ) -> tuple[str, str, bool | None]:
+              """
+              Classificação experimental.
 
-                  expected = next(label for video_id, label in videos if video_id == vid or normalize(video_id) == vid)
-                  pred = score_prediction({
-                      "duracao_seg": duracao,
-                      "vertical": vertical,
-                      "hashtag_shorts": hashtag_shorts,
-                      "titulo": titulo,
-                      "descricao": descricao,
-                  })
+              A decisão binária de Short exige:
+              - duração de até 180 segundos; e
+              - proporção vertical ou quadrada.
 
-                  results.append({
-                      "video_id": vid,
+              A hashtag não participa da decisão.
+              """
+
+              if embed_width is None or embed_height is None:
+                  if duration_seconds > 180:
+                      return (
+                          "PROVAVEL_LONGO",
+                          "duração acima de 180s; proporção indisponível",
+                          None,
+                      )
+
+                  return (
+                      "INCONCLUSIVO",
+                      "duração até 180s, mas proporção indisponível",
+                      None,
+                  )
+
+              is_vertical_or_square = embed_height >= embed_width
+
+              if duration_seconds > 180:
+                  return (
+                      "PROVAVEL_LONGO",
+                      "duração acima de 180s",
+                      is_vertical_or_square,
+                  )
+
+              if is_vertical_or_square:
+                  if embed_height == embed_width:
+                      return (
+                          "CANDIDATO_SHORT_QUADRADO",
+                          "duração até 180s + player quadrado",
+                          True,
+                      )
+
+                  return (
+                      "CANDIDATO_SHORT_VERTICAL",
+                      "duração até 180s + player vertical",
+                      True,
+                  )
+
+              return (
+                  "VIDEO_CURTO_HORIZONTAL",
+                  "duração até 180s + player horizontal",
+                  False,
+              )
+
+
+          expected_by_id = {
+              item["video_id"]: item["expected"].lower()
+              for item in VIDEOS
+          }
+
+          video_ids = list(expected_by_id)
+
+          print("📡 Consultando diretamente a API do YouTube")
+          print("   Fonte dos vídeos: lista manual deste workflow")
+          print("   Fonte dos dados: videos.list")
+          print("   Partes: snippet, contentDetails, player")
+          print("   maxWidth: 1000")
+          print("   maxHeight: 1000")
+          print(f"   Total de IDs enviados: {len(video_ids)}")
+          print()
+
+
+          response = requests.get(
+              "https://www.googleapis.com/youtube/v3/videos",
+              params={
+                  "id": ",".join(video_ids),
+                  "part": "snippet,contentDetails,player",
+                  "maxWidth": 1000,
+                  "maxHeight": 1000,
+                  "key": API_KEY,
+              },
+              timeout=30,
+          )
+
+          if not response.ok:
+              print(f"::error::YouTube API retornou HTTP {response.status_code}")
+              print(response.text[:1000])
+              response.raise_for_status()
+
+          payload: dict[str, Any] = response.json()
+          items = payload.get("items", [])
+
+          print(f"   Vídeos retornados pela API: {len(items)}")
+          print()
+
+
+          results = []
+          returned_ids = set()
+
+          for item in items:
+              video_id = item.get("id")
+
+              if not video_id:
+                  continue
+
+              returned_ids.add(video_id)
+
+              snippet = item.get("snippet") or {}
+              content_details = item.get("contentDetails") or {}
+              player = item.get("player") or {}
+
+              title = snippet.get("title", "")
+              description = snippet.get("description", "")
+              tags = snippet.get("tags") or []
+
+              duration_iso = content_details.get("duration")
+              duration_seconds = parse_duration(duration_iso)
+
+              embed_width = player.get("embedWidth")
+              embed_height = player.get("embedHeight")
+
+              # Garante que os valores sejam numéricos antes de comparar.
+              try:
+                  embed_width = int(embed_width) if embed_width is not None else None
+                  embed_height = int(embed_height) if embed_height is not None else None
+              except (TypeError, ValueError):
+                  embed_width = None
+                  embed_height = None
+
+              if embed_width and embed_height:
+                  aspect_ratio = embed_width / embed_height
+                  player_dimensions = f"{embed_width}x{embed_height}"
+              else:
+                  aspect_ratio = None
+                  player_dimensions = "SEM DADOS"
+
+              searchable_text = (
+                  f"{title} {description} {' '.join(tags)}"
+              ).lower()
+
+              has_shorts_hashtag = "#shorts" in searchable_text
+
+              classification, reason, vertical_or_square = classify_video(
+                  duration_seconds=duration_seconds,
+                  embed_width=embed_width,
+                  embed_height=embed_height,
+              )
+
+              # Para medir a hipótese binária:
+              # só consideramos Short quando a API retornou player vertical/quadrado
+              # e a duração está dentro do limite de 180 segundos.
+              predicted_binary = (
+                  "short"
+                  if (
+                      duration_seconds <= 180
+                      and vertical_or_square is True
+                  )
+                  else "longo"
+              )
+
+              expected = expected_by_id.get(video_id, "desconhecido")
+
+              results.append(
+                  {
+                      "video_id": video_id,
+                      "url": f"https://www.youtube.com/watch?v={video_id}",
                       "expected": expected,
-                      "predicted": pred,
-                      "duracao_seg": duracao,
-                      "embed": ratio,
-                      "vertical": vertical,
-                      "hashtag_shorts": hashtag_shorts,
-                      "titulo": titulo[:80],
-                  })
+                      "predicted_binary": predicted_binary,
+                      "classification": classification,
+                      "duration_iso": duration_iso or "",
+                      "duration_seconds": duration_seconds,
+                      "player_dimensions": player_dimensions,
+                      "embed_width": embed_width or "",
+                      "embed_height": embed_height or "",
+                      "aspect_ratio": (
+                          f"{aspect_ratio:.4f}"
+                          if aspect_ratio is not None
+                          else ""
+                      ),
+                      "vertical_or_square": (
+                          vertical_or_square
+                          if vertical_or_square is not None
+                          else ""
+                      ),
+                      "has_shorts_hashtag": has_shorts_hashtag,
+                      "reason": reason,
+                      "title": title,
+                  }
+              )
 
-          # Impressão
-          print(f"{'ID':<14} {'REAL':<8} {'PRED':<8} {'DURA':<6} {'FORM':<14} {'#SHORTS':<7} TITULO")
-          print("=" * 130)
+
+          missing_ids = [
+              video_id
+              for video_id in video_ids
+              if video_id not in returned_ids
+          ]
+
+          for video_id in missing_ids:
+              results.append(
+                  {
+                      "video_id": video_id,
+                      "url": f"https://www.youtube.com/watch?v={video_id}",
+                      "expected": expected_by_id[video_id],
+                      "predicted_binary": "indisponivel",
+                      "classification": "NAO_RETORNADO",
+                      "duration_iso": "",
+                      "duration_seconds": "",
+                      "player_dimensions": "SEM DADOS",
+                      "embed_width": "",
+                      "embed_height": "",
+                      "aspect_ratio": "",
+                      "vertical_or_square": "",
+                      "has_shorts_hashtag": "",
+                      "reason": "ID não retornado pela API",
+                      "title": "",
+                  }
+              )
+
+
+          results.sort(
+              key=lambda row: video_ids.index(row["video_id"])
+              if row["video_id"] in video_ids
+              else len(video_ids)
+          )
+
+
+          print(
+              f"{'ID':<14} "
+              f"{'REAL':<8} "
+              f"{'PRED':<8} "
+              f"{'CLASSIFICAÇÃO':<29} "
+              f"{'DURAÇÃO':<9} "
+              f"{'PLAYER':<14} "
+              f"TÍTULO"
+          )
+          print("=" * 170)
+
           for row in results:
               print(
                   f"{row['video_id']:<14} "
                   f"{row['expected']:<8} "
-                  f"{row['predicted']:<8} "
-                  f"{str(row['duracao_seg'])+'s':<6} "
-                  f"{str(row['embed']):<14} "
-                  f"{'SIM' if row['hashtag_shorts'] else 'NAO':<7} "
-                  f"{row['titulo']}"
+                  f"{row['predicted_binary']:<8} "
+                  f"{row['classification']:<29} "
+                  f"{str(row['duration_seconds']) + 's':<9} "
+                  f"{row['player_dimensions']:<14} "
+                  f"{row['title'][:70]}"
+              )
+              print(f"  Motivo: {row['reason']}")
+              print(
+                  f"  embedWidth={row['embed_width'] or '-'} | "
+                  f"embedHeight={row['embed_height'] or '-'} | "
+                  f"aspectRatio={row['aspect_ratio'] or '-'} | "
+                  f"#shorts={row['has_shorts_hashtag']}"
+              )
+              print(f"  URL: {row['url']}")
+              print()
+
+
+          comparable_results = [
+              row
+              for row in results
+              if row["predicted_binary"] in ("short", "longo")
+          ]
+
+          correct = sum(
+              row["expected"] == row["predicted_binary"]
+              for row in comparable_results
+          )
+
+          true_positives = sum(
+              row["expected"] == "short"
+              and row["predicted_binary"] == "short"
+              for row in comparable_results
+          )
+
+          false_positives = sum(
+              row["expected"] == "longo"
+              and row["predicted_binary"] == "short"
+              for row in comparable_results
+          )
+
+          false_negatives = sum(
+              row["expected"] == "short"
+              and row["predicted_binary"] == "longo"
+              for row in comparable_results
+          )
+
+          true_negatives = sum(
+              row["expected"] == "longo"
+              and row["predicted_binary"] == "longo"
+              for row in comparable_results
+          )
+
+          print("📊 RESULTADO DO BENCHMARK")
+          print(f"   Total informado: {len(VIDEOS)}")
+          print(f"   Retornados pela API: {len(items)}")
+          print(f"   Não retornados pela API: {len(missing_ids)}")
+          print(f"   Comparáveis: {len(comparable_results)}")
+          print(f"   Acertos: {correct}/{len(comparable_results)}")
+
+          if comparable_results:
+              accuracy = correct / len(comparable_results) * 100
+              print(f"   Taxa de acerto: {accuracy:.1f}%")
+
+          print()
+          print("📌 MATRIZ DE CONFUSÃO")
+          print(f"   Verdadeiros positivos: {true_positives}")
+          print(f"   Falsos positivos: {false_positives}")
+          print(f"   Falsos negativos: {false_negatives}")
+          print(f"   Verdadeiros negativos: {true_negatives}")
+          print()
+          print("ℹ️ #shorts foi registrado como evidência,")
+          print("   mas NÃO participou da classificação.")
+          print("ℹ️ A rota /shorts não foi consultada neste teste.")
+          print("ℹ️ A classificação é experimental; a API não retorna isShort.")
+
+
+          csv_path = "benchmark_shorts_player.csv"
+
+          with open(csv_path, "w", newline="", encoding="utf-8") as csv_file:
+              fieldnames = [
+                  "video_id",
+                  "url",
+                  "expected",
+                  "predicted_binary",
+                  "classification",
+                  "duration_iso",
+                  "duration_seconds",
+                  "player_dimensions",
+                  "embed_width",
+                  "embed_height",
+                  "aspect_ratio",
+                  "vertical_or_square",
+                  "has_shorts_hashtag",
+                  "reason",
+                  "title",
+              ]
+
+              writer = csv.DictWriter(
+                  csv_file,
+                  fieldnames=fieldnames,
               )
 
-          # Estatísticas
-          correct = sum(1 for r in results if r["expected"] == r["predicted"])
-          total = len(results)
-          print("\n📊 RESULTADO")
-          print(f"   Acertos: {correct}/{total}")
-          print(f"   Taxa: {correct/total*100:.1f}%")
-
-          # Salva CSV
-          with open("benchmark_shorts.csv", "w", newline="", encoding="utf-8") as f:
-              writer = csv.DictWriter(f, fieldnames=[
-                  "video_id", "expected", "predicted", "duracao_seg", "embed", "vertical", "hashtag_shorts", "titulo"
-              ])
               writer.writeheader()
               writer.writerows(results)
 
-          print("\n✅ CSV salvo em benchmark_shorts.csv")
-
+          print()
+          print(f"✅ CSV salvo em {csv_path}")
           PY
 
-      - name: Upload do benchmark
+      - name: Publicar relatório
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: benchmark-shorts
-          path: benchmark_shorts.csv
+          name: benchmark-shorts-player
+          path: benchmark_shorts_player.csv
+          if-no-files-found: ignore
           retention-days: 7
