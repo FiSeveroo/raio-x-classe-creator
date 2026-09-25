@@ -1,0 +1,144 @@
+name: Teste — Detecção de Shorts
+
+on:
+  workflow_dispatch:  # Roda manual pelo botão "Run workflow"
+
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests supabase
+
+      - name: Rodar teste de detecção de Shorts
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          python - <<'EOF'
+          import os, json, re, requests
+          from supabase import create_client
+
+          API_KEY = os.environ["YOUTUBE_API_KEY"]
+          db = create_client(os.environ["SUPABASE_URL"], os.environ["SUPABASE_KEY"])
+
+          # 1. Pegar amostra de video_ids do Supabase (últimas 50 classificações)
+          print("📦 Buscando video_ids no Supabase...")
+          resp = db.table("classificacoes_video").select("video_id, titulo, tipo_produtor, tipo_conteudo").order("id", desc=True).limit(50).execute()
+          videos_db = resp.data
+          print(f"   {len(videos_db)} vídeos encontrados no corpus\n")
+
+          if not videos_db:
+              print("❌ Nenhum vídeo no Supabase.")
+              exit(1)
+
+          video_ids = [v["video_id"] for v in videos_db]
+
+          # 2. Consultar YouTube API com part=player,snippet,contentDetails
+          print("🔍 Consultando YouTube API (player + snippet + contentDetails)...\n")
+
+          def parse_duration(d):
+              m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", d or "PT0S")
+              if not m: return 0
+              return int(m.group(1) or 0)*3600 + int(m.group(2) or 0)*60 + int(m.group(3) or 0)
+
+          resultados = []
+
+          # API aceita até 50 IDs por chamada
+          for i in range(0, len(video_ids), 50):
+              batch = video_ids[i:i+50]
+              r = requests.get(
+                  "https://www.googleapis.com/youtube/v3/videos",
+                  params={
+                      "id": ",".join(batch),
+                      "part": "snippet,contentDetails,player",
+                      "maxWidth": 1920,
+                      "key": API_KEY,
+                  },
+              )
+              r.raise_for_status()
+              items = r.json().get("items", [])
+
+              for item in items:
+                  vid = item["id"]
+                  snippet = item.get("snippet", {})
+                  content = item.get("contentDetails", {})
+                  player = item.get("player", {})
+
+                  titulo = snippet.get("title", "")
+                  descricao = snippet.get("description", "")
+                  tags = snippet.get("tags", [])
+                  duracao = parse_duration(content.get("duration"))
+
+                  embed_w = player.get("embedWidth")
+                  embed_h = player.get("embedHeight")
+
+                  texto = f"{titulo} {descricao} {' '.join(tags)}".lower()
+                  tem_shorts = "#shorts" in texto
+
+                  if embed_w and embed_h:
+                      vertical = embed_h > embed_w
+                      ratio = f"{embed_w}x{embed_h}"
+                  else:
+                      vertical = None
+                      ratio = "SEM DADOS"
+
+                  resultados.append({
+                      "video_id": vid,
+                      "titulo": titulo[:50],
+                      "duracao_seg": duracao,
+                      "embed": ratio,
+                      "embed_w": embed_w,
+                      "embed_h": embed_h,
+                      "vertical": vertical,
+                      "hashtag_shorts": tem_shorts,
+                  })
+
+          # 3. Relatório
+          print(f"{'ID':<14} {'Título':<50} {'Dur':<6} {'Embed':<16} {'Vert':<6} {'#Shorts'}")
+          print("=" * 110)
+
+          shorts_detectados = 0
+          sem_dados_player = 0
+
+          for r in resultados:
+              vert_str = "SIM" if r["vertical"] else ("NÃO" if r["vertical"] is False else "?")
+              shorts_str = "SIM" if r["hashtag_shorts"] else "NÃO"
+
+              if r["vertical"] is None:
+                  sem_dados_player += 1
+
+              is_provavel_short = (
+                  (r["vertical"] is True and r["duracao_seg"] <= 180)
+                  or r["hashtag_shorts"]
+              )
+              if is_provavel_short:
+                  shorts_detectados += 1
+
+              marcador = " 📱" if is_provavel_short else ""
+
+              print(f"{r['video_id']:<14} {r['titulo']:<50} {r['duracao_seg']:<6} {r['embed']:<16} {vert_str:<6} {shorts_str}{marcador}")
+
+          print(f"\n📊 RESUMO:")
+          print(f"   Total testado: {len(resultados)}")
+          print(f"   Prováveis Shorts: {shorts_detectados}")
+          print(f"   Prováveis Longos: {len(resultados) - shorts_detectados}")
+          print(f"   Sem dados de player: {sem_dados_player}")
+          print(f"\n🔑 DADO CRUCIAL — embedWidth/embedHeight disponível?")
+          if sem_dados_player == 0:
+              print(f"   ✅ SIM — todos os {len(resultados)} retornaram dimensões do player")
+          elif sem_dados_player == len(resultados):
+              print(f"   ❌ NÃO — nenhum retornou dimensões. Heurística de aspecto inviável.")
+          else:
+              print(f"   ⚠️  PARCIAL — {len(resultados) - sem_dados_player}/{len(resultados)} retornaram. Analisar quais falharam.")
+
+          print(f"\n📋 Amostra de embedWidth x embedHeight (primeiros 10):")
+          for r in resultados[:10]:
+              print(f"   {r['video_id']} → {r['embed']} (dur: {r['duracao_seg']}s)")
+          EOF
