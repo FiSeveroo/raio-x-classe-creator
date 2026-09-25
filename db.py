@@ -128,6 +128,9 @@ def gravar_video_classificado(
         # Essencial para a Evidência 2 do paper (overlap entre endpoints).
         # Campo adicionado em 29/mai/2026 — registros anteriores têm DEFAULT 'geral'.
         "categoria_coleta": metadados.get("categoria_coleta", "geral"),
+        # Detecção estrutural de Shorts (duração ≤ 180s + player vertical)
+        # True=Short, False=Longo, NULL=inconclusivo (dimensões ausentes)
+        "is_short": metadados.get("is_short"),
     }).execute()
 
 
@@ -840,6 +843,7 @@ def registrar_lupa(
     metadados_json: str,
     versao_numero: int = 1,
     versao_anterior_id: int | None = None,
+    is_short: bool | None = None,
 ) -> int:
     """
     Persiste uma análise da Lupa no Supabase para integrar a biblioteca pública.
@@ -861,6 +865,7 @@ def registrar_lupa(
         "versao_numero": versao_numero,
         "versao_anterior_id": versao_anterior_id,
         "canonica": True,
+        "is_short": is_short,
     }).execute()
     return resposta.data[0]["id"]
 
