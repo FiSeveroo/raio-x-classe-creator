@@ -25,9 +25,12 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          # A secret key é usada aqui porque pode contornar RLS para leitura.
+          # Ela nunca é impressa nem gravada no relatório.
+          SUPABASE_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
         run: |
           python - <<'PY'
+          import csv
           import os
           import re
           import sys
@@ -35,11 +38,15 @@ jobs:
           import requests
           from supabase import create_client
 
+
           def required_env(name):
               value = os.environ.get(name, "").strip()
               if not value:
-                  raise RuntimeError(f"A variável obrigatória {name} está ausente ou vazia.")
+                  raise RuntimeError(
+                      f"A variável obrigatória {name} está ausente ou vazia."
+                  )
               return value
+
 
           def parse_duration(duration):
               match = re.fullmatch(
@@ -56,18 +63,21 @@ jobs:
                   + int(seconds or 0)
               )
 
+
           try:
               api_key = required_env("YOUTUBE_API_KEY")
               supabase_url = required_env("SUPABASE_URL")
               supabase_key = required_env("SUPABASE_KEY")
-
               db = create_client(supabase_url, supabase_key)
-
           except Exception as error:
               print(f"::error::{error}")
               sys.exit(1)
 
-          print("📦 Buscando video_ids no Supabase...")
+
+          print("📦 Buscando os últimos 50 vídeos no Supabase...")
+          print("   Tabela: classificacoes_video")
+          print("   Acesso: SUPABASE_SECRET_KEY (somente leitura)\n")
+
           try:
               response = (
                   db.table("classificacoes_video")
@@ -81,30 +91,30 @@ jobs:
               sys.exit(1)
 
           videos_db = response.data or []
-
           print(f"   {len(videos_db)} vídeos encontrados no corpus\n")
 
           if not videos_db:
-              print("❌ Nenhum vídeo no Supabase.")
+              print("❌ A consulta funcionou, mas a tabela não retornou registros.")
+              print("   Verifique se classificacoes_video é a tabela correta e se possui dados.")
               sys.exit(1)
 
-          video_ids = [
-              video["video_id"]
+          videos_by_id = {
+              video.get("video_id"): video
               for video in videos_db
               if video.get("video_id")
-          ]
+          }
+          video_ids = list(videos_by_id)
 
           if not video_ids:
-              print("❌ Nenhum video_id válido foi encontrado.")
+              print("❌ Os registros foram encontrados, mas nenhum possui video_id válido.")
               sys.exit(1)
 
-          print("🔍 Consultando YouTube API (player + snippet + contentDetails)...\n")
+          print("🔍 Consultando YouTube API (snippet + contentDetails + player)...\n")
 
           resultados = []
 
           for index in range(0, len(video_ids), 50):
               batch = video_ids[index:index + 50]
-
               response = requests.get(
                   "https://www.googleapis.com/youtube/v3/videos",
                   params={
@@ -115,11 +125,9 @@ jobs:
                   },
                   timeout=30,
               )
-
               response.raise_for_status()
-              items = response.json().get("items", [])
 
-              for item in items:
+              for item in response.json().get("items", []):
                   video_id = item["id"]
                   snippet = item.get("snippet", {})
                   content = item.get("contentDetails", {})
@@ -129,7 +137,6 @@ jobs:
                   descricao = snippet.get("description", "")
                   tags = snippet.get("tags", [])
                   duracao = parse_duration(content.get("duration"))
-
                   embed_width = player.get("embedWidth")
                   embed_height = player.get("embedHeight")
 
@@ -143,64 +150,93 @@ jobs:
                       vertical = None
                       ratio = "SEM DADOS"
 
+                  shorts_detectado = (
+                      (vertical is True and duracao <= 180)
+                      or tem_shorts
+                  )
+
+                  origem = videos_by_id.get(video_id, {})
                   resultados.append({
                       "video_id": video_id,
-                      "titulo": titulo[:50],
+                      "url": f"https://www.youtube.com/watch?v={video_id}",
+                      "titulo": titulo,
                       "duracao_seg": duracao,
                       "embed": ratio,
-                      "embed_w": embed_width,
-                      "embed_h": embed_height,
                       "vertical": vertical,
                       "hashtag_shorts": tem_shorts,
+                      "classificacao": "PROVAVEL_SHORT" if shorts_detectado else "PROVAVEL_LONGO",
+                      "tipo_produtor_supabase": origem.get("tipo_produtor", ""),
+                      "tipo_conteudo_supabase": origem.get("tipo_conteudo", ""),
                   })
 
-          print(f"{'ID':<14} {'Título':<50} {'Dur':<6} {'Embed':<16} {'Vert':<6} {'#Shorts'}")
-          print("=" * 110)
+          resultados_por_id = {item["video_id"]: item for item in resultados}
+          ids_nao_encontrados = [
+              video_id for video_id in video_ids
+              if video_id not in resultados_por_id
+          ]
 
-          shorts_detectados = 0
-          sem_dados_player = 0
+          print(f"{'CLASSIFICAÇÃO':<18} {'DURAÇÃO':<9} {'FORMATO':<14} {'#SHORTS':<9} TÍTULO")
+          print("=" * 125)
 
           for resultado in resultados:
               vertical = resultado["vertical"]
-              vert_str = "SIM" if vertical else ("NÃO" if vertical is False else "?")
+              vertical_str = (
+                  "VERTICAL" if vertical is True
+                  else "HORIZONTAL" if vertical is False
+                  else "SEM DADOS"
+              )
               shorts_str = "SIM" if resultado["hashtag_shorts"] else "NÃO"
+              duracao = f"{resultado['duracao_seg']}s"
+              titulo = resultado["titulo"][:75]
 
-              if vertical is None:
-                  sem_dados_player += 1
-
-              is_provavel_short = (
-                  (vertical is True and resultado["duracao_seg"] <= 180)
-                  or resultado["hashtag_shorts"]
-              )
-
-              if is_provavel_short:
-                  shorts_detectados += 1
-
-              marcador = " 📱" if is_provavel_short else ""
               print(
-                  f"{resultado['video_id']:<14} "
-                  f"{resultado['titulo']:<50} "
-                  f"{resultado['duracao_seg']:<6} "
-                  f"{resultado['embed']:<16} "
-                  f"{vert_str:<6} "
-                  f"{shorts_str}{marcador}"
+                  f"{resultado['classificacao']:<18} "
+                  f"{duracao:<9} "
+                  f"{vertical_str:<14} "
+                  f"{shorts_str:<9} "
+                  f"{titulo}"
               )
+              print(f"  ↳ {resultado['url']}")
+
+          shorts_detectados = sum(
+              item["classificacao"] == "PROVAVEL_SHORT"
+              for item in resultados
+          )
+          sem_dados_player = sum(
+              item["vertical"] is None for item in resultados
+          )
 
           print("\n📊 RESUMO:")
-          print(f"   Total testado: {len(resultados)}")
+          print(f"   Total encontrado no Supabase: {len(videos_db)}")
+          print(f"   Total retornado pelo YouTube: {len(resultados)}")
           print(f"   Prováveis Shorts: {shorts_detectados}")
           print(f"   Prováveis Longos: {len(resultados) - shorts_detectados}")
           print(f"   Sem dados de player: {sem_dados_player}")
+          print(f"   IDs não encontrados no YouTube: {len(ids_nao_encontrados)}")
 
-          print("\n🔑 DADO CRUCIAL — embedWidth/embedHeight disponível?")
-          if sem_dados_player == 0:
-              print(f"   ✅ SIM — todos os {len(resultados)} retornaram dimensões do player")
-          elif sem_dados_player == len(resultados):
-              print(f"   ❌ NÃO — nenhum retornou dimensões. Heurística de aspecto inviável.")
-          else:
-              print(f"   ⚠️  PARCIAL — {len(resultados) - sem_dados_player}/{len(resultados)} retornaram. Analisar quais falharam.")
+          if ids_nao_encontrados:
+              print("   IDs não encontrados:")
+              for video_id in ids_nao_encontrados:
+                  print(f"      {video_id}")
 
-          print("\n📋 Amostra de embedWidth x embedHeight (primeiros 10):")
-          for resultado in resultados[:10]:
-              print(f"   {resultado['video_id']} → {resultado['embed']} (dur: {resultado['duracao_seg']}s)")
+          with open("resultado_shorts.csv", "w", newline="", encoding="utf-8") as arquivo:
+              campos = [
+                  "video_id", "url", "titulo", "duracao_seg", "embed",
+                  "vertical", "hashtag_shorts", "classificacao",
+                  "tipo_produtor_supabase", "tipo_conteudo_supabase",
+              ]
+              writer = csv.DictWriter(arquivo, fieldnames=campos)
+              writer.writeheader()
+              writer.writerows(resultados)
+
+          print("\n✅ Relatório salvo em resultado_shorts.csv")
           PY
+
+      - name: Publicar relatório CSV
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultado-deteccao-shorts
+          path: resultado_shorts.csv
+          if-no-files-found: ignore
+          retention-days: 7
