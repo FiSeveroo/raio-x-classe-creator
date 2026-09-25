@@ -1,7 +1,18 @@
-name: Benchmark Shorts — API Player
+name: Benchmark Shorts — 100 Mais Populares
 
 on:
   workflow_dispatch:
+    inputs:
+      region_code:
+        description: "País da lista de mais populares (ex.: BR, US)"
+        required: false
+        default: "BR"
+        type: string
+      quantidade:
+        description: "Quantidade de vídeos a coletar (máximo 100)"
+        required: false
+        default: "100"
+        type: string
 
 jobs:
   benchmark:
@@ -21,9 +32,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Consultar API do YouTube
+      - name: Buscar vídeos mais populares e analisar Shorts
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          REGION_CODE: ${{ inputs.region_code }}
+          QUANTITY: ${{ inputs.quantidade }}
         run: |
           python - <<'PY'
           import csv
@@ -34,32 +47,21 @@ jobs:
 
           import requests
 
-
           API_KEY = os.environ.get("YOUTUBE_API_KEY", "").strip()
+          REGION_CODE = os.environ.get("REGION_CODE", "BR").strip().upper() or "BR"
+
+          try:
+              quantity = int(os.environ.get("QUANTITY", "100"))
+          except ValueError:
+              quantity = 100
+
+          quantity = max(1, min(quantity, 100))
 
           if not API_KEY:
               print("::error::YOUTUBE_API_KEY está ausente ou vazia.")
               sys.exit(1)
 
-
-          # Amostra manual de referência.
-          # expected é a classificação conhecida manualmente.
-          VIDEOS = [
-              {"video_id": "-pEoW7iNkgI", "expected": "longo"},
-              {"video_id": "R_UKPGu7Jt0", "expected": "longo"},
-              {"video_id": "ITm6R6W9ZoQ", "expected": "longo"},
-              {"video_id": "yLfMt8HIBZM", "expected": "short"},
-              {"video_id": "kpm7BJdgn0Y", "expected": "short"},
-              {"video_id": "PTYDcTKREtE", "expected": "short"},
-              {"video_id": "9U_hyEYFWA4", "expected": "short"},
-              {"video_id": "jlPnSpAPZvU", "expected": "longo"},
-              {"video_id": "fKF2HIjxtNA", "expected": "longo"},
-              {"video_id": "-ndOcHguPVw", "expected": "longo"},
-          ]
-
-
           def parse_duration(duration: str | None) -> int:
-              """Converte duração ISO 8601 do YouTube em segundos."""
               if not duration:
                   return 0
 
@@ -72,63 +74,44 @@ jobs:
                   return 0
 
               hours, minutes, seconds = match.groups()
-
               return (
                   int(hours or 0) * 3600
                   + int(minutes or 0) * 60
                   + int(seconds or 0)
               )
 
-
           def classify_video(
               duration_seconds: int,
               embed_width: int | None,
               embed_height: int | None,
           ) -> tuple[str, str, bool | None]:
-              """
-              Classificação experimental.
+              """Classificação experimental por duração + proporção do player."""
+              if duration_seconds > 180:
+                  return (
+                      "PROVAVEL_LONGO",
+                      "duração acima de 180s",
+                      None if not embed_width or not embed_height
+                      else embed_height >= embed_width,
+                  )
 
-              A decisão binária de Short exige:
-              - duração de até 180 segundos; e
-              - proporção vertical ou quadrada.
-
-              A hashtag não participa da decisão.
-              """
-
-              if embed_width is None or embed_height is None:
-                  if duration_seconds > 180:
-                      return (
-                          "PROVAVEL_LONGO",
-                          "duração acima de 180s; proporção indisponível",
-                          None,
-                      )
-
+              if not embed_width or not embed_height:
                   return (
                       "INCONCLUSIVO",
                       "duração até 180s, mas proporção indisponível",
                       None,
                   )
 
-              is_vertical_or_square = embed_height >= embed_width
-
-              if duration_seconds > 180:
-                  return (
-                      "PROVAVEL_LONGO",
-                      "duração acima de 180s",
-                      is_vertical_or_square,
-                  )
-
-              if is_vertical_or_square:
-                  if embed_height == embed_width:
-                      return (
-                          "CANDIDATO_SHORT_QUADRADO",
-                          "duração até 180s + player quadrado",
-                          True,
-                      )
-
+              if embed_height > embed_width:
                   return (
                       "CANDIDATO_SHORT_VERTICAL",
                       "duração até 180s + player vertical",
+                      True,
+                  )
+
+              if embed_height == embed_width:
+                  return (
+                      "CANDIDATO_SHORT_QUADRADO",
+                      "duração até 180s + player quadrado",
                       True,
                   )
 
@@ -138,59 +121,76 @@ jobs:
                   False,
               )
 
+          def fetch_most_popular(target: int) -> list[dict[str, Any]]:
+              videos = []
+              seen_ids = set()
+              page_token = None
 
-          expected_by_id = {
-              item["video_id"]: item["expected"].lower()
-              for item in VIDEOS
-          }
+              while len(videos) < target:
+                  params = {
+                      "chart": "mostPopular",
+                      "regionCode": REGION_CODE,
+                      "part": "snippet,contentDetails,player",
+                      "maxResults": min(50, target - len(videos)),
+                      "maxWidth": 1000,
+                      "maxHeight": 1000,
+                      "key": API_KEY,
+                  }
 
-          video_ids = list(expected_by_id)
+                  if page_token:
+                      params["pageToken"] = page_token
 
-          print("📡 Consultando diretamente a API do YouTube")
-          print("   Fonte dos vídeos: lista manual deste workflow")
-          print("   Fonte dos dados: videos.list")
-          print("   Partes: snippet, contentDetails, player")
-          print("   maxWidth: 1000")
-          print("   maxHeight: 1000")
-          print(f"   Total de IDs enviados: {len(video_ids)}")
+                  response = requests.get(
+                      "https://www.googleapis.com/youtube/v3/videos",
+                      params=params,
+                      timeout=30,
+                  )
+
+                  if not response.ok:
+                      print(
+                          f"::error::YouTube API retornou HTTP {response.status_code}"
+                      )
+                      print(response.text[:1000])
+                      response.raise_for_status()
+
+                  payload = response.json()
+                  items = payload.get("items", [])
+
+                  if not items:
+                      break
+
+                  for item in items:
+                      video_id = item.get("id")
+                      if video_id and video_id not in seen_ids:
+                          seen_ids.add(video_id)
+                          videos.append(item)
+
+                  next_page = payload.get("nextPageToken")
+                  if not next_page or len(videos) >= target:
+                      break
+
+                  page_token = next_page
+
+              return videos[:target]
+
+          print("📡 Buscando vídeos mais populares no YouTube")
+          print(f"   Região: {REGION_CODE}")
+          print(f"   Quantidade solicitada: {quantity}")
+          print("   Endpoint: videos.list?chart=mostPopular")
+          print("   maxWidth: 1000 | maxHeight: 1000")
           print()
 
+          items = fetch_most_popular(quantity)
+          print(f"   Vídeos retornados: {len(items)}\n")
 
-          response = requests.get(
-              "https://www.googleapis.com/youtube/v3/videos",
-              params={
-                  "id": ",".join(video_ids),
-                  "part": "snippet,contentDetails,player",
-                  "maxWidth": 1000,
-                  "maxHeight": 1000,
-                  "key": API_KEY,
-              },
-              timeout=30,
-          )
-
-          if not response.ok:
-              print(f"::error::YouTube API retornou HTTP {response.status_code}")
-              print(response.text[:1000])
-              response.raise_for_status()
-
-          payload: dict[str, Any] = response.json()
-          items = payload.get("items", [])
-
-          print(f"   Vídeos retornados pela API: {len(items)}")
-          print()
-
+          if not items:
+              print("::error::A API não retornou vídeos.")
+              sys.exit(1)
 
           results = []
-          returned_ids = set()
 
-          for item in items:
-              video_id = item.get("id")
-
-              if not video_id:
-                  continue
-
-              returned_ids.add(video_id)
-
+          for rank, item in enumerate(items, start=1):
+              video_id = item.get("id", "")
               snippet = item.get("snippet") or {}
               content_details = item.get("contentDetails") or {}
               player = item.get("player") or {}
@@ -198,14 +198,12 @@ jobs:
               title = snippet.get("title", "")
               description = snippet.get("description", "")
               tags = snippet.get("tags") or []
-
-              duration_iso = content_details.get("duration")
+              duration_iso = content_details.get("duration") or ""
               duration_seconds = parse_duration(duration_iso)
 
               embed_width = player.get("embedWidth")
               embed_height = player.get("embedHeight")
 
-              # Garante que os valores sejam numéricos antes de comparar.
               try:
                   embed_width = int(embed_width) if embed_width is not None else None
                   embed_height = int(embed_height) if embed_height is not None else None
@@ -214,55 +212,50 @@ jobs:
                   embed_height = None
 
               if embed_width and embed_height:
-                  aspect_ratio = embed_width / embed_height
                   player_dimensions = f"{embed_width}x{embed_height}"
+                  aspect_ratio = f"{embed_width / embed_height:.4f}"
               else:
-                  aspect_ratio = None
                   player_dimensions = "SEM DADOS"
+                  aspect_ratio = ""
 
               searchable_text = (
                   f"{title} {description} {' '.join(tags)}"
               ).lower()
-
               has_shorts_hashtag = "#shorts" in searchable_text
 
               classification, reason, vertical_or_square = classify_video(
-                  duration_seconds=duration_seconds,
-                  embed_width=embed_width,
-                  embed_height=embed_height,
+                  duration_seconds,
+                  embed_width,
+                  embed_height,
               )
 
-              # Para medir a hipótese binária:
-              # só consideramos Short quando a API retornou player vertical/quadrado
-              # e a duração está dentro do limite de 180 segundos.
               predicted_binary = (
                   "short"
-                  if (
-                      duration_seconds <= 180
-                      and vertical_or_square is True
+                  if classification in (
+                      "CANDIDATO_SHORT_VERTICAL",
+                      "CANDIDATO_SHORT_QUADRADO",
                   )
                   else "longo"
+                  if classification == "PROVAVEL_LONGO"
+                  else "inconclusivo"
               )
-
-              expected = expected_by_id.get(video_id, "desconhecido")
 
               results.append(
                   {
+                      "rank": rank,
                       "video_id": video_id,
                       "url": f"https://www.youtube.com/watch?v={video_id}",
-                      "expected": expected,
+                      "title": title,
+                      "channel_title": snippet.get("channelTitle", ""),
+                      "published_at": snippet.get("publishedAt", ""),
                       "predicted_binary": predicted_binary,
                       "classification": classification,
-                      "duration_iso": duration_iso or "",
+                      "duration_iso": duration_iso,
                       "duration_seconds": duration_seconds,
                       "player_dimensions": player_dimensions,
                       "embed_width": embed_width or "",
                       "embed_height": embed_height or "",
-                      "aspect_ratio": (
-                          f"{aspect_ratio:.4f}"
-                          if aspect_ratio is not None
-                          else ""
-                      ),
+                      "aspect_ratio": aspect_ratio,
                       "vertical_or_square": (
                           vertical_or_square
                           if vertical_or_square is not None
@@ -270,175 +263,60 @@ jobs:
                       ),
                       "has_shorts_hashtag": has_shorts_hashtag,
                       "reason": reason,
-                      "title": title,
                   }
               )
-
-
-          missing_ids = [
-              video_id
-              for video_id in video_ids
-              if video_id not in returned_ids
-          ]
-
-          for video_id in missing_ids:
-              results.append(
-                  {
-                      "video_id": video_id,
-                      "url": f"https://www.youtube.com/watch?v={video_id}",
-                      "expected": expected_by_id[video_id],
-                      "predicted_binary": "indisponivel",
-                      "classification": "NAO_RETORNADO",
-                      "duration_iso": "",
-                      "duration_seconds": "",
-                      "player_dimensions": "SEM DADOS",
-                      "embed_width": "",
-                      "embed_height": "",
-                      "aspect_ratio": "",
-                      "vertical_or_square": "",
-                      "has_shorts_hashtag": "",
-                      "reason": "ID não retornado pela API",
-                      "title": "",
-                  }
-              )
-
-
-          results.sort(
-              key=lambda row: video_ids.index(row["video_id"])
-              if row["video_id"] in video_ids
-              else len(video_ids)
-          )
-
 
           print(
-              f"{'ID':<14} "
-              f"{'REAL':<8} "
-              f"{'PRED':<8} "
-              f"{'CLASSIFICAÇÃO':<29} "
-              f"{'DURAÇÃO':<9} "
-              f"{'PLAYER':<14} "
-              f"TÍTULO"
+              f"{'#':<4} {'PRED':<13} {'DURAÇÃO':<9} "
+              f"{'PLAYER':<14} {'#SHORTS':<8} TÍTULO"
           )
-          print("=" * 170)
+          print("=" * 145)
 
           for row in results:
               print(
-                  f"{row['video_id']:<14} "
-                  f"{row['expected']:<8} "
-                  f"{row['predicted_binary']:<8} "
-                  f"{row['classification']:<29} "
+                  f"{row['rank']:<4} "
+                  f"{row['classification']:<13} "
                   f"{str(row['duration_seconds']) + 's':<9} "
                   f"{row['player_dimensions']:<14} "
-                  f"{row['title'][:70]}"
+                  f"{'SIM' if row['has_shorts_hashtag'] else 'NÃO':<8} "
+                  f"{row['title'][:80]}"
               )
+              print(f"  ↳ {row['url']}")
               print(f"  Motivo: {row['reason']}")
-              print(
-                  f"  embedWidth={row['embed_width'] or '-'} | "
-                  f"embedHeight={row['embed_height'] or '-'} | "
-                  f"aspectRatio={row['aspect_ratio'] or '-'} | "
-                  f"#shorts={row['has_shorts_hashtag']}"
-              )
-              print(f"  URL: {row['url']}")
-              print()
 
-
-          comparable_results = [
-              row
-              for row in results
-              if row["predicted_binary"] in ("short", "longo")
-          ]
-
-          correct = sum(
-              row["expected"] == row["predicted_binary"]
-              for row in comparable_results
+          shorts_candidates = sum(
+              row["predicted_binary"] == "short" for row in results
+          )
+          long_candidates = sum(
+              row["predicted_binary"] == "longo" for row in results
+          )
+          inconclusive = sum(
+              row["predicted_binary"] == "inconclusivo" for row in results
           )
 
-          true_positives = sum(
-              row["expected"] == "short"
-              and row["predicted_binary"] == "short"
-              for row in comparable_results
-          )
+          print("\n📊 RESUMO")
+          print(f"   Total analisado: {len(results)}")
+          print(f"   Candidatos a Short: {shorts_candidates}")
+          print(f"   Prováveis longos: {long_candidates}")
+          print(f"   Inconclusivos: {inconclusive}")
+          print("\nℹ️ A classificação é experimental e não é uma confirmação oficial do YouTube.")
+          print("ℹ️ #shorts foi registrado como evidência, mas não é obrigatório.")
 
-          false_positives = sum(
-              row["expected"] == "longo"
-              and row["predicted_binary"] == "short"
-              for row in comparable_results
-          )
-
-          false_negatives = sum(
-              row["expected"] == "short"
-              and row["predicted_binary"] == "longo"
-              for row in comparable_results
-          )
-
-          true_negatives = sum(
-              row["expected"] == "longo"
-              and row["predicted_binary"] == "longo"
-              for row in comparable_results
-          )
-
-          print("📊 RESULTADO DO BENCHMARK")
-          print(f"   Total informado: {len(VIDEOS)}")
-          print(f"   Retornados pela API: {len(items)}")
-          print(f"   Não retornados pela API: {len(missing_ids)}")
-          print(f"   Comparáveis: {len(comparable_results)}")
-          print(f"   Acertos: {correct}/{len(comparable_results)}")
-
-          if comparable_results:
-              accuracy = correct / len(comparable_results) * 100
-              print(f"   Taxa de acerto: {accuracy:.1f}%")
-
-          print()
-          print("📌 MATRIZ DE CONFUSÃO")
-          print(f"   Verdadeiros positivos: {true_positives}")
-          print(f"   Falsos positivos: {false_positives}")
-          print(f"   Falsos negativos: {false_negatives}")
-          print(f"   Verdadeiros negativos: {true_negatives}")
-          print()
-          print("ℹ️ #shorts foi registrado como evidência,")
-          print("   mas NÃO participou da classificação.")
-          print("ℹ️ A rota /shorts não foi consultada neste teste.")
-          print("ℹ️ A classificação é experimental; a API não retorna isShort.")
-
-
-          csv_path = "benchmark_shorts_player.csv"
-
+          csv_path = "mais_populares_shorts.csv"
           with open(csv_path, "w", newline="", encoding="utf-8") as csv_file:
-              fieldnames = [
-                  "video_id",
-                  "url",
-                  "expected",
-                  "predicted_binary",
-                  "classification",
-                  "duration_iso",
-                  "duration_seconds",
-                  "player_dimensions",
-                  "embed_width",
-                  "embed_height",
-                  "aspect_ratio",
-                  "vertical_or_square",
-                  "has_shorts_hashtag",
-                  "reason",
-                  "title",
-              ]
-
-              writer = csv.DictWriter(
-                  csv_file,
-                  fieldnames=fieldnames,
-              )
-
+              fieldnames = list(results[0].keys())
+              writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
               writer.writeheader()
               writer.writerows(results)
 
-          print()
-          print(f"✅ CSV salvo em {csv_path}")
+          print(f"\n✅ CSV salvo em {csv_path}")
           PY
 
-      - name: Publicar relatório
+      - name: Publicar relatório CSV
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: benchmark-shorts-player
-          path: benchmark_shorts_player.csv
+          name: mais-populares-shorts
+          path: mais_populares_shorts.csv
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 14
