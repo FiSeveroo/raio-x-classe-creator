@@ -1,26 +1,20 @@
-name: Pesquisa Shorts por Search API
+name: Analisar 50 vídeos recentes de um canal
 
 on:
   workflow_dispatch:
     inputs:
-      search_query:
-        description: "Termo da busca do YouTube (ex.: shorts, shorts music, memes)"
-        required: false
-        default: "shorts"
-        type: string
-      region_code:
-        description: "Região do YouTube (ex.: BR, US)"
-        required: false
-        default: "BR"
+      canal:
+        description: "Handle do canal (@canal) ou Channel ID (UC...)"
+        required: true
         type: string
       quantidade:
-        description: "Quantidade de vídeos para consultar (máximo 50)"
+        description: "Quantidade de vídeos recentes, máximo 50"
         required: false
-        default: "25"
+        default: "50"
         type: string
 
 jobs:
-  pesquisa:
+  analisar:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,11 +31,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Buscar Shorts na API do YouTube
+      - name: Analisar vídeos recentes do canal
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          SEARCH_QUERY: ${{ inputs.search_query }}
-          REGION_CODE: ${{ inputs.region_code }}
+          CHANNEL_INPUT: ${{ inputs.canal }}
           QUANTITY: ${{ inputs.quantidade }}
         run: |
           python - <<'PY'
@@ -53,22 +46,46 @@ jobs:
 
           import requests
 
+
           API_KEY = os.environ.get("YOUTUBE_API_KEY", "").strip()
-          SEARCH_QUERY = os.environ.get("SEARCH_QUERY", "shorts").strip()
-          REGION_CODE = os.environ.get("REGION_CODE", "BR").strip().upper() or "BR"
+          CHANNEL_INPUT = os.environ.get("CHANNEL_INPUT", "").strip()
 
           try:
-              QUANTITY = int(os.environ.get("QUANTITY", "25"))
+              QUANTITY = int(os.environ.get("QUANTITY", "50"))
           except ValueError:
-              QUANTITY = 25
+              QUANTITY = 50
 
           QUANTITY = max(1, min(QUANTITY, 50))
+
+          SHORT_MAX_SECONDS = 180
+          MAX_WIDTH = 1000
+          MAX_HEIGHT = 1000
 
           if not API_KEY:
               print("::error::YOUTUBE_API_KEY está ausente ou vazia.")
               sys.exit(1)
 
-          SHORT_MAX_SECONDS = 180
+          if not CHANNEL_INPUT:
+              print("::error::Informe o handle ou ID do canal.")
+              sys.exit(1)
+
+
+          def youtube_api(endpoint: str, params: dict[str, Any]) -> dict[str, Any]:
+              response = requests.get(
+                  f"https://www.googleapis.com/youtube/v3/{endpoint}",
+                  params=params,
+                  timeout=30,
+              )
+
+              if not response.ok:
+                  print(
+                      f"::error::Erro na API do YouTube "
+                      f"({endpoint}): HTTP {response.status_code}"
+                  )
+                  print(response.text[:1000])
+                  response.raise_for_status()
+
+              return response.json()
 
 
           def parse_duration(duration: str | None) -> int:
@@ -84,6 +101,7 @@ jobs:
                   return 0
 
               hours, minutes, seconds = match.groups()
+
               return (
                   int(hours or 0) * 3600
                   + int(minutes or 0) * 60
@@ -91,11 +109,97 @@ jobs:
               )
 
 
-          def get_int(value: Any) -> int | None:
+          def positive_int(value: Any) -> int | None:
               try:
-                  return int(value)
+                  number = int(value)
+                  return number if number > 0 else None
               except (TypeError, ValueError):
                   return None
+
+
+          def resolve_channel(channel_input: str) -> dict[str, str]:
+              if channel_input.startswith("UC"):
+                  params = {
+                      "part": "snippet,contentDetails",
+                      "id": channel_input,
+                      "key": API_KEY,
+                  }
+              else:
+                  params = {
+                      "part": "snippet,contentDetails",
+                      "forHandle": channel_input.lstrip("@"),
+                      "key": API_KEY,
+                  }
+
+              payload = youtube_api("channels", params)
+              items = payload.get("items", [])
+
+              if not items:
+                  raise RuntimeError(
+                      f"Nenhum canal encontrado para: {channel_input}"
+                  )
+
+              channel = items[0]
+              snippet = channel.get("snippet") or {}
+              content_details = channel.get("contentDetails") or {}
+              related_playlists = (
+                  content_details.get("relatedPlaylists") or {}
+              )
+
+              uploads_playlist = related_playlists.get("uploads")
+
+              if not uploads_playlist:
+                  raise RuntimeError(
+                      "A API não retornou a playlist de uploads do canal."
+                  )
+
+              return {
+                  "channel_id": channel["id"],
+                  "channel_title": snippet.get("title", ""),
+                  "uploads_playlist": uploads_playlist,
+              }
+
+
+          def get_recent_uploads(
+              uploads_playlist: str,
+              quantity: int,
+          ) -> list[dict[str, Any]]:
+              videos = []
+              page_token = None
+
+              while len(videos) < quantity:
+                  params = {
+                      "part": "snippet,contentDetails",
+                      "playlistId": uploads_playlist,
+                      "maxResults": min(50, quantity - len(videos)),
+                      "key": API_KEY,
+                  }
+
+                  if page_token:
+                      params["pageToken"] = page_token
+
+                  payload = youtube_api("playlistItems", params)
+                  items = payload.get("items", [])
+
+                  if not items:
+                      break
+
+                  for item in items:
+                      content_details = item.get("contentDetails") or {}
+                      video_id = content_details.get("videoId")
+
+                      if video_id:
+                          videos.append(item)
+
+                  if len(videos) >= quantity:
+                      break
+
+                  page_token = payload.get("nextPageToken")
+
+                  if not page_token:
+                      break
+
+              return videos[:quantity]
 
 
           def classify_video(
@@ -103,23 +207,33 @@ jobs:
               embed_width: int | None,
               embed_height: int | None,
           ) -> dict[str, Any]:
-              # Vídeos longos
+              """
+              Regra automatizada:
+
+              - Até 180s e vertical: candidato automático a Short.
+              - Até 180s e quadrado: não classificar como Short.
+              - Até 180s e horizontal: não classificar como Short.
+              - Mais de 180s: vídeo longo.
+              """
+
               if duration_seconds > SHORT_MAX_SECONDS:
                   return {
                       "classification": "NAO_SHORT_LONGO",
                       "binary_result": "NAO_SHORT",
-                      "reason": "duração acima de 180 segundos",
                       "format": "LONGO",
+                      "reason": "duração acima de 180 segundos",
                       "aspect_ratio": None,
                   }
 
-              # Sem proporção do player
               if not embed_width or not embed_height:
                   return {
                       "classification": "INCONCLUSIVO",
                       "binary_result": "INCONCLUSIVO",
-                      "reason": "duração curta, mas proporção do player indisponível",
                       "format": "SEM_DADOS",
+                      "reason": (
+                          "duração curta, mas a API não retornou "
+                          "as dimensões do player"
+                      ),
                       "aspect_ratio": None,
                   }
 
@@ -127,146 +241,167 @@ jobs:
               height = float(embed_height)
               aspect_ratio = width / height
 
-              # Vídeo vertical ou quase vertical
-              if height > width * 1.05:
+              # Vertical: a altura precisa ser maior que a largura.
+              if height > width:
                   return {
                       "classification": "SHORT_AUTOMATICO",
                       "binary_result": "SHORT",
-                      "reason": "duração <= 180s + player vertical",
                       "format": "VERTICAL",
+                      "reason": (
+                          "duração <= 180s + player vertical"
+                      ),
                       "aspect_ratio": aspect_ratio,
                   }
 
-              # Quadrado: água de música / capa de álbum / visual de música
+              # Aproximadamente 1:1: capas de álbum/visualizers.
               if 0.95 <= aspect_ratio <= 1.05:
                   return {
                       "classification": "NAO_SHORT_QUADRADO",
                       "binary_result": "NAO_SHORT",
-                      "reason": "duração <= 180s + player quadrado",
                       "format": "QUADRADO",
+                      "reason": (
+                          "duração <= 180s + player quadrado"
+                      ),
                       "aspect_ratio": aspect_ratio,
                   }
 
-              # Ultrawide / horizontais
+              # Horizontal normal ou ultrawide.
               if width > height:
                   if aspect_ratio >= 1.90:
-                      format_name = "ULTRAWIDE"
-                      classificacao = "NAO_SHORT_ULTRAWIDE"
+                      video_format = "ULTRAWIDE"
+                      classification = "NAO_SHORT_ULTRAWIDE"
                   else:
-                      format_name = "HORIZONTAL"
-                      classificacao = "NAO_SHORT_HORIZONTAL"
+                      video_format = "HORIZONTAL"
+                      classification = "NAO_SHORT_HORIZONTAL"
 
                   return {
-                      "classification": classificacao,
+                      "classification": classification,
                       "binary_result": "NAO_SHORT",
-                      "reason": f"duração <= 180s + formato {format_name.lower()}",
-                      "format": format_name,
+                      "format": video_format,
+                      "reason": (
+                          f"duração <= 180s + player "
+                          f"{video_format.lower()}"
+                      ),
                       "aspect_ratio": aspect_ratio,
                   }
 
               return {
                   "classification": "INCONCLUSIVO",
                   "binary_result": "INCONCLUSIVO",
-                  "reason": "proporção não reconhecida",
                   "format": "DESCONHECIDO",
+                  "reason": "proporção não reconhecida",
                   "aspect_ratio": aspect_ratio,
               }
 
 
-          print("🔎 Fazendo busca do YouTube")
-          print(f"   Query: {SEARCH_QUERY}")
-          print(f"   Região: {REGION_CODE}")
+          print("📺 Analisando vídeos recentes do canal")
+          print(f"   Entrada: {CHANNEL_INPUT}")
           print(f"   Quantidade: {QUANTITY}")
           print()
 
-          search_response = requests.get(
-              "https://www.googleapis.com/youtube/v3/search",
-              params={
-                  "part": "snippet",
-                  "q": SEARCH_QUERY,
-                  "type": "video",
-                  "videoDuration": "short",
-                  "regionCode": REGION_CODE,
-                  "maxResults": QUANTITY,
-                  "key": API_KEY,
-              },
-              timeout=30,
-          )
+          try:
+              channel = resolve_channel(CHANNEL_INPUT)
+          except Exception as error:
+              print(f"::error::{error}")
+              sys.exit(1)
 
-          if not search_response.ok:
-              print(
-                  "::error::Falha na busca do YouTube: "
-                  f"{search_response.status_code}"
-              )
-              print(search_response.text[:1000])
-              search_response.raise_for_status()
-
-          search_payload = search_response.json()
-          items = search_payload.get("items", [])
-
-          print(f"   Vídeos encontrados na busca: {len(items)}")
+          print(f"✅ Canal encontrado: {channel['channel_title']}")
+          print(f"   ID: {channel['channel_id']}")
           print()
 
-          if not items:
-              print("::error::Nenhum vídeo encontrado para a busca.")
+          upload_items = get_recent_uploads(
+              channel["uploads_playlist"],
+              QUANTITY,
+          )
+
+          if not upload_items:
+              print("::error::Nenhum vídeo encontrado no canal.")
               sys.exit(1)
 
           video_ids = [
-              item["id"]["videoId"]
-              for item in items
-              if item.get("id", {}).get("videoId")
+              item["contentDetails"]["videoId"]
+              for item in upload_items
+              if item.get("contentDetails", {}).get("videoId")
           ]
 
-          if not video_ids:
-              print("::error::A busca retornou itens sem videoId.")
-              sys.exit(1)
+          print(f"   Vídeos recentes encontrados: {len(video_ids)}")
+          print("🔍 Consultando dados atuais via videos.list")
+          print("   part=snippet,contentDetails,player")
+          print(f"   maxWidth={MAX_WIDTH}")
+          print(f"   maxHeight={MAX_HEIGHT}")
+          print()
 
-          print("📡 Consultando metadados dos vídeos retornados")
-          video_lookup = requests.get(
-              "https://www.googleapis.com/youtube/v3/videos",
-              params={
-                  "id": ",".join(video_ids),
-                  "part": "snippet,contentDetails,player",
-                  "maxWidth": 1000,
-                  "maxHeight": 1000,
-                  "key": API_KEY,
-              },
-              timeout=30,
-          )
+          video_map = {}
 
-          if not video_lookup.ok:
-              print(
-                  "::error::Falha ao consultar videos.list: "
-                  f"{video_lookup.status_code}"
+          for start in range(0, len(video_ids), 50):
+              batch = video_ids[start:start + 50]
+
+              payload = youtube_api(
+                  "videos",
+                  {
+                      "part": "snippet,contentDetails,player",
+                      "id": ",".join(batch),
+                      "maxWidth": MAX_WIDTH,
+                      "maxHeight": MAX_HEIGHT,
+                      "key": API_KEY,
+                  },
               )
-              print(video_lookup.text[:1000])
-              video_lookup.raise_for_status()
 
-          lookup_payload = video_lookup.json()
-          video_items = lookup_payload.get("items", [])
+              for item in payload.get("items", []):
+                  video_map[item["id"]] = item
+
 
           results = []
 
-          for idx, item in enumerate(video_items, start=1):
-              video_id = item.get("id", "")
+          for rank, video_id in enumerate(video_ids, start=1):
+              item = video_map.get(video_id)
+
+              if not item:
+                  results.append(
+                      {
+                          "rank": rank,
+                          "video_id": video_id,
+                          "url": (
+                              "https://www.youtube.com/watch?v="
+                              f"{video_id}"
+                          ),
+                          "title": "",
+                          "channel_title": channel["channel_title"],
+                          "published_at": "",
+                          "duration_iso": "",
+                          "duration_seconds": "",
+                          "embed_width": "",
+                          "embed_height": "",
+                          "player_dimensions": "SEM_DADOS",
+                          "aspect_ratio": "",
+                          "format": "SEM_DADOS",
+                          "classification": "NAO_RETORNADO",
+                          "binary_result": "INCONCLUSIVO",
+                          "has_shorts_hashtag": "",
+                          "reason": "vídeo não retornado pela API",
+                      }
+                  )
+                  continue
+
               snippet = item.get("snippet") or {}
-              content = item.get("contentDetails") or {}
+              content_details = item.get("contentDetails") or {}
               player = item.get("player") or {}
 
               title = snippet.get("title", "")
               description = snippet.get("description", "")
               tags = snippet.get("tags") or []
+              duration_iso = content_details.get("duration", "")
 
-              duration_iso = content.get("duration", "")
               duration_seconds = parse_duration(duration_iso)
 
-              embed_width = get_int(player.get("embedWidth"))
-              embed_height = get_int(player.get("embedHeight"))
+              embed_width = positive_int(player.get("embedWidth"))
+              embed_height = positive_int(player.get("embedHeight"))
 
-              if embed_width and embed_height:
-                  player_dimensions = f"{embed_width}x{embed_height}"
-              else:
-                  player_dimensions = "SEM_DADOS"
+              player_dimensions = (
+                  f"{embed_width}x{embed_height}"
+                  if embed_width and embed_height
+                  else "SEM_DADOS"
+              )
 
               decision = classify_video(
                   duration_seconds,
@@ -274,47 +409,40 @@ jobs:
                   embed_height,
               )
 
-              aspect_ratio = decision["aspect_ratio"]
-              aspect_text = (
-                  f"{aspect_ratio:.4f}"
-                  if aspect_ratio is not None
-                  else ""
-              )
-
-              search_match = next(
-                  (
-                      entry
-                      for entry in items
-                      if entry.get("id", {}).get("videoId") == video_id
-                  ),
-                  None,
-              )
-
-              channel_title = (
-                  snippet.get("channelTitle", "")
-                  if snippet
-                  else ""
-              )
-
               searchable_text = (
                   f"{title} {description} {' '.join(tags)}"
               ).lower()
+
               has_shorts_hashtag = "#shorts" in searchable_text
+              aspect_ratio = decision["aspect_ratio"]
 
               results.append(
                   {
-                      "rank": idx,
+                      "rank": rank,
                       "video_id": video_id,
-                      "url": f"https://www.youtube.com/watch?v={video_id}",
+                      "url": (
+                          "https://www.youtube.com/watch?v="
+                          f"{video_id}"
+                      ),
                       "title": title,
-                      "channel_title": channel_title,
-                      "published_at": snippet.get("publishedAt", ""),
+                      "channel_title": snippet.get(
+                          "channelTitle",
+                          channel["channel_title"],
+                      ),
+                      "published_at": snippet.get(
+                          "publishedAt",
+                          "",
+                      ),
                       "duration_iso": duration_iso,
                       "duration_seconds": duration_seconds,
                       "embed_width": embed_width or "",
                       "embed_height": embed_height or "",
                       "player_dimensions": player_dimensions,
-                      "aspect_ratio": aspect_text,
+                      "aspect_ratio": (
+                          f"{aspect_ratio:.4f}"
+                          if aspect_ratio is not None
+                          else ""
+                      ),
                       "format": decision["format"],
                       "classification": decision["classification"],
                       "binary_result": decision["binary_result"],
@@ -324,8 +452,16 @@ jobs:
               )
 
 
-          print(f"{'#':<4} {'RESULTADO':<24} {'DURAÇÃO':<9} {'PLAYER':<14} {'FORMATO':<11} {'#SHORTS':<8} TÍTULO")
-          print("=" * 165)
+          print(
+              f"{'#':<4} "
+              f"{'RESULTADO':<24} "
+              f"{'DURAÇÃO':<9} "
+              f"{'PLAYER':<14} "
+              f"{'FORMATO':<11} "
+              f"{'#SHORTS':<8} "
+              "TÍTULO"
+          )
+          print("=" * 170)
 
           for row in results:
               print(
@@ -341,60 +477,71 @@ jobs:
               print(f"  Motivo: {row['reason']}")
               print()
 
-          shorts_count = sum(
-              row["binary_result"] == "SHORT"
-              for row in results
-          )
 
-          long_count = sum(
-              row["binary_result"] == "NAO_SHORT"
-              and row["classification"] == "NAO_SHORT_LONGO"
-              for row in results
-          )
+          def count_classification(name: str) -> int:
+              return sum(
+                  row["classification"] == name
+                  for row in results
+              )
 
-          nao_short_quadrado = sum(
-              row["classification"] == "NAO_SHORT_QUADRADO"
-              for row in results
-          )
-
-          nao_short_horizontal = sum(
-              row["classification"] == "NAO_SHORT_HORIZONTAL"
-              for row in results
-          )
-
-          inconclusive_count = sum(
-              row["binary_result"] == "INCONCLUSIVO"
-              for row in results
-          )
 
           print("📊 RESUMO")
-          print(f"   Total consultado: {len(results)}")
-          print(f"   Shorts automáticos: {shorts_count}")
-          print(f"   Longos: {long_count}")
-          print(f"   Não shorts em quadrado: {nao_short_quadrado}")
-          print(f"   Não shorts horizontais: {nao_short_horizontal}")
-          print(f"   Inconclusivos: {inconclusive_count}")
+          print(f"   Canal: {channel['channel_title']}")
+          print(f"   Vídeos analisados: {len(results)}")
+          print(
+              "   Shorts automáticos: "
+              f"{count_classification('SHORT_AUTOMATICO')}"
+          )
+          print(
+              "   Vídeos longos: "
+              f"{count_classification('NAO_SHORT_LONGO')}"
+          )
+          print(
+              "   Vídeos quadrados curtos: "
+              f"{count_classification('NAO_SHORT_QUADRADO')}"
+          )
+          print(
+              "   Vídeos horizontais curtos: "
+              f"{count_classification('NAO_SHORT_HORIZONTAL')}"
+          )
+          print(
+              "   Vídeos ultrawide curtos: "
+              f"{count_classification('NAO_SHORT_ULTRAWIDE')}"
+          )
+          print(
+              "   Inconclusivos: "
+              f"{count_classification('INCONCLUSIVO')}"
+          )
           print()
-          print("ℹ️ Não há revisão manual nesta etapa.")
-          print("ℹ️ O objetivo é detectar Shorts por estrutura oficial da API.")
-          print("ℹ️ A hashtag #shorts é apenas uma evidência adicional.")
+          print("ℹ️ A hashtag #shorts é apenas informativa.")
+          print("ℹ️ A classificação usa dados atuais da API.")
+          print("ℹ️ Nenhum dado do Supabase é usado.")
 
-          csv_path = "shorts_search_result.csv"
 
-          with open(csv_path, "w", newline="", encoding="utf-8") as csv_file:
+          csv_path = "videos_recentes_canal.csv"
+
+          with open(
+              csv_path,
+              "w",
+              newline="",
+              encoding="utf-8",
+          ) as csv_file:
               fieldnames = list(results[0].keys())
-              writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+              writer = csv.DictWriter(
+                  csv_file,
+                  fieldnames=fieldnames,
+              )
               writer.writeheader()
               writer.writerows(results)
 
-          print(f"\n✅ CSV salvo em {csv_path}")
+          print(f"✅ CSV salvo em {csv_path}")
           PY
 
-      - name: Publicar CSV de resultado
+      - name: Publicar relatório CSV
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: shorts-search-result
-          path: shorts_search_result.csv
+          name: videos-recentes-canal
+          path: videos_recentes_canal.csv
           if-no-files-found: ignore
           retention-days: 14
