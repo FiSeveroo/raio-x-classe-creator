@@ -396,21 +396,31 @@ def _processar_verificacao_turnstile() -> None:
     Dois casos:
       - turn_token=X  → retorno fresh do widget, valida com Cloudflare
       - stored_verify=1 → localStorage tem timestamp válido, confia por 24h
+
+    IMPORTANTE: preserva o param `m` (módulo atual) ao limpar os outros.
+    Sem isso, o page reload do Turnstile jogaria o usuário de volta pra Home.
     """
     params = st.query_params
+
+    def _limpar_preservando_modulo():
+        """Remove tokens temporários mas mantém a rota do módulo."""
+        modulo_atual = params.get("m")
+        st.query_params.clear()
+        if modulo_atual:
+            st.query_params["m"] = modulo_atual
 
     turn_token = params.get("turn_token")
     if turn_token:
         if verificar_token_turnstile(turn_token):
             st.session_state["turnstile_ok"] = True
-        st.query_params.clear()
+        _limpar_preservando_modulo()
         st.rerun()
         return
 
     stored = params.get("stored_verify")
     if stored == "1":
         st.session_state["turnstile_ok"] = True
-        st.query_params.clear()
+        _limpar_preservando_modulo()
         st.rerun()
 
 
@@ -902,20 +912,51 @@ with st.sidebar:
     st.markdown("# RAIO-X")
     st.caption("OBSERVATÓRIO CLASSE CREATOR")
 
+    # Persistência do módulo selecionado na URL (?m=<code>).
+    # Sem isso, qualquer page reload (Turnstile, F5) joga o usuário pra Home.
+    _MODULO_OPCOES = [
+        "🏠 Home",
+        "🔍 A Lupa",
+        "🌡️ Termômetro do Em Alta",
+        "⚔️ Disputa de Narrativa",
+        "📋 Dossiê do Canal",
+        "💬 Voz da Base",
+        "📚 Biblioteca de Pesquisa",
+        "ℹ️ Sobre",
+    ]
+    _MODULO_LABEL_PARA_CODIGO = {
+        "🏠 Home": "home",
+        "🔍 A Lupa": "lupa",
+        "🌡️ Termômetro do Em Alta": "term",
+        "⚔️ Disputa de Narrativa": "disp",
+        "📋 Dossiê do Canal": "doss",
+        "💬 Voz da Base": "voz",
+        "📚 Biblioteca de Pesquisa": "bib",
+        "ℹ️ Sobre": "sobre",
+    }
+    _MODULO_CODIGO_PARA_LABEL = {v: k for k, v in _MODULO_LABEL_PARA_CODIGO.items()}
+
+    # Lê módulo da URL e define índice inicial do radio
+    _modulo_codigo_url = st.query_params.get("m", "home")
+    _modulo_label_url = _MODULO_CODIGO_PARA_LABEL.get(_modulo_codigo_url, "🏠 Home")
+    _modulo_idx = (
+        _MODULO_OPCOES.index(_modulo_label_url)
+        if _modulo_label_url in _MODULO_OPCOES
+        else 0
+    )
+
     modulo = st.radio(
         "Módulos",
-        options=[
-            "🏠 Home",
-            "🔍 A Lupa",
-            "🌡️ Termômetro do Em Alta",
-            "⚔️ Disputa de Narrativa",
-            "📋 Dossiê do Canal",
-            "💬 Voz da Base",
-            "📚 Biblioteca de Pesquisa",
-            "ℹ️ Sobre",
-        ],
+        options=_MODULO_OPCOES,
+        index=_modulo_idx,
         label_visibility="collapsed",
     )
+
+    # Sincroniza URL quando usuário muda de módulo (não recarrega a página,
+    # apenas atualiza a URL via history.replaceState do Streamlit).
+    _codigo_atual = _MODULO_LABEL_PARA_CODIGO[modulo]
+    if st.query_params.get("m") != _codigo_atual:
+        st.query_params["m"] = _codigo_atual
 
     if "carrinho" not in st.session_state:
         st.session_state["carrinho"] = {
