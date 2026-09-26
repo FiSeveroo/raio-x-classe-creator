@@ -365,20 +365,23 @@ except (FileNotFoundError, KeyError):
 # Se vazia, o painel fica liberado (modo desenvolvimento/early access).
 SENHA_PAINEL_INTERNO = st.secrets.get("SENHA_PAINEL_INTERNO", "")
 
-# reCAPTCHA v2 — proteção anti-bot nos módulos de análise.
+# Cloudflare Turnstile — proteção anti-bot com persistência de 24h em localStorage.
+# Substituiu o reCAPTCHA v2 (que forçava clique a cada F5, matando a UX).
+# Modo "Managed": invisível para 99% dos usuários, desafio só se tráfego suspeito.
 # Se as chaves não estiverem configuradas, o gate é desabilitado (dev mode).
-RECAPTCHA_SITE_KEY = st.secrets.get("RECAPTCHA_SITE_KEY", "")
-RECAPTCHA_SECRET_KEY = st.secrets.get("RECAPTCHA_SECRET_KEY", "")
+TURNSTILE_SITE_KEY = st.secrets.get("TURNSTILE_SITE_KEY", "")
+TURNSTILE_SECRET_KEY = st.secrets.get("TURNSTILE_SECRET_KEY", "")
+TURNSTILE_TTL_HORAS = 24  # Após primeira validação, não pede de novo por 24h
 
 
-def verificar_token_recaptcha(token: str) -> bool:
-    """Valida o token reCAPTCHA com o servidor do Google."""
-    if not RECAPTCHA_SECRET_KEY:
+def verificar_token_turnstile(token: str) -> bool:
+    """Valida token Turnstile com API do Cloudflare (siteverify)."""
+    if not TURNSTILE_SECRET_KEY:
         return True
     try:
         resp = requests.post(
-            "https://www.google.com/recaptcha/api/siteverify",
-            data={"secret": RECAPTCHA_SECRET_KEY, "response": token},
+            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+            data={"secret": TURNSTILE_SECRET_KEY, "response": token},
             timeout=5,
         )
         return resp.json().get("success", False)
@@ -386,101 +389,152 @@ def verificar_token_recaptcha(token: str) -> bool:
         return False
 
 
-def _processar_token_recaptcha() -> None:
-    """Verifica se há token reCAPTCHA nos query params (retorno do widget)."""
+def _processar_verificacao_turnstile() -> None:
+    """
+    Processa tokens de verificação nos query params.
+
+    Dois casos:
+      - turn_token=X  → retorno fresh do widget, valida com Cloudflare
+      - stored_verify=1 → localStorage tem timestamp válido, confia por 24h
+    """
     params = st.query_params
-    token = params.get("captcha_token")
-    if token:
-        if verificar_token_recaptcha(token):
-            st.session_state["recaptcha_ok"] = True
+
+    turn_token = params.get("turn_token")
+    if turn_token:
+        if verificar_token_turnstile(turn_token):
+            st.session_state["turnstile_ok"] = True
+        st.query_params.clear()
+        st.rerun()
+        return
+
+    stored = params.get("stored_verify")
+    if stored == "1":
+        st.session_state["turnstile_ok"] = True
         st.query_params.clear()
         st.rerun()
 
 
-# Processar token de retorno no início da execução (antes de renderizar qualquer coisa)
-if RECAPTCHA_SITE_KEY:
-    _processar_token_recaptcha()
+# Processa token de retorno no início da execução (antes de qualquer render)
+if TURNSTILE_SITE_KEY:
+    _processar_verificacao_turnstile()
 
 
 def exigir_recaptcha() -> bool:
     """
-    Gate reCAPTCHA reutilizável por todos os módulos de análise.
+    Gate anti-bot reutilizável por todos os módulos de análise.
+    Nome mantido por compatibilidade com o resto do código — usa Turnstile.
 
-    Retorna True se o usuário já foi verificado nesta sessão.
+    Retorna True se o usuário já foi verificado nesta sessão (ou nas últimas 24h
+    via localStorage).
     Se não, renderiza o widget e retorna False (o módulo deve parar).
 
     Se as chaves não estiverem configuradas, retorna True sempre (dev mode).
     """
-    if not RECAPTCHA_SITE_KEY:
-        return True  # Dev mode — sem reCAPTCHA configurado
+    if not TURNSTILE_SITE_KEY:
+        return True  # Dev mode — sem Turnstile configurado
 
-    if st.session_state.get("recaptcha_ok"):
+    if st.session_state.get("turnstile_ok"):
         return True
 
     st.markdown("---")
     st.markdown(
-        "🔒 **Verificação necessária** — confirme que você é humano "
-        "para utilizar as ferramentas de análise."
+        "🔒 **Verificando** — só um momento..."
     )
 
-    # Container no documento principal (domínio correto para o Google)
+    # Container no documento pai (domínio correto para o Cloudflare)
     st.markdown(
-        '<div id="recaptcha-container" '
+        '<div id="turnstile-container" '
         'style="display:flex;justify-content:center;padding:16px 0;">'
         "</div>",
         unsafe_allow_html=True,
     )
 
-    # Injeta um <script> tag diretamente no parent document.
-    # Esse script executa 100% no contexto do Streamlit (window, document,
-    # location — tudo referente ao domínio correto). Nenhuma chamada cross-frame.
-    recaptcha_js = f"""
+    # Injeta script no parent document (fora do iframe do Streamlit component).
+    # 1º checa localStorage — se timestamp < 24h, restaura via URL sem exibir widget.
+    # 2º se não tem timestamp válido, carrega API do Turnstile e renderiza widget.
+    ttl_ms = TURNSTILE_TTL_HORAS * 3600 * 1000
+    turnstile_js = f"""
     <script>
     (function() {{
-        var doc = window.parent.document;
-        var container = doc.getElementById('recaptcha-container');
+        var pwin = window.parent;
+        var pdoc = pwin.document;
+        var container = pdoc.getElementById('turnstile-container');
         if (!container || container.dataset.rendered === 'true') return;
         container.dataset.rendered = 'true';
 
-        // Cria <script> no parent — executa no escopo global do parent
-        var tag = doc.createElement('script');
-        tag.textContent = `
-            window.__recaptchaSiteKey = '{RECAPTCHA_SITE_KEY}';
+        // 1. Primeiro: verificar localStorage por sessão de 24h ainda válida
+        try {{
+            var validUntil = parseInt(pwin.localStorage.getItem('raiox_verified_until') || '0');
+            if (validUntil > Date.now()) {{
+                // Sessão ainda válida — restaurar sem mostrar widget
+                var url = new URL(pwin.location.href);
+                url.searchParams.set('stored_verify', '1');
+                pwin.location.replace(url.toString());
+                return;
+            }}
+        }} catch(e) {{
+            // localStorage bloqueado (private mode, etc) — segue para o widget
+        }}
 
-            window.onRecaptchaSuccess = function(token) {{
+        // 2. Renderizar Turnstile — carregar API do Cloudflare no parent
+        var apiSrc = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        if (!pdoc.querySelector('script[src^="https://challenges.cloudflare.com/turnstile"]')) {{
+            var api = pdoc.createElement('script');
+            api.src = apiSrc;
+            api.async = true;
+            api.defer = true;
+            pdoc.head.appendChild(api);
+        }}
+
+        // Cria <script> no parent com callback global e render do widget
+        var tag = pdoc.createElement('script');
+        tag.textContent = `
+            window.__turnstileSiteKey = '{TURNSTILE_SITE_KEY}';
+            window.__turnstileTTL = {ttl_ms};
+
+            window.__turnstileSuccess = function(token) {{
+                // Salva timestamp no localStorage para pular verificação por 24h
+                try {{
+                    var validUntil = Date.now() + window.__turnstileTTL;
+                    localStorage.setItem('raiox_verified_until', validUntil.toString());
+                }} catch(e) {{}}
+
+                // Envia token ao backend via URL param
                 var url = new URL(window.location.href);
-                url.searchParams.set('captcha_token', token);
+                url.searchParams.set('turn_token', token);
                 window.location.replace(url.toString());
             }};
 
+            window.__turnstileError = function() {{
+                // Em caso de erro, limpa localStorage para forçar novo desafio
+                try {{ localStorage.removeItem('raiox_verified_until'); }} catch(e) {{}}
+            }};
+
             (function tryRender() {{
-                var c = document.getElementById('recaptcha-container');
+                var c = document.getElementById('turnstile-container');
                 if (!c) return;
-                if (window.grecaptcha && window.grecaptcha.render) {{
+                if (window.turnstile && window.turnstile.render) {{
                     try {{
-                        window.grecaptcha.render(c, {{
-                            sitekey: window.__recaptchaSiteKey,
+                        window.turnstile.render(c, {{
+                            sitekey: window.__turnstileSiteKey,
                             theme: 'dark',
-                            callback: 'onRecaptchaSuccess'
+                            callback: window.__turnstileSuccess,
+                            'error-callback': window.__turnstileError,
+                            'expired-callback': window.__turnstileError
                         }});
-                    }} catch(e) {{}}
+                    }} catch(e) {{
+                        setTimeout(tryRender, 300);
+                    }}
                 }} else {{
                     setTimeout(tryRender, 300);
                 }}
             }})();
         `;
-        doc.body.appendChild(tag);
-
-        // Carrega API do Google no parent (se ainda não carregou)
-        if (!doc.querySelector('script[src*="recaptcha"]')) {{
-            var api = doc.createElement('script');
-            api.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
-            doc.head.appendChild(api);
-        }}
+        pdoc.body.appendChild(tag);
     }})();
     </script>
     """
-    components_v1.html(recaptcha_js, height=0)
+    components_v1.html(turnstile_js, height=0)
 
     return False
 
