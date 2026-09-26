@@ -907,17 +907,29 @@ def oferecer_versao_canonica(canonica: dict, label_objeto: str, chave_estado: st
             st.session_state[f"decisao_{chave_estado}"] = "ver"
             return "ver"
 
-    # Botão "atualizar" — só ativo após cooldown
+    # Botão "atualizar" — clique único, sem confirmação em duas etapas
+    # (A confirmação em duas etapas causava bug de estado: o segundo botão
+    # nunca aparecia porque session_state + rerun entravam em conflito.)
     with col_atualizar:
         if pode:
             if st.button(
-                f"🔄 Atualizar análise (consome {peso_proxima} slot(s))",
+                f"🔄 Gerar v{proxima_versao} ({peso_proxima} slot(s))",
                 key=f"btn_atualizar_{chave_estado}",
                 use_container_width=True,
+                type="primary",
+                help=(
+                    f"Gera a versão {proxima_versao} desta análise, consumindo "
+                    f"{peso_proxima} slot(s) da sua sessão. "
+                    f"O peso cresce exponencialmente (1, 2, 4, 8...) para preservar "
+                    f"o orçamento coletivo do Observatório. A versão anterior fica "
+                    f"preservada no histórico."
+                ),
             ):
-                # Confirmação adicional
-                st.session_state[f"confirma_atualizar_{chave_estado}"] = True
-                st.rerun()
+                st.session_state[f"decisao_{chave_estado}"] = "atualizar"
+                st.session_state[f"peso_consumir_{chave_estado}"] = peso_proxima
+                st.session_state[f"versao_anterior_id_{chave_estado}"] = canonica["id"]
+                st.session_state[f"proxima_versao_{chave_estado}"] = proxima_versao
+                return "atualizar"
         else:
             st.button(
                 f"⏳ Atualização disponível em {dias_restantes} dia(s)",
@@ -926,24 +938,12 @@ def oferecer_versao_canonica(canonica: dict, label_objeto: str, chave_estado: st
                 key=f"btn_atualizar_disabled_{chave_estado}",
             )
 
-    # Confirmação de atualização (aviso de custo)
-    if st.session_state.get(f"confirma_atualizar_{chave_estado}", False):
-        st.warning(
-            f"⚠️ **Atualização confirmará gasto:** será gerada a **versão {proxima_versao}** "
-            f"desta análise, consumindo **{peso_proxima} slot(s)** da sua sessão. "
-            f"O peso cresce exponencialmente (1, 2, 4, 8...) para preservar o orçamento "
-            f"coletivo do Observatório. Versão anterior fica preservada no histórico."
+    # Aviso de custo explícito abaixo dos botões (sempre visível)
+    if pode:
+        st.caption(
+            f"⚠️ Clicar em «Gerar v{proxima_versao}» consome {peso_proxima} slot(s) "
+            f"da sessão. A versão anterior fica preservada no histórico."
         )
-        if st.button(
-            f"✅ Confirmar atualização para v{proxima_versao}",
-            key=f"btn_confirma_{chave_estado}",
-            type="primary",
-        ):
-            st.session_state[f"decisao_{chave_estado}"] = "atualizar"
-            st.session_state[f"peso_consumir_{chave_estado}"] = peso_proxima
-            st.session_state[f"versao_anterior_id_{chave_estado}"] = canonica["id"]
-            st.session_state[f"proxima_versao_{chave_estado}"] = proxima_versao
-            return "atualizar"
 
     return st.session_state.get(f"decisao_{chave_estado}", "aguardando")
 
