@@ -575,6 +575,42 @@ def extrair_video_id(url: str) -> str | None:
     return None
 
 
+def parsear_json_llm(texto: str) -> dict:
+    """
+    Parser robusto para respostas JSON vindas de LLMs.
+
+    Trata os três casos comuns em que json.loads() puro falha:
+      1. Marcadores markdown de código (```json ... ```)
+      2. Texto explicativo antes ou depois do JSON
+      3. Múltiplos objetos JSON concatenados (pega apenas o primeiro válido)
+
+    Raises: json.JSONDecodeError se nenhum JSON válido for encontrado.
+    """
+    if not texto:
+        raise json.JSONDecodeError("Resposta vazia da LLM", texto or "", 0)
+
+    # 1. Remove marcadores markdown de código
+    texto = texto.strip()
+    texto = re.sub(r"^```(?:json)?\s*", "", texto)
+    texto = re.sub(r"\s*```\s*$", "", texto)
+    texto = texto.strip()
+
+    # 2. Tenta parse direto (caso ideal)
+    try:
+        return json.loads(texto)
+    except json.JSONDecodeError:
+        pass
+
+    # 3. Fallback: extrai o primeiro objeto JSON válido, ignorando resto
+    idx = texto.find("{")
+    if idx == -1:
+        raise json.JSONDecodeError(
+            "Nenhum objeto JSON encontrado na resposta", texto, 0
+        )
+    obj, _ = json.JSONDecoder().raw_decode(texto[idx:])
+    return obj
+
+
 def duracao_iso_para_segundos(duracao_iso: str) -> int:
     """
     Converte ISO 8601 (PT1H30M45S) para segundos.
@@ -771,9 +807,8 @@ DESCRIÇÃO DO VÍDEO:
         messages=[{"role": "user", "content": payload}],
     )
 
-    texto = resposta.content[0].text.strip()
-    texto = re.sub(r"^```(?:json)?\s*|\s*```$", "", texto, flags=re.MULTILINE).strip()
-    resultado = json.loads(texto)
+    texto = resposta.content[0].text
+    resultado = parsear_json_llm(texto)
 
     if resultado["tipo_produtor"] not in codigos_produtor():
         raise ValueError(f"Código de produtor inválido: {resultado['tipo_produtor']}")
@@ -2035,9 +2070,8 @@ CÓDIGOS Eixo B: {", ".join(codigos_conteudo())}
         messages=[{"role": "user", "content": payload}],
     )
 
-    texto = resposta.content[0].text.strip()
-    texto = re.sub(r"^```(?:json)?\s*|\s*```$", "", texto, flags=re.MULTILINE).strip()
-    resultado = json.loads(texto)
+    texto = resposta.content[0].text
+    resultado = parsear_json_llm(texto)
 
     if resultado["tipo_produtor"] not in codigos_produtor():
         raise ValueError(f"Código de produtor inválido: {resultado['tipo_produtor']}")
@@ -2734,7 +2768,16 @@ def renderizar_disputa_narrativa() -> None:
         key="btn_disputa",
     )
 
-    if not (botao and termo.strip()):
+    # Persistência entre re-runs (mesmo padrão do Dossiê)
+    if botao and termo.strip():
+        st.session_state["disputa_termo_ativo"] = termo.strip()
+
+    termo_ativo = st.session_state.get("disputa_termo_ativo", "")
+
+    if termo.strip() and termo.strip() != termo_ativo and not botao:
+        return
+
+    if not termo_ativo:
         return
 
     # Check diário global
@@ -2744,7 +2787,7 @@ def renderizar_disputa_narrativa() -> None:
     # =========================================================================
     # EXECUÇÃO DA BUSCA
     # =========================================================================
-    termo_norm = termo.strip().lower()
+    termo_norm = termo_ativo.lower()
 
     # =========================================================================
     # VERIFICAR VERSÃO CANÔNICA NO CORPUS
@@ -3313,9 +3356,8 @@ CÓDIGOS Eixo B: {", ".join(codigos_conteudo())}
         messages=[{"role": "user", "content": payload}],
     )
 
-    texto = resposta.content[0].text.strip()
-    texto = re.sub(r"^```(?:json)?\s*|\s*```$", "", texto, flags=re.MULTILINE).strip()
-    resultado = json.loads(texto)
+    texto = resposta.content[0].text
+    resultado = parsear_json_llm(texto)
 
     if resultado["tipo_produtor"] not in codigos_produtor():
         raise ValueError(f"Código de produtor inválido: {resultado['tipo_produtor']}")
@@ -3396,9 +3438,8 @@ CÓDIGOS VÁLIDOS Eixo B: {", ".join(codigos_conteudo())}
         messages=[{"role": "user", "content": f"VÍDEOS A CLASSIFICAR:\n\n{payload_videos}"}],
     )
 
-    texto = resposta.content[0].text.strip()
-    texto = re.sub(r"^```(?:json)?\s*|\s*```$", "", texto, flags=re.MULTILINE).strip()
-    resultado = json.loads(texto)
+    texto = resposta.content[0].text
+    resultado = parsear_json_llm(texto)
 
     # Mapeia posição → classificação validada
     mapa_classif = {}
@@ -4333,9 +4374,8 @@ COMENTÁRIOS NUMERADOS (analise TODOS):
         messages=[{"role": "user", "content": payload}],
     )
 
-    texto = resposta.content[0].text.strip()
-    texto = re.sub(r"^```(?:json)?\s*|\s*```$", "", texto, flags=re.MULTILINE).strip()
-    resultado = json.loads(texto)
+    texto = resposta.content[0].text
+    resultado = parsear_json_llm(texto)
 
     return resultado
 
@@ -4724,14 +4764,23 @@ def renderizar_voz_da_base() -> None:
         key="btn_voz",
     )
 
-    if not (botao and url_input.strip()):
+    # Persistência entre re-runs (mesmo padrão do Dossiê)
+    if botao and url_input.strip():
+        st.session_state["voz_url_ativa"] = url_input.strip()
+
+    url_ativa = st.session_state.get("voz_url_ativa", "")
+
+    if url_input.strip() and url_input.strip() != url_ativa and not botao:
+        return
+
+    if not url_ativa:
         return
 
     # Check diário global
     if not verificar_limite_diario("voz"):
         return
 
-    video_id = extrair_video_id(url_input)
+    video_id = extrair_video_id(url_ativa)
     if not video_id:
         st.error("URL inválida. Cole uma URL completa do YouTube.")
         return
