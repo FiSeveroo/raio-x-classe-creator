@@ -1034,10 +1034,21 @@ def renderizar_lupa() -> None:
         botao = st.button("ANALISAR", use_container_width=True, key="btn_lupa",
                           disabled=(restantes <= 0))
 
-    if not (botao and url_input):
+    # Persistência entre re-runs (mesmo padrão do Dossiê — necessário para
+    # que botões internos como "Atualizar análise" não resetem a página).
+    if botao and url_input:
+        st.session_state["lupa_url_ativa"] = url_input.strip()
+
+    url_ativa = st.session_state.get("lupa_url_ativa", "")
+
+    # Se o usuário mudou o input mas não clicou, respeita o estado limpo.
+    if url_input.strip() and url_input.strip() != url_ativa and not botao:
         return
 
-    video_id = extrair_video_id(url_input)
+    if not url_ativa:
+        return
+
+    video_id = extrair_video_id(url_ativa)
     if not video_id:
         st.error("URL inválida.")
         return
@@ -3919,7 +3930,22 @@ def renderizar_dossie_canal() -> None:
         key="btn_dossie",
     )
 
-    if not (botao and entrada.strip()):
+    # Persistência do canal em análise entre re-runs.
+    # Necessário porque cliques em botões DENTRO da análise (ex: "Atualizar")
+    # causam re-run do script. Sem persistir, o pipeline nunca chegaria a
+    # rodar novamente e a página apareceria "resetada".
+    if botao and entrada.strip():
+        # Novo clique — inicia (ou reinicia) análise deste canal
+        st.session_state["dossie_entrada_ativa"] = entrada.strip()
+
+    entrada_ativa = st.session_state.get("dossie_entrada_ativa", "")
+
+    # Se o usuário mudou o input mas ainda não clicou, respeita: mostra o
+    # formulário limpo e não força análise antiga.
+    if entrada.strip() and entrada.strip() != entrada_ativa and not botao:
+        return
+
+    if not entrada_ativa:
         return
 
     # Check diário global
@@ -3929,7 +3955,7 @@ def renderizar_dossie_canal() -> None:
     # =========================================================================
     # PIPELINE DE EXECUÇÃO
     # =========================================================================
-    parsed = extrair_canal_id(entrada)
+    parsed = extrair_canal_id(entrada_ativa)
     if not parsed:
         st.error(
             "Não foi possível identificar o canal. Tente colar a URL completa "
