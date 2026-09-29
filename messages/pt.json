@@ -1,0 +1,381 @@
+{
+  "Meta": {
+    "titulo": "Raio-X da Classe Creator",
+    "descricao": "Ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube. Observatório Classe Creator."
+  },
+  "Nav": {
+    "marca": "RAIO-X",
+    "observatorio": "OBSERVATÓRIO CLASSE CREATOR",
+    "secaoModulos": "Módulos",
+    "secaoProjeto": "Projeto",
+    "home": "Home",
+    "lupa": "A Lupa",
+    "termometro": "Termômetro do Em Alta",
+    "disputa": "Disputa de Narrativa",
+    "dossie": "Dossiê do Canal",
+    "voz": "Voz da Base",
+    "biblioteca": "Biblioteca de Pesquisa",
+    "sobre": "Sobre",
+    "abrirMenu": "Abrir menu",
+    "fecharMenu": "Fechar menu",
+    "idioma": "Idioma",
+    "pularParaConteudo": "Pular para o conteúdo"
+  },
+  "Comum": {
+    "semDados": "sem dados",
+    "semBanco": "O banco de dados não está configurado neste ambiente. Os números aparecem como \"sem dados\" em vez de zero.",
+    "erroConsulta": "Não foi possível consultar o banco: {erro}",
+    "versao": "v{n}",
+    "rodape": "Raio-X da Classe Creator · v1.0 · Observatório Classe Creator · 2026",
+    "voltar": "Voltar",
+    "paginaNaoEncontrada": "Página não encontrada."
+  },
+  "EmMigracao": {
+    "rotulo": "Em migração",
+    "titulo": "Este módulo ainda está sendo portado para a nova versão.",
+    "texto": "Enquanto isso, ele segue funcionando normalmente na versão atual do Raio-X.",
+    "botao": "Usar na versão atual"
+  },
+  "Home": {
+    "heroRotulo": "OBSERVATÓRIO CLASSE CREATOR",
+    "heroTitulo1": "RAIO-X",
+    "heroTitulo2": "CLASSE CREATOR",
+    "heroTexto": "Ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube. Desnaturaliza a “economia dos criadores” e devolve materialidade ao trabalho que a plataforma reifica em categorias comerciais opacas.",
+    "contadores": {
+      "snapshots_termometro": "Snapshots no Termômetro",
+      "videos_no_termometro": "Vídeos classificados",
+      "buscas_realizadas": "Temas auditados",
+      "dossies_canais": "Canais investigados",
+      "analises_voz_da_base": "Análises de comentários"
+    },
+    "oQueFazTitulo": "O que esta ferramenta faz",
+    "oQueFazTexto": [
+      "A maior parte das pesquisas sobre YouTube depende das categorias que a própria plataforma inventou — “Entretenimento”, “Notícias”, “Educação”. Categorias que servem para vender publicidade, não para entender o trabalho que acontece por trás dos vídeos. O resultado é uma pesquisa que reproduz a opacidade da plataforma em vez de investigá-la.",
+      "O **Raio-X da Classe Creator** propõe outra abordagem: classificar cada vídeo por duas perguntas — **quem produz?** e **que tipo de trabalho é produzido?**. A tipologia foi desenvolvida na dissertação de mestrado de Filipe Severo (PUCRS/FAMECOS, 2026) e é operacionalizada por inteligência artificial, o que permite analisar em escala o que antes só era possível manualmente.",
+      "Mais do que uma ferramenta de análise, o Raio-X é uma proposta metodológica: olhar para o YouTube não como uma vitrine neutra de “criadores independentes”, mas como um ecossistema com hierarquias de visibilidade, disputas concretas pela atenção e trabalho por trás de cada vídeo."
+    ],
+    "modulosTitulo": "Os 5 módulos da ferramenta",
+    "modulosTexto": "Cinco lentes de investigação distintas, operáveis individualmente ou de forma cruzada.",
+    "quandoUsar": "Quando usar",
+    "casosDeUso": "Casos de uso típicos",
+    "abrirModulo": "Abrir módulo",
+    "metodologiaTitulo": "A metodologia: tipologia dupla",
+    "metodologiaTexto": "Toda a ferramenta opera a partir de uma tipologia mutuamente exclusiva e exaustiva, validada empiricamente em 21 semanas de coleta na pesquisa fundadora. Abra os eixos para examinar as definições operacionais.",
+    "eixoA": "EIXO A — PRODUTOR",
+    "eixoAPergunta": "Quem controla a produção?",
+    "eixoB": "EIXO B — CONTEÚDO",
+    "eixoBPergunta": "Que tipo de trabalho é produzido?",
+    "categorias": "{n} categorias",
+    "bibliotecaTitulo": "Biblioteca de Pesquisa",
+    "bibliotecaTexto": "Todas as análises realizadas pela ferramenta ficam **permanentemente disponíveis** no corpus público do Observatório. Cada vídeo, canal, tema ou conjunto de comentários analisado é versionado e navegável — antes de iniciar uma nova pesquisa, vale a pena consultar o que outros já produziram.",
+    "bibliotecaCardTitulo": "Acesse o corpus completo",
+    "bibliotecaCardTexto": "Navegue por vídeos, canais, temas e análises de comentários já produzidos. Filtre, busque, examine versões anteriores. Consultar antes de gastar uma nova análise é boa prática de pesquisa e preserva recursos coletivos.",
+    "bibliotecaSnapshotRotulo": "Snapshot semanal:",
+    "bibliotecaSnapshotTexto": "o corpus é exportado em CSV todas as segundas-feiras para o repositório público de dados, permitindo download direto sem onerar a infraestrutura.",
+    "bibliotecaBotao": "Abrir a Biblioteca",
+    "agendaTitulo": "Agenda de pesquisa sugerida",
+    "agendaTexto": "Sugestões abertas para a comunidade acadêmica brasileira. Cada uma é um problema de pesquisa **operacionalizável** com esta ferramenta. Use, adapte, expanda — e nos avise quando publicar para incluirmos na vitrine de pesquisas concluídas.",
+    "agendaPergunta": "Pergunta",
+    "agendaHipotese": "Hipótese",
+    "agendaMetodo": "Método sugerido",
+    "concluidasTitulo": "Pesquisas concluídas com esta ferramenta",
+    "concluidasTexto": "Trabalhos acadêmicos cuja metodologia ou achados deram origem a, ou foram realizados com, o Raio-X da Classe Creator.",
+    "concluidasResumo": "Resumo",
+    "concluidasAchados": "Principais achados",
+    "citarTitulo": "Como citar",
+    "citarTexto": "Ao utilizar resultados gerados por esta ferramenta em publicações acadêmicas, jornalísticas ou em qualquer outro contexto público, cite os trabalhos que sustentam sua metodologia.",
+    "citarFundadora": "Citação ABNT — pesquisa fundadora",
+    "citarFerramenta": "Citação ABNT — ferramenta",
+    "copiar": "Copiar",
+    "copiado": "Copiado",
+    "faqTitulo": "Perguntas frequentes",
+    "privacidadeTitulo": "Privacidade e tratamento de dados",
+    "contribuirTitulo": "Contribuir com o Observatório",
+    "contribuirTexto": [
+      "O **Observatório Classe Creator** é o núcleo de pesquisa do projeto. Investiga o ecossistema das plataformas digitais — quem domina a visibilidade, como os algoritmos operam, o que fica invisível — e publica o que encontra. O Raio-X é seu braço aberto: código público, gratuito, em desenvolvimento contínuo.",
+      "Pesquisadores, jornalistas, estudantes e organizações que queiram colaborar — com pesquisa, refinamento metodológico ou novos módulos — podem entrar em contato pelos canais do Observatório."
+    ]
+  },
+  "Modulos": {
+    "lupa": {
+      "nome": "A Lupa",
+      "escala": "Análise micro · 1 vídeo",
+      "frase": "Disseca um único artefato audiovisual. Extrai metadados via API oficial e classifica o vídeo na tipologia dupla, com justificativa sociológica curta.",
+      "quandoUsar": "Quando você precisa auditar um vídeo específico — uma anomalia do algoritmo, um caso polêmico, ou validar manualmente uma classificação que parece errada em outros módulos.",
+      "casos": [
+        "Verificar se um vídeo viral é mesmo de “criador independente” ou de produtora",
+        "Auditar como o YouTube categoriza conteúdo politicamente sensível",
+        "Validar amostras antes de uma pesquisa quantitativa maior"
+      ]
+    },
+    "termometro": {
+      "nome": "Termômetro do Em Alta",
+      "escala": "Análise macro longitudinal · trending BR",
+      "frase": "Coleta automatizada duas vezes por dia do trending BR via 13 endpoints (12 categorias + geral). Acumula corpus longitudinal auditável.",
+      "quandoUsar": "Para analisar as escolhas da plataforma em escala. Responde perguntas como: quem domina o trending? Como a composição muda ao longo do tempo? Quais canais são recorrentes?",
+      "casos": [
+        "Provar empiricamente a profissionalização da plataforma",
+        "Acompanhar “higienização editorial” em momentos políticos",
+        "Identificar canais hegemônicos que aparecem semana após semana"
+      ]
+    },
+    "disputa": {
+      "nome": "Disputa de Narrativa",
+      "escala": "Análise transversal · busca temática",
+      "frase": "Audita autoridade algorítmica em temas sensíveis. Você fornece um termo, a ferramenta classifica os 50 primeiros resultados e calcula o desvio em relação à linha de base do trending.",
+      "quandoUsar": "Quando você precisa responder “para quem o YouTube dá o microfone?” em algum tema específico — direitos trabalhistas, questões raciais, debate ambiental, crises políticas.",
+      "casos": [
+        "Mapear quem domina o debate sobre temas trabalhistas",
+        "Identificar invisibilização de movimentos sociais",
+        "Detectar sobre-representação midiática em pautas sensíveis"
+      ]
+    },
+    "dossie": {
+      "nome": "Dossiê do Canal",
+      "escala": "Análise meso · 1 produtor",
+      "frase": "Investigação estrutural de produtores. Confronta a auto-narrativa do canal (descrição pública) com a realidade estrutural detectada (sintomas de profissionalização, equipe, links repetidos).",
+      "quandoUsar": "Para desmascarar “falsos criadores independentes” que operam como braços de produtoras digitais ou da mídia tradicional. Modelo híbrido Haiku + Sonnet emite leitura final.",
+      "casos": [
+        "Investigar coligações de canais sob mesma estrutura empresarial",
+        "Mapear redes de produção e financiamento (canais recomendados)",
+        "Cruzar presença histórica do canal em outros módulos"
+      ]
+    },
+    "voz": {
+      "nome": "A Voz da Base",
+      "escala": "Análise comunitária · 100 comentários",
+      "frase": "Análise qualitativa dos comentários em 6 dimensões sociológicas. Calcula o Índice de Pressão Produtiva (% “público-patrão”) e identifica contradição estrutural com o Dossiê do canal.",
+      "quandoUsar": "Para entender as relações parassociais e o trabalho gestor que o público exerce sobre criadores. Diagnostica burnout induzido pela cobrança coletiva e dinâmicas de fandom.",
+      "casos": [
+        "Medir cobrança de produtividade do público sobre criadores",
+        "Identificar comunidades tóxicas em torno de canais polêmicos",
+        "Mapear trabalho voluntário de fãs (defesa, propaganda, recrutamento)"
+      ]
+    }
+  },
+  "Agenda": [
+    {
+      "modulos": ["lupa"],
+      "titulo": "Como o YouTube categoriza conteúdo de educação política?",
+      "pergunta": "A categoria nativa do YouTube reproduz fielmente o trabalho educativo-político, ou achata em rótulos comerciais como “Entretenimento” ou “Notícias”?",
+      "hipotese": "Conteúdo educativo-político de canais não-vinculados à mídia tradicional é sistematicamente mal-categorizado pela plataforma, reduzindo seu alcance algorítmico.",
+      "metodo": "Selecionar 30 vídeos educativos-políticos de canais variados, rodar A Lupa em cada um, comparar Eixo A/B com a categoria nativa exibida pelo YouTube."
+    },
+    {
+      "modulos": ["lupa"],
+      "titulo": "A simulação de espontaneidade nos vlogs profissionais",
+      "pergunta": "Em que medida o que se apresenta como “vlog autêntico” é, estruturalmente, entretenimento roteirizado disfarçado?",
+      "hipotese": "Cunningham & Craig (2017) descrevem a “autenticidade roteirizada”. Em uma amostra de vlogs brasileiros populares, A Lupa deve classificar como “entretenimento_roteirizado” mais frequentemente do que a auto-apresentação dos criadores admite.",
+      "metodo": "Amostragem de 50 vídeos rotulados pelos próprios criadores como “vlog”, comparar com a classificação independente do Eixo B feita por A Lupa."
+    },
+    {
+      "modulos": ["termometro"],
+      "titulo": "Higienização algorítmica em datas politicamente carregadas",
+      "pergunta": "O algoritmo do trending privilegia entretenimento e suprime conteúdo institucional/político em datas de alta tensão (7 de setembro, eleições, manifestações)?",
+      "hipotese": "Em datas politicamente carregadas, o trending deve apresentar redução estatística de canais Institucionais e aumento compensatório de Entretenimento e Música — efeito do Brand Safety.",
+      "metodo": "Comparar a composição do Termômetro nos snapshots de datas-chave vs. snapshots de datas neutras adjacentes (mesmo dia da semana, dois meses antes/depois)."
+    },
+    {
+      "modulos": ["termometro", "dossie"],
+      "titulo": "Concentração oligopolística da visibilidade no YouTube BR",
+      "pergunta": "Quantos canais únicos respondem por que percentual da visibilidade no trending BR ao longo de 1 ano? A distribuição segue lei de potência, como em outras plataformas?",
+      "hipotese": "Estima-se que menos de 100 canais respondam por mais de 70% das aparições no trending num período anual — confirmando concentração oligopolística da atenção.",
+      "metodo": "Extrair série completa do Termômetro, contar aparições por canal, plotar curva de Pareto. Para os top 20, gerar Dossiê para identificar coligações por trás."
+    },
+    {
+      "modulos": ["disputa"],
+      "titulo": "Quem fala sobre direitos trabalhistas no YouTube?",
+      "pergunta": "O debate sobre direitos do trabalhador é dominado por narrativas patronais (Mídia Tradicional, Marcas) ou há espaço para vozes da classe trabalhadora (Sindicatos, Instituições)?",
+      "hipotese": "Buscas sobre temas trabalhistas devem revelar sub-representação estatística de canais Institucionais (sindicatos, MPT, MTE) em relação à linha de base do trending — evidência de captura editorial do tema pelo capital.",
+      "metodo": "Rodar buscas para 10 termos-chave (“reforma trabalhista”, “uberização”, “direitos do trabalhador”, etc), comparar composição com a média do Termômetro via Desvio Editorial."
+    },
+    {
+      "modulos": ["disputa"],
+      "titulo": "Vozes ausentes em pautas raciais",
+      "pergunta": "Buscas sobre temas raciais (cotas, racismo estrutural, movimentos negros) apresentam ausência sistemática de quais tipos de produtor?",
+      "hipotese": "A invisibilização de Instituições do movimento negro e de Criadores Casuais negros nesses temas — substituídos por Mídia Tradicional e YouTubers brancos profissionais — reproduz a colonização do debate racial.",
+      "metodo": "Buscas para 8 termos pré-definidos, análise da seção “Vozes Ausentes” do módulo, triangulação com Dossiê dos canais presentes para mapeamento racial dos produtores."
+    },
+    {
+      "modulos": ["dossie"],
+      "titulo": "O ecossistema invisível das “casas” de criadores",
+      "pergunta": "Quantos canais brasileiros que se apresentam como “criadores individuais” fazem parte de coligações maiores (squads, casas, MCNs)? Como se conectam estruturalmente?",
+      "hipotese": "Produtoras Digitais brasileiras operam dezenas de canais coordenados sob persona individual, configurando uma indústria oculta da “personalidade” como ativo.",
+      "metodo": "Selecionar 20 “criadores famosos”, rodar Dossiê, examinar a rede de canais declarados publicamente, mapear coligações (grafo de canais associados)."
+    },
+    {
+      "modulos": ["dossie", "lupa"],
+      "titulo": "A “mídia de jornalistas” como nova produtora digital",
+      "pergunta": "Os canais de jornalistas que saíram da grande mídia (Reinaldo Azevedo, Andreia Sadi, etc.) operam como YouTubers Profissionais individuais ou já se estruturam como Produtoras Digitais com equipes?",
+      "hipotese": "A migração de jornalistas para o YouTube produziu um ciclo rápido de profissionalização — esses canais convergem para Produtora Digital, mesmo mantendo aparência de “opinião individual”, em até 18 meses de existência.",
+      "metodo": "Identificar 15 jornalistas de mídia tradicional com canal no YouTube, rodar Dossiê, examinar sintomas estruturais (equipe, frequência industrial, links repetidos)."
+    },
+    {
+      "modulos": ["voz", "dossie"],
+      "titulo": "Burnout induzido pelo público-patrão",
+      "pergunta": "Em canais cujos criadores publicizaram sofrer burnout/pausas, a Voz da Base detecta níveis sistematicamente mais altos do Índice de Pressão Produtiva nos vídeos anteriores ao colapso?",
+      "hipotese": "O Índice de Pressão Produtiva funciona como indicador antecedente — vídeos com IPP > 30% concentram-se nos meses que antecedem a comunicação pública de pausa/burnout.",
+      "metodo": "Selecionar 5 criadores que comunicaram pausa/burnout publicamente, rodar Voz da Base nos 10 vídeos imediatamente anteriores ao anúncio, comparar IPP médio com 10 vídeos de controle (canais ativos sem registro de burnout)."
+    },
+    {
+      "modulos": ["voz"],
+      "titulo": "Fandoms como mão-de-obra não-paga de propaganda política",
+      "pergunta": "Em canais de criadores politicamente engajados (de qualquer espectro), em que medida os comentários se organizam como “trabalho invisível do fã” — defendendo o criador, atacando críticos, recrutando espectadores?",
+      "hipotese": "Canais com forte vínculo político-ideológico apresentam % de “trabalho invisível do fã” significativamente acima da média (estimado >25%) — configurando exército digital voluntário de comunicação política.",
+      "metodo": "Amostragem de 12 canais politicamente engajados (espectro diversificado), 3 vídeos por canal, análise via Voz da Base, agregação por canal e por espectro político."
+    }
+  ],
+  "Concluidas": [
+    {
+      "tipo": "Dissertação de Mestrado",
+      "autor": "Filipe Machado Leal Severo",
+      "titulo": "O Novo “You” do YouTube: a ascensão dos produtores plataformizados e a falência da promessa participativa no Brasil",
+      "ano": 2026,
+      "instituicao": "Pontifícia Universidade Católica do Rio Grande do Sul (PUCRS)",
+      "programa": "Programa de Pós-Graduação em Comunicação Social (FAMECOS)",
+      "resumo": "A pesquisa cunha e operacionaliza a tipologia dupla (Eixo A: Produtor × Eixo B: Conteúdo) que constitui o cérebro do Raio-X da Classe Creator. Demonstra empiricamente, a partir de 21 semanas de coleta do trending BR, que mais de 90% da visibilidade no YouTube brasileiro é controlada por agentes corporativos profissionalizados — Mídia Tradicional, Produtoras Digitais e YouTubers Profissionais — configurando a falência da promessa participativa do “Broadcast Yourself” original.",
+      "achados": [
+        "Mais de 90% da visibilidade pertence à elite profissionalizada",
+        "Mídia Tradicional mantém hegemonia em Informativo",
+        "YouTubers Profissionais dominam Entretenimento Roteirizado",
+        "Esportes é fronteira de disputa direta entre Mídia Tradicional e Produtoras Digitais",
+        "Usuário Comum está estatisticamente extinto no topo da plataforma",
+        "Categorias nativas do YouTube servem ao inventário publicitário, não à análise sociológica"
+      ]
+    }
+  ],
+  "Citacoes": {
+    "fundadora": "SEVERO, Filipe Machado Leal. O Novo \"You\" do YouTube: a ascensão dos produtores plataformizados e a falência da promessa participativa no Brasil. 2026. Dissertação (Mestrado em Comunicação) — Pontifícia Universidade Católica do Rio Grande do Sul, Porto Alegre, 2026.",
+    "ferramenta": "OBSERVATÓRIO CLASSE CREATOR. Raio-X da Classe Creator: ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube. Versão 1.0. Porto Alegre, 2026. Disponível em: <https://raiox.classecreator.com>."
+  },
+  "Faq": [
+    {
+      "pergunta": "Como a IA classifica os vídeos?",
+      "resposta": "A ferramenta utiliza modelos de linguagem da Anthropic (Claude) para classificar cada vídeo nos dois eixos da tipologia. O modelo recebe os metadados do vídeo (título, descrição, tags, dados do canal) e as definições operacionais de cada categoria. A classificação é probabilística e passível de erro — por isso existe o sistema de curadoria humana (`canais_validados`) que corrige e ancora as decisões."
+    },
+    {
+      "pergunta": "Posso usar os resultados na minha pesquisa?",
+      "resposta": "Sim. A ferramenta foi projetada para uso acadêmico. Pedimos apenas que cite a pesquisa fundadora e a ferramenta conforme as referências acima. O corpus público é exportado semanalmente em CSV no repositório de dados abertos do Observatório."
+    },
+    {
+      "pergunta": "Qual a diferença entre esta tipologia e as categorias do YouTube?",
+      "resposta": "As categorias do YouTube (Entretenimento, Música, Educação etc.) foram criadas para organizar publicidade, não para descrever o trabalho por trás dos vídeos. A tipologia dupla de Severo (2026) classifica por **quem controla a produção** (Eixo A) e **que tipo de trabalho é produzido** (Eixo B), tornando visíveis relações de poder que as categorias comerciais escondem."
+    },
+    {
+      "pergunta": "Os dados que eu analiso são armazenados?",
+      "resposta": "Sim. Toda análise realizada alimenta o corpus público do Observatório, ficando disponível na Biblioteca de Pesquisa para outros pesquisadores. Não coletamos dados pessoais dos usuários da ferramenta — apenas os metadados públicos dos vídeos e canais do YouTube analisados, obtidos via API oficial."
+    },
+    {
+      "pergunta": "A ferramenta tem custo?",
+      "resposta": "Não. O Raio-X é gratuito e de código aberto. A infraestrutura (APIs do YouTube, Anthropic e Supabase) tem custos operacionais mantidos pelo Observatório, por isso cada módulo possui um limite de uso por sessão para preservar recursos coletivos."
+    }
+  ],
+  "Privacidade": [
+    "O Raio-X da Classe Creator opera exclusivamente com **dados públicos** obtidos via YouTube Data API v3 (metadados de vídeos, canais e comentários publicamente acessíveis).",
+    "**Sobre os usuários da ferramenta:** não coletamos nome, e-mail, IP ou qualquer dado pessoal. A verificação anti-bot é processada pelo Cloudflare Turnstile e serve apenas para proteger a infraestrutura contra uso automatizado.",
+    "**Sobre os dados analisados:** as classificações geradas alimentam um corpus público de pesquisa. Comentários analisados pelo módulo Voz da Base são processados pela API da Anthropic para fins de análise qualitativa e não são armazenados fora do Supabase do Observatório.",
+    "**Base legal (LGPD):** o tratamento de dados públicos para fins de pesquisa acadêmica está amparado pelo Art. 7º, IV (estudos por órgão de pesquisa) e Art. 7º, IX (legítimo interesse) da Lei 13.709/2018."
+  ],
+  "Sobre": {
+    "rotulo": "OBSERVATÓRIO CLASSE CREATOR",
+    "titulo1": "SOBRE O",
+    "titulo2": "RAIO-X",
+    "projetoTitulo": "O Projeto",
+    "projetoTexto": [
+      "O **Raio-X da Classe Creator** é a ferramenta de pesquisa do Observatório Classe Creator. Investiga o YouTube Brasil a partir de duas perguntas simples: **quem produz** e **que tipo de trabalho é produzido**. A partir daí, olha para hierarquias de visibilidade, concentração de audiência e para o que a plataforma prefere manter invisível.",
+      "A tipologia foi desenvolvida na dissertação de mestrado de Filipe Severo (PUCRS/FAMECOS, 2026) e é operacionalizada por inteligência artificial, o que permite analisar em escala o que antes só era possível manualmente."
+    ],
+    "observatorioTitulo": "O Observatório",
+    "observatorioTexto": [
+      "O **Observatório Classe Creator** é o núcleo de pesquisa da Classe Creator. Investiga o ecossistema das plataformas digitais e publica o que encontra — dados, análises, ferramentas abertas.",
+      "Nosso trabalho parte de uma pergunta: o que a \"economia dos criadores\" prefere não olhar? Mapeamos a cadeia inteira — quem aparece, quem edita, quem escreve, quem gerencia — para dar visibilidade ao trabalho que a plataforma prefere manter em segundo plano."
+    ],
+    "movimentoTitulo": "O Movimento",
+    "movimentoTexto": [
+      "A **Classe Creator** é um projeto de pesquisa, formação e pensamento crítico sobre o ecossistema das plataformas digitais. Fundado por Filipe Severo, é o espaço para quem quer entender o sistema onde cria — não só performar dentro dele."
+    ],
+    "tagline": "A Revolução não cabe no feed.",
+    "linkSite": "Site",
+    "linkInstagram": "Instagram",
+    "linkYoutube": "YouTube",
+    "quemTitulo": "Quem está por trás",
+    "quemNome": "Filipe Severo",
+    "quemPapel": "Pesquisador · Consultor · Criador",
+    "quemTexto": [
+      "Sou pesquisador em comunicação e plataformização, e criador de conteúdo há mais de 15 anos. Fundei a Classe Creator para reunir num só lugar o que estudo, o que atendo como consultor e o que vivo como creator.",
+      "A dissertação que originou o Raio-X (PUCRS/FAMECOS, 2026) classificou manualmente **1.049 vídeos** do trending brasileiro ao longo de **21 semanas**, desenvolvendo a tipologia dupla que a ferramenta agora opera em escala com inteligência artificial."
+    ],
+    "rodape": "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
+  },
+  "Biblioteca": {
+    "titulo": "Biblioteca de Pesquisa",
+    "subtitulo": "Corpus longitudinal do Observatório Classe Creator",
+    "texto": "Navegue por todas as análises já realizadas pela ferramenta. Cada análise é versionada — o que você vê é sempre a versão canônica (mais recente) de cada objeto, com histórico de versões anteriores acessível. Consultar a biblioteca antes de gastar uma nova análise é a prática recomendada — preserva recursos do Observatório e dá continuidade ao trabalho coletivo de pesquisa.",
+    "contadores": {
+      "snapshots_termometro": "Coletas",
+      "videos_no_termometro": "Vídeos no Termômetro",
+      "buscas_realizadas": "Temas auditados",
+      "dossies_canais": "Canais investigados",
+      "analises_voz_da_base": "Análises de comentários"
+    },
+    "abas": {
+      "videos": "Vídeos",
+      "canais": "Canais",
+      "temas": "Temas",
+      "voz": "Voz da Base"
+    },
+    "videos": {
+      "titulo": "Vídeos analisados pela Lupa",
+      "legenda": "Cada linha é a análise mais recente (canônica) de um vídeo. Vídeos podem ter múltiplas versões — abra qualquer um para ver o histórico.",
+      "vazio": "Ainda não há vídeos analisados publicamente. Use o módulo A Lupa para fazer a primeira análise.",
+      "busca": "Buscar por título ou canal",
+      "filtro": "Filtrar por tipo de produtor"
+    },
+    "canais": {
+      "titulo": "Canais investigados pelo Dossiê",
+      "legenda": "Cada linha é o dossiê mais recente (canônico) de um canal.",
+      "vazio": "Ainda não há canais investigados publicamente. Use o módulo Dossiê do Canal para fazer a primeira investigação.",
+      "busca": "Buscar por canal",
+      "filtro": "Filtrar por classificação sociológica"
+    },
+    "temas": {
+      "titulo": "Temas auditados pela Disputa de Narrativa",
+      "legenda": "Cada linha é a busca mais recente (canônica) de um termo.",
+      "vazio": "Ainda não há temas auditados. Use o módulo Disputa de Narrativa para fazer a primeira auditoria.",
+      "busca": "Buscar por termo"
+    },
+    "voz": {
+      "titulo": "Vídeos com análise de Voz da Base",
+      "legenda": "Cada linha é a análise mais recente (canônica) de comentários de um vídeo. Inclui Índice de Pressão Produtiva calculado.",
+      "vazio": "Ainda não há análises de comentários publicadas. Use o módulo Voz da Base para fazer a primeira análise.",
+      "busca": "Buscar por canal ou vídeo"
+    },
+    "todos": "(todos)",
+    "todas": "(todas)",
+    "mostrando": "Mostrando {n} de {total} registros canônicos",
+    "colunas": {
+      "data": "Data",
+      "canal": "Canal",
+      "titulo": "Título",
+      "produtor": "Produtor",
+      "conteudo": "Conteúdo",
+      "versao": "Versão",
+      "inscritos": "Inscritos",
+      "classe": "Classe",
+      "termo": "Termo buscado",
+      "resultados": "Resultados analisados",
+      "video": "Vídeo",
+      "comentarios": "Comentários",
+      "ipp": "IPP"
+    },
+    "detalheEmMigracao": "A visualização completa desta análise chega junto com o módulo, na próxima etapa da migração.",
+    "abrir": "Abrir",
+    "analiseVideo": "ANÁLISE DE VÍDEO · v{versao} · {data}",
+    "canalRotulo": "Canal",
+    "justificativa": "Justificativa sociológica",
+    "historicoTitulo": "Histórico de versões ({n} análises deste vídeo)",
+    "atual": "ATUAL",
+    "verNoYoutube": "Ver no YouTube",
+    "naoEncontrada": "Análise não encontrada no corpus."
+  }
+}
