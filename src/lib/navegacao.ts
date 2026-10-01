@@ -34,11 +34,3 @@ export const PROJETO: ItemNav[] = [
   { chave: "sobre", href: "/sobre", icone: Info, codigoLegado: "sobre" },
 ];
 
-/**
- * Versão Streamlit em produção. Enquanto um módulo não foi portado, os links
- * apontam para lá. Depois da virada de domínio, trocar a variável de ambiente.
- */
-export const URL_LEGADO =
-  process.env.NEXT_PUBLIC_URL_LEGADO ?? "https://raio-x-classe-creator.streamlit.app";
-
-export const urlLegado = (codigo: string) => `${URL_LEGADO}/?m=${codigo}`;

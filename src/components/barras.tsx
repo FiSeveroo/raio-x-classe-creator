@@ -1,3 +1,4 @@
+import { getFormatter } from "next-intl/server";
 import { cn } from "@/lib/utils";
 
 /**
@@ -7,11 +8,12 @@ import { cn } from "@/lib/utils";
  * categorias nominais). Valor e percentual sempre visíveis; tooltip nativo
  * com o mesmo conteúdo para quem passa o mouse.
  */
-export function Barras({
+export async function Barras({
   itens,
   total,
   cor = "verde",
   rotuloTotal,
+  casasPct = 0,
 }: {
   itens: { chave: string; rotulo: string; valor: number }[];
   /** Base do percentual (ex.: vídeos analisados). Padrão: soma dos valores. */
@@ -19,7 +21,11 @@ export function Barras({
   cor?: "verde" | "roxo";
   /** Ex.: "de 50 vídeos" — lido por leitores de tela no fim de cada item. */
   rotuloTotal?: string;
+  /** Casas decimais do percentual (o Streamlit usava .1f em alguns gráficos). */
+  casasPct?: number;
 }) {
+  const format = await getFormatter();
+  const fmtPct = (p: number) => format.number(p, { minimumFractionDigits: casasPct, maximumFractionDigits: casasPct });
   const base = total ?? itens.reduce((s, i) => s + i.valor, 0);
   const max = Math.max(1, ...itens.map((i) => i.valor));
   const ordenados = [...itens].sort((a, b) => b.valor - a.valor);
@@ -28,7 +34,7 @@ export function Barras({
     <ul className="space-y-3">
       {ordenados.map((i) => {
         const pct = base > 0 ? (i.valor / base) * 100 : 0;
-        const titulo = `${i.rotulo}: ${i.valor}${rotuloTotal ? ` ${rotuloTotal}` : ""} (${pct.toFixed(0)}%)`;
+        const titulo = `${i.rotulo}: ${i.valor}${rotuloTotal ? ` ${rotuloTotal}` : ""} (${fmtPct(pct)}%)`;
         return (
           <li key={i.chave} title={titulo} className="grid grid-cols-[minmax(7rem,12rem)_1fr_auto] items-center gap-3 text-sm sm:gap-4">
             <span className="truncate text-foreground/85">{i.rotulo}</span>
@@ -39,7 +45,7 @@ export function Barras({
               />
             </span>
             <span className="min-w-16 whitespace-nowrap text-right tabular-nums text-muted-foreground">
-              <span className="text-foreground">{i.valor}</span> · {pct.toFixed(0)}%
+              <span className="text-foreground">{i.valor}</span> · {fmtPct(pct)}%
               <span className="sr-only"> {rotuloTotal}</span>
             </span>
           </li>

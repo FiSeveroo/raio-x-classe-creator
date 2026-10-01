@@ -182,11 +182,11 @@ export default async function Biblioteca({
           linhas={r.dados.map((c) => ({
             id: c.id,
             busca: `${c.canal_nome ?? ""} ${c.titulo_video ?? ""}`.toLowerCase(),
-            href: null,
+            href: `/biblioteca/voz/${c.id}`,
             celulas: [
               <span key="d" className="text-xs tabular-nums text-muted-foreground">{data(c.data_analise)}</span>,
               truncar(c.canal_nome, 50),
-              truncar(c.titulo_video, 60),
+              <Link key="t" href={`/biblioteca/voz/${c.id}`} className="hover:text-cc-green hover:underline">{truncar(c.titulo_video, 60)}</Link>,
               <span key="n" className="text-xs tabular-nums">{c.total_analisados ?? "—"}</span>,
               <span key="i" className="text-xs tabular-nums">
                 {/* Mesmo formato do Streamlit: inteiro + % */}
@@ -244,9 +244,6 @@ export default async function Biblioteca({
           {t(`${aba}.titulo`)}
         </h2>
         <p className="mt-1 mb-6 text-sm text-muted-foreground">{t(`${aba}.legenda`)}</p>
-        {aba !== "videos" && (
-          <p className="mb-4 text-xs text-muted-foreground">{t("detalheEmMigracao")}</p>
-        )}
         {conteudo}
       </section>
     </Pagina>

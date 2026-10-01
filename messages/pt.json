@@ -37,12 +37,6 @@
     "classe": "Classe Creator",
     "codigo": "Código-fonte no GitHub"
   },
-  "EmMigracao": {
-    "rotulo": "Em migração",
-    "titulo": "Este módulo ainda está sendo portado para a nova versão.",
-    "texto": "Enquanto isso, ele segue funcionando normalmente na versão atual do Raio-X.",
-    "botao": "Usar na versão atual"
-  },
   "Home": {
     "ctaLupa": "Analisar um vídeo",
     "ctaBiblioteca": "Explorar o corpus",
@@ -402,7 +396,6 @@
       "comentarios": "Comentários",
       "ipp": "IPP"
     },
-    "detalheEmMigracao": "A visualização completa desta análise chega junto com o módulo, na próxima etapa da migração.",
     "abrir": "Abrir",
     "analiseVideo": "ANÁLISE DE VÍDEO · v{versao} · {data}",
     "canalRotulo": "Canal",
@@ -652,8 +645,6 @@
       "Consultando a busca do YouTube Brasil...",
       "Enriquecendo metadados de vídeos e canais...",
       "Classificando os resultados na tipologia dupla...",
-      "Classificando os resultados na tipologia dupla...",
-      "Classificando os resultados na tipologia dupla...",
       "Calculando a composição do tema...",
       "Salvando a auditoria no corpus do Observatório..."
     ],
@@ -754,5 +745,111 @@
     "baixarCsv": "Baixar CSV desta busca",
     "novaBusca": "Auditar outro tema",
     "avisoIa": "Classificações geradas automaticamente por Claude Haiku 4.5 a partir dos metadados públicos de cada item. Itens marcados com \"Falha na classificação automática\" ficaram como \"outros\" e devem ser lidos com cautela."
+  },
+  "Voz": {
+    "subtitulo": "O que os comentários dizem — e o que revelam sobre a relação com o canal",
+    "intro": "Este módulo analisa qualitativamente os **100 principais comentários** de um vídeo segundo **6 dimensões sociológicas**, calcula o **Índice de Pressão Produtiva** (operação do *público-patrão*) e identifica **contradições estruturais** entre o que o canal entrega e o que o público pede. Análise via Claude Sonnet 4.6.",
+    "eticaTitulo": "Notas éticas e metodológicas (importante)",
+    "etica": [
+      "**Sobre a amostra.** O YouTube ordena comentários por *relevância* (likes + recência). Isso é um corte editorial da plataforma, não uma amostra estatística. As conclusões valem para *o que a plataforma decidiu tornar visível* — não para o universo total de comentários.",
+      "**Sobre os comentaristas.** Comentários públicos do YouTube são públicos por definição, mas isso não dispensa cuidado ético. A ferramenta analisa **padrões coletivos**, não indivíduos. Não use o resultado para expor, constranger ou perseguir comentaristas específicos. Pesquisa acadêmica que cite comentários nominalmente deve seguir as diretrizes do CEP/CONEP.",
+      "**Sobre o modelo.** O Claude Sonnet 4.6 é capaz, mas pode errar em ironia, sarcasmo regional ou referência de nicho. Trate os resultados como **leitura analítica assistida**, não como verdade absoluta."
+    ],
+    "rotuloUrl": "URL do vídeo a analisar",
+    "placeholder": "https://www.youtube.com/watch?v=...",
+    "botao": "Analisar comentários",
+    "restantes": "{n, plural, one {# análise restante} other {# análises restantes}}",
+    "passos": [
+      "Identificando vídeo e canal...",
+      "Coletando 100 comentários principais...",
+      "Verificando Dossiê do canal no corpus...",
+      "Submetendo a Claude Sonnet 4.6 (análise das 6 dimensões)... 1-2 minutos",
+      "Salvando análise no corpus do Observatório..."
+    ],
+    "existenteTexto": "Já existe análise canônica dos comentários deste vídeo no Observatório (versão **{versao}**, realizada em **{data}**). Consultar a análise existente preserva recursos coletivos do Observatório.",
+    "erros": {
+      "limite_sessao": "Limite de {limite} análises por sessão atingido. Feche e reabra o navegador para continuar.",
+      "url_invalida": "URL inválida. Cole uma URL completa do YouTube.",
+      "video_nao_encontrado": "Vídeo não encontrado. Verifique se a URL está correta e se o vídeo é público.",
+      "comentarios_desativados": "Os comentários estão desativados neste vídeo. A análise da Voz da Base não é possível.",
+      "sem_comentarios": "Nenhum comentário encontrado neste vídeo. Nada foi gravado.",
+      "youtube": "Erro na consulta ao YouTube: {detalhe}. Nada foi gravado.",
+      "resposta_malformada": "O Sonnet retornou resposta malformada. Tente novamente. Nada foi gravado. (Detalhe técnico: {detalhe})",
+      "limite_diario": "Limite diário da ferramenta atingido para este módulo ({uso}/{limite} análises hoje). Tente novamente amanhã ou entre em contato com o Observatório para acesso ampliado.",
+      "slots_insuficientes": "Esta operação consumiria {peso} slot(s), mas você só tem {restantes} restante(s) nesta sessão.",
+      "falha": "Erro na análise: {detalhe}"
+    },
+    "dimensoes": {
+      "publico_patrao": {
+        "nome": "Público-patrão",
+        "descricao": "Comentários que cobram produtividade, exigem ritmo industrial, comparam com outros criadores ou reclamam de demora. Operam o criador como funcionário."
+      },
+      "comunidade_afetiva": {
+        "nome": "Comunidade afetiva",
+        "descricao": "Comentários de apoio, parasocialidade positiva, declarações de admiração, formação de vínculo emocional com o criador."
+      },
+      "disputa_politica": {
+        "nome": "Disputa política/ideológica",
+        "descricao": "Comentários que polemizam, debatem, marcam posicionamento ideológico, ou tomam o vídeo como pretexto para alinhamento."
+      },
+      "trabalho_invisivel_fa": {
+        "nome": "Trabalho invisível do fã",
+        "descricao": "Comentários que defendem o criador de críticas, fazem propaganda voluntária, recrutam novos espectadores, atuam como guarda-pretoriana."
+      },
+      "toxico_abusivo": {
+        "nome": "Tóxico/abusivo",
+        "descricao": "Assédio, ódio direcionado, ataques pessoais, discurso discriminatório, agressões."
+      },
+      "negociacao_sentido": {
+        "nome": "Negociação de sentido",
+        "descricao": "Comentários que interpretam coletivamente o conteúdo, discutem significado, oferecem leituras alternativas, complementam ou corrigem informações."
+      }
+    },
+    "sessao": "Sua sessão",
+    "existenteRotulo": "Análise existente no corpus",
+    "verExistente": "Ver análise existente",
+    "gerar": "Gerar v{versao} ({peso, plural, one {# slot} other {# slots}})",
+    "aguardar": "Atualização disponível em {dias, plural, one {# dia} other {# dias}}",
+    "avisoCusto": "Gerar a v{versao} consome {peso, plural, one {# slot} other {# slots}} da sessão. A versão anterior fica preservada no histórico."
+  },
+  "VozResultado": {
+    "rotulo": "Voz da Base · v{versao} · {data}",
+    "nova": "Análise concluída e adicionada ao corpus do Observatório.",
+    "cabecalho": "Canal: **{canal}** · {n} comentários analisados",
+    "ippRotulo": "Índice de Pressão Produtiva",
+    "ippInsuficiente": "Índice bruto · corpus insuficiente para classificação relativa ({n}/{min} análises mínimas)",
+    "ippInsuficienteTexto": "O Índice de Pressão Produtiva (IPP) só recebe rotulagem qualitativa (ALTA/TÍPICA/BAIXA) quando o corpus do Observatório acumular pelo menos {min} análises. Até lá, consulte o número cru e interprete com cautela. A calibração será automática conforme o corpus crescer.",
+    "faixa": {
+      "alta": "Pressão produtiva ALTA (acima do P75 do corpus)",
+      "tipica": "Pressão produtiva TÍPICA (P25-P75 do corpus)",
+      "baixa": "Pressão produtiva BAIXA (abaixo do P25 do corpus)"
+    },
+    "faixaTexto": {
+      "alta": "Este IPP está entre os 25% mais altos já observados no corpus do Observatório. Indica que o público deste vídeo opera com intensidade atípica como gestor, cobrando ritmo, exigindo produtividade, comparando com outros criadores. Padrão consistente com a hipótese do 'broadcast to you' e do criador como funcionário do próprio fandom.",
+      "tipica": "Este IPP está dentro da faixa típica do corpus do Observatório. Há presença mensurável de cobrança produtiva, mas em intensidade comum entre os vídeos analisados.",
+      "baixa": "Este IPP está entre os 25% mais baixos do corpus. Indica que o público deste vídeo, comparativamente, NÃO opera como gestor com a mesma intensidade. Pode refletir vídeo recente, tema sem audiência cativa, ou relação parassocial menos cobrativa."
+    },
+    "percentil": "Posição relativa no corpus: percentil **{p}** de {n} análises acumuladas",
+    "ippConferencia": "**Conferência:** o índice acima é o valor informado pelo modelo. Na classificação comentário a comentário, {n} de {total} receberam \"Público-patrão\" ({pct}%).",
+    "distribuicaoTitulo": "Distribuição por dimensão da análise",
+    "exploratoriaTitulo": "Tipologia exploratória em desenvolvimento",
+    "exploratoria": "As 6 dimensões abaixo (*público-patrão, comunidade afetiva, disputa política, trabalho invisível do fã, tóxico/abusivo, negociação de sentido*) constituem uma proposta analítica original do Observatório Classe Creator, com ancoramento conceitual em literatura de estudos de plataforma e fandom (Cunningham & Craig, 2017; Terranova, 2000; Hall, 1980; Jenkins, 2006; Horton & Wohl, 1956), mas **ainda não foram validadas empiricamente** por intercodificadores independentes. Trate estes dados como **leitura analítica exploratória** — útil para orientar pesquisa, não como achado científico consolidado. A validação formal das dimensões é objeto de trabalho metodológico em curso.",
+    "multiRotulo": "Comentários podem pertencer a múltiplas dimensões simultaneamente (ex: 'amo seu trabalho! posta mais!' = afetivo + público-patrão). Os percentuais de cada dimensão são independentes — a soma pode ultrapassar 100%.",
+    "deComentarios": "de {n} comentários",
+    "sinteseTitulo": "Síntese qualitativa",
+    "avisoSintese": "**Aviso metodológico.** Esta síntese foi *gerada automaticamente* por Claude Sonnet 4.6, usando como referencial teórico a dissertação de Filipe Severo (PUCRS/FAMECOS, 2026), mas **não foi escrita nem revisada pelo autor**. Trate como **leitura interpretativa assistida** sobre os comentários — útil como ponto de partida analítico, não como conclusão científica fechada.",
+    "contradicaoTitulo": "Contradição detectada",
+    "contradicaoLegenda": "Gap entre o que o canal entrega (estrutura real) e o que o público pede. Cruzamento com o Dossiê do canal.",
+    "comentariosTitulo": "Comentários classificados",
+    "comentariosLegenda": "Os comentários analisados, com suas dimensões atribuídas. Filtre por dimensão para examinar grupos específicos.",
+    "filtro": "Filtrar por dimensão",
+    "todas": "(todas)",
+    "semDimensao": "sem dimensão",
+    "nenhum": "Nenhum comentário nessa dimensão.",
+    "mostrando": "Mostrando {n} de {total}. Use o export para o conjunto completo.",
+    "baixarCsv": "Baixar CSV com todos os comentários classificados",
+    "verVideo": "Ver vídeo no YouTube",
+    "verDossie": "Ver dossiê do canal",
+    "novaAnalise": "Analisar outro vídeo"
   }
 }

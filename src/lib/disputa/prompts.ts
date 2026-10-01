@@ -5,7 +5,7 @@
  * saída destas funções, caractere por caractere, com os f-strings do app.py.
  */
 import { codigosConteudo, codigosProdutor, tipologiaParaPrompt } from "../tipologia.ts";
-import { pyCorte, pyInt, pyMilhar } from "../py.ts";
+import { pyCorte, pyInt, pyJsonDumps, pyMilhar } from "../py.ts";
 
 export const MODELO_ITEM = "claude-haiku-4-5";
 export const MAX_TOKENS_ITEM = 600;
@@ -86,8 +86,4 @@ ${exemplos}`;
 }
 
 /** json.dumps(dict) do Python para um dicionário plano {str: int}. */
-export function pyJsonDict(d: Record<string, number>): string {
-  return `{${Object.entries(d)
-    .map(([k, v]) => `${JSON.stringify(k).replace(/[\u007f-￿]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, "0")}`)}: ${v}`)
-    .join(", ")}}`;
-}
+export const pyJsonDict = (d: Record<string, number>) => pyJsonDumps(d);

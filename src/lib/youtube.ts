@@ -17,6 +17,16 @@ export class ErroPrevisto extends Error {
   }
 }
 
+/** Resposta HTTP de erro da API (equivalente a requests.HTTPError). */
+export class ErroHttpYoutube extends Error {
+  constructor(
+    public status: number,
+    mensagem: string,
+  ) {
+    super(mensagem);
+  }
+}
+
 function chave(): string {
   const k = process.env.YOUTUBE_API_KEY;
   if (!k) throw new Error("YOUTUBE_API_KEY não configurada.");
@@ -40,7 +50,7 @@ export async function youtubeGet<T = Record<string, unknown>>(
     } catch {
       // corpo não-JSON
     }
-    throw new Error(`YouTube API respondeu ${resp.status}${detalhe ? `: ${detalhe}` : ""}`);
+    throw new ErroHttpYoutube(resp.status, `YouTube API respondeu ${resp.status}${detalhe ? `: ${detalhe}` : ""}`);
   }
   return resp.json() as Promise<T>;
 }

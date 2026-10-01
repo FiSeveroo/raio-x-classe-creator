@@ -13,10 +13,11 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { codigosConteudo, codigosProdutor, tipologiaParaPrompt } from "../src/lib/tipologia.ts";
-import { pyCorte, pyFixed, pyInt, pyMilhar, pyStr } from "../src/lib/py.ts";
+import { pyCorte, pyFixed, pyInt, pyJsonDumps, pyMilhar, pyStr } from "../src/lib/py.ts";
 import * as lupa from "../src/lib/lupa/prompt.ts";
 import * as dossie from "../src/lib/dossie/prompts.ts";
 import * as disputa from "../src/lib/disputa/prompts.ts";
+import * as voz from "../src/lib/voz/prompts.ts";
 import type { Sintomas } from "../src/lib/dossie/sintomas.ts";
 import { duracaoIsoParaSegundos, type ItemVideoApi } from "../src/lib/youtube-util.ts";
 
@@ -380,6 +381,67 @@ const EXEMPLOS: [string, lupa.ExemploAncora[]][] = [
     ok = false;
     console.error(`✗ pyJsonDict: ${pyJson}`);
   } else console.log("✓ json.dumps de composição no formato do Python");
+}
+
+// ============================== VOZ DA BASE ==============================
+{
+  // DIMENSOES_VOZ: lido do app.py (literais adjacentes concatenados, como no Python)
+  const ini = app.indexOf("\nDIMENSOES_VOZ = {");
+  const bloco = app.slice(ini, app.indexOf("\n}\n", ini));
+  const literais = (s: string) => [...s.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1]).join("");
+  const dimsPy: Record<string, { nome: string; descricao: string }> = {};
+  for (const m of bloco.matchAll(/\n {4}"(\w+)": \{([\s\S]*?)\n {4}\},/g)) {
+    const corpo = m[2];
+    const nome = corpo.match(/"nome": "([^"]*)"/)![1];
+    const desc = literais(corpo.slice(corpo.indexOf('"descricao":') + 12, corpo.lastIndexOf(")")));
+    dimsPy[m[1]] = { nome, descricao: desc };
+  }
+  const dimsTs = Object.fromEntries(Object.entries(voz.DIMENSOES_VOZ).map(([k, d]) => [k, { nome: d.nome, descricao: d.descricao }]));
+  comparar("Voz · DIMENSOES_VOZ (códigos, ordem, nomes, descrições)", JSON.stringify(dimsPy), JSON.stringify(dimsTs));
+
+  const descricoesDim = Object.entries(dimsPy)
+    .map(([cod, d]) => `- '${cod}' (${d.nome}): ${d.descricao}`)
+    .join("\n");
+  comparar("Voz · sistema", renderizar(extrair("analisar_comentarios_sonnet", 'prompt_sistema = f"""'), { descricoes_dim: descricoesDim }), voz.montarPromptVoz());
+
+  const comentarios: voz.Comentario[] = Array.from({ length: 7 }, (_, i) => ({
+    id: `c${i}`,
+    autor: i === 3 ? "Fulano 🎮" : `@user${i}`,
+    texto: i === 2 ? "Comentário longo 😍 ".repeat(60) : `posta mais!! ${i}`,
+    likes: i * 13,
+    data: "2026-09-30T10:00:00Z",
+    respostas: i,
+  }));
+  const comentariosTxt = comentarios.map((c, i) => `[${i + 1}] (👍 ${c.likes}) @${c.autor}: ${pyCorte(c.texto, 600)}`).join("\n\n");
+  const tplCtx = extrair("analisar_comentarios_sonnet", 'contexto_dossie = f"""');
+  const tplP = extrair("analisar_comentarios_sonnet", 'payload = f"""');
+  const dossies: [string, voz.DossieContexto | null, Record<string, string> | null][] = [
+    ["sem dossiê", null, null],
+    ["com dossiê", { classificacao_sociologica: "criador_casual", tipo_conteudo_predominante: "vlog" }, { "dossie_canal.get('classificacao_sociologica', 'desconhecida')": "criador_casual", "dossie_canal.get('tipo_conteudo_predominante', 'desconhecido')": "vlog" }],
+    ["dossiê com nulos", { classificacao_sociologica: null, tipo_conteudo_predominante: null }, { "dossie_canal.get('classificacao_sociologica', 'desconhecida')": "None", "dossie_canal.get('tipo_conteudo_predominante', 'desconhecido')": "None" }],
+  ];
+  for (const [nome, d, valoresCtx] of dossies) {
+    const ctx = valoresCtx ? renderizar(tplCtx, valoresCtx) : "";
+    const esperado = renderizar(tplP, {
+      titulo_video: "Vídeo “teste” 🎬",
+      canal_nome: "Canal X",
+      "len(comentarios)": String(comentarios.length),
+      contexto_dossie: ctx,
+      comentarios_txt: comentariosTxt,
+    });
+    comparar(`Voz · payload (${nome})`, esperado, voz.montarPayloadVoz("Vídeo “teste” 🎬", "Canal X", comentarios, d));
+  }
+  conferirChamada("analisar_comentarios_sonnet", voz.MODELO_VOZ, voz.MAX_TOKENS_VOZ);
+  const lim = Number(app.match(/\nCOMENTARIOS_POR_ANALISE = (\d+)/)![1]);
+  if (lim !== voz.COMENTARIOS_POR_ANALISE) {
+    ok = false;
+    console.error(`✗ COMENTARIOS_POR_ANALISE: app.py=${lim} ts=${voz.COMENTARIOS_POR_ANALISE}`);
+  } else console.log(`✓ COMENTARIOS_POR_ANALISE = ${lim}`);
+  const j = pyJsonDumps([{ texto: "olá \"x\"\n", likes: 3, dimensoes: ["a"] }], false);
+  if (j !== '[{"texto": "olá \\"x\\"\\n", "likes": 3, "dimensoes": ["a"]}]') {
+    ok = false;
+    console.error(`✗ pyJsonDumps: ${j}`);
+  } else console.log("✓ json.dumps(..., ensure_ascii=False) no formato do Python");
 }
 
 if (!ok) process.exit(1);

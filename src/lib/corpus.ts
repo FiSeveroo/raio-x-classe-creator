@@ -305,3 +305,52 @@ export function historicoVersoesBusca(termo: string, tipoResultado: string | nul
     return q.order("versao_numero", { ascending: false });
   });
 }
+
+// ---------------------------------------------------------------------------
+// Voz da Base
+// ---------------------------------------------------------------------------
+
+export type AnaliseComentarios = {
+  id: number;
+  video_id: string;
+  titulo_video: string | null;
+  canal_id: string | null;
+  canal_nome: string | null;
+  total_analisados: number | null;
+  indice_pressao_produtiva: number | string | null;
+  distribuicao_dimensoes: string | null;
+  sintese_qualitativa: string | null;
+  contradicao_estrutural: string | null;
+  comentarios_brutos: string | null;
+  data_analise: string | null;
+  versao_numero: number | null;
+  canonica: boolean | null;
+};
+
+/** db.buscar_analise_por_id para analises_comentarios */
+export async function comentariosPorId(id: number) {
+  const r = await consultar<AnaliseComentarios[]>((db) => db.from("analises_comentarios").select("*").eq("id", id).limit(1));
+  if (r.status !== "ok") return r;
+  return { status: "ok" as const, dados: r.dados[0] ?? null };
+}
+
+export type VersaoComentarios = Pick<AnaliseComentarios, "id" | "data_analise" | "versao_numero" | "indice_pressao_produtiva" | "total_analisados">;
+
+/** db.historico_versoes_comentarios */
+export function historicoVersoesComentarios(videoId: string) {
+  return consultar<VersaoComentarios[]>((db) =>
+    db
+      .from("analises_comentarios")
+      .select("id, data_analise, versao_numero, indice_pressao_produtiva, total_analisados")
+      .eq("video_id", videoId)
+      .order("versao_numero", { ascending: false }),
+  );
+}
+
+/** id do dossiê canônico de um canal (para ligar Voz da Base → Dossiê). */
+export async function dossieCanonicoDoCanal(canalId: string): Promise<number | null> {
+  const r = await consultar<{ id: number }[]>((db) =>
+    db.from("dossies_canal").select("id").eq("canal_id", canalId).eq("canonica", true).limit(1),
+  );
+  return r.status === "ok" ? (r.dados[0]?.id ?? null) : null;
+}

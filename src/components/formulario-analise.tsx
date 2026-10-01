@@ -48,9 +48,11 @@ export function FormularioAnalise({
   const passos = t.raw("passos") as string[];
 
   // Mensagens de etapa enquanto a análise roda (o servidor não transmite progresso).
+  // Para na penúltima (a etapa longa, de IA): a última ("salvando") só seria
+  // verdadeira no fim, e o tempo da IA varia demais para cronometrar.
   useEffect(() => {
     if (!pendente) return;
-    const id = setInterval(() => setPasso((p) => Math.min(p + 1, passos.length - 1)), 4000);
+    const id = setInterval(() => setPasso((p) => Math.min(p + 1, Math.max(0, passos.length - 2))), 4000);
     return () => clearInterval(id);
   }, [pendente, passos.length]);
 

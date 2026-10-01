@@ -113,3 +113,23 @@ export function pyMedianaSuperior(xs: number[]): number | null {
   const ord = [...xs].sort((a, b) => a - b);
   return ord[Math.floor(ord.length / 2)];
 }
+
+/**
+ * json.dumps(v, ensure_ascii=...) com os separadores padrão do Python
+ * (", " e ": "). Números inteiros saem como inteiros (o JS não distingue 4 de 4.0).
+ */
+export function pyJsonDumps(v: unknown, ensureAscii = true): string {
+  if (v === null || v === undefined) return "null";
+  if (v === true) return "true";
+  if (v === false) return "false";
+  if (typeof v === "number") return Number.isInteger(v) ? String(v) : pyFloatRepr(v);
+  if (typeof v === "string") {
+    const s = JSON.stringify(v);
+    // ensure_ascii: tudo acima de 0x7F vira \uXXXX (emoji vira par de surrogates, como no Python)
+    return ensureAscii ? s.replace(/[\u007f-￿]/g, (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0")) : s;
+  }
+  if (Array.isArray(v)) return `[${v.map((x) => pyJsonDumps(x, ensureAscii)).join(", ")}]`;
+  return `{${Object.entries(v as Record<string, unknown>)
+    .map(([k, x]) => `${pyJsonDumps(k, ensureAscii)}: ${pyJsonDumps(x, ensureAscii)}`)
+    .join(", ")}}`;
+}
