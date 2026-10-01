@@ -8,22 +8,38 @@ import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useRouter } from "@/i18n/navigation";
-import { analisarVideo, type ResultadoLupa } from "./actions";
+import type { ResultadoModulo } from "@/lib/versionamento";
 
-export function FormularioLupa({
+/**
+ * Formulário comum aos módulos de análise (Lupa, Dossiê, Disputa, Voz):
+ * entrada → ação de servidor → resultado no corpus, oferta da versão
+ * existente (ver / gerar vN, com cooldown e peso) ou erro traduzido.
+ *
+ * Textos vêm do namespace do módulo (mesmas chaves em todos).
+ */
+export function FormularioAnalise({
+  namespace,
+  acao,
+  destino,
   restantesIniciais,
   limiteSessao,
   limiteDiario,
+  tipoEntrada = "url",
 }: {
+  namespace: "Lupa" | "Dossie" | "Disputa" | "Voz";
+  acao: (entrada: { valor: string; atualizar?: { versaoAnteriorId: number } }) => Promise<ResultadoModulo>;
+  /** Prefixo da página do resultado no corpus, ex.: "/biblioteca/video/". */
+  destino: string;
   restantesIniciais: number;
   limiteSessao: number;
   limiteDiario: number;
+  tipoEntrada?: "url" | "text";
 }) {
-  const t = useTranslations("Lupa");
+  const t = useTranslations(namespace);
   const format = useFormatter();
   const router = useRouter();
-  const [url, setUrl] = useState("");
-  const [resultado, setResultado] = useState<ResultadoLupa | null>(null);
+  const [valor, setValor] = useState("");
+  const [resultado, setResultado] = useState<ResultadoModulo | null>(null);
   const [pendente, iniciar] = useTransition();
   const [passo, setPasso] = useState(0);
   const passos = t.raw("passos") as string[];
@@ -31,7 +47,7 @@ export function FormularioLupa({
   // Mensagens de etapa enquanto a análise roda (o servidor não transmite progresso).
   useEffect(() => {
     if (!pendente) return;
-    const id = setInterval(() => setPasso((p) => Math.min(p + 1, passos.length - 1)), 2500);
+    const id = setInterval(() => setPasso((p) => Math.min(p + 1, passos.length - 1)), 4000);
     return () => clearInterval(id);
   }, [pendente, passos.length]);
 
@@ -39,9 +55,9 @@ export function FormularioLupa({
     setResultado(null);
     setPasso(0);
     iniciar(async () => {
-      const r = await analisarVideo({ url, atualizar });
+      const r = await acao({ valor, atualizar });
       if (r.estado === "ok") {
-        router.push(`/biblioteca/video/${r.id}?nova=1`);
+        router.push(`${destino}${r.id}?nova=1`);
         return;
       }
       setResultado(r);
@@ -60,24 +76,24 @@ export function FormularioLupa({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (url.trim()) enviar();
+          if (valor.trim()) enviar();
         }}
         className="flex flex-col gap-3 sm:flex-row"
       >
         <label className="flex-1">
           <span className="sr-only">{t("rotuloUrl")}</span>
           <Input
-            type="url"
-            inputMode="url"
+            type={tipoEntrada}
+            inputMode={tipoEntrada === "url" ? "url" : "text"}
             required
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            value={valor}
+            onChange={(e) => setValor(e.target.value)}
             placeholder={t("placeholder")}
             disabled={pendente || bloqueado}
             className="h-12 text-base"
           />
         </label>
-        <Button type="submit" size="lg" font="display" disabled={pendente || bloqueado || !url.trim()}>
+        <Button type="submit" size="lg" font="display" disabled={pendente || bloqueado || !valor.trim()}>
           {pendente ? <Loader2 aria-hidden className="animate-spin" /> : <ArrowRight aria-hidden />}
           {t("botao")}
         </Button>
@@ -99,13 +115,15 @@ export function FormularioLupa({
 
         {resultado?.estado === "erro" && (
           <p role="alert" className="rounded-lg border-l-2 border-cc-orange bg-cc-surface px-4 py-3 text-sm">
-            {t(`erros.${resultado.codigo}`, {
-              limite: resultado.codigo === "limite_diario" ? limiteDiario : limiteSessao,
-              uso: resultado.uso ?? 0,
-              peso: resultado.peso ?? 0,
-              restantes: resultado.restantes ?? 0,
-              detalhe: resultado.detalhe ?? "",
-            })}
+            {t.has(`erros.${resultado.codigo}`)
+              ? t(`erros.${resultado.codigo}`, {
+                  limite: resultado.codigo === "limite_diario" ? limiteDiario : limiteSessao,
+                  uso: resultado.uso ?? 0,
+                  peso: resultado.peso ?? 0,
+                  restantes: resultado.restantes ?? 0,
+                  detalhe: resultado.detalhe ?? "",
+                })
+              : t("erros.falha", { detalhe: resultado.detalhe ?? resultado.codigo })}
           </p>
         )}
 
@@ -122,7 +140,7 @@ export function FormularioLupa({
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
-                <Link href={`/biblioteca/video/${resultado.id}`}>{t("verExistente")}</Link>
+                <Link href={`${destino}${resultado.id}`}>{t("verExistente")}</Link>
               </Button>
               {resultado.pode ? (
                 <Button

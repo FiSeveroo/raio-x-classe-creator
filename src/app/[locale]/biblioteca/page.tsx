@@ -115,10 +115,10 @@ export default async function Biblioteca({
             id: d.id,
             busca: (d.canal_nome ?? "").toLowerCase(),
             filtro: d.classificacao_sociologica,
-            href: null,
+            href: `/biblioteca/canal/${d.id}`,
             celulas: [
               <span key="d" className="text-xs tabular-nums text-muted-foreground">{data(d.data_dossie)}</span>,
-              truncar(d.canal_nome, 60),
+              <Link key="n" href={`/biblioteca/canal/${d.id}`} className="hover:text-cc-green hover:underline">{truncar(d.canal_nome, 60)}</Link>,
               <span key="i" className="text-xs tabular-nums">{d.inscritos == null ? "—" : format.number(d.inscritos)}</span>,
               <span key="p" className="text-cc-green">{nomeProdutor(d.classificacao_sociologica, locale)}</span>,
               <span key="c" className="text-cc-purple-text">{nomeConteudo(d.tipo_conteudo_predominante, locale)}</span>,

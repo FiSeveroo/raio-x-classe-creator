@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "verificar:tipologia": "node scripts/verificar-tipologia.mts",
-    "verificar:prompt-lupa": "node --no-warnings scripts/verificar-prompt-lupa.mts",
-    "verificar": "npm run verificar:tipologia && npm run verificar:prompt-lupa"
+    "verificar:tipologia": "node --no-warnings scripts/verificar-tipologia.mts",
+    "verificar": "npm run -s verificar:tipologia && npm run -s verificar:prompts && npm run -s verificar:sintomas",
+    "verificar:prompts": "node --no-warnings scripts/verificar-prompts.mts",
+    "verificar:sintomas": "node --no-warnings scripts/verificar-sintomas.mts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

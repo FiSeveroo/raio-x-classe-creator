@@ -202,3 +202,50 @@ export function historicoVersoesVideo(videoId: string) {
       .order("versao_numero", { ascending: false }),
   );
 }
+
+// ---------------------------------------------------------------------------
+// Dossiê
+// ---------------------------------------------------------------------------
+
+export type DossieCompleto = {
+  id: number;
+  canal_id: string;
+  canal_nome: string | null;
+  canal_descricao: string | null;
+  inscritos: number | null;
+  total_videos_canal: number | null;
+  total_videos_analisados: number | null;
+  sintomas_estruturais: string | null;
+  auto_classificacao: string | null;
+  classificacao_sociologica: string;
+  tipo_conteudo_predominante: string;
+  veredito_sonnet: string | null;
+  rede_canais: string | null;
+  composicao_videos: string | null;
+  data_dossie: string | null;
+  versao_numero: number | null;
+  canonica: boolean | null;
+};
+
+/** db.buscar_analise_por_id para dossies_canal */
+export async function dossiePorId(id: number) {
+  const r = await consultar<DossieCompleto[]>((db) => db.from("dossies_canal").select("*").eq("id", id).limit(1));
+  if (r.status !== "ok") return r;
+  return { status: "ok" as const, dados: r.dados[0] ?? null };
+}
+
+export type VersaoDossie = Pick<
+  DossieCompleto,
+  "id" | "data_dossie" | "versao_numero" | "classificacao_sociologica" | "tipo_conteudo_predominante"
+>;
+
+/** db.historico_versoes_dossie */
+export function historicoVersoesDossie(canalId: string) {
+  return consultar<VersaoDossie[]>((db) =>
+    db
+      .from("dossies_canal")
+      .select("id, data_dossie, versao_numero, classificacao_sociologica, tipo_conteudo_predominante")
+      .eq("canal_id", canalId)
+      .order("versao_numero", { ascending: false }),
+  );
+}

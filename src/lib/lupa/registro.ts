@@ -1,25 +1,16 @@
 import "server-only";
-import { supabaseGravacao, supabaseLeitura } from "@/lib/supabase/server";
+import { supabaseGravacao } from "@/lib/supabase/server";
+import { db, descanonizarAnterior, LIMITES } from "@/lib/versionamento";
 import type { ExemploAncora } from "./prompt";
 
 /*
  * Banco da Lupa — porte de db.py (buscar_canal_validado, buscar_exemplos_ancora,
- * contar_uso_diario, buscar_canonica_video, calcular_peso_atualizacao,
- * pode_atualizar, descanonizar_anterior, registrar_lupa). Mesmas tabelas,
- * colunas, filtros e regras de versionamento.
+ * buscar_canonica_video, registrar_lupa). Regras genéricas de versionamento
+ * em src/lib/versionamento.ts.
  */
 
-export const COOLDOWN_ATUALIZACAO_DIAS = 30;
-
-// app.py: LIMITE_LUPA_POR_SESSAO e LIMITES_DIARIOS["lupa"]
-export const LIMITE_LUPA_POR_SESSAO = 15;
-export const LIMITE_DIARIO_LUPA = 80;
-
-function db() {
-  const c = supabaseLeitura();
-  if (!c) throw new Error("Supabase não configurado.");
-  return c;
-}
+export const LIMITE_LUPA_POR_SESSAO = LIMITES.lupa.sessao;
+export const LIMITE_DIARIO_LUPA = LIMITES.lupa.diario;
 
 export type CanalValidado = {
   canal_id: string;
@@ -47,20 +38,6 @@ export async function buscarExemplosAncora(limite = 20): Promise<ExemploAncora[]
   return (data as ExemploAncora[]) ?? [];
 }
 
-/**
- * db.contar_uso_diario("lupa") — análises de hoje. O Streamlit Cloud roda em
- * UTC, então "hoje" é a data UTC. Em caso de erro, devolve 0 (não bloqueia).
- */
-export async function contarUsoDiarioLupa(): Promise<number> {
-  const hoje = new Date().toISOString().slice(0, 10);
-  const { count, error } = await db()
-    .from("classificacoes_video")
-    .select("id", { count: "exact", head: true })
-    .gte("data_classificacao", `${hoje}T00:00:00`)
-    .lte("data_classificacao", `${hoje}T23:59:59`);
-  return error ? 0 : (count ?? 0);
-}
-
 export type CanonicaVideo = {
   id: number;
   versao_numero: number | null;
@@ -77,39 +54,6 @@ export async function buscarCanonicaVideo(videoId: string): Promise<CanonicaVide
     .limit(1);
   if (error) throw new Error(error.message);
   return (data?.[0] as CanonicaVideo) ?? null;
-}
-
-/** db.calcular_peso_atualizacao — v1: 1 slot; vN: 2^(N-1) slots. */
-export function calcularPesoAtualizacao(versaoNumero: number): number {
-  return versaoNumero <= 1 ? 1 : 2 ** (versaoNumero - 1);
-}
-
-/**
- * db.pode_atualizar — cooldown de 30 dias desde a versão canônica.
- * Data ilegível libera a atualização (como no Python).
- */
-export function podeAtualizar(
-  dataCanonicaIso: string | null,
-  cooldownDias = COOLDOWN_ATUALIZACAO_DIAS,
-): { pode: boolean; diasRestantes: number } {
-  if (!dataCanonicaIso) return { pode: true, diasRestantes: 0 };
-  // Sem fuso explícito, o Python trata como UTC (compara com utcnow()).
-  const temFuso = /(Z|[+-]\d{2}:?\d{2})$/.test(dataCanonicaIso);
-  const data = new Date(temFuso ? dataCanonicaIso : `${dataCanonicaIso}Z`);
-  if (Number.isNaN(data.getTime())) return { pode: true, diasRestantes: 0 };
-  const deltaMs = Date.now() - data.getTime();
-  if (deltaMs >= cooldownDias * 86_400_000) return { pode: true, diasRestantes: 0 };
-  const deltaDias = Math.floor(deltaMs / 86_400_000); // timedelta.days
-  return { pode: false, diasRestantes: Math.max(1, cooldownDias - deltaDias) };
-}
-
-/** db.descanonizar_anterior */
-async function descanonizarAnterior(registroId: number) {
-  const { error } = await supabaseGravacao()!
-    .from("classificacoes_video")
-    .update({ canonica: false })
-    .eq("id", registroId);
-  if (error) throw new Error(error.message);
 }
 
 /**
@@ -130,7 +74,7 @@ export async function registrarLupa(r: {
   is_short: boolean | null;
 }): Promise<number> {
   if (r.versao_numero > 1 && r.versao_anterior_id) {
-    await descanonizarAnterior(r.versao_anterior_id);
+    await descanonizarAnterior("classificacoes_video", r.versao_anterior_id);
   }
   const { data, error } = await supabaseGravacao()!
     .from("classificacoes_video")

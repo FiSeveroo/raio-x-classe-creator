@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/brand/Brand";
+import { FormularioAnalise } from "@/components/formulario-analise";
 import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
-import { LIMITE_DIARIO_LUPA, LIMITE_LUPA_POR_SESSAO } from "@/lib/lupa/registro";
-import { slotsUsadosLupa } from "./actions";
-import { FormularioLupa } from "./formulario-lupa";
+import { LIMITES, slotsUsados } from "@/lib/versionamento";
+import { analisarVideo } from "./acoes";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/lupa">): Promise<Metadata> {
   const { locale } = await params;
@@ -18,7 +18,7 @@ export default async function Lupa({ params }: PageProps<"/[locale]/lupa">) {
   setRequestLocale(locale);
   const t = await getTranslations("Lupa");
   const tm = await getTranslations("Modulos");
-  const usados = await slotsUsadosLupa();
+  const usados = await slotsUsados("lupa");
 
   return (
     <Pagina>
@@ -29,10 +29,13 @@ export default async function Lupa({ params }: PageProps<"/[locale]/lupa">) {
       <p className="mt-6 font-display text-xl text-cc-green sm:text-2xl">{t("subtitulo")}</p>
       <p className="prosa mt-6 text-lg">{rico(t("intro"))}</p>
 
-      <FormularioLupa
-        restantesIniciais={LIMITE_LUPA_POR_SESSAO - usados}
-        limiteSessao={LIMITE_LUPA_POR_SESSAO}
-        limiteDiario={LIMITE_DIARIO_LUPA}
+      <FormularioAnalise
+        namespace="Lupa"
+        acao={analisarVideo}
+        destino="/biblioteca/video/"
+        restantesIniciais={LIMITES.lupa.sessao - usados}
+        limiteSessao={LIMITES.lupa.sessao}
+        limiteDiario={LIMITES.lupa.diario}
       />
     </Pagina>
   );
