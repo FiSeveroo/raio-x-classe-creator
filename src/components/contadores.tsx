@@ -1,6 +1,5 @@
 import { getFormatter, getTranslations } from "next-intl/server";
 import type { Contadores as TipoContadores } from "@/lib/corpus";
-import { cn } from "@/lib/utils";
 
 const ORDEM: (keyof TipoContadores)[] = [
   "snapshots_termometro",
@@ -10,18 +9,9 @@ const ORDEM: (keyof TipoContadores)[] = [
   "analises_voz_da_base",
 ];
 
-// Cores da identidade, em rotação (o legado usava 5 cores soltas; aqui só a paleta).
-const CORES = [
-  "border-verde text-verde",
-  "border-roxo text-roxo-texto",
-  "border-laranja text-laranja",
-  "border-foreground/60 text-foreground",
-  "border-verde text-verde",
-];
-
 /**
  * Faixa de números do corpus. `namespace` escolhe os rótulos (Home usa uns,
- * Biblioteca outros — como no Streamlit). null = "sem dados", nunca 0.
+ * Biblioteca outros). null = "sem dados", nunca 0 (princípio 1).
  */
 export async function Contadores({
   valores,
@@ -35,26 +25,23 @@ export async function Contadores({
   const format = await getFormatter();
 
   return (
-    <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-      {ORDEM.map((chave, i) => {
+    // gap-px sobre fundo de borda = linhas divisórias em qualquer quebra de grade.
+    <dl className="grid grid-cols-2 gap-px border-y border-border bg-border sm:grid-cols-3 lg:grid-cols-5">
+      {ORDEM.map((chave) => {
         const v = valores?.[chave] ?? null;
         return (
           <div
             key={chave}
             // dt antes do dd no DOM (semântica); número aparece em cima via flex-col-reverse.
-            className={cn(
-              "flex flex-col-reverse justify-end gap-2 rounded-sm border-l-2 bg-superficie px-4 py-4",
-              CORES[i].split(" ")[0],
-            )}
+            className="flex flex-col-reverse justify-end gap-3 bg-background px-4 py-6 sm:px-5"
           >
-            <dt className="rotulo text-[0.65rem] leading-snug tracking-[0.12em]">{t(chave)}</dt>
-            <dd
-              className={cn(
-                "font-mono text-3xl font-bold leading-none tabular-nums",
-                v === null ? "text-base font-normal text-muted-foreground" : CORES[i].split(" ")[1],
+            <dt className="rotulo text-[0.62rem] leading-snug tracking-[0.12em]">{t(chave)}</dt>
+            <dd className="leading-none">
+              {v === null ? (
+                <span className="font-mono text-sm text-muted-foreground">{tc("semDados")}</span>
+              ) : (
+                <span className="font-heading text-4xl font-black tabular-nums sm:text-5xl">{format.number(v)}</span>
               )}
-            >
-              {v === null ? tc("semDados") : format.number(v)}
             </dd>
           </div>
         );

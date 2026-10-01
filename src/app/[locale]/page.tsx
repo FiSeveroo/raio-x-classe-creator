@@ -1,10 +1,10 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { BotaoCopiar } from "@/components/botao-copiar";
 import { Contadores } from "@/components/contadores";
-import { Aviso, Pagina, Secao } from "@/components/pagina";
+import { Aviso, estiloBotao, Pagina, Secao } from "@/components/pagina";
 import { Paragrafos, rico } from "@/components/rico";
 import {
   Accordion,
@@ -39,39 +39,22 @@ type PesquisaConcluida = {
 };
 type ItemFaq = { pergunta: string; resposta: string };
 
-const COR_MODULO: Record<ChaveModulo, string> = {
-  lupa: "border-verde",
-  termometro: "border-laranja",
-  disputa: "border-roxo",
-  dossie: "border-roxo",
-  voz: "border-verde",
-};
-
-function ListaTipologia({
-  categorias,
-  locale,
-  cor,
-}: {
-  categorias: Categoria[];
-  locale: Locale;
-  cor: "verde" | "roxo";
-}) {
+function ListaTipologia({ categorias, locale }: { categorias: Categoria[]; locale: Locale }) {
   return (
-    <Accordion multiple className="rounded-md border border-border bg-superficie px-4">
-      {categorias.map((c) => (
-        <AccordionItem key={c.codigo} value={c.codigo}>
-          <AccordionTrigger className="py-3 text-base">
-            <span className="flex items-baseline gap-3">
-              <span
-                aria-hidden
-                className={cn("size-2 shrink-0 translate-y-[-2px] rounded-full", cor === "verde" ? "bg-verde" : "bg-roxo")}
-              />
-              {c.nome[locale]}
+    <Accordion multiple className="border-t border-border">
+      {categorias.map((c, i) => (
+        <AccordionItem key={c.codigo} value={c.codigo} className="border-b border-border">
+          <AccordionTrigger className="rounded-none py-4 text-base hover:no-underline">
+            <span className="flex items-baseline gap-4">
+              <span className="w-6 font-mono text-xs text-muted-foreground tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="font-semibold">{c.nome[locale]}</span>
             </span>
           </AccordionTrigger>
-          <AccordionContent className="pl-5 text-sm leading-relaxed text-foreground/80">
+          <AccordionContent className="pl-10 text-sm leading-relaxed text-foreground/80">
             <p>{rico(c.definicao[locale])}</p>
-            <p className="mt-2 font-mono text-xs text-muted-foreground">{c.codigo}</p>
+            <p className="mt-3 font-mono text-xs text-muted-foreground">{c.codigo}</p>
           </AccordionContent>
         </AccordionItem>
       ))}
@@ -90,240 +73,280 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
 
   const contadores = await contadoresPublicos();
   const agenda = tRaiz.raw("Agenda") as ItemAgenda[];
-  const concluidas = tRaiz.raw("Concluidas") as PesquisaConcluida[];
+  const [fundadora] = tRaiz.raw("Concluidas") as PesquisaConcluida[];
   const faq = tRaiz.raw("Faq") as ItemFaq[];
   const privacidade = tRaiz.raw("Privacidade") as string[];
 
   return (
-    <Pagina>
-      {/* HERO */}
-      <header>
-        <p className="rotulo mb-4">{t("heroRotulo")}</p>
-        <h1 className="text-5xl leading-[0.95] font-black uppercase sm:text-7xl">
+    <>
+      {/* ───────────── HERO ───────────── */}
+      <Pagina className="pb-0 lg:pt-24">
+        <p className="rotulo mb-6">{t("heroRotulo")}</p>
+        <h1 className="text-[clamp(3.25rem,12vw,10.5rem)] leading-[0.85] font-black uppercase">
           {t("heroTitulo1")}
           <br />
           <span className="text-verde">{t("heroTitulo2")}</span>
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/80">
-          {t("heroTexto")}
-        </p>
-      </header>
 
-      <div className="mt-10 space-y-3">
-        <Contadores valores={contadores} namespace="Home.contadores" />
-        {contadores === null && <Aviso>{tc("semBanco")}</Aviso>}
-      </div>
-
-      {/* 01 — O QUE FAZ */}
-      <Secao numero="01" id="o-que-faz" titulo={t("oQueFazTitulo")}>
-        <Paragrafos textos={t.raw("oQueFazTexto") as string[]} />
-      </Secao>
-
-      {/* 02 — MÓDULOS */}
-      <Secao numero="02" id="modulos" titulo={t("modulosTitulo")}>
-        <p className="mb-8 max-w-prose text-muted-foreground">{t("modulosTexto")}</p>
-        <ul className="grid gap-4 md:grid-cols-2">
-          {MODULOS.map(({ chave, href, icone: Icone }) => (
-            <li
-              key={chave}
-              className={cn("flex flex-col rounded-md border-l-2 bg-superficie p-5", COR_MODULO[chave])}
-            >
-              <div className="flex items-start gap-3">
-                <Icone aria-hidden className="mt-1 size-5 shrink-0 text-muted-foreground" />
-                <div>
-                  <h3 className="text-xl font-bold uppercase">{tm(`${chave}.nome`)}</h3>
-                  <p className="rotulo mt-1 text-[0.65rem] tracking-[0.12em]">{tm(`${chave}.escala`)}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-foreground/85">{tm(`${chave}.frase`)}</p>
-
-              <details className="group mt-4 text-sm">
-                <summary className="cursor-pointer list-none font-mono text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden">
-                  <span className="group-open:hidden">+ </span>
-                  <span className="hidden group-open:inline">− </span>
-                  {t("quandoUsar")} · {t("casosDeUso")}
-                </summary>
-                <div className="mt-3 space-y-3 leading-relaxed text-foreground/80">
-                  <p>
-                    <strong className="text-foreground">{t("quandoUsar")}:</strong> {tm(`${chave}.quandoUsar`)}
-                  </p>
-                  <ul className="list-disc space-y-1 pl-5">
-                    {(tm.raw(`${chave}.casos`) as string[]).map((c) => (
-                      <li key={c}>{c}</li>
-                    ))}
-                  </ul>
-                </div>
-              </details>
-
-              <Link
-                href={href}
-                className="mt-auto inline-flex items-center gap-1.5 self-start pt-5 font-mono text-xs uppercase tracking-wider text-verde hover:underline"
-              >
-                {t("abrirModulo")} <ArrowRight className="size-3.5" aria-hidden />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Secao>
-
-      {/* 03 — METODOLOGIA */}
-      <Secao numero="03" id="metodologia" titulo={t("metodologiaTitulo")}>
-        <p className="prosa mb-8">{t("metodologiaTexto")}</p>
-        <div className="grid gap-8 md:grid-cols-2">
-          <div>
-            <p className="font-mono text-sm font-bold tracking-wider text-verde">{t("eixoA")}</p>
-            <p className="mb-3 text-sm text-muted-foreground">
-              {t("eixoAPergunta")} · {t("categorias", { n: PRODUTORES.length })}
-            </p>
-            <ListaTipologia categorias={PRODUTORES} locale={locale} cor="verde" />
-          </div>
-          <div>
-            <p className="font-mono text-sm font-bold tracking-wider text-roxo-texto">{t("eixoB")}</p>
-            <p className="mb-3 text-sm text-muted-foreground">
-              {t("eixoBPergunta")} · {t("categorias", { n: CONTEUDOS.length })}
-            </p>
-            <ListaTipologia categorias={CONTEUDOS} locale={locale} cor="roxo" />
-          </div>
-        </div>
-      </Secao>
-
-      {/* 04 — BIBLIOTECA */}
-      <Secao numero="04" id="biblioteca" titulo={t("bibliotecaTitulo")}>
-        <p className="prosa">{rico(t("bibliotecaTexto"))}</p>
-        <div className="mt-8 grid gap-6 rounded-md border-l-2 border-verde bg-gradient-to-br from-verde/[0.06] to-transparent p-6 md:grid-cols-[2fr_1fr]">
-          <div>
-            <h3 className="text-lg font-bold uppercase">{t("bibliotecaCardTitulo")}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/80">{t("bibliotecaCardTexto")}</p>
-            <Link
-              href="/biblioteca"
-              className="mt-5 inline-flex items-center gap-2 rounded-md bg-verde px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider text-background transition-opacity hover:opacity-85"
-            >
-              {t("bibliotecaBotao")} <ArrowRight className="size-3.5" aria-hidden />
+        <div className="mt-12 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-end">
+          <p className="max-w-2xl text-lg leading-relaxed text-foreground/85 sm:text-xl">{t("heroTexto")}</p>
+          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row lg:justify-end">
+            <Link href="/lupa" className={cn(estiloBotao.base, estiloBotao.laranja)}>
+              {t("ctaLupa")} <ArrowRight aria-hidden className="size-4" />
+            </Link>
+            <Link href="/biblioteca" className={cn(estiloBotao.base, estiloBotao.contorno)}>
+              {t("ctaBiblioteca")}
             </Link>
           </div>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            <strong className="text-verde">{t("bibliotecaSnapshotRotulo")}</strong> {t("bibliotecaSnapshotTexto")}
-          </p>
         </div>
-      </Secao>
 
-      {/* 05 — AGENDA */}
-      <Secao numero="05" id="agenda" titulo={t("agendaTitulo")}>
-        <p className="prosa mb-6">{rico(t("agendaTexto"))}</p>
-        <Accordion className="border-y border-border">
-          {agenda.map((p, i) => (
-            <AccordionItem key={p.titulo} value={`agenda-${i}`}>
-              <AccordionTrigger className="gap-4 py-4 text-base hover:no-underline">
-                <span className="flex gap-4">
+        <div className="mt-20">
+          <p className="rotulo mb-4">{t("corpusRotulo")}</p>
+          <Contadores valores={contadores} namespace="Home.contadores" />
+          {contadores === null && (
+            <div className="mt-3">
+              <Aviso>{tc("semBanco")}</Aviso>
+            </div>
+          )}
+        </div>
+      </Pagina>
+
+      {/* ───────────── BLOCO ROXO: AS DUAS PERGUNTAS ───────────── */}
+      <section aria-labelledby="perguntas" className="mt-24 bg-roxo sm:mt-32">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8 sm:py-28">
+          <p className="mb-10 font-mono text-xs uppercase tracking-[0.2em] text-foreground/80">
+            {t("perguntasRotulo")}
+          </p>
+          <h2 id="perguntas" className="sr-only">
+            {t("oQueFazTitulo")}
+          </h2>
+          <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+            {(
+              [
+                ["eixoA", "eixoAPergunta"],
+                ["eixoB", "eixoBPergunta"],
+              ] as const
+            ).map(([eixo, pergunta]) => (
+              <div key={eixo}>
+                <p className="font-mono text-sm tracking-[0.14em] text-foreground/80">{t(eixo)}</p>
+                <p className="mt-4 font-heading text-4xl leading-[0.95] font-black uppercase sm:text-6xl">
+                  {t(pergunta)}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-16 grid gap-6 border-t border-foreground/25 pt-10 text-base leading-relaxed text-foreground/90 md:grid-cols-3">
+            {(t.raw("oQueFazTexto") as string[]).map((p, i) => (
+              <p key={i}>{rico(p)}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Pagina className="pt-0 lg:pt-0">
+        {/* ───────────── 01 MÓDULOS ───────────── */}
+        <Secao numero="01" id="modulos" titulo={t("modulosTitulo")}>
+          <p className="mb-10 max-w-prose text-lg text-foreground/75">{t("modulosTexto")}</p>
+          <ol className="border-t border-border">
+            {MODULOS.map(({ chave, href }, i) => (
+              <li key={chave} className="border-b border-border">
+                <Link
+                  href={href}
+                  className="group grid items-baseline gap-x-8 gap-y-2 px-1 py-7 transition-colors hover:bg-superficie sm:px-4 md:grid-cols-[3rem_1.1fr_1.4fr_auto]"
+                >
                   <span className="font-mono text-sm text-muted-foreground tabular-nums">
-                    #{String(i + 1).padStart(2, "0")}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span>{p.titulo}</span>
-                </span>
-              </AccordionTrigger>
-              <AccordionContent className="space-y-3 pl-11 text-sm leading-relaxed text-foreground/80">
-                <p className="rotulo text-[0.65rem] tracking-[0.12em]">
-                  {p.modulos.map((m) => tm(`${m}.nome`)).join(" · ")}
-                </p>
-                <p>
-                  <strong className="text-foreground">{t("agendaPergunta")}:</strong> {p.pergunta}
-                </p>
-                <p>
-                  <strong className="text-foreground">{t("agendaHipotese")}:</strong> {p.hipotese}
-                </p>
-                <p>
-                  <strong className="text-foreground">{t("agendaMetodo")}:</strong> {p.metodo}
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+                  <span>
+                    <span className="block font-heading text-3xl leading-none font-black uppercase transition-colors group-hover:text-verde sm:text-4xl">
+                      {tm(`${chave}.nome`)}
+                    </span>
+                    <span className="rotulo mt-2 block text-[0.62rem] tracking-[0.12em]">{tm(`${chave}.escala`)}</span>
+                  </span>
+                  <span className="text-sm leading-relaxed text-foreground/75">{tm(`${chave}.frase`)}</span>
+                  <ArrowRight
+                    aria-hidden
+                    className="hidden size-6 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-verde md:block"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </Secao>
 
-        <Accordion className="mt-8 rounded-md bg-superficie px-5">
-          <AccordionItem value="concluidas">
-            <AccordionTrigger className="py-4 text-base font-bold">{t("concluidasTitulo")}</AccordionTrigger>
-            <AccordionContent className="space-y-6 text-sm leading-relaxed text-foreground/80">
-              <p>{t("concluidasTexto")}</p>
-              {concluidas.map((p) => (
-                <article key={p.titulo} className="border-t border-border pt-4">
-                  <p className="rotulo text-[0.65rem]">
-                    {p.tipo} · {p.ano}
-                  </p>
-                  <h3 className="mt-2 font-sans text-base font-semibold normal-case tracking-normal text-foreground">
-                    {p.titulo}
-                  </h3>
-                  <p className="mt-1 italic text-muted-foreground">
-                    {p.autor} — {p.instituicao} · {p.programa}
-                  </p>
-                  <p className="mt-3">
-                    <strong className="text-foreground">{t("concluidasResumo")}:</strong> {p.resumo}
-                  </p>
-                  <p className="mt-3 font-semibold text-foreground">{t("concluidasAchados")}</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5">
-                    {p.achados.map((a) => (
-                      <li key={a}>{a}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </Secao>
+        {/* ───────────── 02 METODOLOGIA ───────────── */}
+        <Secao numero="02" id="metodologia" titulo={t("metodologiaTitulo")}>
+          <p className="prosa mb-12 text-lg">{t("metodologiaTexto")}</p>
+          <div className="grid gap-12 md:grid-cols-2">
+            <div>
+              <div className="mb-4 border-l-4 border-verde pl-4">
+                <p className="font-mono text-sm font-bold tracking-wider text-verde">{t("eixoA")}</p>
+                <p className="text-sm text-muted-foreground">{t("categorias", { n: PRODUTORES.length })}</p>
+              </div>
+              <ListaTipologia categorias={PRODUTORES} locale={locale} />
+            </div>
+            <div>
+              <div className="mb-4 border-l-4 border-roxo pl-4">
+                <p className="font-mono text-sm font-bold tracking-wider text-roxo-texto">{t("eixoB")}</p>
+                <p className="text-sm text-muted-foreground">{t("categorias", { n: CONTEUDOS.length })}</p>
+              </div>
+              <ListaTipologia categorias={CONTEUDOS} locale={locale} />
+            </div>
+          </div>
+        </Secao>
 
-      {/* 06 — COMO CITAR */}
-      <Secao numero="06" id="citar" titulo={t("citarTitulo")}>
-        <p className="prosa mb-6">{t("citarTexto")}</p>
-        {(
-          [
-            ["citarFundadora", "fundadora"],
-            ["citarFerramenta", "ferramenta"],
-          ] as const
-        ).map(([rotulo, chave]) => {
-          // raw: a citação ABNT tem "<https://…>", que o ICU leria como tag.
-          const texto = tRaiz.raw(`Citacoes.${chave}`) as string;
-          return (
-            <figure key={chave} className="mb-4 rounded-md bg-superficie">
-              <figcaption className="flex items-center justify-between border-b border-border px-4 py-2">
-                <span className="rotulo text-[0.65rem] tracking-[0.12em]">{t(rotulo)}</span>
-                <BotaoCopiar texto={texto} rotulo={t("copiar")} rotuloCopiado={t("copiado")} />
-              </figcaption>
-              <p className="px-4 py-4 font-mono text-xs leading-relaxed break-words text-foreground/85 select-all">
-                {texto}
+        {/* ───────────── BIBLIOTECA ───────────── */}
+        <section
+          aria-labelledby="biblioteca-titulo"
+          className="mt-24 grid gap-10 bg-superficie p-8 sm:mt-32 sm:p-12 lg:grid-cols-[1.3fr_1fr]"
+        >
+          <div>
+            <p className="rotulo mb-4">{t("bibliotecaTitulo")}</p>
+            <h2 id="biblioteca-titulo" className="text-3xl leading-none font-black uppercase sm:text-4xl">
+              {t("bibliotecaCardTitulo")}
+            </h2>
+            <p className="mt-6 max-w-prose leading-relaxed text-foreground/80">{rico(t("bibliotecaTexto"))}</p>
+            <Link href="/biblioteca" className={cn(estiloBotao.base, estiloBotao.verde, "mt-8")}>
+              {t("bibliotecaBotao")} <ArrowRight aria-hidden className="size-4" />
+            </Link>
+          </div>
+          <div className="space-y-6 border-t border-border pt-6 text-sm leading-relaxed text-foreground/70 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+            <p>{t("bibliotecaCardTexto")}</p>
+            <p>
+              <strong className="text-foreground">{t("bibliotecaSnapshotRotulo")}</strong>{" "}
+              {t("bibliotecaSnapshotTexto")}
+            </p>
+          </div>
+        </section>
+
+        {/* ───────────── 03 AGENDA ───────────── */}
+        <Secao numero="03" id="agenda" titulo={t("agendaTitulo")}>
+          <p className="prosa mb-12 text-lg">{rico(t("agendaTexto"))}</p>
+          <div className="grid gap-px bg-border sm:grid-cols-2">
+            {agenda.map((p, i) => (
+              <details key={p.titulo} className="group bg-background p-6 open:bg-superficie">
+                <summary className="flex cursor-pointer list-none flex-col gap-3 [&::-webkit-details-marker]:hidden">
+                  <span className="flex items-center justify-between gap-4">
+                    <span className="font-mono text-xs text-muted-foreground tabular-nums">
+                      #{String(i + 1).padStart(2, "0")} · {p.modulos.map((m) => tm(`${m}.nome`)).join(" · ")}
+                    </span>
+                    <span aria-hidden className="font-mono text-lg text-verde group-open:rotate-45 transition-transform">
+                      +
+                    </span>
+                  </span>
+                  <span className="text-lg leading-snug font-semibold">{p.titulo}</span>
+                </summary>
+                <dl className="mt-5 space-y-4 text-sm leading-relaxed text-foreground/80">
+                  {(
+                    [
+                      ["agendaPergunta", p.pergunta],
+                      ["agendaHipotese", p.hipotese],
+                      ["agendaMetodo", p.metodo],
+                    ] as const
+                  ).map(([rotulo, texto]) => (
+                    <div key={rotulo}>
+                      <dt className="rotulo mb-1 text-[0.62rem]">{t(rotulo)}</dt>
+                      <dd>{texto}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </details>
+            ))}
+          </div>
+
+          {/* Pesquisa fundadora */}
+          <article className="mt-16 grid gap-10 border-l-4 border-verde pl-6 sm:pl-10 lg:grid-cols-[1.2fr_1fr]">
+            <div>
+              <p className="rotulo">
+                {t("concluidasTitulo")} · {fundadora.tipo} · {fundadora.ano}
               </p>
-            </figure>
-          );
-        })}
-      </Secao>
+              <h3 className="mt-4 font-sans text-2xl leading-tight font-semibold tracking-normal normal-case">
+                {fundadora.titulo}
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {fundadora.autor} — {fundadora.instituicao} · {fundadora.programa}
+              </p>
+              <p className="mt-6 leading-relaxed text-foreground/80">{fundadora.resumo}</p>
+            </div>
+            <div>
+              <p className="rotulo mb-4">{t("concluidasAchados")}</p>
+              <ul className="space-y-3">
+                {fundadora.achados.map((a) => (
+                  <li key={a} className="flex gap-3 text-sm leading-relaxed">
+                    <span aria-hidden className="mt-2 size-1.5 shrink-0 bg-verde" />
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        </Secao>
 
-      {/* 07 — FAQ + PRIVACIDADE */}
-      <Secao numero="07" id="faq" titulo={t("faqTitulo")}>
-        <Accordion className="border-y border-border">
-          {faq.map((f, i) => (
-            <AccordionItem key={f.pergunta} value={`faq-${i}`}>
-              <AccordionTrigger className="py-4 text-base">{f.pergunta}</AccordionTrigger>
-              <AccordionContent className="text-sm leading-relaxed text-foreground/80">
-                <p>{rico(f.resposta)}</p>
+        {/* ───────────── 04 COMO CITAR ───────────── */}
+        <Secao numero="04" id="citar" titulo={t("citarTitulo")}>
+          <p className="prosa mb-10 text-lg">{t("citarTexto")}</p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {(
+              [
+                ["citarFundadora", "fundadora"],
+                ["citarFerramenta", "ferramenta"],
+              ] as const
+            ).map(([rotulo, chave]) => {
+              // raw: a citação ABNT tem "<https://…>", que o ICU leria como tag.
+              const texto = tRaiz.raw(`Citacoes.${chave}`) as string;
+              return (
+                <figure key={chave} className="flex flex-col bg-superficie">
+                  <figcaption className="flex items-center justify-between border-b border-border px-5 py-3">
+                    <span className="rotulo text-[0.62rem] tracking-[0.12em]">{t(rotulo)}</span>
+                    <BotaoCopiar texto={texto} rotulo={t("copiar")} rotuloCopiado={t("copiado")} />
+                  </figcaption>
+                  <p className="px-5 py-5 font-mono text-xs leading-relaxed break-words text-foreground/85 select-all">
+                    {texto}
+                  </p>
+                </figure>
+              );
+            })}
+          </div>
+        </Secao>
+
+        {/* ───────────── 05 FAQ ───────────── */}
+        <Secao numero="05" id="faq" titulo={t("faqTitulo")}>
+          <Accordion className="border-t border-border">
+            {faq.map((f, i) => (
+              <AccordionItem key={f.pergunta} value={`faq-${i}`} className="border-b border-border">
+                <AccordionTrigger className="rounded-none py-5 text-lg hover:no-underline">{f.pergunta}</AccordionTrigger>
+                <AccordionContent className="max-w-prose pb-6 text-base leading-relaxed text-foreground/80">
+                  <p>{rico(f.resposta)}</p>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+            <AccordionItem value="privacidade" className="border-b border-border">
+              <AccordionTrigger className="rounded-none py-5 text-lg hover:no-underline">
+                {t("privacidadeTitulo")}
+              </AccordionTrigger>
+              <AccordionContent className="max-w-prose pb-6 text-base leading-relaxed text-foreground/80">
+                <Paragrafos textos={privacidade} className="space-y-3" />
               </AccordionContent>
             </AccordionItem>
-          ))}
-          <AccordionItem value="privacidade">
-            <AccordionTrigger className="py-4 text-base">{t("privacidadeTitulo")}</AccordionTrigger>
-            <AccordionContent className="text-sm leading-relaxed text-foreground/80">
-              <Paragrafos textos={privacidade} className="space-y-3" />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </Secao>
+          </Accordion>
+        </Secao>
 
-      {/* 08 — CONTRIBUIR */}
-      <Secao numero="08" id="contribuir" titulo={t("contribuirTitulo")}>
-        <Paragrafos textos={t.raw("contribuirTexto") as string[]} />
-      </Secao>
-
-      <footer className="mt-20 border-t border-border pt-6 text-center font-mono text-xs text-muted-foreground">
-        {tc("rodape")}
-      </footer>
-    </Pagina>
+        {/* ───────────── CONTRIBUIR ───────────── */}
+        <section aria-labelledby="contribuir" className="mt-24 grid gap-8 sm:mt-32 lg:grid-cols-[1fr_1.4fr]">
+          <h2 id="contribuir" className="text-3xl leading-none font-black uppercase sm:text-4xl">
+            {t("contribuirTitulo")}
+          </h2>
+          <div>
+            <Paragrafos textos={t.raw("contribuirTexto") as string[]} className="prosa text-lg" />
+            <Link
+              href="/sobre"
+              className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-verde hover:underline"
+            >
+              {tRaiz("Nav.sobre")} <ArrowUpRight aria-hidden className="size-3.5" />
+            </Link>
+          </div>
+        </section>
+      </Pagina>
+    </>
   );
 }

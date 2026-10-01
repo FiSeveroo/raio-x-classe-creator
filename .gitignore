@@ -43,3 +43,6 @@ next-env.d.ts
 
 # cache local do binário nativo do SWC (ver README)
 /.swc/
+
+# config local do Claude Code
+/.claude/

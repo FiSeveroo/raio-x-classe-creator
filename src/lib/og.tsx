@@ -9,8 +9,8 @@ const COR = {
   fundo: "#0a0a0a",
   texto: "#f5f0e8",
   suave: "#a8a39a",
-  verde: "#00e87a",
-  roxo: "#a47bff",
+  verde: "#27d337",
+  roxo: "#9b6dff",
 };
 
 let gunterz: Promise<Buffer> | undefined;

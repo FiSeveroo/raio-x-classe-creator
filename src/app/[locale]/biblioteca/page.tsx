@@ -209,9 +209,9 @@ export default async function Biblioteca({
   }
 
   return (
-    <Pagina className="max-w-6xl">
+    <Pagina>
       <header>
-        <h1 className="text-4xl leading-none font-black uppercase sm:text-6xl">{t("titulo")}</h1>
+        <h1 className="text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.85] font-black uppercase">{t("titulo")}</h1>
         <p className="rotulo mt-3">{t("subtitulo")}</p>
         <p className="prosa mt-6">{t("texto")}</p>
       </header>

@@ -3,8 +3,8 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { ConteudoMenu } from "@/components/navegacao/menu-lateral";
-import { BarraMobile } from "@/components/navegacao/barra-mobile";
+import { Cabecalho } from "@/components/navegacao/cabecalho";
+import { Rodape } from "@/components/rodape";
 import { dmSans, gunterz, spaceMono } from "../fonts";
 import "../globals.css";
 
@@ -65,17 +65,11 @@ export default async function LayoutLocale({
             {t("pularParaConteudo")}
           </a>
 
-          <BarraMobile />
-
-          <div className="lg:flex">
-            <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 overflow-y-auto border-r border-sidebar-border bg-sidebar px-3 py-8 lg:block">
-              <ConteudoMenu />
-            </aside>
-
-            <main id="conteudo" className="min-w-0 flex-1">
-              {children}
-            </main>
-          </div>
+          <Cabecalho />
+          <main id="conteudo" className="min-h-[70dvh]">
+            {children}
+          </main>
+          <Rodape />
         </NextIntlClientProvider>
       </body>
     </html>

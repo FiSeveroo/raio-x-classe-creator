@@ -189,21 +189,26 @@ SENHA_PAINEL_INTERNO=     # Senha simples para /termometro?painel
 
 ## IDENTIDADE VISUAL (Classe Creator)
 
-Decidido em 29/set/2026: seguir as cores do site em produção (app.py), não as da versão anterior deste arquivo.
+Diretrizes confirmadas pelo Filipe em 29/set/2026. As cores do app Streamlit (#00E87A, #7B2FFF, #FF5C1A) estavam ERRADAS — não usar.
 
-**Cores:**
-- Fundo (caos) — `#0a0a0a` (superfícies: `#0d0d0d`, `#111111`, `#1a1a1a`)
-- Texto (clareza) — `#F5F0E8` (off-white quente)
-- Verde neon (destaque principal / Eixo A) — `#00E87A`
-- Roxo (Eixo B / secundário) — `#7B2FFF`
-- Laranja (acento) — `#FF5C1A`
+**UX/UI: redesenhar do zero.** O backend e a metodologia do Streamlit são para copiar fielmente; a interface NÃO. Não replicar layout, ordem de seções ou componentes do app.py só porque existiam — pensar a experiência de novo.
+
+**Cores e papéis:**
+- Fundo predominantemente escuro — `#0a0a0a` (superfícies `#111111`, `#1a1a1a`); texto `#F5F0E8`
+- Verde `#27D337` — títulos de seções principais e botões (também Eixo A)
+- Roxo `#560BF2` — blocos de seção amplos (fundo) e títulos secundários (também Eixo B)
+- Laranja `#D36C27` — CTAs de impacto e avisos importantes
+
+**Contraste (acessibilidade):** `#560BF2` sobre o fundo escuro tem contraste ~2,5:1 — não serve para texto pequeno. Usar o roxo como FUNDO de bloco (texto claro por cima, ~7:1) e o tom clareado `--cc-roxo-texto` quando o roxo precisar ser cor de texto. Botões verdes e laranjas levam texto escuro.
 
 **Tema:** Dark mode profundo, obrigatório.
 
 **Tipografia:**
-- Títulos: Gunterz (fonte própria, .otf em `public/fonts/`) — licença de uso web a confirmar com o Filipe
+- Títulos: Gunterz Black (licença comercial confirmada pelo Filipe; .otf em `src/fonts/`)
 - Corpo: DM Sans
 - Rótulos técnicos / dados: Space Mono
+
+**Logo:** o Filipe vai enviar o logo da Classe Creator para substituir o texto "RAIO-X".
 
 **Estética:** Manifesto urbano-digital. Layout clínico, direto. Sem ornamentação.
 
@@ -286,7 +291,8 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 18. Comparação lado a lado com Streamlit antes de aposentar
 
 ### Estado (atualizar a cada fase)
-- **Fase 1 — código pronto em 29/set/2026**; falta testar a leitura do Supabase com credenciais reais (`.env.local`). Next.js 16 + next-intl (PT sem prefixo, /en, /es), tema, sidebar responsiva, Home, Sobre, Biblioteca (4 abas, só leitura) e página por análise de vídeo (`/biblioteca/video/[id]`, com imagem Open Graph). Módulos da Fase 2 têm página provisória que aponta para o Streamlit.
+- **Fase 1 — código pronto em 29/set/2026**; falta testar a leitura do Supabase com credenciais reais (`.env.local`). Next.js 16 + next-intl (PT sem prefixo, /en, /es), tema, Home, Sobre, Biblioteca (4 abas, só leitura) e página por análise de vídeo (`/biblioteca/video/[id]`, com imagem Open Graph). Módulos da Fase 2 têm página provisória que aponta para o Streamlit.
+- **Repaginada da UX (30/set–1/out/2026):** a barra lateral virou cabeçalho com painel "Módulos" + rodapé completo; Home reorganizada como narrativa (hero com CTA laranja, faixa do corpus, bloco roxo com as duas perguntas, módulos em linhas numeradas). Aguardando feedback do Filipe e o logo.
 - Convenções: textos só em `messages/*.json` (markdown-lite `**negrito**` renderizado por `src/components/rico.tsx`); consultas ao banco só em `src/lib/corpus.ts`; traduções novas entram em `messages/REVISAO.md`.
 
 **OBRIGATÓRIO antes de aplicar a migração (virada de domínio / Next.js passar a gravar no Supabase de produção):**

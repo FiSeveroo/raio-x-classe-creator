@@ -4,6 +4,7 @@
     "descricao": "Herramienta de auditoría algorítmica e investigación académica del trabajo plataformizado en YouTube. Observatório Classe Creator."
   },
   "Nav": {
+    "menu": "Menú",
     "marca": "RAIO-X",
     "observatorio": "OBSERVATÓRIO CLASSE CREATOR",
     "secaoModulos": "Módulos",
@@ -30,6 +31,7 @@
     "voltar": "Volver",
     "paginaNaoEncontrada": "Página no encontrada."
   },
+  "Rodape": { "modulos": "Módulos", "projeto": "Proyecto", "classe": "Classe Creator", "codigo": "Código fuente en GitHub" },
   "EmMigracao": {
     "rotulo": "En migración",
     "titulo": "Este módulo todavía se está portando a la nueva versión.",
@@ -37,6 +39,10 @@
     "botao": "Usar en la versión actual"
   },
   "Home": {
+    "ctaLupa": "Analizar un video",
+    "ctaBiblioteca": "Explorar el corpus",
+    "corpusRotulo": "El corpus hasta ahora",
+    "perguntasRotulo": "Dos preguntas, dos ejes",
     "heroRotulo": "OBSERVATÓRIO CLASSE CREATOR",
     "heroTitulo1": "RAIO-X",
     "heroTitulo2": "CLASSE CREATOR",

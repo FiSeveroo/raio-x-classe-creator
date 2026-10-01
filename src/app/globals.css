@@ -61,11 +61,11 @@
 :root {
   color-scheme: dark;
 
-  /* Paleta do site em produção (app.py) — ver CLAUDE.md, Identidade Visual */
-  --cc-verde: #00e87a; /* Eixo A / destaque principal */
-  --cc-roxo: #7b2fff; /* Eixo B / secundário — fundos, bordas, botões */
-  --cc-roxo-texto: #a47bff; /* roxo clareado só para TEXTO pequeno (contraste AA sobre o fundo) */
-  --cc-laranja: #ff5c1a; /* acento */
+  /* Diretrizes Classe Creator — ver CLAUDE.md, Identidade Visual */
+  --cc-verde: #27d337; /* títulos de seção, botões, Eixo A */
+  --cc-roxo: #560bf2; /* blocos amplos (fundo), Eixo B — não usar como cor de texto pequeno */
+  --cc-roxo-texto: #9b6dff; /* roxo clareado para TEXTO sobre o fundo escuro (≈5,5:1) */
+  --cc-laranja: #d36c27; /* CTAs de impacto, avisos importantes */
   --cc-superficie: #111111;
   --cc-superficie-2: #1a1a1a;
 
@@ -75,7 +75,7 @@
   --card-foreground: #f5f0e8;
   --popover: #111111;
   --popover-foreground: #f5f0e8;
-  --primary: #00e87a;
+  --primary: #27d337;
   --primary-foreground: #0a0a0a;
   --secondary: #1a1a1a;
   --secondary-foreground: #f5f0e8;
@@ -86,21 +86,21 @@
   --destructive: #ff5c5c;
   --border: rgb(245 240 232 / 10%);
   --input: rgb(245 240 232 / 16%);
-  --ring: #7b2fff;
-  --chart-1: #00e87a;
-  --chart-2: #7b2fff;
+  --ring: #9b6dff;
+  --chart-1: #27d337;
+  --chart-2: #560bf2;
   --chart-3: #ff5c1a;
   --chart-4: #f5f0e8;
   --chart-5: #a8a39a;
   --radius: 0.5rem;
   --sidebar: #0d0d0d;
   --sidebar-foreground: #f5f0e8;
-  --sidebar-primary: #00e87a;
+  --sidebar-primary: #27d337;
   --sidebar-primary-foreground: #0a0a0a;
   --sidebar-accent: #1a1a1a;
   --sidebar-accent-foreground: #f5f0e8;
   --sidebar-border: #1a1a1a;
-  --sidebar-ring: #7b2fff;
+  --sidebar-ring: #9b6dff;
 }
 
 @layer base {

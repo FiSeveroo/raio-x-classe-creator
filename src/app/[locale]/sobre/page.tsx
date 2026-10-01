@@ -39,7 +39,7 @@ export default async function Sobre({ params }: PageProps<"/[locale]/sobre">) {
     <Pagina>
       <header>
         <p className="rotulo mb-4">{t("rotulo")}</p>
-        <h1 className="text-5xl leading-[0.95] font-black uppercase sm:text-7xl">
+        <h1 className="text-[clamp(3rem,10vw,8rem)] leading-[0.85] font-black uppercase">
           {t("titulo1")}
           <br />
           <span className="text-verde">{t("titulo2")}</span>
@@ -78,10 +78,6 @@ export default async function Sobre({ params }: PageProps<"/[locale]/sobre">) {
           ]}
         />
       </Secao>
-
-      <footer className="mt-20 border-t border-border pt-6 font-mono text-xs text-muted-foreground">
-        {t("rodape")}
-      </footer>
     </Pagina>
   );
 }
