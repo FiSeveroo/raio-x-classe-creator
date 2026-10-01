@@ -295,7 +295,7 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 18. Comparação lado a lado com Streamlit antes de aposentar
 
 ### Estado (atualizar a cada fase)
-- **Fase 1 — código pronto em 29/set/2026**; falta testar a leitura do Supabase com credenciais reais (`.env.local`). Next.js 16 + next-intl (PT sem prefixo, /en, /es), tema, Home, Sobre, Biblioteca (4 abas, só leitura) e página por análise de vídeo (`/biblioteca/video/[id]`, com imagem Open Graph). Módulos da Fase 2 têm página provisória que aponta para o Streamlit.
+- **Fase 1 — concluída**. Leitura do Supabase de produção testada em 1/out/2026 (contadores, 4 abas da Biblioteca, página e imagem OG de análise). Next.js 16 + next-intl (PT sem prefixo, /en, /es), tema, Home, Sobre, Biblioteca (4 abas, só leitura) e página por análise de vídeo (`/biblioteca/video/[id]`, com imagem Open Graph). Módulos da Fase 2 têm página provisória que aponta para o Streamlit.
 - **Repaginada da UX (30/set–1/out/2026):** a barra lateral virou cabeçalho com painel "Módulos" + rodapé completo; Home reorganizada como narrativa (hero com CTA laranja, faixa do corpus, bloco roxo com as duas perguntas, módulos em linhas numeradas). Aguardando feedback do Filipe e o logo.
 - **Git:** o código novo vive no branch `nextjs` do repo `FiSeveroo/raio-x-classe-creator` (histórico separado do Streamlit). NUNCA enviar para o `main`: lá rodam o Streamlit e os workflows agendados do coletor, do importador e da exportação semanal, que o GitHub só executa no branch padrão.
 - Convenções: textos só em `messages/*.json` (markdown-lite `**negrito**` renderizado por `src/components/rico.tsx`); consultas ao banco só em `src/lib/corpus.ts`; traduções novas entram em `messages/REVISAO.md`.
