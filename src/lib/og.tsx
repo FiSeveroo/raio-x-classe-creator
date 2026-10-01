@@ -2,20 +2,23 @@ import "server-only";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { CORES_MARCA } from "./marca";
 
 export const TAMANHO_OG = { width: 1200, height: 630 };
 
+// ImageResponse não lê CSS: cores vêm do espelho central dos tokens da marca.
 const COR = {
-  fundo: "#0a0a0a",
-  texto: "#f5f0e8",
-  suave: "#a8a39a",
-  verde: "#27d337",
-  roxo: "#9b6dff",
+  fundo: CORES_MARCA.fundo,
+  texto: CORES_MARCA.texto,
+  suave: CORES_MARCA.suave,
+  verde: CORES_MARCA.verde,
+  roxo: CORES_MARCA.roxoTexto,
+  chip: CORES_MARCA.superficie2,
 };
 
 let gunterz: Promise<Buffer> | undefined;
 const fonteTitulo = () =>
-  (gunterz ??= readFile(join(process.cwd(), "src/fonts/Gunterz-Black.otf")));
+  (gunterz ??= readFile(join(process.cwd(), "public/Gunterz-Black.otf")));
 
 /**
  * Card de compartilhamento (Open Graph) na identidade Classe Creator.
@@ -69,10 +72,10 @@ export async function cardOg({
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
           {eixos ? (
             <div style={{ display: "flex", gap: 16 }}>
-              <div style={{ display: "flex", fontSize: 30, color: COR.verde, background: "#1a1a1a", padding: "10px 20px" }}>
+              <div style={{ display: "flex", fontSize: 30, color: COR.verde, background: COR.chip, padding: "10px 20px" }}>
                 {eixos.produtor}
               </div>
-              <div style={{ display: "flex", fontSize: 30, color: COR.roxo, background: "#1a1a1a", padding: "10px 20px" }}>
+              <div style={{ display: "flex", fontSize: 30, color: COR.roxo, background: COR.chip, padding: "10px 20px" }}>
                 {eixos.conteudo}
               </div>
             </div>

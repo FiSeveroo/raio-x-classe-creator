@@ -74,7 +74,7 @@ export default async function AnaliseVideo({ params }: Props) {
     <Pagina className="max-w-3xl">
       <Link
         href="/biblioteca"
-        className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground"
+        className="inline-flex items-center gap-1.5 label-caps text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="size-3.5" aria-hidden /> {t("titulo")}
       </Link>
@@ -83,18 +83,18 @@ export default async function AnaliseVideo({ params }: Props) {
         <div className="mt-6">
           <Aviso>
             v{v.versao_numero ?? 1} →{" "}
-            <Link href={`/biblioteca/video/${maisRecente.id}`} className="text-verde underline underline-offset-4">
+            <Link href={`/biblioteca/video/${maisRecente.id}`} className="text-cc-green underline underline-offset-4">
               v{maisRecente.versao_numero} ({t("atual")})
             </Link>
           </Aviso>
         </div>
       )}
 
-      <article className="mt-8 border-l-2 border-verde pl-5 sm:pl-8">
-        <p className="rotulo">
+      <article className="mt-8 border-l-2 border-cc-green pl-5 sm:pl-8">
+        <p className="label-caps text-muted-foreground">
           {t("analiseVideo", { versao: v.versao_numero ?? 1, data: data(v.data_classificacao) })}
         </p>
-        <h1 className="mt-4 font-sans text-2xl leading-tight font-semibold tracking-normal normal-case sm:text-3xl">
+        <h1 className="mt-4 text-2xl leading-tight font-semibold sm:text-3xl">
           {v.titulo}
         </h1>
         <p className="mt-2 text-muted-foreground">
@@ -102,21 +102,21 @@ export default async function AnaliseVideo({ params }: Props) {
         </p>
 
         <dl className="mt-6 flex flex-wrap gap-2">
-          <div className="rounded bg-superficie-2 px-3 py-2">
-            <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground">
+          <div className="rounded bg-cc-surface-2 px-3 py-2">
+            <dt className="label-caps text-muted-foreground">
               {t("colunas.produtor")}
             </dt>
-            <dd className="font-semibold text-verde">{nomeProdutor(v.tipo_produtor, locale)}</dd>
+            <dd className="font-semibold text-cc-green">{nomeProdutor(v.tipo_produtor, locale)}</dd>
           </div>
-          <div className="rounded bg-superficie-2 px-3 py-2">
-            <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground">
+          <div className="rounded bg-cc-surface-2 px-3 py-2">
+            <dt className="label-caps text-muted-foreground">
               {t("colunas.conteudo")}
             </dt>
-            <dd className="font-semibold text-roxo-texto">{nomeConteudo(v.tipo_conteudo, locale)}</dd>
+            <dd className="font-semibold text-cc-purple-text">{nomeConteudo(v.tipo_conteudo, locale)}</dd>
           </div>
         </dl>
 
-        <h2 className="mt-8 font-sans text-sm font-semibold tracking-normal normal-case">{t("justificativa")}</h2>
+        <h2 className="label-caps mt-8 text-cc-purple-text">{t("justificativa")}</h2>
         {/* Justificativa é gerada em PT pelo modelo e fica no idioma original. */}
         <p lang="pt-BR" className="prosa mt-2">
           {v.justificativa ?? "—"}
@@ -126,15 +126,15 @@ export default async function AnaliseVideo({ params }: Props) {
           href={`https://www.youtube.com/watch?v=${encodeURIComponent(v.video_id)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-verde hover:underline"
+          className="mt-6 inline-flex items-center gap-1.5 label-caps text-cc-green hover:underline"
         >
           {t("verNoYoutube")} <ExternalLink className="size-3.5" aria-hidden />
         </a>
       </article>
 
       {versoes.length > 1 && (
-        <section className="mt-12 border-t border-border pt-8" aria-labelledby="historico">
-          <h2 id="historico" className="text-lg font-bold uppercase">
+        <section className="mt-12 border-t border-cc-line pt-8" aria-labelledby="historico">
+          <h2 id="historico" className="font-display text-2xl text-cc-green">
             {t("historicoTitulo", { n: versoes.length })}
           </h2>
           <ol className="mt-4 space-y-2">
@@ -147,18 +147,18 @@ export default async function AnaliseVideo({ params }: Props) {
                     aria-current={atual ? "page" : undefined}
                     className={cn(
                       "flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded px-3 py-2 text-sm transition-colors",
-                      atual ? "bg-superficie-2" : "hover:bg-superficie",
+                      atual ? "bg-cc-surface-2" : "hover:bg-cc-surface",
                     )}
                   >
-                    <span className="font-mono text-xs">v{h.versao_numero}</span>
-                    <span className="font-mono text-xs text-muted-foreground">{data(h.data_classificacao)}</span>
+                    <span className="text-xs">v{h.versao_numero}</span>
+                    <span className="text-xs text-muted-foreground">{data(h.data_classificacao)}</span>
                     <span>
-                      <span className="text-verde">{nomeProdutor(h.tipo_produtor, locale)}</span>
+                      <span className="text-cc-green">{nomeProdutor(h.tipo_produtor, locale)}</span>
                       {" / "}
-                      <span className="text-roxo-texto">{nomeConteudo(h.tipo_conteudo, locale)}</span>
+                      <span className="text-cc-purple-text">{nomeConteudo(h.tipo_conteudo, locale)}</span>
                     </span>
                     {h.id === maisRecente?.id && (
-                      <span className="rotulo text-[0.6rem] text-verde">{t("atual")}</span>
+                      <span className="label-caps text-muted-foreground text-[0.6rem] text-cc-green">{t("atual")}</span>
                     )}
                   </Link>
                 </li>

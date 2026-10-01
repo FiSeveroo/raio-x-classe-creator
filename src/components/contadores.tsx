@@ -25,22 +25,22 @@ export async function Contadores({
   const format = await getFormatter();
 
   return (
-    // gap-px sobre fundo de borda = linhas divisórias em qualquer quebra de grade.
-    <dl className="grid grid-cols-2 gap-px border-y border-border bg-border sm:grid-cols-3 lg:grid-cols-5">
+    // gap-px sobre fundo de linha = divisórias em qualquer quebra de grade.
+    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-cc-line bg-cc-line sm:grid-cols-3 lg:grid-cols-5">
       {ORDEM.map((chave) => {
         const v = valores?.[chave] ?? null;
         return (
           <div
             key={chave}
             // dt antes do dd no DOM (semântica); número aparece em cima via flex-col-reverse.
-            className="flex flex-col-reverse justify-end gap-3 bg-background px-4 py-6 sm:px-5"
+            className="flex flex-col-reverse justify-end gap-3 bg-cc-surface px-4 py-6 last:col-span-2 sm:px-5 lg:last:col-span-1"
           >
-            <dt className="rotulo text-[0.62rem] leading-snug tracking-[0.12em]">{t(chave)}</dt>
+            <dt className="label-caps leading-snug text-muted-foreground">{t(chave)}</dt>
             <dd className="leading-none">
               {v === null ? (
-                <span className="font-mono text-sm text-muted-foreground">{tc("semDados")}</span>
+                <span className="text-sm text-muted-foreground">{tc("semDados")}</span>
               ) : (
-                <span className="font-heading text-4xl font-black tabular-nums sm:text-5xl">{format.number(v)}</span>
+                <span className="font-display text-4xl tabular-nums sm:text-5xl">{format.number(v)}</span>
               )}
             </dd>
           </div>

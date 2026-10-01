@@ -90,16 +90,16 @@ export function TabelaFiltravel({
         )}
       </div>
 
-      <p className="mb-3 font-mono text-xs text-muted-foreground" aria-live="polite">
+      <p className="mb-3 text-xs text-muted-foreground" aria-live="polite">
         {t("mostrando", { n: filtradas.length, total: linhas.length })}
       </p>
 
-      <div className="rounded-md border border-border">
+      <div className="rounded-md border border-cc-line">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               {colunas.map((c) => (
-                <TableHead key={c.rotulo} className={cn("font-mono text-[0.7rem] uppercase tracking-wider", c.className)}>
+                <TableHead key={c.rotulo} className={cn("label-caps", c.className)}>
                   {c.rotulo}
                 </TableHead>
               ))}

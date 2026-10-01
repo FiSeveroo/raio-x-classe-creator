@@ -1,5 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { Eyebrow } from "@/components/brand/Brand";
+import { Logo } from "@/components/brand/Logo";
 import { Link } from "@/i18n/navigation";
 import { MODULOS } from "@/lib/navegacao";
 
@@ -9,6 +11,8 @@ const EXTERNOS = [
   { rotulo: "YouTube", href: "https://www.youtube.com/@ClasseCreator" },
 ];
 
+const estiloLink = "text-sm text-muted-foreground transition-colors hover:text-cc-green";
+
 export async function Rodape() {
   const t = await getTranslations("Rodape");
   const nav = await getTranslations("Nav");
@@ -16,26 +20,22 @@ export async function Rodape() {
   const sobre = await getTranslations("Sobre");
   const comum = await getTranslations("Comum");
 
-  const titulo = "mb-4 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground";
-  const link = "text-sm text-foreground/80 transition-colors hover:text-verde";
-
   return (
-    <footer className="border-t border-border bg-superficie">
+    <footer className="border-t border-cc-line">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <p className="font-heading text-4xl font-black tracking-wider text-verde">{nav("marca")}</p>
-          <p className="rotulo mt-2 text-[0.6rem]">{nav("observatorio")}</p>
-          <p className="mt-6 max-w-xs font-heading text-lg font-black uppercase leading-tight">
-            {sobre("tagline")}
-          </p>
+          <Logo className="h-12" />
+          <p className="mt-3 font-display text-lg">Raio-X</p>
+          <Eyebrow className="mt-1">{nav("observatorio")}</Eyebrow>
+          <p className="mt-6 max-w-xs font-display text-lg leading-tight text-cc-green">{sobre("tagline")}</p>
         </div>
 
         <div>
-          <p className={titulo}>{t("modulos")}</p>
+          <Eyebrow className="mb-4">{t("modulos")}</Eyebrow>
           <ul className="space-y-2">
             {MODULOS.map((m) => (
               <li key={m.chave}>
-                <Link href={m.href} className={link}>
+                <Link href={m.href} className={estiloLink}>
                   {tm(`${m.chave}.nome`)}
                 </Link>
               </li>
@@ -44,16 +44,16 @@ export async function Rodape() {
         </div>
 
         <div>
-          <p className={titulo}>{t("projeto")}</p>
+          <Eyebrow className="mb-4">{t("projeto")}</Eyebrow>
           <ul className="space-y-2">
-            <li><Link href="/biblioteca" className={link}>{nav("biblioteca")}</Link></li>
-            <li><Link href="/sobre" className={link}>{nav("sobre")}</Link></li>
+            <li><Link href="/biblioteca" className={estiloLink}>{nav("biblioteca")}</Link></li>
+            <li><Link href="/sobre" className={estiloLink}>{nav("sobre")}</Link></li>
             <li>
               <a
                 href="https://github.com/FiSeveroo/raio-x-classe-creator"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${link} inline-flex items-center gap-1`}
+                className={`${estiloLink} inline-flex items-center gap-1`}
               >
                 {t("codigo")} <ArrowUpRight aria-hidden className="size-3.5" />
               </a>
@@ -62,11 +62,11 @@ export async function Rodape() {
         </div>
 
         <div>
-          <p className={titulo}>{t("classe")}</p>
+          <Eyebrow className="mb-4">{t("classe")}</Eyebrow>
           <ul className="space-y-2">
             {EXTERNOS.map((e) => (
               <li key={e.href}>
-                <a href={e.href} target="_blank" rel="noopener noreferrer" className={`${link} inline-flex items-center gap-1`}>
+                <a href={e.href} target="_blank" rel="noopener noreferrer" className={`${estiloLink} inline-flex items-center gap-1`}>
                   {e.rotulo} <ArrowUpRight aria-hidden className="size-3.5" />
                 </a>
               </li>
@@ -74,10 +74,8 @@ export async function Rodape() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-border">
-        <p className="mx-auto max-w-7xl px-4 py-5 font-mono text-[0.7rem] text-muted-foreground sm:px-8">
-          {comum("rodape")}
-        </p>
+      <div className="border-t border-cc-line">
+        <p className="mx-auto max-w-7xl px-4 py-5 text-xs text-muted-foreground sm:px-8">{comum("rodape")}</p>
       </div>
     </footer>
   );

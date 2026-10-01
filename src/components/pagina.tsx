@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SectionTitle } from "@/components/brand/Brand";
 import { cn } from "@/lib/utils";
 
 /** Contêiner padrão: mesma largura do cabeçalho, respiro lateral no mobile. */
@@ -10,7 +11,7 @@ export function Pagina({ children, className }: { children: ReactNode; className
   );
 }
 
-/** Seção principal: número em rótulo técnico + título verde (diretriz Classe Creator). */
+/** Seção principal: `SectionTitle` da Escola (verde, Gunterz Black) com número como eyebrow. */
 export function Secao({
   numero,
   titulo,
@@ -25,20 +26,10 @@ export function Secao({
   className?: string;
 }) {
   return (
-    <section
-      id={id}
-      aria-labelledby={id ? `${id}-titulo` : undefined}
-      className={cn("mt-24 scroll-mt-24 sm:mt-32", className)}
-    >
-      <div className="mb-10 flex items-baseline gap-4 border-b border-border pb-4">
-        {numero && <span className="font-mono text-sm text-muted-foreground tabular-nums">{numero}</span>}
-        <h2
-          id={id ? `${id}-titulo` : undefined}
-          className="text-3xl leading-none font-black uppercase text-verde sm:text-5xl"
-        >
-          {titulo}
-        </h2>
-      </div>
+    <section id={id} className={cn("mt-20 scroll-mt-24 sm:mt-28", className)}>
+      <SectionTitle eyebrow={numero} className="mb-8 border-b border-cc-line pb-4">
+        {titulo}
+      </SectionTitle>
       {children}
     </section>
   );
@@ -56,21 +47,12 @@ export function Aviso({
     <div
       role={tom === "neutro" ? "status" : "alert"}
       className={cn(
-        "border-l-2 bg-superficie px-4 py-3 text-sm",
-        tom === "neutro" && "border-muted-foreground/40 text-muted-foreground",
-        tom === "importante" && "border-laranja text-foreground",
-        tom === "erro" && "border-destructive text-foreground",
+        "rounded-lg border-l-2 bg-cc-surface px-4 py-3 text-sm",
+        tom === "neutro" && "border-cc-line text-muted-foreground",
+        tom !== "neutro" && "border-cc-orange text-foreground",
       )}
     >
       {children}
     </div>
   );
 }
-
-/** Botões-link da identidade: verde (padrão), laranja (CTA de impacto), contorno. */
-export const estiloBotao = {
-  base: "inline-flex items-center justify-center gap-2 px-5 py-3 font-mono text-xs font-bold uppercase tracking-[0.14em] transition-[opacity,background-color,color] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-  verde: "bg-verde text-background hover:opacity-85",
-  laranja: "bg-laranja text-background hover:opacity-85",
-  contorno: "border border-foreground/30 text-foreground hover:border-verde hover:text-verde",
-};

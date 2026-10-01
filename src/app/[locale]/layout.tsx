@@ -5,7 +5,8 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Cabecalho } from "@/components/navegacao/cabecalho";
 import { Rodape } from "@/components/rodape";
-import { dmSans, gunterz, spaceMono } from "../fonts";
+import { CORES_MARCA } from "@/lib/marca";
+import "@fontsource-variable/dm-sans";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -37,7 +38,7 @@ export async function generateMetadata({
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: CORES_MARCA.fundo,
   colorScheme: "dark",
 };
 
@@ -52,15 +53,12 @@ export default async function LayoutLocale({
   const t = await getTranslations("Nav");
 
   return (
-    <html
-      lang={locale === "pt" ? "pt-BR" : locale}
-      className={`${gunterz.variable} ${dmSans.variable} ${spaceMono.variable}`}
-    >
+    <html lang={locale === "pt" ? "pt-BR" : locale}>
       <body className="min-h-dvh">
         <NextIntlClientProvider>
           <a
             href="#conteudo"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-verde focus:px-3 focus:py-2 focus:text-background"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
           >
             {t("pularParaConteudo")}
           </a>

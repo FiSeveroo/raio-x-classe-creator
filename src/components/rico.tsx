@@ -14,7 +14,7 @@ export function rico(texto: string): ReactNode {
     }
     if (parte.startsWith("`") && parte.endsWith("`")) {
       return (
-        <code key={i} className="rounded bg-superficie-2 px-1 py-0.5 font-mono text-[0.9em]">
+        <code key={i} className="rounded bg-cc-surface-2 px-1 py-0.5 text-[0.9em]">
           {parte.slice(1, -1)}
         </code>
       );

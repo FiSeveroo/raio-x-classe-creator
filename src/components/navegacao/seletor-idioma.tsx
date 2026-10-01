@@ -21,9 +21,9 @@ export function SeletorIdioma() {
           hrefLang={locale}
           aria-current={locale === localeAtual ? "true" : undefined}
           className={cn(
-            "rounded px-2 py-1 font-mono text-xs uppercase tracking-widest transition-colors",
+            "label-caps rounded-md px-2 py-1 transition-colors",
             locale === localeAtual
-              ? "bg-superficie-2 text-verde"
+              ? "bg-cc-surface-2 text-cc-green"
               : "text-muted-foreground hover:text-foreground",
           )}
         >

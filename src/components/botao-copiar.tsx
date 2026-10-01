@@ -2,6 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function BotaoCopiar({
   texto,
@@ -25,13 +26,9 @@ export function BotaoCopiar({
   }
 
   return (
-    <button
-      type="button"
-      onClick={copiar}
-      className="inline-flex items-center gap-1.5 rounded px-2 py-1 font-mono text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:bg-superficie-2 hover:text-foreground"
-    >
-      {copiado ? <Check className="size-3.5 text-verde" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
+    <Button type="button" variant="ghost" size="sm" font="caps" onClick={copiar}>
+      {copiado ? <Check aria-hidden className="text-cc-green" /> : <Copy aria-hidden />}
       <span aria-live="polite">{copiado ? rotuloCopiado : rotulo}</span>
-    </button>
+    </Button>
   );
 }

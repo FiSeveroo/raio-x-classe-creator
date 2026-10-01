@@ -69,14 +69,14 @@ export default async function Biblioteca({
         filtro: v.tipo_produtor,
         href: `/biblioteca/video/${v.id}`,
         celulas: [
-          <span key="d" className="font-mono text-xs tabular-nums text-muted-foreground">{data(v.data_classificacao)}</span>,
+          <span key="d" className="text-xs tabular-nums text-muted-foreground">{data(v.data_classificacao)}</span>,
           truncar(v.canal_nome, 60),
-          <Link key="t" href={`/biblioteca/video/${v.id}`} className="hover:text-verde hover:underline">
+          <Link key="t" href={`/biblioteca/video/${v.id}`} className="hover:text-cc-green hover:underline">
             {truncar(v.titulo, 80)}
           </Link>,
-          <span key="p" className="text-verde">{nomeProdutor(v.tipo_produtor, locale)}</span>,
-          <span key="c" className="text-roxo-texto">{nomeConteudo(v.tipo_conteudo, locale)}</span>,
-          <span key="v" className="font-mono text-xs">v{v.versao_numero ?? 1}</span>,
+          <span key="p" className="text-cc-green">{nomeProdutor(v.tipo_produtor, locale)}</span>,
+          <span key="c" className="text-cc-purple-text">{nomeConteudo(v.tipo_conteudo, locale)}</span>,
+          <span key="v" className="text-xs">v{v.versao_numero ?? 1}</span>,
         ],
       }));
       const presentes = new Set(r.dados.map((v) => v.tipo_produtor));
@@ -117,12 +117,12 @@ export default async function Biblioteca({
             filtro: d.classificacao_sociologica,
             href: null,
             celulas: [
-              <span key="d" className="font-mono text-xs tabular-nums text-muted-foreground">{data(d.data_dossie)}</span>,
+              <span key="d" className="text-xs tabular-nums text-muted-foreground">{data(d.data_dossie)}</span>,
               truncar(d.canal_nome, 60),
-              <span key="i" className="font-mono text-xs tabular-nums">{d.inscritos == null ? "—" : format.number(d.inscritos)}</span>,
-              <span key="p" className="text-verde">{nomeProdutor(d.classificacao_sociologica, locale)}</span>,
-              <span key="c" className="text-roxo-texto">{nomeConteudo(d.tipo_conteudo_predominante, locale)}</span>,
-              <span key="v" className="font-mono text-xs">v{d.versao_numero ?? 1}</span>,
+              <span key="i" className="text-xs tabular-nums">{d.inscritos == null ? "—" : format.number(d.inscritos)}</span>,
+              <span key="p" className="text-cc-green">{nomeProdutor(d.classificacao_sociologica, locale)}</span>,
+              <span key="c" className="text-cc-purple-text">{nomeConteudo(d.tipo_conteudo_predominante, locale)}</span>,
+              <span key="v" className="text-xs">v{d.versao_numero ?? 1}</span>,
             ],
           }))}
           rotuloBusca={t("canais.busca")}
@@ -157,10 +157,10 @@ export default async function Biblioteca({
             busca: (b.termo_buscado ?? "").toLowerCase(),
             href: null,
             celulas: [
-              <span key="d" className="font-mono text-xs tabular-nums text-muted-foreground">{data(b.data_busca)}</span>,
+              <span key="d" className="text-xs tabular-nums text-muted-foreground">{data(b.data_busca)}</span>,
               truncar(b.termo_buscado, 80),
-              <span key="n" className="font-mono text-xs tabular-nums">{b.total_analisados ?? "—"}</span>,
-              <span key="v" className="font-mono text-xs">v{b.versao_numero ?? 1}</span>,
+              <span key="n" className="text-xs tabular-nums">{b.total_analisados ?? "—"}</span>,
+              <span key="v" className="text-xs">v{b.versao_numero ?? 1}</span>,
             ],
           }))}
           rotuloBusca={t("temas.busca")}
@@ -184,15 +184,15 @@ export default async function Biblioteca({
             busca: `${c.canal_nome ?? ""} ${c.titulo_video ?? ""}`.toLowerCase(),
             href: null,
             celulas: [
-              <span key="d" className="font-mono text-xs tabular-nums text-muted-foreground">{data(c.data_analise)}</span>,
+              <span key="d" className="text-xs tabular-nums text-muted-foreground">{data(c.data_analise)}</span>,
               truncar(c.canal_nome, 50),
               truncar(c.titulo_video, 60),
-              <span key="n" className="font-mono text-xs tabular-nums">{c.total_analisados ?? "—"}</span>,
-              <span key="i" className="font-mono text-xs tabular-nums">
+              <span key="n" className="text-xs tabular-nums">{c.total_analisados ?? "—"}</span>,
+              <span key="i" className="text-xs tabular-nums">
                 {/* Mesmo formato do Streamlit: inteiro + % */}
                 {c.indice_pressao_produtiva == null ? "—" : `${Math.round(Number(c.indice_pressao_produtiva))}%`}
               </span>,
-              <span key="v" className="font-mono text-xs">v{c.versao_numero ?? 1}</span>,
+              <span key="v" className="text-xs">v{c.versao_numero ?? 1}</span>,
             ],
           }))}
           rotuloBusca={t("voz.busca")}
@@ -211,8 +211,8 @@ export default async function Biblioteca({
   return (
     <Pagina>
       <header>
-        <h1 className="text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.85] font-black uppercase">{t("titulo")}</h1>
-        <p className="rotulo mt-3">{t("subtitulo")}</p>
+        <h1 className="font-display text-[clamp(2.25rem,9vw,6.5rem)] leading-[0.9] [overflow-wrap:anywhere] hyphens-auto">{t("titulo")}</h1>
+        <p className="label-caps text-muted-foreground mt-3">{t("subtitulo")}</p>
         <p className="prosa mt-6">{t("texto")}</p>
       </header>
 
@@ -220,7 +220,7 @@ export default async function Biblioteca({
         <Contadores valores={contadores} namespace="Biblioteca.contadores" />
       </div>
 
-      <nav aria-label={t("titulo")} className="mt-10 flex gap-1 overflow-x-auto border-b border-border">
+      <nav aria-label={t("titulo")} className="mt-10 flex gap-1 overflow-x-auto overflow-y-hidden border-b border-cc-line">
         {ABAS.map((a) => (
           <Link
             key={a}
@@ -228,9 +228,9 @@ export default async function Biblioteca({
             aria-current={a === aba ? "page" : undefined}
             scroll={false}
             className={cn(
-              "-mb-px shrink-0 border-b-2 px-4 py-3 font-mono text-xs uppercase tracking-wider transition-colors",
+              "-mb-px shrink-0 border-b-2 px-4 py-3 label-caps transition-colors",
               a === aba
-                ? "border-verde text-foreground"
+                ? "border-cc-green text-foreground"
                 : "border-transparent text-muted-foreground hover:text-foreground",
             )}
           >
@@ -240,7 +240,7 @@ export default async function Biblioteca({
       </nav>
 
       <section className="mt-8" aria-labelledby="aba-titulo">
-        <h2 id="aba-titulo" className="text-xl font-bold uppercase">
+        <h2 id="aba-titulo" className="font-display text-2xl text-cc-green">
           {t(`${aba}.titulo`)}
         </h2>
         <p className="mt-1 mb-6 text-sm text-muted-foreground">{t(`${aba}.legenda`)}</p>

@@ -1,153 +1,165 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
-/* O site é dark-only: a variante dark vale sempre. */
-@custom-variant dark (&:where(*));
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   FONTES — Gunterz Black (títulos) · DM Sans (corpo, via @fontsource no layout)
+   ============================================================ */
+@font-face {
+  font-family: 'Gunterz';
+  src: url('/Gunterz-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
+   DIRETRIZES VISUAIS — CLASSE CREATOR
+   Verde  #27D337 → títulos de seções principais e botões
+   Roxo   #560BF2 → blocos de seção amplos e títulos secundários
+   Laranja #D36C27 → CTAs de impacto e avisos importantes
+   O roxo puro tem pouco contraste como TEXTO sobre o fundo escuro;
+   para texto roxo pequeno use --cc-purple-text.
+   ============================================================ */
+:root {
+  --cc-bg: #0b0b0c;
+  --cc-surface: #141416;
+  --cc-surface-2: #1c1c1f;
+  --cc-line: #28282c;
+  --cc-green: #27d337;
+  --cc-purple: #560bf2;
+  --cc-purple-text: #a07bff;
+  --cc-orange: #d36c27;
+  --cc-white: #f5f3ef;
+  --cc-muted: #a3a3ab;
+
+  --radius: 0.625rem;
+
+  --background: var(--cc-bg);
+  --foreground: var(--cc-white);
+  --card: var(--cc-surface);
+  --card-foreground: var(--cc-white);
+  --popover: var(--cc-surface-2);
+  --popover-foreground: var(--cc-white);
+  --primary: var(--cc-green);
+  --primary-foreground: #06140a;
+  --secondary: var(--cc-purple);
+  --secondary-foreground: #ffffff;
+  --muted: var(--cc-surface-2);
+  --muted-foreground: var(--cc-muted);
+  --accent: var(--cc-surface-2);
+  --accent-foreground: var(--cc-white);
+  --destructive: var(--cc-orange);
+  --destructive-foreground: #140a03;
+  --border: var(--cc-line);
+  --input: var(--cc-line);
+  --ring: var(--cc-green);
+}
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-dm-sans);
-  --font-mono: var(--font-space-mono);
-  --font-heading: var(--font-gunterz);
-
-  /* Identidade Classe Creator */
-  --color-verde: var(--cc-verde);
-  --color-roxo: var(--cc-roxo);
-  --color-roxo-texto: var(--cc-roxo-texto);
-  --color-laranja: var(--cc-laranja);
-  --color-superficie: var(--cc-superficie);
-  --color-superficie-2: var(--cc-superficie-2);
-
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Cores da marca: bg-cc-green, text-cc-purple-text, border-cc-line... */
+  --color-cc-bg: var(--cc-bg);
+  --color-cc-surface: var(--cc-surface);
+  --color-cc-surface-2: var(--cc-surface-2);
+  --color-cc-line: var(--cc-line);
+  --color-cc-green: var(--cc-green);
+  --color-cc-purple: var(--cc-purple);
+  --color-cc-purple-text: var(--cc-purple-text);
+  --color-cc-orange: var(--cc-orange);
+  --color-cc-white: var(--cc-white);
+  --color-cc-muted: var(--cc-muted);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 
-:root {
-  color-scheme: dark;
-
-  /* Diretrizes Classe Creator — ver CLAUDE.md, Identidade Visual */
-  --cc-verde: #27d337; /* títulos de seção, botões, Eixo A */
-  --cc-roxo: #560bf2; /* blocos amplos (fundo), Eixo B — não usar como cor de texto pequeno */
-  --cc-roxo-texto: #9b6dff; /* roxo clareado para TEXTO sobre o fundo escuro (≈5,5:1) */
-  --cc-laranja: #d36c27; /* CTAs de impacto, avisos importantes */
-  --cc-superficie: #111111;
-  --cc-superficie-2: #1a1a1a;
-
-  --background: #0a0a0a;
-  --foreground: #f5f0e8;
-  --card: #111111;
-  --card-foreground: #f5f0e8;
-  --popover: #111111;
-  --popover-foreground: #f5f0e8;
-  --primary: #27d337;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #f5f0e8;
-  --muted: #1a1a1a;
-  --muted-foreground: #a8a39a;
-  --accent: #1a1a1a;
-  --accent-foreground: #f5f0e8;
-  --destructive: #ff5c5c;
-  --border: rgb(245 240 232 / 10%);
-  --input: rgb(245 240 232 / 16%);
-  --ring: #9b6dff;
-  --chart-1: #27d337;
-  --chart-2: #560bf2;
-  --chart-3: #ff5c1a;
-  --chart-4: #f5f0e8;
-  --chart-5: #a8a39a;
-  --radius: 0.5rem;
-  --sidebar: #0d0d0d;
-  --sidebar-foreground: #f5f0e8;
-  --sidebar-primary: #27d337;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #1a1a1a;
-  --sidebar-accent-foreground: #f5f0e8;
-  --sidebar-border: #1a1a1a;
-  --sidebar-ring: #9b6dff;
+  --font-sans: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    @apply font-sans;
-  }
+  html,
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground font-sans antialiased;
+    min-height: 100vh;
   }
-  h1,
-  h2,
-  h3,
-  h4 {
-    @apply font-heading tracking-wide;
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
   ::selection {
-    background: var(--cc-verde);
-    color: #0a0a0a;
+    background: var(--cc-green);
+    color: #06140a;
   }
 }
 
-@layer components {
-  /* Rótulo técnico em caixa-alta (Space Mono) — "OBSERVATÓRIO CLASSE CREATOR" */
-  .rotulo {
-    @apply font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground;
-  }
+/* Títulos: Gunterz Black, caixa alta. */
+@utility font-display {
+  font-family: 'Gunterz', 'Arial Black', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
 
-  /* Texto corrido de páginas longas (manifesto, metodologia, FAQ) */
-  .prosa {
-    @apply max-w-prose text-base leading-relaxed text-foreground/85;
-  }
-  .prosa p + p {
-    @apply mt-4;
-  }
-  .prosa strong {
-    @apply font-semibold text-foreground;
-  }
-  .prosa em {
-    @apply italic;
-  }
-  .prosa a {
-    @apply text-verde underline underline-offset-4 hover:no-underline;
-  }
-  .prosa ul {
-    @apply mt-2 list-disc space-y-1 pl-5;
-  }
+/* Rótulos pequenos (eyebrows, status): DM Sans em caixa alta espaçada. */
+@utility label-caps {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Textura oficial da marca como camada de fundo. Use em elementos com position:relative. */
+@utility bg-textura {
+  background-image: url('/brand/textura.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--cc-bg); }
+::-webkit-scrollbar-thumb { background: var(--cc-line); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a40; }
+
+/* ============================================================
+   RAIO-X — complementos (não fazem parte da Escola)
+   Só composição de tokens acima: nenhuma cor ou fonte nova.
+   ============================================================ */
+
+/* Texto corrido longo (manifesto, metodologia, FAQ). */
+@utility prosa {
+  max-width: 65ch;
+  line-height: 1.7;
+  color: color-mix(in oklab, var(--foreground) 85%, transparent);
+  & p + p { margin-top: 1rem; }
+  & strong { font-weight: 600; color: var(--foreground); }
+  & em { font-style: italic; }
+  & a { color: var(--cc-green); text-decoration: underline; text-underline-offset: 4px; }
 }

@@ -204,11 +204,15 @@ Diretrizes confirmadas pelo Filipe em 29/set/2026. As cores do app Streamlit (#0
 **Tema:** Dark mode profundo, obrigatório.
 
 **Tipografia:**
-- Títulos: Gunterz Black (licença comercial confirmada pelo Filipe; .otf em `src/fonts/`)
-- Corpo: DM Sans
-- Rótulos técnicos / dados: Space Mono
+- Títulos: Gunterz Black (licença comercial confirmada pelo Filipe; `public/Gunterz-Black.otf`, classe `font-display`)
+- Corpo: DM Sans (`@fontsource-variable/dm-sans`)
+- Rótulos: `label-caps` (DM Sans em caixa alta). Space Mono foi removida.
 
-**Logo:** o Filipe vai enviar o logo da Classe Creator para substituir o texto "RAIO-X".
+**Fonte única do design system (1/out/2026):** repositório `FiSeveroo/escola-classe-creator` (branch `main`). Copiados sem alteração: `src/app/globals.css` (até o bloco "RAIO-X — complementos"), `src/components/ui/*` (exceto `accordion` e `table`, adicionados pela CLI do shadcn no mesmo estilo), `src/components/brand/{Brand,Logo}.tsx`, `src/lib/utils.ts`, `public/brand/{logo,textura}.webp`, `public/Gunterz-Black.otf`. Ao mudar a identidade, mudar primeiro na Escola e recopiar.
+- Usar: `SectionTitle` (títulos de seção), `BrandBlock` (bloco roxo com textura), `Button` (`variant="cta"` = laranja), `Eyebrow`, `Logo`; utilitários `font-display`, `label-caps`, `bg-textura`; cores só via classes `cc-*`.
+- Proibido: hex solto no código (exceção: `src/lib/marca.ts`, espelho dos tokens para metadata/OG), outras fontes, logo recriado em texto, textura em ladrilho.
+
+**Logo:** `public/brand/logo.webp` via `<Logo />`. Ícone do site (`src/app/icon.png`) gerado a partir dele.
 
 **Estética:** Manifesto urbano-digital. Layout clínico, direto. Sem ornamentação.
 
