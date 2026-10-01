@@ -155,10 +155,10 @@ export default async function Biblioteca({
           linhas={r.dados.map((b) => ({
             id: b.id,
             busca: (b.termo_buscado ?? "").toLowerCase(),
-            href: null,
+            href: `/biblioteca/tema/${b.id}`,
             celulas: [
               <span key="d" className="text-xs tabular-nums text-muted-foreground">{data(b.data_busca)}</span>,
-              truncar(b.termo_buscado, 80),
+              <Link key="t" href={`/biblioteca/tema/${b.id}`} className="hover:text-cc-green hover:underline">{truncar(b.termo_buscado, 80)}</Link>,
               <span key="n" className="text-xs tabular-nums">{b.total_analisados ?? "—"}</span>,
               <span key="v" className="text-xs">v{b.versao_numero ?? 1}</span>,
             ],

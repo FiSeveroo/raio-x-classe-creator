@@ -194,3 +194,55 @@ export async function videosDoSnapshot(snapshotId: number): Promise<VideoSnapsho
   if (error) throw new Error(error.message);
   return (data ?? []) as VideoSnapshot[];
 }
+
+export type LinhaDeBase = {
+  /** Coletas que têm ao menos um vídeo classificado. */
+  n_snapshots: number;
+  n_videos: number;
+  contagens_absolutas: Record<string, number>;
+  /** % por tipo de produtor, só entre vídeos classificados. */
+  composicao_proporcional: Record<string, number>;
+};
+
+let cacheBase: { valor: LinhaDeBase; expira: number } | null = null;
+
+/**
+ * db.estatisticas_corpus_termometro — linha de base da Disputa.
+ *
+ * Diferenças deliberadas: (1) o corpus inteiro, paginado (o Python via só as
+ * 1.000 linhas mais recentes); (2) só vídeos CLASSIFICADOS pela tipologia —
+ * no Python "nao_classificado" entrava no denominador e, com a classificação
+ * pausada no coletor, dominava a base; (3) n_snapshots conta só coletas com
+ * vídeos classificados (o Python contava todas, e liberava o qui-quadrado
+ * sobre uma base que não era classificada).
+ */
+export async function linhaDeBaseDisputa(): Promise<LinhaDeBase> {
+  if (cacheBase && cacheBase.expira > Date.now()) return cacheBase.valor;
+  const codigos = codigosProdutor();
+  const contagens: Record<string, number> = {};
+  const snapshots = new Set<number>();
+  let n = 0;
+  for (let p = 0; ; p++) {
+    const { data, error } = await db()
+      .from("videos_snapshot")
+      .select("snapshot_id, tipo_produtor")
+      .in("tipo_produtor", codigos)
+      .order("id")
+      .range(p * PAGINA, p * PAGINA + PAGINA - 1);
+    if (error) throw new Error(error.message);
+    for (const v of (data ?? []) as { snapshot_id: number; tipo_produtor: string }[]) {
+      n++;
+      snapshots.add(v.snapshot_id);
+      contagens[v.tipo_produtor] = (contagens[v.tipo_produtor] ?? 0) + 1;
+    }
+    if ((data ?? []).length < PAGINA) break;
+  }
+  const valor: LinhaDeBase = {
+    n_snapshots: snapshots.size,
+    n_videos: n,
+    contagens_absolutas: contagens,
+    composicao_proporcional: n ? Object.fromEntries(Object.entries(contagens).map(([k, c]) => [k, (c / n) * 100])) : {},
+  };
+  cacheBase = { valor, expira: Date.now() + TTL_MS };
+  return valor;
+}

@@ -249,3 +249,59 @@ export function historicoVersoesDossie(canalId: string) {
       .order("versao_numero", { ascending: false }),
   );
 }
+
+// ---------------------------------------------------------------------------
+// Disputa de Narrativa
+// ---------------------------------------------------------------------------
+
+export type BuscaCompleta = {
+  id: number;
+  termo_buscado: string;
+  tipo_resultado: string | null;
+  total_analisados: number | null;
+  composicao_produtor: string | null;
+  composicao_conteudo: string | null;
+  data_busca: string | null;
+  versao_numero: number | null;
+  canonica: boolean | null;
+};
+
+export type ResultadoBusca = {
+  id: number;
+  busca_id: number;
+  posicao_ranking: number;
+  tipo_item: string;
+  item_id: string;
+  titulo: string | null;
+  canal_id: string | null;
+  canal_nome: string | null;
+  tipo_produtor: string;
+  tipo_conteudo: string;
+  justificativa: string | null;
+  metadados_extras: string | null;
+};
+
+/** db.buscar_analise_por_id para buscas_narrativa */
+export async function buscaPorId(id: number) {
+  const r = await consultar<BuscaCompleta[]>((db) => db.from("buscas_narrativa").select("*").eq("id", id).limit(1));
+  if (r.status !== "ok") return r;
+  return { status: "ok" as const, dados: r.dados[0] ?? null };
+}
+
+/** db.resultados_de_busca — itens classificados, por posição no ranking. */
+export function resultadosDeBusca(buscaId: number) {
+  return consultar<ResultadoBusca[]>((db) =>
+    db.from("resultados_busca").select("*").eq("busca_id", buscaId).order("posicao_ranking", { ascending: true }),
+  );
+}
+
+export type VersaoBusca = Pick<BuscaCompleta, "id" | "data_busca" | "versao_numero" | "total_analisados">;
+
+/** Histórico de versões de um termo (mesmo termo + tipo de resultado). */
+export function historicoVersoesBusca(termo: string, tipoResultado: string | null) {
+  return consultar<VersaoBusca[]>((db) => {
+    let q = db.from("buscas_narrativa").select("id, data_busca, versao_numero, total_analisados").eq("termo_buscado", termo);
+    if (tipoResultado) q = q.eq("tipo_resultado", tipoResultado);
+    return q.order("versao_numero", { ascending: false });
+  });
+}

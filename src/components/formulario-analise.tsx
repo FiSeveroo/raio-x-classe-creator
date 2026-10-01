@@ -25,6 +25,7 @@ export function FormularioAnalise({
   limiteSessao,
   limiteDiario,
   tipoEntrada = "url",
+  sugestoes,
 }: {
   namespace: "Lupa" | "Dossie" | "Disputa" | "Voz";
   acao: (entrada: { valor: string; atualizar?: { versaoAnteriorId: number } }) => Promise<ResultadoModulo>;
@@ -34,6 +35,8 @@ export function FormularioAnalise({
   limiteSessao: number;
   limiteDiario: number;
   tipoEntrada?: "url" | "text";
+  /** Termos clicáveis que preenchem o campo (Disputa). Textos: sugestoesTitulo, sugestoesTexto. */
+  sugestoes?: { grupo: string; termos: string[] }[];
 }) {
   const t = useTranslations(namespace);
   const format = useFormatter();
@@ -98,6 +101,33 @@ export function FormularioAnalise({
           {t("botao")}
         </Button>
       </form>
+
+      {sugestoes && (
+        <details className="group mt-4 rounded-lg border border-cc-line bg-cc-surface px-4 py-3">
+          <summary className="cursor-pointer text-sm font-medium marker:text-cc-green">{t("sugestoesTitulo")}</summary>
+          <p className="mt-3 text-sm text-muted-foreground">{t("sugestoesTexto")}</p>
+          <div className="mt-4 space-y-4">
+            {sugestoes.map((g) => (
+              <div key={g.grupo}>
+                <p className="label-caps text-cc-purple-text">{g.grupo}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {g.termos.map((termo) => (
+                    <button
+                      key={termo}
+                      type="button"
+                      onClick={() => setValor(termo)}
+                      disabled={pendente || bloqueado}
+                      className="rounded-full border border-cc-line px-3 py-1 text-sm transition-colors hover:border-cc-green hover:text-cc-green disabled:opacity-50"
+                    >
+                      {termo}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </details>
+      )}
 
       <div aria-live="polite" className="mt-6 space-y-4">
         {pendente && (

@@ -16,6 +16,7 @@ import { codigosConteudo, codigosProdutor, tipologiaParaPrompt } from "../src/li
 import { pyCorte, pyFixed, pyInt, pyMilhar, pyStr } from "../src/lib/py.ts";
 import * as lupa from "../src/lib/lupa/prompt.ts";
 import * as dossie from "../src/lib/dossie/prompts.ts";
+import * as disputa from "../src/lib/disputa/prompts.ts";
 import type { Sintomas } from "../src/lib/dossie/sintomas.ts";
 import { duracaoIsoParaSegundos, type ItemVideoApi } from "../src/lib/youtube-util.ts";
 
@@ -30,9 +31,10 @@ function corpoFuncao(nome: string): string {
 }
 
 /** Texto cru de um f-string ("""...""") ou string ("""...""") dentro de uma função. */
-function extrair(funcao: string, marcador: string): string {
+function extrair(funcao: string, marcador: string, ocorrencia = 0): string {
   const corpo = corpoFuncao(funcao);
-  const i = corpo.indexOf(marcador);
+  let i = corpo.indexOf(marcador);
+  for (let k = 0; k < ocorrencia && i !== -1; k++) i = corpo.indexOf(marcador, i + 1);
   if (i === -1) throw new Error(`Não achei ${marcador} em ${funcao}`);
   const ini = i + marcador.length;
   return corpo.slice(ini, corpo.indexOf('"""', ini));
@@ -307,6 +309,77 @@ const EXEMPLOS: [string, lupa.ExemploAncora[]][] = [
       comparar(`Dossiê · payload veredito (${nomeR}, ${nomeC})`, esperado, dossie.montarPayloadVeredito(canal, cl, s, rel as never, 7));
     }
   conferirChamada("emitir_veredito_sonnet", dossie.MODELO_VEREDITO, dossie.MAX_TOKENS_VEREDITO);
+}
+
+// ============================== DISPUTA ==============================
+{
+  const tpl = extrair("classificar_resultado_busca", 'prompt_sistema = f"""');
+  for (const [nome, exs] of EXEMPLOS) {
+    const esperado = renderizar(tpl, { ...tip, exemplos_dinamicos_haiku: exemplosPython(exs, "\n\nEXEMPLOS VALIDADOS PELO PESQUISADOR:\n") });
+    comparar(`Disputa · sistema (${nome})`, esperado, disputa.montarPromptItem(disputa.montarExemplosItem(exs)));
+  }
+  const descV = "Descrição do vídeo 🎬 ".repeat(120);
+  const descC = "Canal 🙏 com descrição ".repeat(120);
+  const stats = { subscriberCount: "41600000", videoCount: "8123", viewCount: "1234567" };
+  const casos: [string, number, disputa.ItemBusca, disputa.DadosExtras, Record<string, string>][] = [
+    [
+      "vídeo",
+      0,
+      { id: { kind: "youtube#video", videoId: "v1" }, snippet: { title: "Título “x” 🔥", channelTitle: "Canal X", channelId: "UC1", description: descV } },
+      { video: { statistics: stats }, canal: { statistics: stats, snippet: { description: descC } } },
+      {
+        "snippet['title']": "Título “x” 🔥",
+        "snippet['channelTitle']": "Canal X",
+        "int(stats_c.get('subscriberCount', 0)):,": "41,600,000",
+        "int(stats_c.get('videoCount', 0)):,": "8,123",
+        "int(stats_v.get('viewCount', 0)):,": "1,234,567",
+        "meta_canal.get('snippet', {}).get('description', '')[:1000]": pyCorte(descC, 1000),
+        "snippet.get('description', '')[:1500]": pyCorte(descV, 1500),
+      },
+    ],
+    [
+      "vídeo sem enriquecimento",
+      0,
+      { id: { kind: "youtube#video", videoId: "v2" }, snippet: { title: "T", channelTitle: "C" } },
+      { video: {}, canal: {} },
+      {
+        "snippet['title']": "T",
+        "snippet['channelTitle']": "C",
+        "int(stats_c.get('subscriberCount', 0)):,": "0",
+        "int(stats_c.get('videoCount', 0)):,": "0",
+        "int(stats_v.get('viewCount', 0)):,": "0",
+        "meta_canal.get('snippet', {}).get('description', '')[:1000]": "",
+        "snippet.get('description', '')[:1500]": "",
+      },
+    ],
+    [
+      "canal",
+      1,
+      { id: { kind: "youtube#channel", channelId: "UC1" }, snippet: { title: "Canal 🎬", description: descC } },
+      { canal: { statistics: stats } },
+      {
+        "snippet['title']": "Canal 🎬",
+        "int(stats_c.get('subscriberCount', 0)):,": "41,600,000",
+        "int(stats_c.get('videoCount', 0)):,": "8,123",
+        "snippet.get('description', '')[:2000]": pyCorte(descC, 2000),
+      },
+    ],
+    [
+      "playlist",
+      2,
+      { id: { kind: "youtube#playlist", playlistId: "PL1" }, snippet: { title: "Lista", channelTitle: "Canal", description: descV } },
+      {},
+      { "snippet['title']": "Lista", "snippet['channelTitle']": "Canal", "snippet.get('description', '')[:1500]": pyCorte(descV, 1500) },
+    ],
+  ];
+  for (const [nome, oc, item, extras, valores] of casos)
+    comparar(`Disputa · payload (${nome})`, renderizar(extrair("classificar_resultado_busca", 'payload = f"""', oc), valores), disputa.montarPayloadItem(item, extras));
+  conferirChamada("classificar_resultado_busca", disputa.MODELO_ITEM, disputa.MAX_TOKENS_ITEM);
+  const pyJson = disputa.pyJsonDict({ youtuber_profissional: 3, outros: 1, "é": 2 });
+  if (pyJson !== '{"youtuber_profissional": 3, "outros": 1, "\\u00e9": 2}') {
+    ok = false;
+    console.error(`✗ pyJsonDict: ${pyJson}`);
+  } else console.log("✓ json.dumps de composição no formato do Python");
 }
 
 if (!ok) process.exit(1);
