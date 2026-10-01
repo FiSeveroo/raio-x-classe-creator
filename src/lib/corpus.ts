@@ -71,6 +71,8 @@ export type ClassificacaoVideo = {
   comentarios?: number | null;
   inscritos?: number | null;
   publicado_em?: string | null;
+  metadados_json?: string | null;
+  is_short?: boolean | null;
 };
 
 export type DossieResumo = {

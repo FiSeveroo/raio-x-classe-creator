@@ -298,11 +298,16 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 - **Fase 1 — concluída**. Leitura do Supabase de produção testada em 1/out/2026 (contadores, 4 abas da Biblioteca, página e imagem OG de análise). Next.js 16 + next-intl (PT sem prefixo, /en, /es), tema, Home, Sobre, Biblioteca (4 abas, só leitura) e página por análise de vídeo (`/biblioteca/video/[id]`, com imagem Open Graph). Módulos da Fase 2 têm página provisória que aponta para o Streamlit.
 - **Repaginada da UX (30/set–1/out/2026):** a barra lateral virou cabeçalho com painel "Módulos" + rodapé completo; Home reorganizada como narrativa (hero com CTA laranja, faixa do corpus, bloco roxo com as duas perguntas, módulos em linhas numeradas). Aguardando feedback do Filipe e o logo.
 - **Git:** o código novo vive no branch `nextjs` do repo `FiSeveroo/raio-x-classe-creator` (histórico separado do Streamlit). NUNCA enviar para o `main`: lá rodam o Streamlit e os workflows agendados do coletor, do importador e da exportação semanal, que o GitHub só executa no branch padrão.
+- **Fase 2 — Lupa portada (1/out/2026):** `src/lib/lupa/` (youtube, prompt, classificar, registro) + `src/app/[locale]/lupa/`. Resultado abre em `/biblioteca/video/[id]`. Testada de ponta a ponta com gravação real no corpus (registro 20). Fidelidade conferida por `npm run verificar` (tipologia + prompt idênticos ao app.py). Pendências e diferenças em `messages/REVISAO.md`.
 - Convenções: textos só em `messages/*.json` (markdown-lite `**negrito**` renderizado por `src/components/rico.tsx`); consultas ao banco só em `src/lib/corpus.ts`; traduções novas entram em `messages/REVISAO.md`.
 
-**OBRIGATÓRIO antes de aplicar a migração (virada de domínio / Next.js passar a gravar no Supabase de produção):**
-- Fazer backup completo do Supabase (dump de schema + dados de todas as tabelas) e confirmar com o Filipe que o backup está íntegro. Decidido em 29/set/2026: não fazer agora, fazer imediatamente antes da virada.
-- Até lá, o app Next.js só LÊ do Supabase de produção.
+**Gravação no banco durante a migração (decidido pelo Filipe em 1/out/2026):**
+- Os módulos portados (Lupa em diante) PODEM gravar no Supabase de produção durante os testes, com a mesma lógica de versionamento do Streamlit. O corpus atual é considerado dado de teste.
+- No lançamento, o corpus será ZERADO, EXCETO o Termômetro (`snapshots`, `videos_snapshot`), que é preservado. Nada de reset sem confirmação explícita do Filipe na hora, e com backup completo feito antes.
+- NUNCA tocar nas tabelas do Termômetro a partir do Next.js (são do coletor Python).
+
+**OBRIGATÓRIO antes da virada / do reset:**
+- Backup completo do Supabase (dump de schema + dados de todas as tabelas), confirmado íntegro com o Filipe.
 
 **Preservar SEMPRE:**
 - URLs de análises canônicas (para links já compartilhados continuarem funcionando)

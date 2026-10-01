@@ -2,11 +2,15 @@ import "server-only";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 /**
- * Cliente Supabase SOMENTE LEITURA (publishable key), usado em Server Components.
+ * Cliente Supabase do servidor, com a PUBLISHABLE key (a mesma do Streamlit).
  *
- * Até a virada de produção, o app Next.js não grava no banco — ver CLAUDE.md
- * ("OBRIGATÓRIO antes de aplicar a migração"). Não criar aqui um cliente com
- * SUPABASE_SECRET_KEY sem essa decisão.
+ * As políticas (RLS) do banco permitem leitura pública e as gravações que o
+ * Streamlit já fazia com essa chave (ex.: classificacoes_video na Lupa). A
+ * SECRET key não é usada pelo site — ela fica só com o coletor Python.
+ *
+ * Gravações acontecem apenas em src/lib/lupa/registro.ts (e nos módulos
+ * futuros), sempre com o versionamento canônico do db.py. Ver CLAUDE.md,
+ * "Gravação no banco durante a migração".
  *
  * Retorna null se as credenciais não estiverem configuradas: as páginas
  * mostram "sem dados" em vez de quebrar (princípio 1 do CLAUDE.md).
@@ -28,3 +32,6 @@ export function supabaseLeitura(): SupabaseClient | null {
 
   return cliente;
 }
+
+/** Mesmo cliente; nome separado só para deixar explícito onde se grava. */
+export const supabaseGravacao = supabaseLeitura;

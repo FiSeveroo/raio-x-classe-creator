@@ -40,7 +40,7 @@ export async function Contadores({
               {v === null ? (
                 <span className="text-sm text-muted-foreground">{tc("semDados")}</span>
               ) : (
-                <span className="font-display text-4xl tabular-nums sm:text-5xl">{format.number(v)}</span>
+                <span className="font-display text-2xl tabular-nums break-all sm:text-3xl lg:text-4xl">{format.number(v)}</span>
               )}
             </dd>
           </div>

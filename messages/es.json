@@ -31,7 +31,12 @@
     "voltar": "Volver",
     "paginaNaoEncontrada": "Página no encontrada."
   },
-  "Rodape": { "modulos": "Módulos", "projeto": "Proyecto", "classe": "Classe Creator", "codigo": "Código fuente en GitHub" },
+  "Rodape": {
+    "modulos": "Módulos",
+    "projeto": "Proyecto",
+    "classe": "Classe Creator",
+    "codigo": "Código fuente en GitHub"
+  },
   "EmMigracao": {
     "rotulo": "En migración",
     "titulo": "Este módulo todavía se está portando a la nueva versión.",
@@ -161,70 +166,93 @@
   },
   "Agenda": [
     {
-      "modulos": ["lupa"],
+      "modulos": [
+        "lupa"
+      ],
       "titulo": "¿Cómo categoriza YouTube el contenido de educación política?",
       "pergunta": "¿La categoría nativa de YouTube refleja fielmente el trabajo educativo-político, o lo aplana en etiquetas comerciales como “Entretenimiento” o “Noticias”?",
       "hipotese": "El contenido educativo-político de canales no vinculados a los medios tradicionales está sistemáticamente mal categorizado por la plataforma, lo que reduce su alcance algorítmico.",
       "metodo": "Seleccionar 30 videos educativo-políticos de canales variados, ejecutar La Lupa en cada uno y comparar Eje A/B con la categoría nativa que muestra YouTube."
     },
     {
-      "modulos": ["lupa"],
+      "modulos": [
+        "lupa"
+      ],
       "titulo": "La simulación de espontaneidad en los vlogs profesionales",
       "pergunta": "¿En qué medida lo que se presenta como “vlog auténtico” es, estructuralmente, entretenimiento guionizado disfrazado?",
       "hipotese": "Cunningham & Craig (2017) describen la “autenticidad guionizada”. En una muestra de vlogs brasileños populares, La Lupa debería clasificar como “entretenimento_roteirizado” con más frecuencia de lo que admite la autopresentación de los creadores.",
       "metodo": "Muestra de 50 videos etiquetados como “vlog” por los propios creadores, comparada con la clasificación independiente del Eje B hecha por La Lupa."
     },
     {
-      "modulos": ["termometro"],
+      "modulos": [
+        "termometro"
+      ],
       "titulo": "Higienización algorítmica en fechas políticamente cargadas",
       "pergunta": "¿El algoritmo del trending privilegia el entretenimiento y suprime el contenido institucional/político en fechas de alta tensión (7 de septiembre, elecciones, manifestaciones)?",
       "hipotese": "En fechas políticamente cargadas, el trending debería presentar una reducción estadística de canales Institucionales y un aumento compensatorio de Entretenimiento y Música — efecto del Brand Safety.",
       "metodo": "Comparar la composición del Termómetro en snapshots de fechas clave vs. snapshots de fechas neutras adyacentes (mismo día de la semana, dos meses antes/después)."
     },
     {
-      "modulos": ["termometro", "dossie"],
+      "modulos": [
+        "termometro",
+        "dossie"
+      ],
       "titulo": "Concentración oligopólica de la visibilidad en YouTube BR",
       "pergunta": "¿Cuántos canales únicos responden por qué porcentaje de la visibilidad en el trending BR a lo largo de 1 año? ¿La distribución sigue una ley de potencia, como en otras plataformas?",
       "hipotese": "Se estima que menos de 100 canales responden por más del 70% de las apariciones en el trending en un período anual — confirmando la concentración oligopólica de la atención.",
       "metodo": "Extraer la serie completa del Termómetro, contar apariciones por canal, trazar la curva de Pareto. Para los 20 principales, generar un Dossier para identificar las coaliciones detrás."
     },
     {
-      "modulos": ["disputa"],
+      "modulos": [
+        "disputa"
+      ],
       "titulo": "¿Quién habla de derechos laborales en YouTube?",
       "pergunta": "¿El debate sobre los derechos del trabajador está dominado por narrativas patronales (Medios Tradicionales, Marcas) o hay espacio para voces de la clase trabajadora (Sindicatos, Instituciones)?",
       "hipotese": "Las búsquedas sobre temas laborales deberían revelar una subrepresentación estadística de canales Institucionales (sindicatos, fiscalía laboral, ministerio de trabajo) respecto a la línea de base del trending — evidencia de captura editorial del tema por el capital.",
       "metodo": "Ejecutar búsquedas para 10 términos clave (“reforma trabalhista”, “uberização”, “direitos do trabalhador”, etc.) y comparar la composición con la media del Termómetro vía Desviación Editorial."
     },
     {
-      "modulos": ["disputa"],
+      "modulos": [
+        "disputa"
+      ],
       "titulo": "Voces ausentes en agendas raciales",
       "pergunta": "¿Las búsquedas sobre temas raciales (cuotas, racismo estructural, movimientos negros) presentan ausencia sistemática de qué tipos de productor?",
       "hipotese": "La invisibilización de Instituciones del movimiento negro y de Creadores Casuales negros en estos temas — sustituidos por Medios Tradicionales y YouTubers blancos profesionales — reproduce la colonización del debate racial.",
       "metodo": "Búsquedas para 8 términos predefinidos, análisis de la sección “Voces Ausentes” del módulo, triangulación con el Dossier de los canales presentes para el mapeo racial de los productores."
     },
     {
-      "modulos": ["dossie"],
+      "modulos": [
+        "dossie"
+      ],
       "titulo": "El ecosistema invisible de las “casas” de creadores",
       "pergunta": "¿Cuántos canales brasileños que se presentan como “creadores individuales” forman parte de coaliciones mayores (squads, casas, MCNs)? ¿Cómo se conectan estructuralmente?",
       "hipotese": "Las Productoras Digitales brasileñas operan decenas de canales coordinados bajo una persona individual, configurando una industria oculta de la “personalidad” como activo.",
       "metodo": "Seleccionar 20 “creadores famosos”, ejecutar el Dossier, examinar la red de canales declarados públicamente, mapear coaliciones (grafo de canales asociados)."
     },
     {
-      "modulos": ["dossie", "lupa"],
+      "modulos": [
+        "dossie",
+        "lupa"
+      ],
       "titulo": "Los “medios de periodistas” como nueva productora digital",
       "pergunta": "¿Los canales de periodistas que salieron de los grandes medios (Reinaldo Azevedo, Andreia Sadi, etc.) operan como YouTubers Profesionales individuales o ya se estructuran como Productoras Digitales con equipos?",
       "hipotese": "La migración de periodistas a YouTube produjo un ciclo rápido de profesionalización — estos canales convergen hacia Productora Digital, aun manteniendo la apariencia de “opinión individual”, en hasta 18 meses de existencia.",
       "metodo": "Identificar 15 periodistas de medios tradicionales con canal en YouTube, ejecutar el Dossier, examinar síntomas estructurales (equipo, frecuencia industrial, enlaces repetidos)."
     },
     {
-      "modulos": ["voz", "dossie"],
+      "modulos": [
+        "voz",
+        "dossie"
+      ],
       "titulo": "Burnout inducido por el público-patrón",
       "pergunta": "En canales cuyos creadores hicieron público que sufrían burnout/pausas, ¿la Voz de la Base detecta niveles sistemáticamente más altos del Índice de Presión Productiva en los videos anteriores al colapso?",
       "hipotese": "El Índice de Presión Productiva funciona como indicador anticipado — los videos con IPP > 30% se concentran en los meses previos a la comunicación pública de pausa/burnout.",
       "metodo": "Seleccionar 5 creadores que comunicaron públicamente una pausa/burnout, ejecutar la Voz de la Base en los 10 videos inmediatamente anteriores al anuncio y comparar el IPP medio con 10 videos de control (canales activos sin registro de burnout)."
     },
     {
-      "modulos": ["voz"],
+      "modulos": [
+        "voz"
+      ],
       "titulo": "Fandoms como mano de obra no remunerada de propaganda política",
       "pergunta": "En canales de creadores políticamente comprometidos (de cualquier espectro), ¿en qué medida los comentarios se organizan como “trabajo invisible del fan” — defendiendo al creador, atacando a los críticos, reclutando espectadores?",
       "hipotese": "Los canales con fuerte vínculo político-ideológico presentan un % de “trabajo invisible del fan” significativamente superior a la media (estimado >25%) — configurando un ejército digital voluntario de comunicación política.",
@@ -383,5 +411,50 @@
     "atual": "ACTUAL",
     "verNoYoutube": "Ver en YouTube",
     "naoEncontrada": "Análisis no encontrado en el corpus."
+  },
+  "Lupa": {
+    "subtitulo": "Análisis de un video, con la profundidad que el feed esconde",
+    "intro": "Pega abajo el enlace de un video de YouTube. La herramienta extraerá los metadatos vía la API oficial y clasificará el artefacto según la **tipología doble** (Productor × Contenido) desarrollada en la investigación *O Novo 'You' do YouTube* (SEVERO, 2026).",
+    "rotuloUrl": "URL del video",
+    "placeholder": "https://www.youtube.com/watch?v=...",
+    "botao": "Analizar",
+    "sessao": "Tu sesión",
+    "restantes": "{n, plural, one {# análisis restante} other {# análisis restantes}}",
+    "passos": [
+      "Extrayendo metadatos del video...",
+      "Investigando el canal productor...",
+      "Sometiendo al análisis sociológico..."
+    ],
+    "existenteRotulo": "Análisis existente en el corpus",
+    "existenteTexto": "Ya existe un análisis canónico de este video en el Observatório (versión **{versao}**, realizada el **{data}**). Consultar el análisis existente preserva los recursos colectivos del Observatório.",
+    "verExistente": "Ver análisis existente",
+    "gerar": "Generar v{versao} ({peso, plural, one {# slot} other {# slots}})",
+    "aguardar": "Actualización disponible en {dias, plural, one {# día} other {# días}}",
+    "avisoCusto": "Generar la v{versao} consume {peso, plural, one {# slot} other {# slots}} de la sesión. La versión anterior queda preservada en el historial.",
+    "erros": {
+      "url_invalida": "URL inválida.",
+      "limite_sessao": "Límite de {limite} análisis por sesión alcanzado. Cierra y vuelve a abrir el navegador para continuar.",
+      "slots_insuficientes": "Esta operación consumiría {peso} slot(s), pero solo te quedan {restantes} en esta sesión.",
+      "limite_diario": "Límite diario de la herramienta alcanzado para este módulo ({uso}/{limite} análisis hoy). Inténtalo mañana o contacta al Observatório para acceso ampliado.",
+      "video_nao_encontrado": "Video no encontrado. Verifica que la URL sea correcta y que el video sea público.",
+      "codigo_invalido": "El modelo devolvió una categoría fuera de la tipología. No se guardó nada. Inténtalo de nuevo.",
+      "falha": "Error en el análisis: {detalhe}"
+    }
+  },
+  "Analise": {
+    "nova": "Análisis completado y añadido al corpus del Observatório.",
+    "short": "Short · {seg}s",
+    "longo": "Video largo · {min}min {seg}s",
+    "visualizacoes": "Visualizaciones",
+    "inscritos": "Suscriptores del canal",
+    "totalVideos": "Total de videos del canal",
+    "engajamento": "Tasa de engagement",
+    "engajamentoAjuda": "(Likes + Comentarios) / Visualizaciones × 100",
+    "tipologica": "Análisis tipológico",
+    "eixoA": "Eje A · Productor",
+    "eixoB": "Eje B · Contenido",
+    "comoChegamos": "Cómo llegamos a este análisis",
+    "metadados": "Metadatos en bruto (para auditoría)",
+    "novaAnaliseLupa": "Analizar otro video"
   }
 }

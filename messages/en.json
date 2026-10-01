@@ -31,7 +31,12 @@
     "voltar": "Back",
     "paginaNaoEncontrada": "Page not found."
   },
-  "Rodape": { "modulos": "Modules", "projeto": "Project", "classe": "Classe Creator", "codigo": "Source code on GitHub" },
+  "Rodape": {
+    "modulos": "Modules",
+    "projeto": "Project",
+    "classe": "Classe Creator",
+    "codigo": "Source code on GitHub"
+  },
   "EmMigracao": {
     "rotulo": "Migrating",
     "titulo": "This module is still being ported to the new version.",
@@ -161,70 +166,93 @@
   },
   "Agenda": [
     {
-      "modulos": ["lupa"],
+      "modulos": [
+        "lupa"
+      ],
       "titulo": "How does YouTube categorize political education content?",
       "pergunta": "Does YouTube's native category faithfully reflect educational-political work, or does it flatten it into commercial labels such as “Entertainment” or “News”?",
       "hipotese": "Educational-political content from channels not linked to traditional media is systematically miscategorized by the platform, reducing its algorithmic reach.",
       "metodo": "Select 30 educational-political videos from varied channels, run The Magnifier on each, and compare Axis A/B with the native category shown by YouTube."
     },
     {
-      "modulos": ["lupa"],
+      "modulos": [
+        "lupa"
+      ],
       "titulo": "Simulated spontaneity in professional vlogs",
       "pergunta": "To what extent is what presents itself as an “authentic vlog” structurally disguised scripted entertainment?",
       "hipotese": "Cunningham & Craig (2017) describe “scripted authenticity”. In a sample of popular Brazilian vlogs, The Magnifier should classify them as “entretenimento_roteirizado” more often than the creators' self-presentation admits.",
       "metodo": "Sample 50 videos labeled “vlog” by the creators themselves and compare them with The Magnifier's independent Axis B classification."
     },
     {
-      "modulos": ["termometro"],
+      "modulos": [
+        "termometro"
+      ],
       "titulo": "Algorithmic sanitization on politically charged dates",
       "pergunta": "Does the trending algorithm favor entertainment and suppress institutional/political content on high-tension dates (September 7, elections, protests)?",
       "hipotese": "On politically charged dates, trending should show a statistical reduction of Institutional channels and a compensatory increase in Entertainment and Music — a Brand Safety effect.",
       "metodo": "Compare the Thermometer's composition in snapshots from key dates vs. snapshots from adjacent neutral dates (same weekday, two months before/after)."
     },
     {
-      "modulos": ["termometro", "dossie"],
+      "modulos": [
+        "termometro",
+        "dossie"
+      ],
       "titulo": "Oligopolistic concentration of visibility on YouTube Brazil",
       "pergunta": "How many unique channels account for what percentage of visibility on BR trending over 1 year? Does the distribution follow a power law, as on other platforms?",
       "hipotese": "An estimated fewer than 100 channels account for more than 70% of trending appearances over a year — confirming oligopolistic concentration of attention.",
       "metodo": "Extract the full Thermometer series, count appearances per channel, plot a Pareto curve. For the top 20, generate a Dossier to identify the coalitions behind them."
     },
     {
-      "modulos": ["disputa"],
+      "modulos": [
+        "disputa"
+      ],
       "titulo": "Who talks about labor rights on YouTube?",
       "pergunta": "Is the debate on workers' rights dominated by employer narratives (Traditional Media, Brands), or is there room for working-class voices (Unions, Institutions)?",
       "hipotese": "Searches on labor topics should reveal statistical under-representation of Institutional channels (unions, labor prosecutors, labor ministry) relative to the trending baseline — evidence of editorial capture of the topic by capital.",
       "metodo": "Run searches for 10 key terms (“reforma trabalhista”, “uberização”, “direitos do trabalhador”, etc.) and compare composition with the Thermometer average via Editorial Deviation."
     },
     {
-      "modulos": ["disputa"],
+      "modulos": [
+        "disputa"
+      ],
       "titulo": "Absent voices on racial agendas",
       "pergunta": "Do searches on racial topics (affirmative action, structural racism, Black movements) show systematic absence of which producer types?",
       "hipotese": "The invisibilization of Black movement Institutions and Black Casual Creators on these topics — replaced by Traditional Media and white professional YouTubers — reproduces the colonization of the racial debate.",
       "metodo": "Searches for 8 predefined terms, analysis of the module's “Absent Voices” section, triangulation with Dossiers of the channels present for racial mapping of producers."
     },
     {
-      "modulos": ["dossie"],
+      "modulos": [
+        "dossie"
+      ],
       "titulo": "The invisible ecosystem of creator “houses”",
       "pergunta": "How many Brazilian channels that present themselves as “individual creators” are part of larger coalitions (squads, houses, MCNs)? How are they structurally connected?",
       "hipotese": "Brazilian Digital Production Companies run dozens of coordinated channels under individual personas, forming a hidden industry of “personality” as an asset.",
       "metodo": "Select 20 “famous creators”, run the Dossier, examine the network of publicly declared channels, map coalitions (graph of associated channels)."
     },
     {
-      "modulos": ["dossie", "lupa"],
+      "modulos": [
+        "dossie",
+        "lupa"
+      ],
       "titulo": "“Journalist media” as the new digital production company",
       "pergunta": "Do channels of journalists who left mainstream media (Reinaldo Azevedo, Andreia Sadi, etc.) operate as individual Professional YouTubers, or are they already structured as Digital Production Companies with teams?",
       "hipotese": "The migration of journalists to YouTube produced a fast professionalization cycle — these channels converge toward Digital Production Company, even while keeping the appearance of “individual opinion”, within 18 months of existence.",
       "metodo": "Identify 15 traditional-media journalists with a YouTube channel, run the Dossier, examine structural symptoms (team, industrial frequency, repeated links)."
     },
     {
-      "modulos": ["voz", "dossie"],
+      "modulos": [
+        "voz",
+        "dossie"
+      ],
       "titulo": "Burnout induced by the audience-as-boss",
       "pergunta": "In channels whose creators publicly reported burnout/breaks, does Voice of the Base detect systematically higher Productive Pressure Index levels in the videos preceding the collapse?",
       "hipotese": "The Productive Pressure Index works as a leading indicator — videos with PPI > 30% concentrate in the months preceding the public announcement of a break/burnout.",
       "metodo": "Select 5 creators who publicly announced a break/burnout, run Voice of the Base on the 10 videos immediately before the announcement, and compare the average PPI with 10 control videos (active channels with no burnout record)."
     },
     {
-      "modulos": ["voz"],
+      "modulos": [
+        "voz"
+      ],
       "titulo": "Fandoms as unpaid labor for political propaganda",
       "pergunta": "In channels of politically engaged creators (of any spectrum), to what extent do comments organize as “invisible fan labor” — defending the creator, attacking critics, recruiting viewers?",
       "hipotese": "Channels with strong political-ideological ties show a significantly above-average share of “invisible fan labor” (estimated >25%) — forming a volunteer digital army of political communication.",
@@ -383,5 +411,50 @@
     "atual": "CURRENT",
     "verNoYoutube": "Watch on YouTube",
     "naoEncontrada": "Analysis not found in the corpus."
+  },
+  "Lupa": {
+    "subtitulo": "Video analysis at the depth the feed hides",
+    "intro": "Paste a YouTube video link below. The tool will extract the metadata via the official API and classify the artifact according to the **dual typology** (Producer × Content) developed in the research *O Novo 'You' do YouTube* (SEVERO, 2026).",
+    "rotuloUrl": "Video URL",
+    "placeholder": "https://www.youtube.com/watch?v=...",
+    "botao": "Analyze",
+    "sessao": "Your session",
+    "restantes": "{n, plural, one {# analysis left} other {# analyses left}}",
+    "passos": [
+      "Extracting video metadata...",
+      "Investigating the producing channel...",
+      "Submitting to sociological analysis..."
+    ],
+    "existenteRotulo": "Existing analysis in the corpus",
+    "existenteTexto": "A canonical analysis of this video already exists in the Observatório (version **{versao}**, run on **{data}**). Checking the existing analysis preserves the Observatório's collective resources.",
+    "verExistente": "View existing analysis",
+    "gerar": "Generate v{versao} ({peso, plural, one {# slot} other {# slots}})",
+    "aguardar": "Update available in {dias, plural, one {# day} other {# days}}",
+    "avisoCusto": "Generating v{versao} uses {peso, plural, one {# slot} other {# slots}} of your session. The previous version is preserved in the history.",
+    "erros": {
+      "url_invalida": "Invalid URL.",
+      "limite_sessao": "Session limit of {limite} analyses reached. Close and reopen your browser to continue.",
+      "slots_insuficientes": "This operation would use {peso} slot(s), but you only have {restantes} left in this session.",
+      "limite_diario": "Tool's daily limit reached for this module ({uso}/{limite} analyses today). Try again tomorrow or contact the Observatório for extended access.",
+      "video_nao_encontrado": "Video not found. Check that the URL is correct and the video is public.",
+      "codigo_invalido": "The model returned a category outside the typology. Nothing was saved. Please try again.",
+      "falha": "Analysis error: {detalhe}"
+    }
+  },
+  "Analise": {
+    "nova": "Analysis completed and added to the Observatório corpus.",
+    "short": "Short · {seg}s",
+    "longo": "Long video · {min}min {seg}s",
+    "visualizacoes": "Views",
+    "inscritos": "Channel subscribers",
+    "totalVideos": "Total channel videos",
+    "engajamento": "Engagement rate",
+    "engajamentoAjuda": "(Likes + Comments) / Views × 100",
+    "tipologica": "Typological analysis",
+    "eixoA": "Axis A · Producer",
+    "eixoB": "Axis B · Content",
+    "comoChegamos": "How we arrived at this analysis",
+    "metadados": "Raw metadata (for auditing)",
+    "novaAnaliseLupa": "Analyze another video"
   }
 }
