@@ -70,5 +70,10 @@ Prompts: `npm run verificar` confere, caractere por caractere, os prompts de Lup
 - Voz: o JSON de comentários guarda o nome público do autor (`@autor`), como no Streamlit, e a tela mostra.
 - Voz: o YouTube hoje devolve o autor já com "@" (handle), então o prompt (idêntico ao Python) mostra "@@nome" ao Sonnet. Inofensivo, mas é um ajuste de prompt a decidir. Na tela, o "@" duplicado é removido.
 
-### Achado para olhar com calma
-- A linha de base classificada do Termômetro (249 vídeos) tem 6% de criador casual e 5,6% de usuário comum, enquanto o texto de "categorias estruturalmente extintas" (vindo do app.py) afirma que essas categorias não aparecem no trending. São classificações diferentes (dissertação × coletor), mas a tela da Disputa mostra as duas lado a lado.
+### Respostas do Filipe (1/out/2026)
+- Linha de base corrigida (corpus inteiro, só classificados): OK. O Raio-X está em fase de COLETA; os números serão refeitos depois.
+- Classificação do Termômetro pausada de propósito (sem verba para 130 mil vídeos). **Proibido rodar.**
+- Texto das "categorias estruturalmente extintas" vem da dissertação e fica. A divergência com o corpus atual entra na agenda de melhorar a verificação/classificação de canais.
+- Diferenças deliberadas (slot só no sucesso, nova tentativa na Disputa, nada gravado se tudo falhar): aprovadas.
+- "@@nome" no prompt da Voz: ciente; fica como está por enquanto.
+- Traduções EN/ES: revisão numa rodada própria.

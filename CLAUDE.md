@@ -307,6 +307,11 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 - No lançamento, o corpus será ZERADO, EXCETO o Termômetro (`snapshots`, `videos_snapshot`), que é preservado. Nada de reset sem confirmação explícita do Filipe na hora, e com backup completo feito antes.
 - NUNCA tocar nas tabelas do Termômetro a partir do Next.js (são do coletor Python).
 
+**Fase atual = COLETA (decidido pelo Filipe em 1/out/2026):**
+- O Raio-X hoje serve para coletar; os números analíticos serão refeitos no futuro. Corrigir erros de cálculo herdados do Streamlit sempre que aparecerem.
+- **PROIBIDO classificar em massa os vídeos do Termômetro** (~130 mil "nao_classificado"). A pausa no coletor é proposital: não há verba. Não criar script, rota ou workflow que faça isso, nem reativar a flag do coletor.
+- Textos de achados (ex.: "categorias estruturalmente extintas") vêm da dissertação, não do corpus atual — manter. Agenda futura: melhorar o algoritmo de verificação/classificação de canais.
+
 **OBRIGATÓRIO antes da virada / do reset:**
 - Backup completo do Supabase (dump de schema + dados de todas as tabelas), confirmado íntegro com o Filipe.
 
