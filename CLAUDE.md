@@ -305,6 +305,7 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 
 **Gravação no banco durante a migração (decidido pelo Filipe em 1/out/2026):**
 - Os módulos portados (Lupa em diante) PODEM gravar no Supabase de produção durante os testes, com a mesma lógica de versionamento do Streamlit. O corpus atual é considerado dado de teste.
+- **RESET FEITO em 1/out/2026** (pelo Filipe, SQL de `docs/sql/reset-corpus-lancamento.sql`): Lupa, Dossiê, Disputa e Voz zerados; Termômetro (259 snapshots / 130.985 vídeos), `arquivo_bruto` (57.011) e `canais_validados` (6) preservados. IDs não reiniciados. A partir daqui o corpus é REAL — não gravar análises de teste sem combinar.
 - No lançamento, o corpus será ZERADO, EXCETO o Termômetro (`snapshots`, `videos_snapshot`), que é preservado. Nada de reset sem confirmação explícita do Filipe na hora, e com backup completo feito antes.
 - NUNCA tocar nas tabelas do Termômetro a partir do Next.js (são do coletor Python).
 
