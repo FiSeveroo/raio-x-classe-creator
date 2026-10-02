@@ -185,6 +185,13 @@ def gravar_parquet(tabela: str, registros: list[dict], destino: Path) -> None:
         dados[campo.name] = pa.array(valores, type=campo.type)
     pq.write_table(pa.table(dados, schema=esquema), destino, compression="zstd")
 
+    # Relê o arquivo gravado: confere linhas, esquema e ids antes de publicar
+    relido = pq.read_table(destino)
+    if relido.num_rows != len(registros) or not relido.schema.equals(esquema):
+        raise ExportIncompleto(f"{tabela}: Parquet relido não confere ({relido.num_rows} linhas)")
+    if relido.column("id").to_pylist() != [r["id"] for r in registros]:
+        raise ExportIncompleto(f"{tabela}: ids do Parquet relido não conferem")
+
 
 def gravar_csv_gz(tabela: str, registros: list[dict], destino: Path) -> None:
     colunas = [c for c, _ in ESQUEMAS[tabela]]
@@ -197,6 +204,10 @@ def gravar_csv_gz(tabela: str, registros: list[dict], destino: Path) -> None:
         for r in registros:
             writer.writerow({k: (json.dumps(v, ensure_ascii=False) if isinstance(v, (dict, list)) else v)
                              for k, v in r.items()})
+
+
+def _milhar(n: int) -> str:
+    return f"{n:,}".replace(",", ".")
 
 
 def sha256(caminho: Path) -> str:
@@ -214,7 +225,7 @@ def gerar_manifesto(metadados: list[dict], arquivos: list[Path], output_dir: Pat
     hashes = {p.name: sha256(p) for p in arquivos}
 
     (output_dir / "SHA256SUMS").write_text(
-        "".join(f"{h}  {nome}\n" for nome, h in sorted(hashes.items())), encoding="utf-8"
+        "".join(f"{h}  {nome}\n" for nome, h in sorted(hashes.items())), encoding="utf-8", newline="\n"
     )
     (output_dir / "manifest.json").write_text(json.dumps({
         "gerado_em": agora.isoformat(),
@@ -232,10 +243,10 @@ def gerar_manifesto(metadados: list[dict], arquivos: list[Path], output_dir: Pat
             }
             for m in metadados
         ],
-    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    }, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
 
     linhas = "".join(
-        f"| `{m['tabela']}` | {m['n_registros']:,} | {m['max_id'] if m['max_id'] is not None else '—'} "
+        f"| `{m['tabela']}` | {_milhar(m['n_registros'])} | {m['max_id'] if m['max_id'] is not None else '—'} "
         f"| {DESCRICOES[m['tabela']]} |\n"
         for m in metadados
     )
@@ -249,7 +260,7 @@ contagem de cada tabela foi conferida contra o banco (`count=exact`), no
 recorte `id <= max_id` lido no início do export. Se não batesse, o export
 falharia e nada seria publicado.
 
-**Total de registros:** {total:,}
+**Total de registros:** {_milhar(total)}
 
 | Tabela | Registros | max_id | Descrição |
 |---|---:|---:|---|
@@ -315,7 +326,7 @@ Estes dados são disponibilizados publicamente para fins de pesquisa
 acadêmica, jornalística e de organização da sociedade civil. Ao usar,
 cite a fonte conforme as referências acima.
 """
-    (output_dir / "MANIFEST.md").write_text(conteudo, encoding="utf-8")
+    (output_dir / "MANIFEST.md").write_text(conteudo, encoding="utf-8", newline="\n")
     print("\n✓ MANIFEST.md, manifest.json, SHA256SUMS")
 
 
@@ -350,7 +361,7 @@ def main() -> None:
 
     total = sum(m["n_registros"] for m in metadados)
     print("\n" + "=" * 70)
-    print(f"✅ Exportação concluída: {total:,} registros em {len(metadados)} tabelas")
+    print(f"✅ Exportação concluída: {_milhar(total)} registros em {len(metadados)} tabelas")
     print("=" * 70)
 
 
