@@ -5,6 +5,7 @@ import { FormularioAnalise } from "@/components/formulario-analise";
 import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { SUGESTOES_BUSCA } from "@/lib/disputa/sugestoes";
+import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
 import { LIMITES, slotsUsados } from "@/lib/versionamento";
 import { auditarTema } from "./acoes";
 
@@ -41,6 +42,8 @@ export default async function Disputa({ params }: PageProps<"/[locale]/disputa">
         restantesIniciais={LIMITES.disputa.sessao - usados}
         limiteSessao={LIMITES.disputa.sessao}
         limiteDiario={LIMITES.disputa.diario}
+        siteKeyTurnstile={turnstileSiteKey()}
+        verificadoInicial={await humanoVerificado()}
         sugestoes={SUGESTOES_BUSCA.map((g) => ({ grupo: t(`grupos.${g.chave}`), termos: g.termos }))}
       />
     </Pagina>

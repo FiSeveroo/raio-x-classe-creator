@@ -8,6 +8,7 @@ import { Eyebrow, SectionTitle } from "@/components/brand/Brand";
 import { Aviso, Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
+import { BotaoSessao } from "@/components/sessao/botao-sessao";
 import { classificacaoVideoPorId, historicoVersoesVideo } from "@/lib/corpus";
 import { buscarConteudo, buscarProdutor, nomeConteudo, nomeProdutor } from "@/lib/tipologia";
 import { cn } from "@/lib/utils";
@@ -153,6 +154,10 @@ export default async function AnaliseVideo({ params, searchParams }: Props) {
           )}
         </div>
       </header>
+
+      <div className="mt-6">
+        <BotaoSessao modulo="lupa" id={v.id} rotulo={v.titulo ?? v.video_id} automatico={nova === "1"} />
+      </div>
 
       {/* Métricas (só quando a análise guardou os metadados) */}
       {meta && (

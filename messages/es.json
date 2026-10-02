@@ -29,7 +29,9 @@
     "versao": "v{n}",
     "rodape": "Raio-X da Classe Creator · v1.0 · Observatório Classe Creator · 2026",
     "voltar": "Volver",
-    "paginaNaoEncontrada": "Página no encontrada."
+    "paginaNaoEncontrada": "Página no encontrada.",
+    "verificando": "Verificación anti-robot (Cloudflare Turnstile) — solo un momento. Vale por 24 horas en este navegador.",
+    "verificacaoFalhou": "No se pudo completar la verificación anti-robot. Recarga la página e inténtalo de nuevo."
   },
   "Rodape": {
     "modulos": "Módulos",
@@ -431,7 +433,8 @@
       "limite_diario": "Límite diario de la herramienta alcanzado para este módulo ({uso}/{limite} análisis hoy). Inténtalo mañana o contacta al Observatório para acceso ampliado.",
       "video_nao_encontrado": "Video no encontrado. Verifica que la URL sea correcta y que el video sea público.",
       "codigo_invalido": "El modelo devolvió una categoría fuera de la tipología. No se guardó nada. Inténtalo de nuevo.",
-      "falha": "Error en el análisis: {detalhe}"
+      "falha": "Error en el análisis: {detalhe}",
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
     }
   },
   "Analise": {
@@ -478,7 +481,8 @@
       "limite_diario": "Límite diario de la herramienta alcanzado para este módulo ({uso}/{limite} análisis hoy). Inténtalo mañana o contacta al Observatório para acceso ampliado.",
       "slots_insuficientes": "Esta operación consumiría {peso} slot(s), pero solo te quedan {restantes} en esta sesión.",
       "falha": "Error en el análisis: {detalhe}",
-      "codigo_invalido": "El modelo devolvió una categoría fuera de la tipología. No se guardó nada. Inténtalo de nuevo."
+      "codigo_invalido": "El modelo devolvió una categoría fuera de la tipología. No se guardó nada. Inténtalo de nuevo.",
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
     },
     "sessao": "Tu sesión",
     "existenteRotulo": "Análisis existente en el corpus",
@@ -666,7 +670,8 @@
       "classificacao_falhou": "La clasificación automática falló en todos los resultados (verifica la clave/créditos de la API de Anthropic). No se guardó nada.",
       "limite_diario": "Límite diario de la herramienta alcanzado para este módulo ({uso}/{limite} análisis hoy). Inténtalo mañana o contacta al Observatório para acceso ampliado.",
       "slots_insuficientes": "Esta operación consumiría {peso} slot(s), pero solo te quedan {restantes} en esta sesión.",
-      "falha": "Error en el análisis: {detalhe}"
+      "falha": "Error en el análisis: {detalhe}",
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
     },
     "sessao": "Tu sesión",
     "existenteRotulo": "Análisis existente en el corpus",
@@ -777,7 +782,8 @@
       "resposta_malformada": "Sonnet devolvió una respuesta mal formada. Intenta de nuevo. No se guardó nada. (Detalle técnico: {detalhe})",
       "limite_diario": "Límite diario de la herramienta alcanzado para este módulo ({uso}/{limite} análisis hoy). Inténtalo mañana o contacta al Observatório para acceso ampliado.",
       "slots_insuficientes": "Esta operación consumiría {peso} slot(s), pero solo te quedan {restantes} en esta sesión.",
-      "falha": "Error en el análisis: {detalhe}"
+      "falha": "Error en el análisis: {detalhe}",
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
     },
     "dimensoes": {
       "publico_patrao": {
@@ -851,5 +857,20 @@
     "verVideo": "Ver video en YouTube",
     "verDossie": "Ver dossier del canal",
     "novaAnalise": "Analizar otro video"
+  },
+  "Sessao": {
+    "titulo": "Tu sesión",
+    "texto": "Los análisis que haces (o añades) en esta pestaña quedan reunidos aquí. Al final, exporta todo en una planilla única, **con una hoja por módulo**. La lista queda solo en este navegador y desaparece al cerrar la pestaña; los datos de la planilla vienen del corpus del Observatório.",
+    "vazia": "Aún no hay análisis en la sesión. Los análisis nuevos entran solos; los del corpus entran con el botón “Añadir a la exportación de la sesión”.",
+    "exportar": "Exportar sesión (.xlsx)",
+    "limpar": "Vaciar sesión",
+    "erro": "No se pudo generar la planilla: {detalhe}",
+    "adicionar": "Añadir a la exportación de la sesión",
+    "explicacao": "Reúne análisis para descargar en una sola planilla.",
+    "naSessao": "En la exportación de la sesión",
+    "verSessao": "Ver sesión ({n})",
+    "remover": "Quitar",
+    "removerItem": "Quitar {rotulo} de la sesión",
+    "indicador": "Sesión: {n, plural, one {# análisis} other {# análisis}} para exportar"
   }
 }

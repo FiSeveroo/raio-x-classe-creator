@@ -354,3 +354,20 @@ export async function dossieCanonicoDoCanal(canalId: string): Promise<number | n
   );
   return r.status === "ok" ? (r.dados[0]?.id ?? null) : null;
 }
+
+// ---------------------------------------------------------------------------
+// Exportação da sessão (carrinho)
+// ---------------------------------------------------------------------------
+
+const TABELAS_SESSAO = {
+  lupa: "classificacoes_video",
+  disputa: "buscas_narrativa",
+  dossie: "dossies_canal",
+  voz: "analises_comentarios",
+} as const;
+
+/** Registros completos de um módulo, por id (máx. 200), para a planilha da sessão. */
+export function registrosPorIds(modulo: keyof typeof TABELAS_SESSAO, ids: number[]) {
+  return consultar<Record<string, unknown>[]>((db) => db.from(TABELAS_SESSAO[modulo]).select("*").in("id", ids.slice(0, 200)));
+}
+

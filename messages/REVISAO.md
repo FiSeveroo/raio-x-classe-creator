@@ -70,6 +70,12 @@ Prompts: `npm run verificar` confere, caractere por caractere, os prompts de Lup
 - Voz: o JSON de comentários guarda o nome público do autor (`@autor`), como no Streamlit, e a tela mostra.
 - Voz: o YouTube hoje devolve o autor já com "@" (handle), então o prompt (idêntico ao Python) mostra "@@nome" ao Sonnet. Inofensivo, mas é um ajuste de prompt a decidir. Na tela, o "@" duplicado é removido.
 
+## Fase 3 — Turnstile e carrinho da sessão
+
+**Turnstile:** widget no formulário dos 4 módulos pagos; o token é validado no servidor (siteverify) e vira um cookie assinado de 24 h (o Streamlit guardava 24 h no localStorage). As ações do servidor recusam sem o cookie, antes de gastar qualquer API. Textos novos: `Comum.verificando`, `Comum.verificacaoFalhou`, `*.erros.verificacao` (revisar EN/ES). Em `next dev` usam-se as chaves de teste da Cloudflare (`.env.development.local`); as reais só funcionam nos domínios cadastrados no painel do Turnstile — **cadastrar o domínio da Vercel e o raiox.classecreator.com no widget**.
+
+**Carrinho (“Sua sessão”, `/sessao`):** análises novas entram sozinhas; as do corpus, pelo botão. Guarda só referências no sessionStorage (some ao fechar a aba, como a sessão do Streamlit). A planilha é montada no servidor a partir do corpus, uma aba por módulo, com os nomes de coluna do Streamlit. Correções: o Streamlit lia chaves que não existiam e exportava vazio/0 em inscritos e data de publicação (Lupa), `video_id` e visualizações (Disputa), total de vídeos e sintomas (Dossiê) e IPP (Voz) — agora saem os valores reais. `data_analise` passou a ser a data da análise no corpus (era a hora da exportação). Colunas novas: `versao`, `id_analise`, `link`, justificativa na Disputa, síntese e contradição completas. Textos novos: `Sessao.*` (revisar EN/ES).
+
 ### Respostas do Filipe (1/out/2026)
 - Linha de base corrigida (corpus inteiro, só classificados): OK. O Raio-X está em fase de COLETA; os números serão refeitos depois.
 - Classificação do Termômetro pausada de propósito (sem verba para 130 mil vídeos). **Proibido rodar.**

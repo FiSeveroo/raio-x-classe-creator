@@ -19,6 +19,7 @@ import {
   slotsUsados,
   type ResultadoModulo,
 } from "@/lib/versionamento";
+import { humanoVerificado } from "@/lib/turnstile";
 import { ErroPrevisto } from "@/lib/youtube";
 
 /*
@@ -35,6 +36,8 @@ export async function gerarDossie(entrada: {
   valor: string;
   atualizar?: { versaoAnteriorId: number };
 }): Promise<ResultadoModulo> {
+  // Portão anti-robô (Turnstile) — antes de qualquer custo de API.
+  if (!(await humanoVerificado())) return { estado: "erro", codigo: "verificacao" };
   const restantes = LIMITES.dossie.sessao - (await slotsUsados("dossie"));
   if (restantes <= 0) return { estado: "erro", codigo: "limite_sessao" };
 

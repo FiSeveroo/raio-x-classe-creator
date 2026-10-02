@@ -13,6 +13,7 @@ import {
   slotsUsados,
   type ResultadoModulo,
 } from "@/lib/versionamento";
+import { humanoVerificado } from "@/lib/turnstile";
 import { COMENTARIOS_POR_ANALISE, MAX_TOKENS_VOZ, MODELO_VOZ, montarPayloadVoz, montarPromptVoz } from "@/lib/voz/prompts";
 import {
   buscarCanonicaComentarios,
@@ -35,6 +36,8 @@ export async function analisarComentarios(entrada: {
   valor: string;
   atualizar?: { versaoAnteriorId: number };
 }): Promise<ResultadoModulo> {
+  // Portão anti-robô (Turnstile) — antes de qualquer custo de API.
+  if (!(await humanoVerificado())) return { estado: "erro", codigo: "verificacao" };
   const restantes = LIMITES.voz.sessao - (await slotsUsados("voz"));
   if (restantes <= 0) return { estado: "erro", codigo: "limite_sessao" };
 

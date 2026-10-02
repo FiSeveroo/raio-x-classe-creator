@@ -9,6 +9,7 @@ import { Barras } from "@/components/barras";
 import { Aviso, Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
+import { BotaoSessao } from "@/components/sessao/botao-sessao";
 import { comentariosPorId, dossieCanonicoDoCanal, historicoVersoesComentarios } from "@/lib/corpus";
 import { faixaIpp, MIN_CORPUS_PARA_PERCENTIS } from "@/lib/voz/analise";
 import { DIMENSOES_VOZ } from "@/lib/voz/prompts";
@@ -127,6 +128,10 @@ export default async function VozDaBase({ params, searchParams }: Props) {
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">{rico(t("cabecalho", { canal: a.canal_nome ?? "—", n: total }))}</p>
       </header>
+
+      <div className="mt-6">
+        <BotaoSessao modulo="voz" id={a.id} rotulo={a.titulo_video ?? a.video_id} automatico={nova === "1"} />
+      </div>
 
       {/* Índice de Pressão Produtiva */}
       <section className="mt-12" aria-labelledby="ipp">

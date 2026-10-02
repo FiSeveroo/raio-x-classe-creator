@@ -10,6 +10,7 @@ import { Metricas } from "@/components/metricas";
 import { Aviso, Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
+import { BotaoSessao } from "@/components/sessao/botao-sessao";
 import { buscaPorId, historicoVersoesBusca, resultadosDeBusca } from "@/lib/corpus";
 import { ausencias, contar, MIN_SNAPSHOTS_PARA_QUIQUADRADO, tabelaDesvios, testeAderencia } from "@/lib/disputa/analise";
 import { linhaDeBaseDisputa, type LinhaDeBase } from "@/lib/termometro/corpus";
@@ -108,6 +109,10 @@ export default async function TemaAuditado({ params, searchParams }: Props) {
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">{t("analisados", { n, id: b.id })}</p>
       </header>
+
+      <div className="mt-6">
+        <BotaoSessao modulo="disputa" id={b.id} rotulo={b.termo_buscado} automatico={nova === "1"} />
+      </div>
 
       {n === 0 ? (
         <div className="mt-10"><Aviso>{tc("semDados")}</Aviso></div>

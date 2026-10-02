@@ -4,6 +4,7 @@ import { Eyebrow } from "@/components/brand/Brand";
 import { FormularioAnalise } from "@/components/formulario-analise";
 import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
+import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
 import { LIMITES, slotsUsados } from "@/lib/versionamento";
 import { analisarComentarios } from "./acoes";
 
@@ -50,6 +51,8 @@ export default async function Voz({ params }: PageProps<"/[locale]/voz">) {
         restantesIniciais={LIMITES.voz.sessao - usados}
         limiteSessao={LIMITES.voz.sessao}
         limiteDiario={LIMITES.voz.diario}
+        siteKeyTurnstile={turnstileSiteKey()}
+        verificadoInicial={await humanoVerificado()}
       />
     </Pagina>
   );

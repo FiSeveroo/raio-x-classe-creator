@@ -29,7 +29,9 @@
     "versao": "v{n}",
     "rodape": "Raio-X da Classe Creator · v1.0 · Observatório Classe Creator · 2026",
     "voltar": "Back",
-    "paginaNaoEncontrada": "Page not found."
+    "paginaNaoEncontrada": "Page not found.",
+    "verificando": "Anti-bot check (Cloudflare Turnstile) — just a moment. It lasts 24 hours in this browser.",
+    "verificacaoFalhou": "The anti-bot check could not be completed. Reload the page and try again."
   },
   "Rodape": {
     "modulos": "Modules",
@@ -431,7 +433,8 @@
       "limite_diario": "Tool's daily limit reached for this module ({uso}/{limite} analyses today). Try again tomorrow or contact the Observatório for extended access.",
       "video_nao_encontrado": "Video not found. Check that the URL is correct and the video is public.",
       "codigo_invalido": "The model returned a category outside the typology. Nothing was saved. Please try again.",
-      "falha": "Analysis error: {detalhe}"
+      "falha": "Analysis error: {detalhe}",
+      "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent."
     }
   },
   "Analise": {
@@ -478,7 +481,8 @@
       "limite_diario": "Tool's daily limit reached for this module ({uso}/{limite} analyses today). Try again tomorrow or contact the Observatório for extended access.",
       "slots_insuficientes": "This operation would use {peso} slot(s), but you only have {restantes} left in this session.",
       "falha": "Analysis error: {detalhe}",
-      "codigo_invalido": "The model returned a category outside the typology. Nothing was saved. Please try again."
+      "codigo_invalido": "The model returned a category outside the typology. Nothing was saved. Please try again.",
+      "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent."
     },
     "sessao": "Your session",
     "existenteRotulo": "Existing analysis in the corpus",
@@ -666,7 +670,8 @@
       "classificacao_falhou": "Automatic classification failed for every result (check the Anthropic API key/credits). Nothing was saved.",
       "limite_diario": "Tool's daily limit reached for this module ({uso}/{limite} analyses today). Try again tomorrow or contact the Observatório for extended access.",
       "slots_insuficientes": "This operation would use {peso} slot(s), but you only have {restantes} left in this session.",
-      "falha": "Analysis error: {detalhe}"
+      "falha": "Analysis error: {detalhe}",
+      "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent."
     },
     "sessao": "Your session",
     "existenteRotulo": "Existing analysis in the corpus",
@@ -777,7 +782,8 @@
       "resposta_malformada": "Sonnet returned a malformed response. Please try again. Nothing was saved. (Technical detail: {detalhe})",
       "limite_diario": "Tool's daily limit reached for this module ({uso}/{limite} analyses today). Try again tomorrow or contact the Observatório for extended access.",
       "slots_insuficientes": "This operation would use {peso} slot(s), but you only have {restantes} left in this session.",
-      "falha": "Analysis error: {detalhe}"
+      "falha": "Analysis error: {detalhe}",
+      "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent."
     },
     "dimensoes": {
       "publico_patrao": {
@@ -851,5 +857,20 @@
     "verVideo": "View video on YouTube",
     "verDossie": "View channel dossier",
     "novaAnalise": "Analyze another video"
+  },
+  "Sessao": {
+    "titulo": "Your session",
+    "texto": "The analyses you run (or add) in this tab are gathered here. At the end, export everything into a single spreadsheet, **with one sheet per module**. The list stays only in this browser and disappears when the tab is closed; the spreadsheet data comes from the Observatório corpus.",
+    "vazia": "No analyses in the session yet. New analyses are added automatically; corpus analyses are added with the “Add to session export” button.",
+    "exportar": "Export session (.xlsx)",
+    "limpar": "Clear session",
+    "erro": "Could not generate the spreadsheet: {detalhe}",
+    "adicionar": "Add to session export",
+    "explicacao": "Gathers analyses to download in a single spreadsheet.",
+    "naSessao": "In the session export",
+    "verSessao": "View session ({n})",
+    "remover": "Remove",
+    "removerItem": "Remove {rotulo} from the session",
+    "indicador": "Session: {n, plural, one {# analysis} other {# analyses}} to export"
   }
 }

@@ -10,6 +10,7 @@ import { Metricas } from "@/components/metricas";
 import { Aviso, Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
+import { BotaoSessao } from "@/components/sessao/botao-sessao";
 import { dossiePorId, historicoVersoesDossie } from "@/lib/corpus";
 import { aparicoesEmBuscas, aparicoesNoTermometro } from "@/lib/dossie/registro";
 import type { Sintomas } from "@/lib/dossie/sintomas";
@@ -113,6 +114,10 @@ export default async function DossieCanal({ params, searchParams }: Props) {
         <Eyebrow>{t("rotulo", { versao: d.versao_numero ?? 1, data: data(d.data_dossie) })}</Eyebrow>
         <h1 className="mt-4 font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] [overflow-wrap:anywhere]">{d.canal_nome}</h1>
       </header>
+
+      <div className="mt-6">
+        <BotaoSessao modulo="dossie" id={d.id} rotulo={d.canal_nome ?? d.canal_id} automatico={nova === "1"} />
+      </div>
 
       <div className="mt-8">
         <Metricas

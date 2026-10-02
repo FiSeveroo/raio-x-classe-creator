@@ -12,6 +12,7 @@ import {
   slotsUsados,
   type ResultadoModulo,
 } from "@/lib/versionamento";
+import { humanoVerificado } from "@/lib/turnstile";
 import { ErroPrevisto } from "@/lib/youtube";
 
 /*
@@ -31,6 +32,8 @@ export async function analisarVideo(entrada: {
   /** Presente quando o usuário escolheu "Gerar vN" sobre uma canônica existente. */
   atualizar?: { versaoAnteriorId: number };
 }): Promise<ResultadoModulo> {
+  // Portão anti-robô (Turnstile) — antes de qualquer custo de API.
+  if (!(await humanoVerificado())) return { estado: "erro", codigo: "verificacao" };
   const videoId = extrairVideoId(entrada.valor.trim());
   if (!videoId) return { estado: "erro", codigo: "url_invalida" };
 

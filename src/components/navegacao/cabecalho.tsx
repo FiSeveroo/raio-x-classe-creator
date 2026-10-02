@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Link, usePathname } from "@/i18n/navigation";
 import { MODULOS } from "@/lib/navegacao";
 import { cn } from "@/lib/utils";
+import { IndicadorSessao } from "@/components/sessao/botao-sessao";
 import { SeletorIdioma } from "./seletor-idioma";
 
 /** Logo oficial + nome do produto. */
@@ -140,11 +141,14 @@ export function Cabecalho() {
           </button>
           {linkTopo("/biblioteca", t("biblioteca"))}
           {linkTopo("/sobre", t("sobre"))}
+          <IndicadorSessao />
           <span aria-hidden className="h-4 w-px bg-cc-line" />
           <SeletorIdioma />
         </nav>
 
         {/* Mobile */}
+        <div className="flex items-center gap-4 md:hidden">
+          <IndicadorSessao />
         <Button
           variant="ghost"
           size="icon"
@@ -155,6 +159,7 @@ export function Cabecalho() {
         >
           {mobile ? <X aria-hidden /> : <Menu aria-hidden />}
         </Button>
+        </div>
       </div>
 
       {/* Painel de módulos (desktop) */}

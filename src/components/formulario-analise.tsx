@@ -2,11 +2,12 @@
 
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { Eyebrow } from "@/components/brand/Brand";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { VerificacaoHumana } from "@/components/verificacao-humana";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { ResultadoModulo } from "@/lib/versionamento";
 
@@ -26,6 +27,8 @@ export function FormularioAnalise({
   limiteDiario,
   tipoEntrada = "url",
   sugestoes,
+  siteKeyTurnstile = null,
+  verificadoInicial = true,
 }: {
   namespace: "Lupa" | "Dossie" | "Disputa" | "Voz";
   acao: (entrada: { valor: string; atualizar?: { versaoAnteriorId: number } }) => Promise<ResultadoModulo>;
@@ -37,6 +40,10 @@ export function FormularioAnalise({
   tipoEntrada?: "url" | "text";
   /** Termos clicáveis que preenchem o campo (Disputa). Textos: sugestoesTitulo, sugestoesTexto. */
   sugestoes?: { grupo: string; termos: string[] }[];
+  /** Chave pública do Turnstile; null = portão desligado. */
+  siteKeyTurnstile?: string | null;
+  /** Cookie de verificação já válido (24 h). */
+  verificadoInicial?: boolean;
 }) {
   const t = useTranslations(namespace);
   const format = useFormatter();
@@ -46,6 +53,8 @@ export function FormularioAnalise({
   const [pendente, iniciar] = useTransition();
   const [passo, setPasso] = useState(0);
   const passos = t.raw("passos") as string[];
+  const [verificado, setVerificado] = useState(verificadoInicial || !siteKeyTurnstile);
+  const aoVerificar = useCallback(() => setVerificado(true), []);
 
   // Mensagens de etapa enquanto a análise roda (o servidor não transmite progresso).
   // Para na penúltima (a etapa longa, de IA): a última ("salvando") só seria
@@ -65,11 +74,13 @@ export function FormularioAnalise({
         router.push(`${destino}${r.id}?nova=1`);
         return;
       }
+      if (r.estado === "erro" && r.codigo === "verificacao") setVerificado(false);
       setResultado(r);
     });
   }
 
   const bloqueado = restantesIniciais <= 0;
+  const travado = bloqueado || !verificado;
 
   return (
     <div className="mt-12 max-w-3xl">
@@ -78,10 +89,14 @@ export function FormularioAnalise({
         <span className="text-cc-green">{t("restantes", { n: Math.max(0, restantesIniciais) })}</span>
       </div>
 
+      {!verificado && !bloqueado && siteKeyTurnstile && (
+        <VerificacaoHumana siteKey={siteKeyTurnstile} aoVerificar={aoVerificar} />
+      )}
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (valor.trim()) enviar();
+          if (valor.trim() && verificado) enviar();
         }}
         className="flex flex-col gap-3 sm:flex-row"
       >
@@ -98,7 +113,7 @@ export function FormularioAnalise({
             className="h-12 text-base"
           />
         </label>
-        <Button type="submit" size="lg" font="display" disabled={pendente || bloqueado || !valor.trim()}>
+        <Button type="submit" size="lg" font="display" disabled={pendente || travado || !valor.trim()}>
           {pendente ? <Loader2 aria-hidden className="animate-spin" /> : <ArrowRight aria-hidden />}
           {t("botao")}
         </Button>

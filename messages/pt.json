@@ -29,7 +29,9 @@
     "versao": "v{n}",
     "rodape": "Raio-X da Classe Creator · v1.0 · Observatório Classe Creator · 2026",
     "voltar": "Voltar",
-    "paginaNaoEncontrada": "Página não encontrada."
+    "paginaNaoEncontrada": "Página não encontrada.",
+    "verificando": "Verificação anti-robô (Cloudflare Turnstile) — só um momento. Vale por 24 horas neste navegador.",
+    "verificacaoFalhou": "Não foi possível concluir a verificação anti-robô. Recarregue a página e tente de novo."
   },
   "Rodape": {
     "modulos": "Módulos",
@@ -431,7 +433,8 @@
       "limite_diario": "Limite diário da ferramenta atingido para este módulo ({uso}/{limite} análises hoje). Tente novamente amanhã ou entre em contato com o Observatório para acesso ampliado.",
       "video_nao_encontrado": "Vídeo não encontrado. Verifique se a URL está correta e se o vídeo é público.",
       "codigo_invalido": "O modelo devolveu uma categoria fora da tipologia. Nada foi gravado. Tente de novo.",
-      "falha": "Erro na análise: {detalhe}"
+      "falha": "Erro na análise: {detalhe}",
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
     }
   },
   "Analise": {
@@ -478,7 +481,8 @@
       "limite_diario": "Limite diário da ferramenta atingido para este módulo ({uso}/{limite} análises hoje). Tente novamente amanhã ou entre em contato com o Observatório para acesso ampliado.",
       "slots_insuficientes": "Esta operação consumiria {peso} slot(s), mas você só tem {restantes} restante(s) nesta sessão.",
       "falha": "Erro na análise: {detalhe}",
-      "codigo_invalido": "O modelo devolveu uma categoria fora da tipologia. Nada foi gravado. Tente de novo."
+      "codigo_invalido": "O modelo devolveu uma categoria fora da tipologia. Nada foi gravado. Tente de novo.",
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
     },
     "sessao": "Sua sessão",
     "existenteRotulo": "Análise existente no corpus",
@@ -666,7 +670,8 @@
       "classificacao_falhou": "A classificação automática falhou em todos os resultados (verifique os créditos/chave da API Anthropic). Nada foi gravado.",
       "limite_diario": "Limite diário da ferramenta atingido para este módulo ({uso}/{limite} análises hoje). Tente novamente amanhã ou entre em contato com o Observatório para acesso ampliado.",
       "slots_insuficientes": "Esta operação consumiria {peso} slot(s), mas você só tem {restantes} restante(s) nesta sessão.",
-      "falha": "Erro na análise: {detalhe}"
+      "falha": "Erro na análise: {detalhe}",
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
     },
     "sessao": "Sua sessão",
     "existenteRotulo": "Análise existente no corpus",
@@ -777,7 +782,8 @@
       "resposta_malformada": "O Sonnet retornou resposta malformada. Tente novamente. Nada foi gravado. (Detalhe técnico: {detalhe})",
       "limite_diario": "Limite diário da ferramenta atingido para este módulo ({uso}/{limite} análises hoje). Tente novamente amanhã ou entre em contato com o Observatório para acesso ampliado.",
       "slots_insuficientes": "Esta operação consumiria {peso} slot(s), mas você só tem {restantes} restante(s) nesta sessão.",
-      "falha": "Erro na análise: {detalhe}"
+      "falha": "Erro na análise: {detalhe}",
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
     },
     "dimensoes": {
       "publico_patrao": {
@@ -851,5 +857,20 @@
     "verVideo": "Ver vídeo no YouTube",
     "verDossie": "Ver dossiê do canal",
     "novaAnalise": "Analisar outro vídeo"
+  },
+  "Sessao": {
+    "titulo": "Sua sessão",
+    "texto": "As análises que você faz (ou adiciona) nesta aba ficam reunidas aqui. Ao final, exporte tudo numa planilha única, **com uma aba por módulo**. A lista fica só neste navegador e some quando a aba é fechada; os dados da planilha vêm do corpus do Observatório.",
+    "vazia": "Nenhuma análise na sessão ainda. Análises novas entram sozinhas; análises do corpus entram pelo botão “Adicionar à exportação da sessão”.",
+    "exportar": "Exportar sessão (.xlsx)",
+    "limpar": "Limpar sessão",
+    "erro": "Não foi possível gerar a planilha: {detalhe}",
+    "adicionar": "Adicionar à exportação da sessão",
+    "explicacao": "Reúne análises para baixar numa planilha só.",
+    "naSessao": "Na exportação da sessão",
+    "verSessao": "Ver sessão ({n})",
+    "remover": "Remover",
+    "removerItem": "Remover {rotulo} da sessão",
+    "indicador": "Sessão: {n, plural, one {# análise} other {# análises}} para exportar"
   }
 }
