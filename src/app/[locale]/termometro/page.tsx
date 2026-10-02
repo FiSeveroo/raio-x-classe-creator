@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Download, LogOut } from "lucide-react";
+import { ArrowUpRight, Download, LogOut } from "lucide-react";
 import { getFormatter, getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
@@ -451,6 +451,14 @@ async function AbaExportar({ agregados }: { agregados: Agregados }) {
         </a>
       </Button>
       <p className="mt-6 text-sm text-muted-foreground">{rico(t("exportarPublico"))}</p>
+      <a
+        href="https://github.com/FiSeveroo/raio-x-classe-creator/releases/latest"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 inline-flex items-center gap-1 text-sm text-cc-green underline-offset-4 hover:underline"
+      >
+        {t("exportarPublicoLink")} <ArrowUpRight aria-hidden className="size-3.5" />
+      </a>
     </section>
   );
 }

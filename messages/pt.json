@@ -633,7 +633,8 @@
     "exportarTitulo": "Exportar corpus",
     "exportarTexto": "Baixe os dados completos em CSV para análise estatística avançada (SPSS, R, Python, Excel). O arquivo traz todos os {n} vídeos de todas as coletas, com data e semana da coleta.",
     "baixarCsv": "Baixar CSV completo",
-    "exportarPublico": "O corpus também é exportado em CSV toda segunda-feira para a pasta pública `dados-publicos/` do repositório.",
+    "exportarPublico": "O corpus público completo (todas as tabelas, em Parquet e CSV) é publicado toda segunda-feira como release no GitHub, com contagens conferidas contra o banco. Cada export tem data própria e pode ser citado.",
+    "exportarPublicoLink": "Baixar o export mais recente",
     "atualizadoEm": "Agregados do corpus calculados em {data}; atualizam a cada hora.",
     "curadoriaNota": "A curadoria de classificações (correção manual e âncoras) continua no painel da versão atual: ela grava com a chave de escrita do coletor.",
     "serieAmostraPequena": "Pontos vazados: coletas com menos de {n} vídeos classificados — amostra pequena demais para ler como tendência."

@@ -633,7 +633,8 @@
     "exportarTitulo": "Export corpus",
     "exportarTexto": "Download the full data as CSV for advanced statistical analysis (SPSS, R, Python, Excel). The file includes all {n} videos from all collections, with collection date and week.",
     "baixarCsv": "Download full CSV",
-    "exportarPublico": "The corpus is also exported as CSV every Monday to the repository's public `dados-publicos/` folder.",
+    "exportarPublico": "The complete public corpus (all tables, in Parquet and CSV) is published every Monday as a GitHub release, with counts checked against the database. Each export is dated and citable.",
+    "exportarPublicoLink": "Download the latest export",
     "atualizadoEm": "Corpus aggregates calculated on {data}; refreshed every hour.",
     "curadoriaNota": "Classification curation (manual correction and anchors) remains in the current version's panel: it writes with the collector's write key.",
     "serieAmostraPequena": "Hollow points: collections with fewer than {n} classified videos — too small a sample to read as a trend."
