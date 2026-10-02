@@ -313,6 +313,11 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 - **PROIBIDO classificar em massa os vídeos do Termômetro** (~130 mil "nao_classificado"). A pausa no coletor é proposital: não há verba. Não criar script, rota ou workflow que faça isso, nem reativar a flag do coletor.
 - Textos de achados (ex.: "categorias estruturalmente extintas") vêm da dissertação, não do corpus atual — manter. Agenda futura: melhorar o algoritmo de verificação/classificação de canais.
 
+**Backlog de algoritmos/módulos (ajustes futuros, depois do deploy completo — não mexer sem combinar com o Filipe):**
+1. **Dossiê ignora a recência das postagens** (relatado pelo Filipe em 1/out/2026): a frequência (`_freq` no app.py, `frequencia()` em `src/lib/dossie/sintomas.ts`) mede só o intervalo entre o vídeo mais antigo e o mais recente da amostra de 50 — nunca compara com a data da análise. Canal parado há 1 ano aparece como ativo, e o prompt do Sonnet não recebe a informação. Ideia: sintoma "dias desde o último vídeo" (+ talvez frequência nos últimos 90 dias) no payload e na tela. Muda prompt validado → decisão metodológica.
+2. Melhorar o algoritmo de verificação/classificação de canais (codificação atual não é 100% confiável; ver "Fase atual = COLETA").
+3. Refazer os números analíticos quando houver verba e classificação melhor.
+
 **OBRIGATÓRIO antes da virada / do reset:**
 - Backup completo do Supabase (dump de schema + dados de todas as tabelas), confirmado íntegro com o Filipe.
 
