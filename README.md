@@ -62,7 +62,7 @@ Desenvolvidas especificamente para esta ferramenta, com diferentes graus de cons
 
 Toda análise realizada pela ferramenta é armazenada permanentemente no banco de dados (Supabase) com versionamento — cada objeto (vídeo, canal, tema, análise de comentários) pode ter múltiplas versões históricas, preservando a evolução ao longo do tempo.
 
-A **Biblioteca de Pesquisa** (módulo 📚) permite navegar todo o corpus acumulado. Um snapshot semanal em CSV é gerado automaticamente toda segunda-feira via GitHub Actions e commitado neste repositório (pasta `dados-publicos/`), permitindo download direto sem onerar a infraestrutura.
+A **Biblioteca de Pesquisa** (módulo 📚) permite navegar todo o corpus acumulado. O corpus completo é exportado automaticamente toda segunda-feira via GitHub Actions e publicado como [GitHub Release](https://github.com/FiSeveroo/raio-x-classe-creator/releases) (Parquet + CSV.gz, com contagens conferidas contra o banco e hashes SHA-256), permitindo download direto sem onerar a infraestrutura. Cada export tem tag própria (`corpus-AAAA-MM-DD`) e fica disponível para citação; o mais recente está sempre em [`/releases/latest`](https://github.com/FiSeveroo/raio-x-classe-creator/releases/latest). A antiga pasta `dados-publicos/` foi descontinuada (truncada em 50 mil linhas de `videos_snapshot`).
 
 ---
 
@@ -130,7 +130,7 @@ Ao utilizar resultados desta ferramenta em publicações, cite:
 > SEVERO, Filipe Machado Leal. *O Novo "You" do YouTube: a ascensão dos produtores plataformizados e a falência da promessa participativa no Brasil.* Dissertação (Mestrado em Comunicação Social) — Pontifícia Universidade Católica do Rio Grande do Sul, Porto Alegre, 2026.
 
 **A ferramenta:**
-> OBSERVATÓRIO CLASSE CREATOR. *Raio-X Classe Creator: ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.* v1.0. Porto Alegre, 2026. Disponível em: https://raio-x-classe-creator.streamlit.app
+> OBSERVATÓRIO CLASSE CREATOR. *Raio-X Classe Creator: ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.* v1.0. Porto Alegre, 2026. Disponível em: https://raiox.classecreator.com
 
 ---
 

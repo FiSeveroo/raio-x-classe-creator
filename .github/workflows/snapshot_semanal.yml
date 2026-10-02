@@ -5,9 +5,18 @@ on:
     # Toda segunda-feira às 06:00 UTC (03:00 BRT)
     - cron: '0 6 * * 1'
   workflow_dispatch:  # Permite execução manual
+    inputs:
+      publicar:
+        description: 'Publicar como GitHub Release? (false = só gera artifact do Actions, para teste)'
+        type: boolean
+        default: true
 
 permissions:
-  contents: write
+  contents: write  # criar release + tag
+
+concurrency:
+  group: exportacao-corpus
+  cancel-in-progress: false
 
 jobs:
   exportar:
@@ -25,19 +34,45 @@ jobs:
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
-          pip install supabase
+          pip install "supabase>=2,<3" "pyarrow>=15"
+
+      - name: Definir tag do release
+        id: tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="corpus-$(date -u +%Y-%m-%d)"
+          # Execução manual repetida no mesmo dia: não sobrescreve, cria outra tag
+          if gh release view "$TAG" -R "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            TAG="$TAG-$(date -u +%H%M)"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Executar exportador
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          TAG_RELEASE: ${{ steps.tag.outputs.tag }}
+          EXPORT_DIR: export
         run: python exportador_corpus.py
 
-      - name: Commitar snapshot
+      - name: Publicar release
+        if: github.event_name == 'schedule' || inputs.publicar
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.tag.outputs.tag }}
         run: |
-          git config --local user.email "observatorio-bot@noreply.github.com"
-          git config --local user.name "Observatório Bot"
-          git add dados-publicos/
-          # Só commita se houver mudança
-          git diff --staged --quiet || git commit -m "📚 Snapshot semanal do corpus — $(date -u +'%Y-%m-%d')"
-          git push
+          gh release create "$TAG" export/* \
+            -R "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Corpus público — $(date -u +'%d/%m/%Y')" \
+            --notes-file export/MANIFEST.md \
+            --latest
+
+      - name: Guardar export como artifact (teste)
+        if: github.event_name == 'workflow_dispatch' && !inputs.publicar
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.tag.outputs.tag }}
+          path: export/
+          retention-days: 7
