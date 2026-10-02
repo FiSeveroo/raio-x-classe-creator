@@ -317,8 +317,10 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 1. **Dossiê ignora a recência das postagens** (relatado pelo Filipe em 1/out/2026): a frequência (`_freq` no app.py, `frequencia()` em `src/lib/dossie/sintomas.ts`) mede só o intervalo entre o vídeo mais antigo e o mais recente da amostra de 50 — nunca compara com a data da análise. Canal parado há 1 ano aparece como ativo, e o prompt do Sonnet não recebe a informação. Ideia: sintoma "dias desde o último vídeo" (+ talvez frequência nos últimos 90 dias) no payload e na tela. Muda prompt validado → decisão metodológica.
 2. Melhorar o algoritmo de verificação/classificação de canais (codificação atual não é 100% confiável; ver "Fase atual = COLETA").
 3. Refazer os números analíticos quando houver verba e classificação melhor.
+4. Conteúdo gerado pela IA (justificativas, leitura final, síntese) aparece em PT também em /en e /es (prompts e corpus em PT, marcado `lang="pt-BR"`). Traduzir = gerar dado novo → decidir antes do lançamento internacional.
+5. Exportação semanal pública (`exportador_corpus.py`, repo legado) corta `videos_snapshot` em 50.000 linhas (`max_registros=50000`); o corpus já tem ~131 mil. O CSV público em `dados-publicos/` está incompleto.
 
-**OBRIGATÓRIO antes da virada / do reset:**
+**OBRIGATÓRIO antes da virada / do reset** (SQL pronto para revisão em `docs/sql/reset-corpus-lancamento.sql`; cópia de dados via chave pública feita em 1/out/2026 em `Desktop/backup-raiox-2026-10-01`, fora do Git — NÃO substitui o backup completo):
 - Backup completo do Supabase (dump de schema + dados de todas as tabelas), confirmado íntegro com o Filipe.
 
 **Preservar SEMPRE:**
