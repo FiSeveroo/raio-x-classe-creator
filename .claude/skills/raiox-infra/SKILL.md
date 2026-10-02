@@ -24,7 +24,7 @@ Tu és o especialista em infraestrutura do Raio-X da Classe Creator. O `CLAUDE.m
 5. Funções com IA usam `maxDuration` 300 s (limite do plano Hobby). Plano Hobby é para uso não comercial — reavaliar antes do lançamento internacional.
 
 ## Pendências
-- Suspender o app no Streamlit Cloud (ainda grava no mesmo banco).
+- (feito 2/out/2026) Streamlit Cloud sem chaves do Supabase — não grava mais. Rollback para o Streamlit exige recolar os Secrets.
 - Opcional: Google Search Console; redirecionar `*.vercel.app` para o domínio.
 
 ## Ao terminar
