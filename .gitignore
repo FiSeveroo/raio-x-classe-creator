@@ -11,3 +11,6 @@ env/
 Thumbs.db
 .vscode/
 .idea/
+
+# Saída local do exportador (publicada como GitHub Release)
+export/

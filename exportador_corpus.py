@@ -4,30 +4,117 @@ RAIO-X CLASSE CREATOR — EXPORTADOR DE SNAPSHOT SEMANAL
 ==============================================================================
 
 Script executado pelo GitHub Actions toda segunda-feira que:
-  1. Conecta ao Supabase
-  2. Exporta cada tabela do corpus para CSV em /dados-publicos/
-  3. Inclui metadados de versão (data do export, contagens)
+  1. Conecta ao Supabase (chave publicável, só leitura)
+  2. Exporta cada tabela do corpus para Parquet e CSV.gz em /export/
+  3. Confere a contagem de cada tabela contra o banco (count=exact) e
+     FALHA se não bater — o export nunca sai incompleto em silêncio
+  4. Gera MANIFEST.md, manifest.json e SHA256SUMS
 
-O repositório de dados é separado, public, e contém a história completa
-dos exports — pesquisadores podem baixar diretamente, sem onerar o Supabase.
+O workflow publica a pasta /export/ como um GitHub Release (tag
+corpus-AAAA-MM-DD). Os arquivos não são mais commitados no repositório:
+o corpus passou de 100 MB-limite do GitHub e cada commit inchava o histórico.
+
+Corte consistente: no início, lê o maior id de cada tabela e exporta só
+id <= esse máximo. Assim, se o coletor gravar durante o export, a contagem
+conferida e as linhas exportadas continuam sendo o mesmo recorte.
 ==============================================================================
 """
 
 import csv
+import gzip
+import hashlib
+import io
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
-# Adiciona raiz ao path para importar db
-sys.path.insert(0, str(Path(__file__).parent))
-
+import pyarrow as pa
+import pyarrow.parquet as pq
 from supabase import create_client
+
+FERRAMENTA_URL = "https://raiox.classecreator.com"
+REPO_URL = "https://github.com/FiSeveroo/raio-x-classe-creator"
+PAGE_SIZE = 1000  # teto do PostgREST no Supabase
+
+# Esquema das tabelas (espelho do schema public, conferido no backup de
+# 1/out/2026). Serve para tipar o Parquet e para exportar tabelas vazias com
+# as colunas certas — a chave publicável não enxerga o esquema do banco.
+TS = pa.timestamp("us", tz="UTC")
+ESQUEMAS: dict[str, list[tuple[str, pa.DataType]]] = {
+    "snapshots": [
+        ("id", pa.int64()), ("data_coleta", TS), ("semana_ano", pa.int32()),
+        ("dia_semana", pa.string()), ("horario_coleta", pa.string()),
+        ("total_videos_coletados", pa.int32()), ("observacoes", pa.string()),
+    ],
+    "videos_snapshot": [
+        ("id", pa.int64()), ("snapshot_id", pa.int64()), ("posicao_ranking", pa.int32()),
+        ("video_id", pa.string()), ("titulo", pa.string()), ("canal_id", pa.string()),
+        ("canal_nome", pa.string()), ("visualizacoes", pa.int64()), ("likes", pa.int64()),
+        ("comentarios", pa.int64()), ("duracao_segundos", pa.int32()),
+        ("tipo_produtor", pa.string()), ("tipo_conteudo", pa.string()),
+        ("justificativa", pa.string()), ("classificado_com", pa.string()),
+        ("data_publicacao", TS), ("categoria_coleta", pa.string()), ("is_short", pa.bool_()),
+    ],
+    "classificacoes_video": [
+        ("id", pa.int64()), ("data_classificacao", TS), ("video_id", pa.string()),
+        ("titulo", pa.string()), ("canal_id", pa.string()), ("canal_nome", pa.string()),
+        ("tipo_produtor", pa.string()), ("tipo_conteudo", pa.string()),
+        ("justificativa", pa.string()), ("metadados_json", pa.string()),
+        ("versao_numero", pa.int32()), ("versao_anterior_id", pa.int64()),
+        ("canonica", pa.bool_()), ("is_short", pa.bool_()),
+    ],
+    "dossies_canal": [
+        ("id", pa.int64()), ("data_dossie", TS), ("canal_id", pa.string()),
+        ("canal_nome", pa.string()), ("canal_descricao", pa.string()), ("inscritos", pa.int64()),
+        ("total_videos_canal", pa.int32()), ("total_videos_analisados", pa.int32()),
+        ("auto_classificacao", pa.string()), ("classificacao_sociologica", pa.string()),
+        ("tipo_conteudo_predominante", pa.string()), ("sintomas_estruturais", pa.string()),
+        ("rede_canais", pa.string()), ("composicao_videos", pa.string()),
+        ("veredito_sonnet", pa.string()), ("versao_numero", pa.int32()),
+        ("versao_anterior_id", pa.int64()), ("canonica", pa.bool_()),
+    ],
+    "buscas_narrativa": [
+        ("id", pa.int64()), ("data_busca", TS), ("termo_buscado", pa.string()),
+        ("tipo_resultado", pa.string()), ("total_analisados", pa.int32()),
+        ("composicao_produtor", pa.string()), ("composicao_conteudo", pa.string()),
+        ("versao_numero", pa.int32()), ("versao_anterior_id", pa.int64()), ("canonica", pa.bool_()),
+    ],
+    "resultados_busca": [
+        ("id", pa.int64()), ("busca_id", pa.int64()), ("posicao_ranking", pa.int32()),
+        ("tipo_item", pa.string()), ("item_id", pa.string()), ("titulo", pa.string()),
+        ("canal_id", pa.string()), ("canal_nome", pa.string()), ("tipo_produtor", pa.string()),
+        ("tipo_conteudo", pa.string()), ("justificativa", pa.string()),
+        ("metadados_extras", pa.string()),
+    ],
+    "analises_comentarios": [
+        ("id", pa.int64()), ("data_analise", TS), ("video_id", pa.string()),
+        ("titulo_video", pa.string()), ("canal_id", pa.string()), ("canal_nome", pa.string()),
+        ("total_analisados", pa.int32()), ("indice_pressao_produtiva", pa.float64()),
+        ("distribuicao_dimensoes", pa.string()), ("sintese_qualitativa", pa.string()),
+        ("contradicao_estrutural", pa.string()), ("comentarios_brutos", pa.string()),
+        ("versao_numero", pa.int32()), ("versao_anterior_id", pa.int64()), ("canonica", pa.bool_()),
+    ],
+}
+
+DESCRICOES = {
+    "snapshots": "Cabeçalho das coletas do Termômetro (trending BR, 2x/dia)",
+    "videos_snapshot": "Vídeos de cada coleta do Termômetro",
+    "classificacoes_video": "Análises individuais de vídeos (Lupa)",
+    "dossies_canal": "Investigações estruturais de canais (Dossiê)",
+    "buscas_narrativa": "Cabeçalho de auditorias temáticas (Disputa)",
+    "resultados_busca": "Resultados detalhados das auditorias temáticas",
+    "analises_comentarios": "Análises qualitativas de comentários (Voz da Base)",
+}
+
+
+class ExportIncompleto(RuntimeError):
+    pass
 
 
 def conectar_supabase():
-    """Conexão usando a chave anon (leitura suficiente)."""
+    """Conexão usando a chave publicável (leitura suficiente)."""
     url = os.environ.get("SUPABASE_URL")
     chave = os.environ.get("SUPABASE_PUBLISHABLE_KEY")
     if not url or not chave:
@@ -35,103 +122,180 @@ def conectar_supabase():
     return create_client(url, chave)
 
 
-def exportar_tabela(cliente, tabela: str, output_dir: Path, max_registros: int = 50000) -> dict:
+def _ts(valor):
+    if valor is None:
+        return None
+    return datetime.fromisoformat(valor.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+
+def ler_tabela(cliente, tabela: str) -> tuple[list[dict], dict]:
     """
-    Exporta tabela inteira para CSV. Retorna metadados (n_registros, colunas).
+    Lê a tabela inteira, ordenada por id, até o maior id visto no início.
+    Confere o total contra count=exact do mesmo recorte; levanta
+    ExportIncompleto se não bater ou se houver id repetido.
     """
+    colunas = [c for c, _ in ESQUEMAS[tabela]]
     print(f"Exportando {tabela}...")
 
-    # Paginação para tabelas grandes
-    PAGE_SIZE = 1000
-    registros = []
-    offset = 0
+    topo = cliente.table(tabela).select("id").order("id", desc=True).limit(1).execute().data
+    if not topo:
+        print("  (vazia)")
+        return [], {"max_id": None, "n_esperado": 0}
+    max_id = topo[0]["id"]
+
+    n_esperado = (
+        cliente.table(tabela).select("id", count="exact").lte("id", max_id).limit(1).execute().count
+    )
+
+    registros: list[dict] = []
+    ultimo_id = None
     while True:
-        resp = (
-            cliente.table(tabela)
-            .select("*")
-            .range(offset, offset + PAGE_SIZE - 1)
-            .execute()
+        consulta = cliente.table(tabela).select(",".join(colunas)).lte("id", max_id)
+        if ultimo_id is not None:
+            consulta = consulta.gt("id", ultimo_id)
+        lote = consulta.order("id").limit(PAGE_SIZE).execute().data
+        if not lote:
+            break
+        registros.extend(lote)
+        ultimo_id = lote[-1]["id"]
+        if len(lote) < PAGE_SIZE:
+            break
+
+    n_ids = len({r["id"] for r in registros})
+    if len(registros) != n_esperado or n_ids != len(registros):
+        raise ExportIncompleto(
+            f"{tabela}: banco tem {n_esperado} linhas (id <= {max_id}), "
+            f"export leu {len(registros)} ({n_ids} ids distintos)"
         )
-        batch = resp.data
-        if not batch:
-            break
-        registros.extend(batch)
-        offset += PAGE_SIZE
-        if len(registros) >= max_registros:
-            print(f"  ⚠️  Atingido limite de {max_registros} registros — truncando")
-            break
+    colunas_lidas = set(registros[0].keys())
+    if colunas_lidas != set(colunas):
+        raise ExportIncompleto(f"{tabela}: colunas diferentes do esquema esperado: {colunas_lidas ^ set(colunas)}")
 
-    if not registros:
-        print(f"  (vazio)")
-        return {"tabela": tabela, "n_registros": 0, "colunas": []}
+    print(f"  ✓ {len(registros):,} linhas (id <= {max_id}), conferido com o banco")
+    return registros, {"max_id": max_id, "n_esperado": n_esperado}
 
-    # CSV
-    output_path = output_dir / f"{tabela}.csv"
-    colunas = list(registros[0].keys())
-    with open(output_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=colunas, quoting=csv.QUOTE_ALL)
+
+def gravar_parquet(tabela: str, registros: list[dict], destino: Path) -> None:
+    esquema = pa.schema(ESQUEMAS[tabela])
+    dados = {}
+    for campo in esquema:
+        valores = [r.get(campo.name) for r in registros]
+        if campo.type == TS:
+            valores = [_ts(v) for v in valores]
+        dados[campo.name] = pa.array(valores, type=campo.type)
+    pq.write_table(pa.table(dados, schema=esquema), destino, compression="zstd")
+
+
+def gravar_csv_gz(tabela: str, registros: list[dict], destino: Path) -> None:
+    colunas = [c for c, _ in ESQUEMAS[tabela]]
+    # mtime=0: o .gz sai idêntico byte a byte quando o conteúdo não muda
+    with open(destino, "wb") as bruto, \
+            gzip.GzipFile(filename="", fileobj=bruto, mode="wb", mtime=0) as gz, \
+            io.TextIOWrapper(gz, encoding="utf-8", newline="") as texto:
+        writer = csv.DictWriter(texto, fieldnames=colunas)
         writer.writeheader()
         for r in registros:
-            # Serializa valores complexos (dicts, listas) como JSON
-            row = {}
-            for k, v in r.items():
-                if isinstance(v, (dict, list)):
-                    row[k] = json.dumps(v, ensure_ascii=False)
-                else:
-                    row[k] = v
-            writer.writerow(row)
-
-    print(f"  ✓ {len(registros)} registros → {output_path.name}")
-    return {"tabela": tabela, "n_registros": len(registros), "colunas": colunas}
+            writer.writerow({k: (json.dumps(v, ensure_ascii=False) if isinstance(v, (dict, list)) else v)
+                             for k, v in r.items()})
 
 
-def gerar_manifesto(metadados: list[dict], output_dir: Path) -> None:
-    """Gera arquivo MANIFEST.md descrevendo o snapshot."""
-    agora = datetime.utcnow()
-    total_registros = sum(m["n_registros"] for m in metadados)
+def sha256(caminho: Path) -> str:
+    h = hashlib.sha256()
+    with open(caminho, "rb") as f:
+        for bloco in iter(lambda: f.read(1 << 20), b""):
+            h.update(bloco)
+    return h.hexdigest()
 
-    conteudo = f"""# 📚 Corpus Público do Observatório Classe Creator
 
-## Snapshot gerado em {agora.strftime('%d/%m/%Y às %H:%M UTC')}
+def gerar_manifesto(metadados: list[dict], arquivos: list[Path], output_dir: Path, agora: datetime) -> None:
+    """Gera MANIFEST.md (humano), manifest.json (máquina) e SHA256SUMS."""
+    tag = os.environ.get("TAG_RELEASE", "")
+    total = sum(m["n_registros"] for m in metadados)
+    hashes = {p.name: sha256(p) for p in arquivos}
 
-Este diretório contém o corpus completo do Raio-X Classe Creator em formato
-CSV, atualizado semanalmente (segundas-feiras) via GitHub Actions.
+    (output_dir / "SHA256SUMS").write_text(
+        "".join(f"{h}  {nome}\n" for nome, h in sorted(hashes.items())), encoding="utf-8"
+    )
+    (output_dir / "manifest.json").write_text(json.dumps({
+        "gerado_em": agora.isoformat(),
+        "tag": tag or None,
+        "ferramenta": FERRAMENTA_URL,
+        "total_registros": total,
+        "tabelas": [
+            {
+                "tabela": m["tabela"],
+                "n_registros": m["n_registros"],
+                "max_id": m["max_id"],
+                "contagem_conferida": True,
+                "colunas": [{"nome": c, "tipo": str(t)} for c, t in ESQUEMAS[m["tabela"]]],
+                "arquivos": {p: hashes[p] for p in (f"{m['tabela']}.parquet", f"{m['tabela']}.csv.gz")},
+            }
+            for m in metadados
+        ],
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
-**Total de registros neste snapshot:** {total_registros:,}
+    linhas = "".join(
+        f"| `{m['tabela']}` | {m['n_registros']:,} | {m['max_id'] if m['max_id'] is not None else '—'} "
+        f"| {DESCRICOES[m['tabela']]} |\n"
+        for m in metadados
+    )
+    link_tag = f"{REPO_URL}/releases/tag/{tag}" if tag else f"{REPO_URL}/releases"
+    conteudo = f"""# Corpus público do Raio-X Classe Creator
 
-## Tabelas exportadas
+**Export de {agora.strftime('%d/%m/%Y às %H:%M UTC')}** · {link_tag}
 
-| Tabela | Registros | Descrição |
-|---|---:|---|
-"""
+Todas as tabelas públicas do corpus, **completas**. Antes de publicar, a
+contagem de cada tabela foi conferida contra o banco (`count=exact`), no
+recorte `id <= max_id` lido no início do export. Se não batesse, o export
+falharia e nada seria publicado.
 
-    descricoes = {
-        "snapshots": "Cabeçalho dos snapshots semanais do Termômetro",
-        "videos_snapshot": "Vídeos do trending classificados (Termômetro)",
-        "classificacoes_video": "Análises individuais de vídeos (Lupa)",
-        "dossies_canal": "Investigações estruturais de canais (Dossiê)",
-        "buscas_narrativa": "Cabeçalho de auditorias temáticas (Disputa)",
-        "resultados_busca": "Resultados detalhados das auditorias temáticas",
-        "analises_comentarios": "Análises qualitativas de comentários (Voz da Base)",
-    }
+**Total de registros:** {total:,}
 
-    for m in metadados:
-        tabela = m["tabela"]
-        desc = descricoes.get(tabela, "—")
-        conteudo += f"| `{tabela}.csv` | {m['n_registros']:,} | {desc} |\n"
+| Tabela | Registros | max_id | Descrição |
+|---|---:|---:|---|
+{linhas}
+## Arquivos
 
-    conteudo += f"""
+Cada tabela vem em dois formatos:
 
-## Como usar
+- `<tabela>.parquet`: tipado (datas em UTC, inteiros, booleanos), compressão zstd. **Recomendado.**
+- `<tabela>.csv.gz`: CSV UTF-8, separador vírgula, compactado. Célula vazia = nulo.
+  Datas em ISO 8601 (UTC).
 
-Os arquivos seguem formato CSV padrão (UTF-8, quoted, separador vírgula).
-Valores complexos (JSON aninhado) estão serializados como string JSON nas células.
+Campos que guardam JSON (ex.: `metadados_json`, `sintomas_estruturais`,
+`composicao_produtor`) são texto: decodifique com `json.loads`.
+
+`manifest.json` traz contagens, esquema e hashes; `SHA256SUMS` permite conferir
+a integridade (`sha256sum -c SHA256SUMS`).
 
 ```python
 import pandas as pd
-df = pd.read_csv('dossies_canal.csv')
-print(df.head())
+base = "{REPO_URL}/releases/latest/download/"
+videos = pd.read_parquet(base + "videos_snapshot.parquet")
+snapshots = pd.read_parquet(base + "snapshots.parquet")
 ```
+
+```r
+library(arrow)
+videos <- read_parquet("videos_snapshot.parquet")
+```
+
+O link `/releases/latest/download/<arquivo>` sempre aponta para o export
+mais recente. Para reprodutibilidade, cite o export específico pela tag
+(`{tag or 'corpus-AAAA-MM-DD'}`): os releases antigos são mantidos.
+
+## Limitações
+
+- Os vídeos do Termômetro estão, em sua maioria, com `tipo_produtor` e
+  `tipo_conteudo` = `nao_classificado`: a classificação automática do
+  coletor está pausada. Composições pela tipologia devem usar só os vídeos
+  classificados.
+- Lupa, Dossiê, Disputa e Voz da Base foram zerados em 01/10/2026 (fim da
+  fase de testes da migração). Exports anteriores a essa data estão no
+  histórico do repositório (pasta `dados-publicos/`, descontinuada e
+  truncada em 50 mil linhas de `videos_snapshot`).
+- O Raio-X está em fase de coleta: leituras feitas sobre o corpus são
+  preliminares.
 
 ## Sobre o Raio-X Classe Creator
 
@@ -139,7 +303,8 @@ Ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho
 plataformizado no YouTube, desenvolvida pelo Observatório Classe Creator
 com metodologia ancorada em SEVERO (2026).
 
-- **Ferramenta:** https://raio-x-classe-creator.streamlit.app
+- **Ferramenta:** {FERRAMENTA_URL}
+- **Código:** {REPO_URL}
 - **Tipologia dupla:** Eixo A (Produtor) × Eixo B (Conteúdo)
 - **Citação:** SEVERO, Filipe Machado Leal. *O Novo "You" do YouTube*.
   Dissertação (Mestrado em Comunicação) — PUCRS/FAMECOS, 2026.
@@ -150,47 +315,39 @@ Estes dados são disponibilizados publicamente para fins de pesquisa
 acadêmica, jornalística e de organização da sociedade civil. Ao usar,
 cite a fonte conforme as referências acima.
 """
-
-    manifest_path = output_dir / "MANIFEST.md"
-    manifest_path.write_text(conteudo, encoding="utf-8")
-    print(f"\n✓ Manifesto: {manifest_path.name}")
+    (output_dir / "MANIFEST.md").write_text(conteudo, encoding="utf-8")
+    print("\n✓ MANIFEST.md, manifest.json, SHA256SUMS")
 
 
 def main() -> None:
-    output_dir = Path("dados-publicos")
+    output_dir = Path(os.environ.get("EXPORT_DIR", "export"))
     output_dir.mkdir(parents=True, exist_ok=True)
+    agora = datetime.now(timezone.utc)
 
     print("=" * 70)
     print("RAIO-X — Exportação semanal do corpus")
-    print(f"Executado em {datetime.utcnow().isoformat()}Z")
+    print(f"Executado em {agora.isoformat()}")
     print("=" * 70)
 
     cliente = conectar_supabase()
 
-    # Tabelas a exportar
-    tabelas = [
-        "snapshots",
-        "videos_snapshot",
-        "classificacoes_video",
-        "dossies_canal",
-        "buscas_narrativa",
-        "resultados_busca",
-        "analises_comentarios",
-    ]
-
     metadados = []
-    for tabela in tabelas:
-        try:
-            meta = exportar_tabela(cliente, tabela, output_dir)
-            metadados.append(meta)
-        except Exception as e:
-            print(f"  ✗ Erro em {tabela}: {e}")
-            metadados.append({"tabela": tabela, "n_registros": 0, "colunas": []})
+    arquivos: list[Path] = []
+    for tabela in ESQUEMAS:
+        # Sem try/except: qualquer erro derruba o job (antes, uma tabela com
+        # erro saía como "0 registros" e o export era publicado assim mesmo).
+        registros, info = ler_tabela(cliente, tabela)
+        parquet = output_dir / f"{tabela}.parquet"
+        csv_gz = output_dir / f"{tabela}.csv.gz"
+        gravar_parquet(tabela, registros, parquet)
+        gravar_csv_gz(tabela, registros, csv_gz)
+        arquivos += [parquet, csv_gz]
+        metadados.append({"tabela": tabela, "n_registros": len(registros), "max_id": info["max_id"]})
+        print(f"  → {parquet.name} ({parquet.stat().st_size / 1e6:.1f} MB), "
+              f"{csv_gz.name} ({csv_gz.stat().st_size / 1e6:.1f} MB)")
 
-    # Gera manifesto
-    gerar_manifesto(metadados, output_dir)
+    gerar_manifesto(metadados, arquivos, output_dir, agora)
 
-    # Resumo final
     total = sum(m["n_registros"] for m in metadados)
     print("\n" + "=" * 70)
     print(f"✅ Exportação concluída: {total:,} registros em {len(metadados)} tabelas")
@@ -198,4 +355,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ExportIncompleto as e:
+        print(f"\n✗ EXPORT INCOMPLETO — nada será publicado: {e}")
+        sys.exit(1)

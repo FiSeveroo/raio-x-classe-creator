@@ -1,8 +1,20 @@
+> **DESCONTINUADO em 02/10/2026 — não use estes arquivos para pesquisa.**
+>
+> Esta pasta está congelada no export de 28/09/2026 e está **incompleta**:
+> `videos_snapshot.csv` foi cortado em 50.000 linhas (de ~131 mil), então as
+> coletas mais recentes do Termômetro aparecem sem vídeos. As demais tabelas
+> refletem o corpus de teste anterior ao reset de 01/10/2026.
+>
+> O corpus completo, conferido contra o banco, agora é publicado toda
+> segunda-feira como **GitHub Release**:
+> https://github.com/FiSeveroo/raio-x-classe-creator/releases
+> (o mais recente: https://github.com/FiSeveroo/raio-x-classe-creator/releases/latest)
+
 # 📚 Corpus Público do Observatório Classe Creator
 
 ## Snapshot gerado em 28/09/2026 às 13:14 UTC
 
-Este diretório contém o corpus completo do Raio-X Classe Creator em formato
+Este diretório continha o corpus do Raio-X Classe Creator em formato
 CSV, atualizado semanalmente (segundas-feiras) via GitHub Actions.
 
 **Total de registros neste snapshot:** 50,750
@@ -37,7 +49,7 @@ Ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho
 plataformizado no YouTube, desenvolvida pelo Observatório Classe Creator
 com metodologia ancorada em SEVERO (2026).
 
-- **Ferramenta:** https://raio-x-classe-creator.streamlit.app
+- **Ferramenta:** https://raiox.classecreator.com
 - **Tipologia dupla:** Eixo A (Produtor) × Eixo B (Conteúdo)
 - **Citação:** SEVERO, Filipe Machado Leal. *O Novo "You" do YouTube*.
   Dissertação (Mestrado em Comunicação) — PUCRS/FAMECOS, 2026.
