@@ -332,6 +332,21 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 
 ---
 
+## ORGANIZAÇÃO DO TRABALHO EM CHATS (desde 2/out/2026)
+
+Cada área tem um chat próprio, ativado por uma skill do projeto (`.claude/skills/`, versionadas no Git). Este CLAUDE.md é a base comum de todos; a skill acrescenta papel, escopo e regras da área:
+
+| Comando | Área |
+|---|---|
+| `/raiox-metodologia` | tipologia, prompts, algoritmos (sintomas, qui-quadrado, IPP), classificação de canais |
+| `/raiox-dados` | corpus no Supabase, Termômetro/coletor, exportações, backups, leituras do corpus |
+| `/raiox-design` | identidade visual, componentes, gráficos, responsividade |
+| `/raiox-ux` | fluxos, textos, traduções PT/EN/ES, acessibilidade |
+| `/raiox-infra` | Vercel, domínio, variáveis, Turnstile, Git, build, custos |
+| `/raiox-pesquisa` | artigos, apresentações, achados, como citar |
+
+Regra comum: decisão que muda o projeto é registrada AQUI (Estado/Backlog) ou em `messages/REVISAO.md` — é assim que um chat fica sabendo do que o outro decidiu. Tarefa fora da área → indicar o chat certo.
+
 ## COMO ME COMUNICAR AO USUÁRIO
 
 - Chame-o de "Filipe" ou "tu" (linguagem gaúcha)
