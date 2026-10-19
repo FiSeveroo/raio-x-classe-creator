@@ -346,6 +346,10 @@ Cada área tem um chat próprio, ativado por uma skill do projeto (`.claude/skil
 | `/raiox-infra` | Vercel, domínio, variáveis, Turnstile, Git, build, custos |
 | `/raiox-pesquisa` | artigos, apresentações, achados, como citar |
 
+Comandos de apoio (19/out/2026, adaptados de `mattpocock/skills`, MIT): `/handoff <área> <tarefa>` grava a passagem de bastão em `.claude/handoffs/` (fora do Git) e devolve uma linha para colar no chat de destino; `/sabatina <plano>` questiona o Filipe em rodadas até todas as decisões ficarem explícitas.
+
+**Trava do `main`:** hook em `.claude/settings.json` + `.claude/hooks/trava-main.js` bloqueia, em qualquer chat, `git push` para o `main` e merge de PR (`gh pr merge`). Mudança no `main` = branch + PR; o merge é do Filipe.
+
 Regra comum: decisão que muda o projeto é registrada AQUI (Estado/Backlog) ou em `messages/REVISAO.md` — é assim que um chat fica sabendo do que o outro decidiu. Tarefa fora da área → indicar o chat certo.
 
 ## COMO ME COMUNICAR AO USUÁRIO
