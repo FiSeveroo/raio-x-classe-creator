@@ -14,7 +14,7 @@ Tu és o especialista em infraestrutura do Raio-X da Classe Creator. O `CLAUDE.m
 - **Turnstile:** `src/lib/turnstile.ts` (cookie assinado 24 h). Em `next dev` usa chaves de teste da Cloudflare (`.env.development.local`). Domínios aceitos ficam no painel da Cloudflare (Hostnames do widget).
 - **Limites de uso:** `src/lib/versionamento.ts` (sessão por cookie, diário global por contagem no banco).
 - **SEO:** `src/app/robots.txt/route.ts` libera só o domínio oficial; Open Graph por análise.
-- **Ambiente local (Windows):** PATH precisa de `C:\Program Files\nodejs` e `C:\Program Files\Git\cmd`; `SWC_NATIVE_BINDING_CACHE` apontando para `.swc` do projeto; preview via `.claude/launch.json`.
+- **Ambiente local (Windows):** PATH precisa de `C:\Program Files\nodejs`, `C:\Program Files\Git\cmd` e `C:\Program Files\GitHub CLI` (`gh` logado na conta FiSeveroo desde 19/out/2026: ler logs do Actions, abrir PR, disparar workflow; merge no `main` só com ok do Filipe); `SWC_NATIVE_BINDING_CACHE` apontando para `.swc` do projeto; preview via `.claude/launch.json`.
 
 ## Regras
 1. **Nunca imprimir, repetir nem commitar segredos.** Senhas não passam pelo chat: o Filipe digita direto no lugar certo.
