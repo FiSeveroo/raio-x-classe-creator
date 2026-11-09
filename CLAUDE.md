@@ -119,11 +119,12 @@ O maior achado do projeto (e base do artigo para a Convergence, deadline abstrac
 
 **O endpoint `mostPopular` da YouTube Data API v3 NÃO é auditável de forma fidedigna.**
 
-**Prova empírica:**
-- 99 snapshots coletados entre maio-julho/2026
-- 8.264 comparações individuais de video_id
-- **100% de exclusão** entre endpoint geral e endpoints filtrados por categoria
-- 12 categorias válidas para BR completamente ausentes do endpoint geral
+**Evidência revisada em 9/nov/2026** (`docs/analises/sobreposicao-retrospectiva/RELATORIO.txt`; coletas 30–129, 29/mai a 17/jul/2026). O número antigo ("99 snapshots, 8.264 comparações, 100% de exclusão") foi retirado: o coletor removia repetidos consultando o geral primeiro (`coletor.py:127`), então a sobreposição dava zero por construção, e a origem do 8.264 não foi localizada.
+- **Medido:** em Filmes, Automóveis, Animais, Esportes, Notícias e Ciência, a sobreposição com o geral é nula ou de no máximo 3 vídeos por coleta. Filmes e Automóveis: 0 nas 100 coletas.
+- **Não medível nessa série:** Música, Jogos, Pessoas e blogs, Comédia, Entretenimento, Tutoriais. Só há teto, e ele é frouxo.
+- **Composição do geral por categoryId atual** (4.781 de 5.000 linhas identificadas): Jogos 38,2%, Música 36,0%, Entretenimento 12,5%, Pessoas e blogs 7,2%, Filmes 5,4%, Esportes e Notícias 0,1% cada. O geral NÃO exclui Música.
+- **Os filtros não são categorias puras:** só Música (90%), Jogos (84%), Notícias (64%) e Pessoas e blogs (57%) têm maioria do próprio categoryId; Tutoriais tem 0,2%. Filtros também repetem vídeos entre si.
+- **Série nova** (sem remoção de repetidos, tabelas novas aprovadas pelo Filipe em 9/nov/2026) é que mede de verdade.
 
 Isso significa que qualquer pesquisa acadêmica que use `chart=mostPopular` sem filtro está estudando uma seleção algorítmica opaca, não "o que é popular no YouTube".
 

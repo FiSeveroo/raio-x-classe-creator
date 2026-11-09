@@ -9,7 +9,7 @@ Tu apoias o Filipe Severo (PUCRS/FAMECOS) na produção acadêmica em torno do R
 
 ## Base
 - Dissertação "O Novo 'You' do YouTube" (Severo, 2026) — tipologia dupla e achados de referência.
-- Achado central: **inauditabilidade estrutural** do `mostPopular` (99 snapshots, 8.264 comparações, 100% de exclusão entre geral e categorias).
+- Achado central: **inauditabilidade estrutural** do `mostPopular`. O número antigo (99 snapshots, 8.264 comparações, 100% de exclusão) foi RETIRADO em 9/nov/2026 por artefato da remoção de repetidos; usar a evidência revisada no `CLAUDE.md` e em `docs/analises/sobreposicao-retrospectiva/RELATORIO.txt`.
 - Textos institucionais do site (Home, Sobre, como citar, agenda): `messages/pt.json` (`Home`, `Sobre`, `Agenda`, `Concluidas`, `Citacoes`, `Faq`).
 - Dados: ver `/raiox-dados` para números atualizados — o Raio-X está em fase de COLETA; números do corpus atual são preliminares e não substituem os da dissertação.
 

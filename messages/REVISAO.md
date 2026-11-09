@@ -19,6 +19,7 @@ Fonte do EN/ES: `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` **quando o texto existe lá**.
 | | `Sobre.observatorioTexto` — não estava na planilha |
 | | `Biblioteca.texto`, `Biblioteca.*.legenda` (parte), `Biblioteca.colunas.*`, `Biblioteca.analiseVideo`, `Biblioteca.historicoTitulo`, `Biblioteca.atual`, `Biblioteca.verNoYoutube`, `Biblioteca.naoEncontrada` |
 | | `Comum.*` (textos novos: "sem dados", aviso de banco, rodapé, 404) |
+| | Texto "Por que coletamos centenas de vídeos e não 50?" (metodologia do Termômetro) — reescrito em 9/nov/2026: saiu "exclui sistematicamente", entraram números da análise retrospectiva (PT também é novo) |
 | | `Termometro.exportarPublico`, `Termometro.exportarPublicoLink` — reescritos em 2/out/2026: exportação pública saiu de `dados-publicos/` para GitHub Releases (PT também é novo) |
 | `src/lib/tipologia.ts` | `nome.en/es` e `definicao.en/es` das 20 categorias — **metodologicamente sensível**, vale revisão de quem conhece a dissertação |
 
