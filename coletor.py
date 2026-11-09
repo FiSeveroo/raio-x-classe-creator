@@ -86,7 +86,7 @@ def coletar_trending_por_fonte(categoria_id: str | None = None, quantidade: int 
     """
     url = "https://www.googleapis.com/youtube/v3/videos"
     params = {
-        "part": "snippet,statistics,contentDetails,player",
+        "part": "snippet,statistics,contentDetails,player,topicDetails",
         "chart": "mostPopular",
         "regionCode": REGIAO,
         "maxResults": 50,
