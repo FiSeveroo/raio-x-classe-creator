@@ -42,6 +42,9 @@ from datetime import datetime
 import anthropic
 import requests
 
+from registro_consultas import (
+    FONTES_SO_REGISTRO, anotar_erro, anotar_sucesso, gravar_registro, novo_registro, vincular_snapshot,
+)
 from db import conectar, criar_snapshot, gravar_video_classificado, calcular_proxima_coleta_semanal, ultima_semana_coletada
 from tipologia import codigos_produtor, codigos_conteudo, tipologia_para_prompt
 
@@ -113,7 +116,7 @@ def coletar_trending_por_fonte(categoria_id: str | None = None, quantidade: int 
     return items[:quantidade]
 
 
-def coletar_trending(quantidade: int = 50) -> list[dict]:
+def coletar_trending(quantidade: int = 50, registro: dict | None = None) -> list[dict]:
     """
     Coleta trending BR de 12 categorias válidas + geral.
     50 vídeos por categoria, deduplicados apenas por video_id.
@@ -148,6 +151,8 @@ def coletar_trending(quantidade: int = 50) -> list[dict]:
     for cat_id, label in fontes:
         try:
             items = coletar_trending_por_fonte(cat_id, quantidade=quantidade)
+            if registro is not None:
+                anotar_sucesso(registro, cat_id or "geral", items)
             novos = 0
             for item in items:
                 vid_id = item["id"]
@@ -159,6 +164,16 @@ def coletar_trending(quantidade: int = 50) -> list[dict]:
             print(f"   → {label}: {len(items)} coletados, {novos} únicos adicionados")
         except Exception as e:
             print(f"   ⚠️ Erro ao coletar {label}: {e}")
+            if registro is not None:
+                anotar_erro(registro, cat_id or "geral", e)
+
+    # Consultadas só para o registro bruto: não entram no Termômetro
+    if registro is not None:
+        for cat_id, label in FONTES_SO_REGISTRO:
+            try:
+                anotar_sucesso(registro, cat_id, coletar_trending_por_fonte(cat_id, quantidade=quantidade))
+            except Exception as e:
+                anotar_erro(registro, cat_id, e)
 
     print(f"   → Total deduplicado: {len(todos)} vídeos em {len(fontes)} categorias")
     return todos
@@ -442,7 +457,9 @@ def executar_coleta() -> None:
 
     # 2. Coletar trending
     print("\n📥 Coletando 50 vídeos do trending BR...")
-    items_trending = coletar_trending(QUANTIDADE_VIDEOS)
+    registro = novo_registro()
+    items_trending = coletar_trending(QUANTIDADE_VIDEOS, registro=registro)
+    gravar_registro(registro)
     if not items_trending:
         print("⚠️ Trending vazio — abortando.")
         sys.exit(1)
@@ -468,6 +485,7 @@ def executar_coleta() -> None:
         observacoes=f"{obs_modo} Coleta automatizada GitHub Actions. Hora real: {inicio.isoformat()}",
     )
     print(f"   → Snapshot ID #{snapshot_id} criado")
+    vincular_snapshot(registro, snapshot_id)
 
     # 6. Classificar (ou pular classificação) e persistir cada vídeo
     if CLASSIFICACAO_ATIVA:
