@@ -1,0 +1,1201 @@
+﻿coleta_id,data_coleta_utc,filtro,nome,videos_gravados,sobreposicao_minima_medida,sobreposicao_maxima_medida,situacao,ESTIMATIVA_geral_com_category_id_do_filtro,geral_nao_encontrados,ESTIMATIVA_teto_se_filtro_fosse_puro,ESTIMATIVA_remocao_vs_maior_contagem_do_filtro
+30,2026-05-29T13:19,1,Filmes e desenhos,50,0,0,zero_medido,2,0,0,0
+31,2026-05-29T21:50,1,Filmes e desenhos,50,0,0,zero_medido,4,0,0,0
+32,2026-05-30T09:52,1,Filmes e desenhos,50,0,0,zero_medido,2,0,0,0
+33,2026-05-30T20:50,1,Filmes e desenhos,50,0,0,zero_medido,1,4,0,0
+34,2026-05-31T10:09,1,Filmes e desenhos,50,0,0,zero_medido,1,1,0,0
+35,2026-05-31T20:53,1,Filmes e desenhos,50,0,0,zero_medido,1,5,0,0
+36,2026-06-01T13:29,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+37,2026-06-01T22:32,1,Filmes e desenhos,50,0,0,zero_medido,4,2,0,0
+38,2026-06-02T11:58,1,Filmes e desenhos,50,0,0,zero_medido,5,2,0,0
+39,2026-06-02T22:20,1,Filmes e desenhos,50,0,0,zero_medido,4,2,0,0
+40,2026-06-03T12:32,1,Filmes e desenhos,50,0,0,zero_medido,4,1,0,0
+41,2026-06-03T22:26,1,Filmes e desenhos,50,0,0,zero_medido,5,2,0,0
+42,2026-06-04T10:56,1,Filmes e desenhos,50,0,0,zero_medido,3,1,0,0
+43,2026-06-04T21:28,1,Filmes e desenhos,50,0,0,zero_medido,2,2,0,0
+44,2026-06-05T11:19,1,Filmes e desenhos,50,0,0,zero_medido,2,1,0,0
+45,2026-06-05T21:20,1,Filmes e desenhos,50,0,0,zero_medido,3,4,0,0
+46,2026-06-06T09:55,1,Filmes e desenhos,50,0,0,zero_medido,0,1,0,0
+47,2026-06-06T20:58,1,Filmes e desenhos,50,0,0,zero_medido,1,2,0,0
+48,2026-06-07T10:23,1,Filmes e desenhos,50,0,0,zero_medido,1,2,0,0
+49,2026-06-07T21:06,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+50,2026-06-08T12:23,1,Filmes e desenhos,50,0,0,zero_medido,2,0,0,0
+51,2026-06-08T21:47,1,Filmes e desenhos,50,0,0,zero_medido,1,1,0,0
+52,2026-06-09T10:54,1,Filmes e desenhos,50,0,0,zero_medido,2,0,0,0
+53,2026-06-09T21:44,1,Filmes e desenhos,50,0,0,zero_medido,4,1,0,0
+54,2026-06-10T11:32,1,Filmes e desenhos,50,0,0,zero_medido,3,2,0,0
+55,2026-06-10T21:54,1,Filmes e desenhos,50,0,0,zero_medido,2,3,0,0
+56,2026-06-11T12:04,1,Filmes e desenhos,50,0,0,zero_medido,1,0,0,0
+57,2026-06-11T21:57,1,Filmes e desenhos,50,0,0,zero_medido,3,3,0,0
+58,2026-06-12T11:37,1,Filmes e desenhos,50,0,0,zero_medido,3,1,0,0
+59,2026-06-12T21:27,1,Filmes e desenhos,50,0,0,zero_medido,3,2,0,0
+60,2026-06-13T10:22,1,Filmes e desenhos,50,0,0,zero_medido,3,0,0,0
+61,2026-06-13T21:09,1,Filmes e desenhos,50,0,0,zero_medido,0,2,0,0
+62,2026-06-14T10:45,1,Filmes e desenhos,50,0,0,zero_medido,1,1,0,0
+63,2026-06-14T21:05,1,Filmes e desenhos,50,0,0,zero_medido,1,7,0,0
+64,2026-06-15T13:48,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+65,2026-06-15T22:14,1,Filmes e desenhos,50,0,0,zero_medido,0,3,0,0
+66,2026-06-16T12:47,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+67,2026-06-16T22:07,1,Filmes e desenhos,50,0,0,zero_medido,3,4,0,0
+68,2026-06-17T12:11,1,Filmes e desenhos,50,0,0,zero_medido,3,3,0,0
+69,2026-06-17T21:56,1,Filmes e desenhos,50,0,0,zero_medido,5,5,0,0
+70,2026-06-18T11:45,1,Filmes e desenhos,50,0,0,zero_medido,4,1,0,0
+71,2026-06-18T22:02,1,Filmes e desenhos,50,0,0,zero_medido,4,1,0,0
+72,2026-06-19T12:00,1,Filmes e desenhos,50,0,0,zero_medido,5,1,0,0
+73,2026-06-19T21:05,1,Filmes e desenhos,50,0,0,zero_medido,5,2,0,0
+74,2026-06-20T10:27,1,Filmes e desenhos,50,0,0,zero_medido,4,2,0,0
+75,2026-06-20T21:10,1,Filmes e desenhos,50,0,0,zero_medido,4,3,0,0
+76,2026-06-21T11:00,1,Filmes e desenhos,50,0,0,zero_medido,3,0,0,0
+77,2026-06-21T21:09,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+78,2026-06-22T13:28,1,Filmes e desenhos,50,0,0,zero_medido,1,1,0,0
+79,2026-06-22T21:58,1,Filmes e desenhos,50,0,0,zero_medido,1,1,0,0
+80,2026-06-23T10:56,1,Filmes e desenhos,50,0,0,zero_medido,1,2,0,0
+81,2026-06-23T21:27,1,Filmes e desenhos,50,0,0,zero_medido,1,2,0,0
+82,2026-06-24T10:42,1,Filmes e desenhos,50,0,0,zero_medido,3,2,0,0
+83,2026-06-24T21:19,1,Filmes e desenhos,50,0,0,zero_medido,4,3,0,0
+84,2026-06-25T10:36,1,Filmes e desenhos,50,0,0,zero_medido,4,1,0,0
+85,2026-06-25T21:26,1,Filmes e desenhos,50,0,0,zero_medido,3,0,0,0
+86,2026-06-26T10:44,1,Filmes e desenhos,50,0,0,zero_medido,3,0,0,0
+87,2026-06-26T21:15,1,Filmes e desenhos,50,0,0,zero_medido,3,0,0,0
+88,2026-06-27T09:57,1,Filmes e desenhos,50,0,0,zero_medido,3,0,0,0
+89,2026-06-27T20:56,1,Filmes e desenhos,50,0,0,zero_medido,1,1,0,0
+90,2026-06-28T10:22,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+91,2026-06-28T20:56,1,Filmes e desenhos,50,0,0,zero_medido,0,6,0,0
+92,2026-06-29T12:24,1,Filmes e desenhos,50,0,0,zero_medido,2,4,0,0
+93,2026-06-29T21:20,1,Filmes e desenhos,50,0,0,zero_medido,2,4,0,0
+94,2026-06-30T10:49,1,Filmes e desenhos,50,0,0,zero_medido,1,2,0,0
+95,2026-06-30T21:24,1,Filmes e desenhos,50,0,0,zero_medido,3,1,0,0
+96,2026-07-01T11:17,1,Filmes e desenhos,50,0,0,zero_medido,2,0,0,0
+97,2026-07-01T21:22,1,Filmes e desenhos,50,0,0,zero_medido,3,2,0,0
+98,2026-07-02T10:30,1,Filmes e desenhos,50,0,0,zero_medido,2,2,0,0
+99,2026-07-02T20:58,1,Filmes e desenhos,50,0,0,zero_medido,1,4,0,0
+100,2026-07-03T10:27,1,Filmes e desenhos,50,0,0,zero_medido,1,5,0,0
+101,2026-07-03T20:57,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+102,2026-07-04T10:01,1,Filmes e desenhos,50,0,0,zero_medido,4,3,0,0
+103,2026-07-04T20:50,1,Filmes e desenhos,50,0,0,zero_medido,6,2,0,0
+104,2026-07-05T10:04,1,Filmes e desenhos,50,0,0,zero_medido,7,2,0,0
+105,2026-07-05T20:52,1,Filmes e desenhos,50,0,0,zero_medido,3,6,0,0
+106,2026-07-06T11:57,1,Filmes e desenhos,50,0,0,zero_medido,3,4,0,0
+107,2026-07-06T21:24,1,Filmes e desenhos,50,0,0,zero_medido,4,3,0,0
+108,2026-07-07T10:47,1,Filmes e desenhos,50,0,0,zero_medido,2,2,0,0
+109,2026-07-07T21:18,1,Filmes e desenhos,50,0,0,zero_medido,1,2,0,0
+110,2026-07-08T10:09,1,Filmes e desenhos,50,0,0,zero_medido,1,2,0,0
+111,2026-07-08T21:01,1,Filmes e desenhos,50,0,0,zero_medido,2,3,0,0
+112,2026-07-09T10:47,1,Filmes e desenhos,50,0,0,zero_medido,2,1,0,0
+113,2026-07-09T21:17,1,Filmes e desenhos,50,0,0,zero_medido,4,5,0,0
+114,2026-07-10T10:45,1,Filmes e desenhos,50,0,0,zero_medido,7,3,0,0
+115,2026-07-10T21:02,1,Filmes e desenhos,50,0,0,zero_medido,5,2,0,0
+116,2026-07-11T09:19,1,Filmes e desenhos,50,0,0,zero_medido,4,1,0,0
+117,2026-07-11T20:41,1,Filmes e desenhos,50,0,0,zero_medido,1,4,0,0
+118,2026-07-12T09:44,1,Filmes e desenhos,50,0,0,zero_medido,0,0,0,0
+119,2026-07-12T20:38,1,Filmes e desenhos,50,0,0,zero_medido,1,6,0,0
+120,2026-07-13T10:51,1,Filmes e desenhos,50,0,0,zero_medido,1,3,0,0
+121,2026-07-13T20:53,1,Filmes e desenhos,50,0,0,zero_medido,2,5,0,0
+122,2026-07-14T09:48,1,Filmes e desenhos,50,0,0,zero_medido,2,1,0,0
+123,2026-07-14T20:54,1,Filmes e desenhos,50,0,0,zero_medido,4,3,0,0
+124,2026-07-15T09:52,1,Filmes e desenhos,50,0,0,zero_medido,3,2,0,0
+125,2026-07-15T20:54,1,Filmes e desenhos,50,0,0,zero_medido,4,3,0,0
+126,2026-07-16T09:59,1,Filmes e desenhos,50,0,0,zero_medido,4,3,0,0
+127,2026-07-16T20:51,1,Filmes e desenhos,50,0,0,zero_medido,4,1,0,0
+128,2026-07-17T09:49,1,Filmes e desenhos,50,0,0,zero_medido,6,1,0,0
+129,2026-07-17T20:47,1,Filmes e desenhos,50,0,0,zero_medido,6,2,0,0
+30,2026-05-29T13:19,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+31,2026-05-29T21:50,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+32,2026-05-30T09:52,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+33,2026-05-30T20:50,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+34,2026-05-31T10:09,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+35,2026-05-31T20:53,2,Automóveis,50,0,0,zero_medido,0,5,0,0
+36,2026-06-01T13:29,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+37,2026-06-01T22:32,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+38,2026-06-02T11:58,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+39,2026-06-02T22:20,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+40,2026-06-03T12:32,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+41,2026-06-03T22:26,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+42,2026-06-04T10:56,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+43,2026-06-04T21:28,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+44,2026-06-05T11:19,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+45,2026-06-05T21:20,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+46,2026-06-06T09:55,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+47,2026-06-06T20:58,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+48,2026-06-07T10:23,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+49,2026-06-07T21:06,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+50,2026-06-08T12:23,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+51,2026-06-08T21:47,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+52,2026-06-09T10:54,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+53,2026-06-09T21:44,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+54,2026-06-10T11:32,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+55,2026-06-10T21:54,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+56,2026-06-11T12:04,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+57,2026-06-11T21:57,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+58,2026-06-12T11:37,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+59,2026-06-12T21:27,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+60,2026-06-13T10:22,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+61,2026-06-13T21:09,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+62,2026-06-14T10:45,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+63,2026-06-14T21:05,2,Automóveis,50,0,0,zero_medido,0,7,0,0
+64,2026-06-15T13:48,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+65,2026-06-15T22:14,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+66,2026-06-16T12:47,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+67,2026-06-16T22:07,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+68,2026-06-17T12:11,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+69,2026-06-17T21:56,2,Automóveis,50,0,0,zero_medido,0,5,0,0
+70,2026-06-18T11:45,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+71,2026-06-18T22:02,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+72,2026-06-19T12:00,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+73,2026-06-19T21:05,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+74,2026-06-20T10:27,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+75,2026-06-20T21:10,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+76,2026-06-21T11:00,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+77,2026-06-21T21:09,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+78,2026-06-22T13:28,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+79,2026-06-22T21:58,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+80,2026-06-23T10:56,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+81,2026-06-23T21:27,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+82,2026-06-24T10:42,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+83,2026-06-24T21:19,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+84,2026-06-25T10:36,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+85,2026-06-25T21:26,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+86,2026-06-26T10:44,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+87,2026-06-26T21:15,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+88,2026-06-27T09:57,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+89,2026-06-27T20:56,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+90,2026-06-28T10:22,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+91,2026-06-28T20:56,2,Automóveis,50,0,0,zero_medido,0,6,0,0
+92,2026-06-29T12:24,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+93,2026-06-29T21:20,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+94,2026-06-30T10:49,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+95,2026-06-30T21:24,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+96,2026-07-01T11:17,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+97,2026-07-01T21:22,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+98,2026-07-02T10:30,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+99,2026-07-02T20:58,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+100,2026-07-03T10:27,2,Automóveis,50,0,0,zero_medido,0,5,0,0
+101,2026-07-03T20:57,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+102,2026-07-04T10:01,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+103,2026-07-04T20:50,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+104,2026-07-05T10:04,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+105,2026-07-05T20:52,2,Automóveis,50,0,0,zero_medido,0,6,0,0
+106,2026-07-06T11:57,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+107,2026-07-06T21:24,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+108,2026-07-07T10:47,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+109,2026-07-07T21:18,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+110,2026-07-08T10:09,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+111,2026-07-08T21:01,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+112,2026-07-09T10:47,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+113,2026-07-09T21:17,2,Automóveis,50,0,0,zero_medido,0,5,0,0
+114,2026-07-10T10:45,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+115,2026-07-10T21:02,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+116,2026-07-11T09:19,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+117,2026-07-11T20:41,2,Automóveis,50,0,0,zero_medido,0,4,0,0
+118,2026-07-12T09:44,2,Automóveis,50,0,0,zero_medido,0,0,0,0
+119,2026-07-12T20:38,2,Automóveis,50,0,0,zero_medido,0,6,0,0
+120,2026-07-13T10:51,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+121,2026-07-13T20:53,2,Automóveis,50,0,0,zero_medido,0,5,0,0
+122,2026-07-14T09:48,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+123,2026-07-14T20:54,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+124,2026-07-15T09:52,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+125,2026-07-15T20:54,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+126,2026-07-16T09:59,2,Automóveis,50,0,0,zero_medido,0,3,0,0
+127,2026-07-16T20:51,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+128,2026-07-17T09:49,2,Automóveis,50,0,0,zero_medido,0,1,0,0
+129,2026-07-17T20:47,2,Automóveis,50,0,0,zero_medido,0,2,0,0
+30,2026-05-29T13:19,10,Música,30,0,20,intervalo_0_a_teto,16,0,16,0
+31,2026-05-29T21:50,10,Música,27,0,23,intervalo_0_a_teto,16,0,16,3
+32,2026-05-30T09:52,10,Música,26,0,24,intervalo_0_a_teto,19,0,19,4
+33,2026-05-30T20:50,10,Música,28,0,22,intervalo_0_a_teto,20,4,22,2
+34,2026-05-31T10:09,10,Música,27,0,23,intervalo_0_a_teto,19,1,20,3
+35,2026-05-31T20:53,10,Música,30,0,20,intervalo_0_a_teto,17,5,20,0
+36,2026-06-01T13:29,10,Música,29,0,21,intervalo_0_a_teto,19,3,21,1
+37,2026-06-01T22:32,10,Música,28,0,22,intervalo_0_a_teto,17,2,19,2
+38,2026-06-02T11:58,10,Música,27,0,23,intervalo_0_a_teto,17,2,19,3
+39,2026-06-02T22:20,10,Música,27,0,23,intervalo_0_a_teto,14,2,16,3
+40,2026-06-03T12:32,10,Música,27,0,23,intervalo_0_a_teto,13,1,14,3
+41,2026-06-03T22:26,10,Música,30,0,20,intervalo_0_a_teto,15,2,17,0
+42,2026-06-04T10:56,10,Música,30,0,20,intervalo_0_a_teto,14,1,15,0
+43,2026-06-04T21:28,10,Música,30,0,20,intervalo_0_a_teto,17,2,19,0
+44,2026-06-05T11:19,10,Música,28,0,22,intervalo_0_a_teto,19,1,20,2
+45,2026-06-05T21:20,10,Música,29,0,21,intervalo_0_a_teto,20,4,21,1
+46,2026-06-06T09:55,10,Música,29,0,21,intervalo_0_a_teto,15,1,16,1
+47,2026-06-06T20:58,10,Música,29,0,21,intervalo_0_a_teto,15,2,17,1
+48,2026-06-07T10:23,10,Música,28,0,22,intervalo_0_a_teto,15,2,17,2
+49,2026-06-07T21:06,10,Música,29,0,21,intervalo_0_a_teto,19,3,21,1
+50,2026-06-08T12:23,10,Música,26,0,24,intervalo_0_a_teto,14,0,14,4
+51,2026-06-08T21:47,10,Música,27,0,23,intervalo_0_a_teto,16,1,17,3
+52,2026-06-09T10:54,10,Música,26,0,24,intervalo_0_a_teto,15,0,15,4
+53,2026-06-09T21:44,10,Música,29,0,21,intervalo_0_a_teto,15,1,16,1
+54,2026-06-10T11:32,10,Música,29,0,21,intervalo_0_a_teto,16,2,18,1
+55,2026-06-10T21:54,10,Música,29,0,21,intervalo_0_a_teto,16,3,19,1
+56,2026-06-11T12:04,10,Música,29,0,21,intervalo_0_a_teto,15,0,15,1
+57,2026-06-11T21:57,10,Música,29,0,21,intervalo_0_a_teto,15,3,18,1
+58,2026-06-12T11:37,10,Música,29,0,21,intervalo_0_a_teto,17,1,18,1
+59,2026-06-12T21:27,10,Música,28,0,22,intervalo_0_a_teto,18,2,20,2
+60,2026-06-13T10:22,10,Música,27,0,23,intervalo_0_a_teto,21,0,21,3
+61,2026-06-13T21:09,10,Música,25,0,25,intervalo_0_a_teto,22,2,24,5
+62,2026-06-14T10:45,10,Música,25,0,25,intervalo_0_a_teto,21,1,22,5
+63,2026-06-14T21:05,10,Música,26,0,24,intervalo_0_a_teto,17,7,24,4
+64,2026-06-15T13:48,10,Música,28,0,22,intervalo_0_a_teto,21,3,22,2
+65,2026-06-15T22:14,10,Música,30,0,20,intervalo_0_a_teto,18,3,20,0
+66,2026-06-16T12:47,10,Música,30,0,20,intervalo_0_a_teto,19,3,20,0
+67,2026-06-16T22:07,10,Música,28,0,22,intervalo_0_a_teto,18,4,22,2
+68,2026-06-17T12:11,10,Música,27,0,23,intervalo_0_a_teto,18,3,21,3
+69,2026-06-17T21:56,10,Música,30,0,20,intervalo_0_a_teto,11,5,16,0
+70,2026-06-18T11:45,10,Música,30,0,20,intervalo_0_a_teto,12,1,13,0
+71,2026-06-18T22:02,10,Música,29,0,21,intervalo_0_a_teto,15,1,16,1
+72,2026-06-19T12:00,10,Música,28,0,22,intervalo_0_a_teto,14,1,15,2
+73,2026-06-19T21:05,10,Música,30,0,20,intervalo_0_a_teto,17,2,19,0
+74,2026-06-20T10:27,10,Música,29,0,21,intervalo_0_a_teto,18,2,20,1
+75,2026-06-20T21:10,10,Música,29,0,21,intervalo_0_a_teto,19,3,21,1
+76,2026-06-21T11:00,10,Música,30,0,20,intervalo_0_a_teto,19,0,19,0
+77,2026-06-21T21:09,10,Música,29,0,21,intervalo_0_a_teto,19,3,21,1
+78,2026-06-22T13:28,10,Música,28,0,22,intervalo_0_a_teto,18,1,19,2
+79,2026-06-22T21:58,10,Música,28,0,22,intervalo_0_a_teto,18,1,19,2
+80,2026-06-23T10:56,10,Música,30,0,20,intervalo_0_a_teto,16,2,18,0
+81,2026-06-23T21:27,10,Música,30,0,20,intervalo_0_a_teto,16,2,18,0
+82,2026-06-24T10:42,10,Música,30,0,20,intervalo_0_a_teto,15,2,17,0
+83,2026-06-24T21:19,10,Música,28,0,22,intervalo_0_a_teto,16,3,19,2
+84,2026-06-25T10:36,10,Música,28,0,22,intervalo_0_a_teto,15,1,16,2
+85,2026-06-25T21:26,10,Música,28,0,22,intervalo_0_a_teto,17,0,17,2
+86,2026-06-26T10:44,10,Música,28,0,22,intervalo_0_a_teto,17,0,17,2
+87,2026-06-26T21:15,10,Música,27,0,23,intervalo_0_a_teto,16,0,16,3
+88,2026-06-27T09:57,10,Música,27,0,23,intervalo_0_a_teto,16,0,16,3
+89,2026-06-27T20:56,10,Música,25,0,25,intervalo_0_a_teto,20,1,21,5
+90,2026-06-28T10:22,10,Música,26,0,24,intervalo_0_a_teto,18,3,21,4
+91,2026-06-28T20:56,10,Música,28,0,22,intervalo_0_a_teto,21,6,22,2
+92,2026-06-29T12:24,10,Música,28,0,22,intervalo_0_a_teto,18,4,22,2
+93,2026-06-29T21:20,10,Música,30,0,20,intervalo_0_a_teto,17,4,20,0
+94,2026-06-30T10:49,10,Música,30,0,20,intervalo_0_a_teto,18,2,20,0
+95,2026-06-30T21:24,10,Música,30,0,20,intervalo_0_a_teto,19,1,20,0
+96,2026-07-01T11:17,10,Música,30,0,20,intervalo_0_a_teto,20,0,20,0
+97,2026-07-01T21:22,10,Música,30,0,20,intervalo_0_a_teto,17,2,19,0
+98,2026-07-02T10:30,10,Música,30,0,20,intervalo_0_a_teto,16,2,18,0
+99,2026-07-02T20:58,10,Música,30,0,20,intervalo_0_a_teto,16,4,20,0
+100,2026-07-03T10:27,10,Música,30,0,20,intervalo_0_a_teto,18,5,20,0
+101,2026-07-03T20:57,10,Música,29,0,21,intervalo_0_a_teto,19,3,21,1
+102,2026-07-04T10:01,10,Música,29,0,21,intervalo_0_a_teto,15,3,18,1
+103,2026-07-04T20:50,10,Música,29,0,21,intervalo_0_a_teto,19,2,21,1
+104,2026-07-05T10:04,10,Música,27,0,23,intervalo_0_a_teto,18,2,20,3
+105,2026-07-05T20:52,10,Música,28,0,22,intervalo_0_a_teto,14,6,20,2
+106,2026-07-06T11:57,10,Música,28,0,22,intervalo_0_a_teto,15,4,19,2
+107,2026-07-06T21:24,10,Música,27,0,23,intervalo_0_a_teto,18,3,21,3
+108,2026-07-07T10:47,10,Música,28,0,22,intervalo_0_a_teto,20,2,22,2
+109,2026-07-07T21:18,10,Música,29,0,21,intervalo_0_a_teto,19,2,21,1
+110,2026-07-08T10:09,10,Música,30,0,20,intervalo_0_a_teto,18,2,20,0
+111,2026-07-08T21:01,10,Música,29,0,21,intervalo_0_a_teto,18,3,21,1
+112,2026-07-09T10:47,10,Música,28,0,22,intervalo_0_a_teto,19,1,20,2
+113,2026-07-09T21:17,10,Música,29,0,21,intervalo_0_a_teto,17,5,21,1
+114,2026-07-10T10:45,10,Música,29,0,21,intervalo_0_a_teto,16,3,19,1
+115,2026-07-10T21:02,10,Música,30,0,20,intervalo_0_a_teto,20,2,20,0
+116,2026-07-11T09:19,10,Música,27,0,23,intervalo_0_a_teto,19,1,20,3
+117,2026-07-11T20:41,10,Música,27,0,23,intervalo_0_a_teto,23,4,23,3
+118,2026-07-12T09:44,10,Música,27,0,23,intervalo_0_a_teto,22,0,22,3
+119,2026-07-12T20:38,10,Música,29,0,21,intervalo_0_a_teto,20,6,21,1
+120,2026-07-13T10:51,10,Música,28,0,22,intervalo_0_a_teto,18,3,21,2
+121,2026-07-13T20:53,10,Música,29,0,21,intervalo_0_a_teto,14,5,19,1
+122,2026-07-14T09:48,10,Música,29,0,21,intervalo_0_a_teto,17,1,18,1
+123,2026-07-14T20:54,10,Música,30,0,20,intervalo_0_a_teto,14,3,17,0
+124,2026-07-15T09:52,10,Música,30,0,20,intervalo_0_a_teto,15,2,17,0
+125,2026-07-15T20:54,10,Música,30,0,20,intervalo_0_a_teto,20,3,20,0
+126,2026-07-16T09:59,10,Música,30,0,20,intervalo_0_a_teto,17,3,20,0
+127,2026-07-16T20:51,10,Música,28,0,22,intervalo_0_a_teto,15,1,16,2
+128,2026-07-17T09:49,10,Música,29,0,21,intervalo_0_a_teto,16,1,17,1
+129,2026-07-17T20:47,10,Música,30,0,20,intervalo_0_a_teto,15,2,17,0
+30,2026-05-29T13:19,15,Animais,50,0,0,zero_medido,0,0,0,0
+31,2026-05-29T21:50,15,Animais,50,0,0,zero_medido,0,0,0,0
+32,2026-05-30T09:52,15,Animais,50,0,0,zero_medido,0,0,0,0
+33,2026-05-30T20:50,15,Animais,50,0,0,zero_medido,0,4,0,0
+34,2026-05-31T10:09,15,Animais,50,0,0,zero_medido,0,1,0,0
+35,2026-05-31T20:53,15,Animais,50,0,0,zero_medido,0,5,0,0
+36,2026-06-01T13:29,15,Animais,50,0,0,zero_medido,0,3,0,0
+37,2026-06-01T22:32,15,Animais,50,0,0,zero_medido,0,2,0,0
+38,2026-06-02T11:58,15,Animais,50,0,0,zero_medido,0,2,0,0
+39,2026-06-02T22:20,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+40,2026-06-03T12:32,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+41,2026-06-03T22:26,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+42,2026-06-04T10:56,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+43,2026-06-04T21:28,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+44,2026-06-05T11:19,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+45,2026-06-05T21:20,15,Animais,49,0,1,intervalo_0_a_teto,0,4,1,1
+46,2026-06-06T09:55,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+47,2026-06-06T20:58,15,Animais,48,0,2,intervalo_0_a_teto,0,2,2,2
+48,2026-06-07T10:23,15,Animais,48,0,2,intervalo_0_a_teto,0,2,2,2
+49,2026-06-07T21:06,15,Animais,48,0,2,intervalo_0_a_teto,0,3,2,2
+50,2026-06-08T12:23,15,Animais,48,0,2,intervalo_0_a_teto,0,0,0,2
+51,2026-06-08T21:47,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+52,2026-06-09T10:54,15,Animais,49,0,1,intervalo_0_a_teto,0,0,0,1
+53,2026-06-09T21:44,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+54,2026-06-10T11:32,15,Animais,50,0,0,zero_medido,0,2,0,0
+55,2026-06-10T21:54,15,Animais,50,0,0,zero_medido,0,3,0,0
+56,2026-06-11T12:04,15,Animais,50,0,0,zero_medido,0,0,0,0
+57,2026-06-11T21:57,15,Animais,50,0,0,zero_medido,0,3,0,0
+58,2026-06-12T11:37,15,Animais,50,0,0,zero_medido,0,1,0,0
+59,2026-06-12T21:27,15,Animais,50,0,0,zero_medido,0,2,0,0
+60,2026-06-13T10:22,15,Animais,50,0,0,zero_medido,0,0,0,0
+61,2026-06-13T21:09,15,Animais,50,0,0,zero_medido,0,2,0,0
+62,2026-06-14T10:45,15,Animais,50,0,0,zero_medido,0,1,0,0
+63,2026-06-14T21:05,15,Animais,50,0,0,zero_medido,0,7,0,0
+64,2026-06-15T13:48,15,Animais,50,0,0,zero_medido,0,3,0,0
+65,2026-06-15T22:14,15,Animais,50,0,0,zero_medido,0,3,0,0
+66,2026-06-16T12:47,15,Animais,50,0,0,zero_medido,0,3,0,0
+67,2026-06-16T22:07,15,Animais,50,0,0,zero_medido,0,4,0,0
+68,2026-06-17T12:11,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+69,2026-06-17T21:56,15,Animais,49,0,1,intervalo_0_a_teto,0,5,1,1
+70,2026-06-18T11:45,15,Animais,48,0,2,intervalo_0_a_teto,0,1,1,2
+71,2026-06-18T22:02,15,Animais,48,0,2,intervalo_0_a_teto,0,1,1,2
+72,2026-06-19T12:00,15,Animais,48,0,2,intervalo_0_a_teto,0,1,1,2
+73,2026-06-19T21:05,15,Animais,48,0,2,intervalo_0_a_teto,0,2,2,2
+74,2026-06-20T10:27,15,Animais,48,0,2,intervalo_0_a_teto,0,2,2,2
+75,2026-06-20T21:10,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+76,2026-06-21T11:00,15,Animais,49,0,1,intervalo_0_a_teto,0,0,0,1
+77,2026-06-21T21:09,15,Animais,48,0,2,intervalo_0_a_teto,0,3,2,2
+78,2026-06-22T13:28,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+79,2026-06-22T21:58,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+80,2026-06-23T10:56,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+81,2026-06-23T21:27,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+82,2026-06-24T10:42,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+83,2026-06-24T21:19,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+84,2026-06-25T10:36,15,Animais,50,0,0,zero_medido,0,1,0,0
+85,2026-06-25T21:26,15,Animais,50,0,0,zero_medido,0,0,0,0
+86,2026-06-26T10:44,15,Animais,49,0,1,intervalo_0_a_teto,0,0,0,1
+87,2026-06-26T21:15,15,Animais,50,0,0,zero_medido,0,0,0,0
+88,2026-06-27T09:57,15,Animais,50,0,0,zero_medido,0,0,0,0
+89,2026-06-27T20:56,15,Animais,50,0,0,zero_medido,0,1,0,0
+90,2026-06-28T10:22,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+91,2026-06-28T20:56,15,Animais,49,0,1,intervalo_0_a_teto,0,6,1,1
+92,2026-06-29T12:24,15,Animais,49,0,1,intervalo_0_a_teto,0,4,1,1
+93,2026-06-29T21:20,15,Animais,49,0,1,intervalo_0_a_teto,0,4,1,1
+94,2026-06-30T10:49,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+95,2026-06-30T21:24,15,Animais,49,0,1,intervalo_0_a_teto,0,1,1,1
+96,2026-07-01T11:17,15,Animais,49,0,1,intervalo_0_a_teto,0,0,0,1
+97,2026-07-01T21:22,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+98,2026-07-02T10:30,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+99,2026-07-02T20:58,15,Animais,49,0,1,intervalo_0_a_teto,0,4,1,1
+100,2026-07-03T10:27,15,Animais,49,0,1,intervalo_0_a_teto,0,5,1,1
+101,2026-07-03T20:57,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+102,2026-07-04T10:01,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+103,2026-07-04T20:50,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+104,2026-07-05T10:04,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+105,2026-07-05T20:52,15,Animais,49,0,1,intervalo_0_a_teto,0,6,1,1
+106,2026-07-06T11:57,15,Animais,48,0,2,intervalo_0_a_teto,0,4,2,2
+107,2026-07-06T21:24,15,Animais,48,0,2,intervalo_0_a_teto,0,3,2,2
+108,2026-07-07T10:47,15,Animais,48,0,2,intervalo_0_a_teto,0,2,2,2
+109,2026-07-07T21:18,15,Animais,47,0,3,intervalo_0_a_teto,0,2,2,3
+110,2026-07-08T10:09,15,Animais,48,0,2,intervalo_0_a_teto,0,2,2,2
+111,2026-07-08T21:01,15,Animais,47,0,3,intervalo_0_a_teto,0,3,3,3
+112,2026-07-09T10:47,15,Animais,48,0,2,intervalo_0_a_teto,0,1,1,2
+113,2026-07-09T21:17,15,Animais,47,0,3,intervalo_0_a_teto,0,5,3,3
+114,2026-07-10T10:45,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+115,2026-07-10T21:02,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+116,2026-07-11T09:19,15,Animais,50,0,0,zero_medido,0,1,0,0
+117,2026-07-11T20:41,15,Animais,50,0,0,zero_medido,0,4,0,0
+118,2026-07-12T09:44,15,Animais,50,0,0,zero_medido,0,0,0,0
+119,2026-07-12T20:38,15,Animais,50,0,0,zero_medido,0,6,0,0
+120,2026-07-13T10:51,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+121,2026-07-13T20:53,15,Animais,49,0,1,intervalo_0_a_teto,0,5,1,1
+122,2026-07-14T09:48,15,Animais,48,0,2,intervalo_0_a_teto,0,1,1,2
+123,2026-07-14T20:54,15,Animais,48,0,2,intervalo_0_a_teto,0,3,2,2
+124,2026-07-15T09:52,15,Animais,49,0,1,intervalo_0_a_teto,0,2,1,1
+125,2026-07-15T20:54,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+126,2026-07-16T09:59,15,Animais,49,0,1,intervalo_0_a_teto,0,3,1,1
+127,2026-07-16T20:51,15,Animais,50,0,0,zero_medido,0,1,0,0
+128,2026-07-17T09:49,15,Animais,48,0,2,intervalo_0_a_teto,0,1,1,2
+129,2026-07-17T20:47,15,Animais,48,0,2,intervalo_0_a_teto,0,2,2,2
+30,2026-05-29T13:19,17,Esportes,50,0,0,zero_medido,0,0,0,0
+31,2026-05-29T21:50,17,Esportes,50,0,0,zero_medido,1,0,0,0
+32,2026-05-30T09:52,17,Esportes,50,0,0,zero_medido,0,0,0,0
+33,2026-05-30T20:50,17,Esportes,50,0,0,zero_medido,0,4,0,0
+34,2026-05-31T10:09,17,Esportes,50,0,0,zero_medido,0,1,0,0
+35,2026-05-31T20:53,17,Esportes,50,0,0,zero_medido,0,5,0,0
+36,2026-06-01T13:29,17,Esportes,50,0,0,zero_medido,0,3,0,0
+37,2026-06-01T22:32,17,Esportes,50,0,0,zero_medido,0,2,0,0
+38,2026-06-02T11:58,17,Esportes,50,0,0,zero_medido,0,2,0,0
+39,2026-06-02T22:20,17,Esportes,50,0,0,zero_medido,0,2,0,0
+40,2026-06-03T12:32,17,Esportes,50,0,0,zero_medido,0,1,0,0
+41,2026-06-03T22:26,17,Esportes,50,0,0,zero_medido,0,2,0,0
+42,2026-06-04T10:56,17,Esportes,50,0,0,zero_medido,0,1,0,0
+43,2026-06-04T21:28,17,Esportes,50,0,0,zero_medido,0,2,0,0
+44,2026-06-05T11:19,17,Esportes,50,0,0,zero_medido,0,1,0,0
+45,2026-06-05T21:20,17,Esportes,50,0,0,zero_medido,0,4,0,0
+46,2026-06-06T09:55,17,Esportes,50,0,0,zero_medido,0,1,0,0
+47,2026-06-06T20:58,17,Esportes,49,0,1,intervalo_0_a_teto,0,2,1,1
+48,2026-06-07T10:23,17,Esportes,49,0,1,intervalo_0_a_teto,0,2,1,1
+49,2026-06-07T21:06,17,Esportes,49,0,1,intervalo_0_a_teto,0,3,1,1
+50,2026-06-08T12:23,17,Esportes,49,0,1,intervalo_0_a_teto,0,0,0,1
+51,2026-06-08T21:47,17,Esportes,49,0,1,intervalo_0_a_teto,0,1,1,1
+52,2026-06-09T10:54,17,Esportes,49,0,1,intervalo_0_a_teto,0,0,0,1
+53,2026-06-09T21:44,17,Esportes,49,0,1,intervalo_0_a_teto,0,1,1,1
+54,2026-06-10T11:32,17,Esportes,49,0,1,intervalo_0_a_teto,0,2,1,1
+55,2026-06-10T21:54,17,Esportes,49,0,1,intervalo_0_a_teto,0,3,1,1
+56,2026-06-11T12:04,17,Esportes,49,0,1,intervalo_0_a_teto,0,0,0,1
+57,2026-06-11T21:57,17,Esportes,49,0,1,intervalo_0_a_teto,0,3,1,1
+58,2026-06-12T11:37,17,Esportes,49,0,1,intervalo_0_a_teto,0,1,1,1
+59,2026-06-12T21:27,17,Esportes,50,0,0,zero_medido,0,2,0,0
+60,2026-06-13T10:22,17,Esportes,50,0,0,zero_medido,0,0,0,0
+61,2026-06-13T21:09,17,Esportes,50,0,0,zero_medido,0,2,0,0
+62,2026-06-14T10:45,17,Esportes,50,0,0,zero_medido,0,1,0,0
+63,2026-06-14T21:05,17,Esportes,50,0,0,zero_medido,0,7,0,0
+64,2026-06-15T13:48,17,Esportes,50,0,0,zero_medido,0,3,0,0
+65,2026-06-15T22:14,17,Esportes,50,0,0,zero_medido,0,3,0,0
+66,2026-06-16T12:47,17,Esportes,50,0,0,zero_medido,0,3,0,0
+67,2026-06-16T22:07,17,Esportes,50,0,0,zero_medido,0,4,0,0
+68,2026-06-17T12:11,17,Esportes,50,0,0,zero_medido,0,3,0,0
+69,2026-06-17T21:56,17,Esportes,50,0,0,zero_medido,0,5,0,0
+70,2026-06-18T11:45,17,Esportes,50,0,0,zero_medido,0,1,0,0
+71,2026-06-18T22:02,17,Esportes,50,0,0,zero_medido,0,1,0,0
+72,2026-06-19T12:00,17,Esportes,50,0,0,zero_medido,0,1,0,0
+73,2026-06-19T21:05,17,Esportes,50,0,0,zero_medido,0,2,0,0
+74,2026-06-20T10:27,17,Esportes,50,0,0,zero_medido,1,2,0,0
+75,2026-06-20T21:10,17,Esportes,50,0,0,zero_medido,0,3,0,0
+76,2026-06-21T11:00,17,Esportes,50,0,0,zero_medido,0,0,0,0
+77,2026-06-21T21:09,17,Esportes,50,0,0,zero_medido,0,3,0,0
+78,2026-06-22T13:28,17,Esportes,49,0,1,intervalo_0_a_teto,0,1,1,1
+79,2026-06-22T21:58,17,Esportes,49,0,1,intervalo_0_a_teto,0,1,1,1
+80,2026-06-23T10:56,17,Esportes,49,0,1,intervalo_0_a_teto,0,2,1,1
+81,2026-06-23T21:27,17,Esportes,49,0,1,intervalo_0_a_teto,0,2,1,1
+82,2026-06-24T10:42,17,Esportes,49,0,1,intervalo_0_a_teto,0,2,1,1
+83,2026-06-24T21:19,17,Esportes,49,0,1,intervalo_0_a_teto,0,3,1,1
+84,2026-06-25T10:36,17,Esportes,49,0,1,intervalo_0_a_teto,1,1,1,1
+85,2026-06-25T21:26,17,Esportes,49,0,1,intervalo_0_a_teto,0,0,0,1
+86,2026-06-26T10:44,17,Esportes,49,0,1,intervalo_0_a_teto,0,0,0,1
+87,2026-06-26T21:15,17,Esportes,49,0,1,intervalo_0_a_teto,0,0,0,1
+88,2026-06-27T09:57,17,Esportes,49,0,1,intervalo_0_a_teto,0,0,0,1
+89,2026-06-27T20:56,17,Esportes,49,0,1,intervalo_0_a_teto,0,1,1,1
+90,2026-06-28T10:22,17,Esportes,49,0,1,intervalo_0_a_teto,0,3,1,1
+91,2026-06-28T20:56,17,Esportes,49,0,1,intervalo_0_a_teto,0,6,1,1
+92,2026-06-29T12:24,17,Esportes,50,0,0,zero_medido,0,4,0,0
+93,2026-06-29T21:20,17,Esportes,50,0,0,zero_medido,1,4,0,0
+94,2026-06-30T10:49,17,Esportes,50,0,0,zero_medido,1,2,0,0
+95,2026-06-30T21:24,17,Esportes,50,0,0,zero_medido,0,1,0,0
+96,2026-07-01T11:17,17,Esportes,50,0,0,zero_medido,0,0,0,0
+97,2026-07-01T21:22,17,Esportes,50,0,0,zero_medido,0,2,0,0
+98,2026-07-02T10:30,17,Esportes,50,0,0,zero_medido,0,2,0,0
+99,2026-07-02T20:58,17,Esportes,50,0,0,zero_medido,0,4,0,0
+100,2026-07-03T10:27,17,Esportes,50,0,0,zero_medido,0,5,0,0
+101,2026-07-03T20:57,17,Esportes,50,0,0,zero_medido,0,3,0,0
+102,2026-07-04T10:01,17,Esportes,50,0,0,zero_medido,0,3,0,0
+103,2026-07-04T20:50,17,Esportes,50,0,0,zero_medido,0,2,0,0
+104,2026-07-05T10:04,17,Esportes,50,0,0,zero_medido,0,2,0,0
+105,2026-07-05T20:52,17,Esportes,50,0,0,zero_medido,0,6,0,0
+106,2026-07-06T11:57,17,Esportes,50,0,0,zero_medido,0,4,0,0
+107,2026-07-06T21:24,17,Esportes,50,0,0,zero_medido,0,3,0,0
+108,2026-07-07T10:47,17,Esportes,50,0,0,zero_medido,0,2,0,0
+109,2026-07-07T21:18,17,Esportes,50,0,0,zero_medido,0,2,0,0
+110,2026-07-08T10:09,17,Esportes,50,0,0,zero_medido,0,2,0,0
+111,2026-07-08T21:01,17,Esportes,50,0,0,zero_medido,0,3,0,0
+112,2026-07-09T10:47,17,Esportes,50,0,0,zero_medido,0,1,0,0
+113,2026-07-09T21:17,17,Esportes,50,0,0,zero_medido,0,5,0,0
+114,2026-07-10T10:45,17,Esportes,50,0,0,zero_medido,0,3,0,0
+115,2026-07-10T21:02,17,Esportes,50,0,0,zero_medido,0,2,0,0
+116,2026-07-11T09:19,17,Esportes,50,0,0,zero_medido,0,1,0,0
+117,2026-07-11T20:41,17,Esportes,50,0,0,zero_medido,0,4,0,0
+118,2026-07-12T09:44,17,Esportes,50,0,0,zero_medido,1,0,0,0
+119,2026-07-12T20:38,17,Esportes,50,0,0,zero_medido,0,6,0,0
+120,2026-07-13T10:51,17,Esportes,50,0,0,zero_medido,0,3,0,0
+121,2026-07-13T20:53,17,Esportes,50,0,0,zero_medido,0,5,0,0
+122,2026-07-14T09:48,17,Esportes,50,0,0,zero_medido,0,1,0,0
+123,2026-07-14T20:54,17,Esportes,50,0,0,zero_medido,0,3,0,0
+124,2026-07-15T09:52,17,Esportes,50,0,0,zero_medido,0,2,0,0
+125,2026-07-15T20:54,17,Esportes,50,0,0,zero_medido,0,3,0,0
+126,2026-07-16T09:59,17,Esportes,50,0,0,zero_medido,0,3,0,0
+127,2026-07-16T20:51,17,Esportes,50,0,0,zero_medido,0,1,0,0
+128,2026-07-17T09:49,17,Esportes,50,0,0,zero_medido,0,1,0,0
+129,2026-07-17T20:47,17,Esportes,50,0,0,zero_medido,0,2,0,0
+30,2026-05-29T13:19,20,Jogos,32,0,18,intervalo_0_a_teto,18,0,18,16
+31,2026-05-29T21:50,20,Jogos,33,0,17,intervalo_0_a_teto,20,0,17,15
+32,2026-05-30T09:52,20,Jogos,32,0,18,intervalo_0_a_teto,18,0,18,16
+33,2026-05-30T20:50,20,Jogos,30,0,20,intervalo_0_a_teto,16,4,20,18
+34,2026-05-31T10:09,20,Jogos,28,0,22,intervalo_0_a_teto,21,1,22,20
+35,2026-05-31T20:53,20,Jogos,32,0,18,intervalo_0_a_teto,14,5,18,16
+36,2026-06-01T13:29,20,Jogos,29,0,21,intervalo_0_a_teto,16,3,19,19
+37,2026-06-01T22:32,20,Jogos,34,0,16,intervalo_0_a_teto,18,2,16,14
+38,2026-06-02T11:58,20,Jogos,32,0,18,intervalo_0_a_teto,17,2,18,16
+39,2026-06-02T22:20,20,Jogos,39,0,11,intervalo_0_a_teto,21,2,11,9
+40,2026-06-03T12:32,20,Jogos,32,0,18,intervalo_0_a_teto,20,1,18,16
+41,2026-06-03T22:26,20,Jogos,31,0,19,intervalo_0_a_teto,18,2,19,17
+42,2026-06-04T10:56,20,Jogos,33,0,17,intervalo_0_a_teto,19,1,17,15
+43,2026-06-04T21:28,20,Jogos,43,0,7,intervalo_0_a_teto,20,2,7,5
+44,2026-06-05T11:19,20,Jogos,31,0,19,intervalo_0_a_teto,20,1,19,17
+45,2026-06-05T21:20,20,Jogos,29,0,21,intervalo_0_a_teto,19,4,21,19
+46,2026-06-06T09:55,20,Jogos,31,0,19,intervalo_0_a_teto,28,1,19,17
+47,2026-06-06T20:58,20,Jogos,37,0,13,intervalo_0_a_teto,27,2,13,11
+48,2026-06-07T10:23,20,Jogos,34,0,16,intervalo_0_a_teto,27,2,16,14
+49,2026-06-07T21:06,20,Jogos,32,0,18,intervalo_0_a_teto,21,3,18,16
+50,2026-06-08T12:23,20,Jogos,31,0,19,intervalo_0_a_teto,23,0,19,17
+51,2026-06-08T21:47,20,Jogos,33,0,17,intervalo_0_a_teto,20,1,17,15
+52,2026-06-09T10:54,20,Jogos,31,0,19,intervalo_0_a_teto,18,0,18,17
+53,2026-06-09T21:44,20,Jogos,33,0,17,intervalo_0_a_teto,23,1,17,15
+54,2026-06-10T11:32,20,Jogos,30,0,20,intervalo_0_a_teto,22,2,20,18
+55,2026-06-10T21:54,20,Jogos,35,0,15,intervalo_0_a_teto,18,3,15,13
+56,2026-06-11T12:04,20,Jogos,31,0,19,intervalo_0_a_teto,19,0,19,17
+57,2026-06-11T21:57,20,Jogos,33,0,17,intervalo_0_a_teto,18,3,17,15
+58,2026-06-12T11:37,20,Jogos,33,0,17,intervalo_0_a_teto,16,1,17,15
+59,2026-06-12T21:27,20,Jogos,32,0,18,intervalo_0_a_teto,16,2,18,16
+60,2026-06-13T10:22,20,Jogos,30,0,20,intervalo_0_a_teto,18,0,18,18
+61,2026-06-13T21:09,20,Jogos,27,0,23,intervalo_0_a_teto,20,2,22,21
+62,2026-06-14T10:45,20,Jogos,26,0,24,intervalo_0_a_teto,22,1,23,22
+63,2026-06-14T21:05,20,Jogos,30,0,20,intervalo_0_a_teto,18,7,20,18
+64,2026-06-15T13:48,20,Jogos,30,0,20,intervalo_0_a_teto,18,3,20,18
+65,2026-06-15T22:14,20,Jogos,32,0,18,intervalo_0_a_teto,17,3,18,16
+66,2026-06-16T12:47,20,Jogos,30,0,20,intervalo_0_a_teto,18,3,20,18
+67,2026-06-16T22:07,20,Jogos,31,0,19,intervalo_0_a_teto,18,4,19,17
+68,2026-06-17T12:11,20,Jogos,32,0,18,intervalo_0_a_teto,15,3,18,16
+69,2026-06-17T21:56,20,Jogos,36,0,14,intervalo_0_a_teto,13,5,14,12
+70,2026-06-18T11:45,20,Jogos,35,0,15,intervalo_0_a_teto,15,1,15,13
+71,2026-06-18T22:02,20,Jogos,48,0,2,intervalo_0_a_teto,16,1,2,0
+72,2026-06-19T12:00,20,Jogos,34,0,16,intervalo_0_a_teto,16,1,16,14
+73,2026-06-19T21:05,20,Jogos,41,0,9,intervalo_0_a_teto,16,2,9,7
+74,2026-06-20T10:27,20,Jogos,31,0,19,intervalo_0_a_teto,18,2,19,17
+75,2026-06-20T21:10,20,Jogos,32,0,18,intervalo_0_a_teto,18,3,18,16
+76,2026-06-21T11:00,20,Jogos,31,0,19,intervalo_0_a_teto,21,0,19,17
+77,2026-06-21T21:09,20,Jogos,29,0,21,intervalo_0_a_teto,19,3,21,19
+78,2026-06-22T13:28,20,Jogos,32,0,18,intervalo_0_a_teto,19,1,18,16
+79,2026-06-22T21:58,20,Jogos,32,0,18,intervalo_0_a_teto,19,1,18,16
+80,2026-06-23T10:56,20,Jogos,34,0,16,intervalo_0_a_teto,17,2,16,14
+81,2026-06-23T21:27,20,Jogos,34,0,16,intervalo_0_a_teto,17,2,16,14
+82,2026-06-24T10:42,20,Jogos,33,0,17,intervalo_0_a_teto,19,2,17,15
+83,2026-06-24T21:19,20,Jogos,33,0,17,intervalo_0_a_teto,15,3,17,15
+84,2026-06-25T10:36,20,Jogos,34,0,16,intervalo_0_a_teto,11,1,12,14
+85,2026-06-25T21:26,20,Jogos,33,0,17,intervalo_0_a_teto,12,0,12,15
+86,2026-06-26T10:44,20,Jogos,33,0,17,intervalo_0_a_teto,12,0,12,15
+87,2026-06-26T21:15,20,Jogos,32,0,18,intervalo_0_a_teto,13,0,13,16
+88,2026-06-27T09:57,20,Jogos,32,0,18,intervalo_0_a_teto,13,0,13,16
+89,2026-06-27T20:56,20,Jogos,43,0,7,intervalo_0_a_teto,20,1,7,5
+90,2026-06-28T10:22,20,Jogos,31,0,19,intervalo_0_a_teto,19,3,19,17
+91,2026-06-28T20:56,20,Jogos,30,0,20,intervalo_0_a_teto,19,6,20,18
+92,2026-06-29T12:24,20,Jogos,32,0,18,intervalo_0_a_teto,21,4,18,16
+93,2026-06-29T21:20,20,Jogos,40,0,10,intervalo_0_a_teto,21,4,10,8
+94,2026-06-30T10:49,20,Jogos,32,0,18,intervalo_0_a_teto,22,2,18,16
+95,2026-06-30T21:24,20,Jogos,30,0,20,intervalo_0_a_teto,19,1,20,18
+96,2026-07-01T11:17,20,Jogos,30,0,20,intervalo_0_a_teto,20,0,20,18
+97,2026-07-01T21:22,20,Jogos,30,0,20,intervalo_0_a_teto,15,2,17,18
+98,2026-07-02T10:30,20,Jogos,29,0,21,intervalo_0_a_teto,17,2,19,19
+99,2026-07-02T20:58,20,Jogos,29,0,21,intervalo_0_a_teto,18,4,21,19
+100,2026-07-03T10:27,20,Jogos,27,0,23,intervalo_0_a_teto,20,5,23,21
+101,2026-07-03T20:57,20,Jogos,30,0,20,intervalo_0_a_teto,19,3,20,18
+102,2026-07-04T10:01,20,Jogos,30,0,20,intervalo_0_a_teto,18,3,20,18
+103,2026-07-04T20:50,20,Jogos,30,0,20,intervalo_0_a_teto,18,2,20,18
+104,2026-07-05T10:04,20,Jogos,30,0,20,intervalo_0_a_teto,20,2,20,18
+105,2026-07-05T20:52,20,Jogos,32,0,18,intervalo_0_a_teto,17,6,18,16
+106,2026-07-06T11:57,20,Jogos,34,0,16,intervalo_0_a_teto,20,4,16,14
+107,2026-07-06T21:24,20,Jogos,33,0,17,intervalo_0_a_teto,18,3,17,15
+108,2026-07-07T10:47,20,Jogos,31,0,19,intervalo_0_a_teto,17,2,19,17
+109,2026-07-07T21:18,20,Jogos,32,0,18,intervalo_0_a_teto,20,2,18,16
+110,2026-07-08T10:09,20,Jogos,30,0,20,intervalo_0_a_teto,19,2,20,18
+111,2026-07-08T21:01,20,Jogos,33,0,17,intervalo_0_a_teto,16,3,17,15
+112,2026-07-09T10:47,20,Jogos,33,0,17,intervalo_0_a_teto,19,1,17,15
+113,2026-07-09T21:17,20,Jogos,34,0,16,intervalo_0_a_teto,16,5,16,14
+114,2026-07-10T10:45,20,Jogos,31,0,19,intervalo_0_a_teto,17,3,19,17
+115,2026-07-10T21:02,20,Jogos,31,0,19,intervalo_0_a_teto,15,2,17,17
+116,2026-07-11T09:19,20,Jogos,29,0,21,intervalo_0_a_teto,17,1,18,19
+117,2026-07-11T20:41,20,Jogos,28,0,22,intervalo_0_a_teto,16,4,20,20
+118,2026-07-12T09:44,20,Jogos,29,0,21,intervalo_0_a_teto,22,0,21,19
+119,2026-07-12T20:38,20,Jogos,28,0,22,intervalo_0_a_teto,17,6,22,20
+120,2026-07-13T10:51,20,Jogos,29,0,21,intervalo_0_a_teto,18,3,21,19
+121,2026-07-13T20:53,20,Jogos,30,0,20,intervalo_0_a_teto,16,5,20,18
+122,2026-07-14T09:48,20,Jogos,30,0,20,intervalo_0_a_teto,19,1,20,18
+123,2026-07-14T20:54,20,Jogos,35,0,15,intervalo_0_a_teto,16,3,15,13
+124,2026-07-15T09:52,20,Jogos,32,0,18,intervalo_0_a_teto,20,2,18,16
+125,2026-07-15T20:54,20,Jogos,31,0,19,intervalo_0_a_teto,15,3,18,17
+126,2026-07-16T09:59,20,Jogos,30,0,20,intervalo_0_a_teto,18,3,20,18
+127,2026-07-16T20:51,20,Jogos,33,0,17,intervalo_0_a_teto,22,1,17,15
+128,2026-07-17T09:49,20,Jogos,32,0,18,intervalo_0_a_teto,20,1,18,16
+129,2026-07-17T20:47,20,Jogos,32,0,18,intervalo_0_a_teto,18,2,18,16
+30,2026-05-29T13:19,22,Pessoas e blogs,27,0,23,intervalo_0_a_teto,7,0,7,3
+31,2026-05-29T21:50,22,Pessoas e blogs,27,0,23,intervalo_0_a_teto,6,0,6,3
+32,2026-05-30T09:52,22,Pessoas e blogs,27,0,23,intervalo_0_a_teto,4,0,4,3
+33,2026-05-30T20:50,22,Pessoas e blogs,27,0,23,intervalo_0_a_teto,5,4,9,3
+34,2026-05-31T10:09,22,Pessoas e blogs,24,0,26,intervalo_0_a_teto,5,1,6,6
+35,2026-05-31T20:53,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,9,5,14,8
+36,2026-06-01T13:29,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,6,3,9,11
+37,2026-06-01T22:32,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,5,2,7,11
+38,2026-06-02T11:58,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,3,2,5,9
+39,2026-06-02T22:20,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,1,2,3,10
+40,2026-06-03T12:32,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,4,1,5,7
+41,2026-06-03T22:26,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,5,2,7,9
+42,2026-06-04T10:56,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,3,1,4,8
+43,2026-06-04T21:28,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,0,2,2,8
+44,2026-06-05T11:19,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,2,1,3,10
+45,2026-06-05T21:20,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,2,4,6,8
+46,2026-06-06T09:55,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,1,1,2,9
+47,2026-06-06T20:58,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,2,2,4,10
+48,2026-06-07T10:23,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,1,2,3,10
+49,2026-06-07T21:06,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,4,3,7,10
+50,2026-06-08T12:23,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,5,0,5,10
+51,2026-06-08T21:47,22,Pessoas e blogs,18,0,32,intervalo_0_a_teto,6,1,7,12
+52,2026-06-09T10:54,22,Pessoas e blogs,18,0,32,intervalo_0_a_teto,6,0,6,12
+53,2026-06-09T21:44,22,Pessoas e blogs,17,0,33,intervalo_0_a_teto,1,1,2,13
+54,2026-06-10T11:32,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,3,2,5,10
+55,2026-06-10T21:54,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,8,3,11,10
+56,2026-06-11T12:04,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,7,0,7,10
+57,2026-06-11T21:57,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,4,3,7,10
+58,2026-06-12T11:37,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,4,1,5,11
+59,2026-06-12T21:27,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,4,2,6,9
+60,2026-06-13T10:22,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,3,0,3,7
+61,2026-06-13T21:09,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,6,2,8,7
+62,2026-06-14T10:45,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,4,1,5,8
+63,2026-06-14T21:05,22,Pessoas e blogs,24,0,26,intervalo_0_a_teto,5,7,12,6
+64,2026-06-15T13:48,22,Pessoas e blogs,24,0,26,intervalo_0_a_teto,2,3,5,6
+65,2026-06-15T22:14,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,2,3,5,7
+66,2026-06-16T12:47,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,2,3,5,7
+67,2026-06-16T22:07,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,2,4,6,9
+68,2026-06-17T12:11,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,3,3,6,10
+69,2026-06-17T21:56,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,6,5,11,11
+70,2026-06-18T11:45,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,6,1,7,11
+71,2026-06-18T22:02,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,1,1,2,11
+72,2026-06-19T12:00,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,2,1,3,11
+73,2026-06-19T21:05,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,3,2,5,11
+74,2026-06-20T10:27,22,Pessoas e blogs,16,0,34,intervalo_0_a_teto,1,2,3,14
+75,2026-06-20T21:10,22,Pessoas e blogs,16,0,34,intervalo_0_a_teto,3,3,6,14
+76,2026-06-21T11:00,22,Pessoas e blogs,15,0,35,intervalo_0_a_teto,1,0,1,15
+77,2026-06-21T21:09,22,Pessoas e blogs,15,0,35,intervalo_0_a_teto,3,3,6,15
+78,2026-06-22T13:28,22,Pessoas e blogs,17,0,33,intervalo_0_a_teto,2,1,3,13
+79,2026-06-22T21:58,22,Pessoas e blogs,17,0,33,intervalo_0_a_teto,2,1,3,13
+80,2026-06-23T10:56,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,1,2,3,11
+81,2026-06-23T21:27,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,1,2,3,11
+82,2026-06-24T10:42,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,3,2,5,8
+83,2026-06-24T21:19,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,2,3,5,9
+84,2026-06-25T10:36,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,4,1,5,7
+85,2026-06-25T21:26,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,4,0,4,7
+86,2026-06-26T10:44,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,4,0,4,7
+87,2026-06-26T21:15,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,4,0,4,8
+88,2026-06-27T09:57,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,4,0,4,9
+89,2026-06-27T20:56,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,4,1,5,5
+90,2026-06-28T10:22,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,3,3,6,5
+91,2026-06-28T20:56,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,1,6,7,5
+92,2026-06-29T12:24,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,1,4,5,5
+93,2026-06-29T21:20,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,0,4,4,5
+94,2026-06-30T10:49,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,2,2,4,5
+95,2026-06-30T21:24,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,4,1,5,5
+96,2026-07-01T11:17,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,2,0,2,7
+97,2026-07-01T21:22,22,Pessoas e blogs,24,0,26,intervalo_0_a_teto,3,2,5,6
+98,2026-07-02T10:30,22,Pessoas e blogs,24,0,26,intervalo_0_a_teto,6,2,8,6
+99,2026-07-02T20:58,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,5,4,9,7
+100,2026-07-03T10:27,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,3,5,8,10
+101,2026-07-03T20:57,22,Pessoas e blogs,22,0,28,intervalo_0_a_teto,5,3,8,8
+102,2026-07-04T10:01,22,Pessoas e blogs,24,0,26,intervalo_0_a_teto,4,3,7,6
+103,2026-07-04T20:50,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,1,2,3,7
+104,2026-07-05T10:04,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,1,2,3,9
+105,2026-07-05T20:52,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,5,6,11,9
+106,2026-07-06T11:57,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,3,4,7,9
+107,2026-07-06T21:24,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,3,3,6,10
+108,2026-07-07T10:47,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,5,2,7,10
+109,2026-07-07T21:18,22,Pessoas e blogs,19,0,31,intervalo_0_a_teto,3,2,5,11
+110,2026-07-08T10:09,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,3,2,5,9
+111,2026-07-08T21:01,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,5,3,8,10
+112,2026-07-09T10:47,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,2,1,3,9
+113,2026-07-09T21:17,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,2,5,7,10
+114,2026-07-10T10:45,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,2,3,5,10
+115,2026-07-10T21:02,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,4,2,6,9
+116,2026-07-11T09:19,22,Pessoas e blogs,20,0,30,intervalo_0_a_teto,4,1,5,10
+117,2026-07-11T20:41,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,4,4,8,9
+118,2026-07-12T09:44,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,1,0,1,9
+119,2026-07-12T20:38,22,Pessoas e blogs,21,0,29,intervalo_0_a_teto,2,6,8,9
+120,2026-07-13T10:51,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,6,3,9,7
+121,2026-07-13T20:53,22,Pessoas e blogs,23,0,27,intervalo_0_a_teto,7,5,12,7
+122,2026-07-14T09:48,22,Pessoas e blogs,28,0,22,intervalo_0_a_teto,4,1,5,2
+123,2026-07-14T20:54,22,Pessoas e blogs,29,0,21,intervalo_0_a_teto,6,3,9,1
+124,2026-07-15T09:52,22,Pessoas e blogs,30,0,20,intervalo_0_a_teto,4,2,6,0
+125,2026-07-15T20:54,22,Pessoas e blogs,28,0,22,intervalo_0_a_teto,2,3,5,2
+126,2026-07-16T09:59,22,Pessoas e blogs,26,0,24,intervalo_0_a_teto,3,3,6,4
+127,2026-07-16T20:51,22,Pessoas e blogs,27,0,23,intervalo_0_a_teto,5,1,6,3
+128,2026-07-17T09:49,22,Pessoas e blogs,24,0,26,intervalo_0_a_teto,4,1,5,6
+129,2026-07-17T20:47,22,Pessoas e blogs,25,0,25,intervalo_0_a_teto,3,2,5,5
+30,2026-05-29T13:19,23,Comédia,22,0,28,intervalo_0_a_teto,0,0,0,10
+31,2026-05-29T21:50,23,Comédia,23,0,27,intervalo_0_a_teto,0,0,0,9
+32,2026-05-30T09:52,23,Comédia,21,0,29,intervalo_0_a_teto,0,0,0,11
+33,2026-05-30T20:50,23,Comédia,21,0,29,intervalo_0_a_teto,0,4,4,11
+34,2026-05-31T10:09,23,Comédia,23,0,27,intervalo_0_a_teto,0,1,1,9
+35,2026-05-31T20:53,23,Comédia,23,0,27,intervalo_0_a_teto,0,5,5,9
+36,2026-06-01T13:29,23,Comédia,23,0,27,intervalo_0_a_teto,0,3,3,9
+37,2026-06-01T22:32,23,Comédia,24,0,26,intervalo_0_a_teto,0,2,2,8
+38,2026-06-02T11:58,23,Comédia,23,0,27,intervalo_0_a_teto,0,2,2,9
+39,2026-06-02T22:20,23,Comédia,23,0,27,intervalo_0_a_teto,0,2,2,9
+40,2026-06-03T12:32,23,Comédia,22,0,28,intervalo_0_a_teto,0,1,1,10
+41,2026-06-03T22:26,23,Comédia,20,0,30,intervalo_0_a_teto,0,2,2,12
+42,2026-06-04T10:56,23,Comédia,21,0,29,intervalo_0_a_teto,0,1,1,11
+43,2026-06-04T21:28,23,Comédia,20,0,30,intervalo_0_a_teto,0,2,2,12
+44,2026-06-05T11:19,23,Comédia,22,0,28,intervalo_0_a_teto,0,1,1,10
+45,2026-06-05T21:20,23,Comédia,19,0,31,intervalo_0_a_teto,0,4,4,13
+46,2026-06-06T09:55,23,Comédia,22,0,28,intervalo_0_a_teto,0,1,1,10
+47,2026-06-06T20:58,23,Comédia,24,0,26,intervalo_0_a_teto,0,2,2,8
+48,2026-06-07T10:23,23,Comédia,25,0,25,intervalo_0_a_teto,0,2,2,7
+49,2026-06-07T21:06,23,Comédia,27,0,23,intervalo_0_a_teto,0,3,3,5
+50,2026-06-08T12:23,23,Comédia,28,0,22,intervalo_0_a_teto,0,0,0,4
+51,2026-06-08T21:47,23,Comédia,28,0,22,intervalo_0_a_teto,0,1,1,4
+52,2026-06-09T10:54,23,Comédia,29,0,21,intervalo_0_a_teto,0,0,0,3
+53,2026-06-09T21:44,23,Comédia,28,0,22,intervalo_0_a_teto,0,1,1,4
+54,2026-06-10T11:32,23,Comédia,28,0,22,intervalo_0_a_teto,0,2,2,4
+55,2026-06-10T21:54,23,Comédia,31,0,19,intervalo_0_a_teto,0,3,3,1
+56,2026-06-11T12:04,23,Comédia,31,0,19,intervalo_0_a_teto,1,0,1,1
+57,2026-06-11T21:57,23,Comédia,32,0,18,intervalo_0_a_teto,1,3,4,0
+58,2026-06-12T11:37,23,Comédia,30,0,20,intervalo_0_a_teto,2,1,3,2
+59,2026-06-12T21:27,23,Comédia,30,0,20,intervalo_0_a_teto,1,2,3,2
+60,2026-06-13T10:22,23,Comédia,30,0,20,intervalo_0_a_teto,1,0,1,2
+61,2026-06-13T21:09,23,Comédia,30,0,20,intervalo_0_a_teto,0,2,2,2
+62,2026-06-14T10:45,23,Comédia,30,0,20,intervalo_0_a_teto,0,1,1,2
+63,2026-06-14T21:05,23,Comédia,32,0,18,intervalo_0_a_teto,0,7,7,0
+64,2026-06-15T13:48,23,Comédia,27,0,23,intervalo_0_a_teto,0,3,3,5
+65,2026-06-15T22:14,23,Comédia,29,0,21,intervalo_0_a_teto,0,3,3,3
+66,2026-06-16T12:47,23,Comédia,28,0,22,intervalo_0_a_teto,0,3,3,4
+67,2026-06-16T22:07,23,Comédia,27,0,23,intervalo_0_a_teto,0,4,4,5
+68,2026-06-17T12:11,23,Comédia,24,0,26,intervalo_0_a_teto,0,3,3,8
+69,2026-06-17T21:56,23,Comédia,23,0,27,intervalo_0_a_teto,0,5,5,9
+70,2026-06-18T11:45,23,Comédia,20,0,30,intervalo_0_a_teto,0,1,1,12
+71,2026-06-18T22:02,23,Comédia,20,0,30,intervalo_0_a_teto,0,1,1,12
+72,2026-06-19T12:00,23,Comédia,20,0,30,intervalo_0_a_teto,0,1,1,12
+73,2026-06-19T21:05,23,Comédia,23,0,27,intervalo_0_a_teto,0,2,2,9
+74,2026-06-20T10:27,23,Comédia,19,0,31,intervalo_0_a_teto,0,2,2,13
+75,2026-06-20T21:10,23,Comédia,19,0,31,intervalo_0_a_teto,0,3,3,13
+76,2026-06-21T11:00,23,Comédia,22,0,28,intervalo_0_a_teto,0,0,0,10
+77,2026-06-21T21:09,23,Comédia,21,0,29,intervalo_0_a_teto,0,3,3,11
+78,2026-06-22T13:28,23,Comédia,21,0,29,intervalo_0_a_teto,0,1,1,11
+79,2026-06-22T21:58,23,Comédia,22,0,28,intervalo_0_a_teto,0,1,1,10
+80,2026-06-23T10:56,23,Comédia,20,0,30,intervalo_0_a_teto,0,2,2,12
+81,2026-06-23T21:27,23,Comédia,18,0,32,intervalo_0_a_teto,0,2,2,14
+82,2026-06-24T10:42,23,Comédia,19,0,31,intervalo_0_a_teto,0,2,2,13
+83,2026-06-24T21:19,23,Comédia,18,0,32,intervalo_0_a_teto,0,3,3,14
+84,2026-06-25T10:36,23,Comédia,17,0,33,intervalo_0_a_teto,0,1,1,15
+85,2026-06-25T21:26,23,Comédia,16,0,34,intervalo_0_a_teto,0,0,0,16
+86,2026-06-26T10:44,23,Comédia,17,0,33,intervalo_0_a_teto,0,0,0,15
+87,2026-06-26T21:15,23,Comédia,18,0,32,intervalo_0_a_teto,0,0,0,14
+88,2026-06-27T09:57,23,Comédia,18,0,32,intervalo_0_a_teto,0,0,0,14
+89,2026-06-27T20:56,23,Comédia,21,0,29,intervalo_0_a_teto,0,1,1,11
+90,2026-06-28T10:22,23,Comédia,20,0,30,intervalo_0_a_teto,0,3,3,12
+91,2026-06-28T20:56,23,Comédia,19,0,31,intervalo_0_a_teto,0,6,6,13
+92,2026-06-29T12:24,23,Comédia,20,0,30,intervalo_0_a_teto,0,4,4,12
+93,2026-06-29T21:20,23,Comédia,19,0,31,intervalo_0_a_teto,0,4,4,13
+94,2026-06-30T10:49,23,Comédia,21,0,29,intervalo_0_a_teto,0,2,2,11
+95,2026-06-30T21:24,23,Comédia,23,0,27,intervalo_0_a_teto,0,1,1,9
+96,2026-07-01T11:17,23,Comédia,20,0,30,intervalo_0_a_teto,0,0,0,12
+97,2026-07-01T21:22,23,Comédia,19,0,31,intervalo_0_a_teto,0,2,2,13
+98,2026-07-02T10:30,23,Comédia,19,0,31,intervalo_0_a_teto,0,2,2,13
+99,2026-07-02T20:58,23,Comédia,23,0,27,intervalo_0_a_teto,0,4,4,9
+100,2026-07-03T10:27,23,Comédia,22,0,28,intervalo_0_a_teto,0,5,5,10
+101,2026-07-03T20:57,23,Comédia,23,0,27,intervalo_0_a_teto,0,3,3,9
+102,2026-07-04T10:01,23,Comédia,23,0,27,intervalo_0_a_teto,0,3,3,9
+103,2026-07-04T20:50,23,Comédia,25,0,25,intervalo_0_a_teto,0,2,2,7
+104,2026-07-05T10:04,23,Comédia,24,0,26,intervalo_0_a_teto,0,2,2,8
+105,2026-07-05T20:52,23,Comédia,23,0,27,intervalo_0_a_teto,0,6,6,9
+106,2026-07-06T11:57,23,Comédia,23,0,27,intervalo_0_a_teto,0,4,4,9
+107,2026-07-06T21:24,23,Comédia,22,0,28,intervalo_0_a_teto,0,3,3,10
+108,2026-07-07T10:47,23,Comédia,19,0,31,intervalo_0_a_teto,0,2,2,13
+109,2026-07-07T21:18,23,Comédia,18,0,32,intervalo_0_a_teto,0,2,2,14
+110,2026-07-08T10:09,23,Comédia,20,0,30,intervalo_0_a_teto,0,2,2,12
+111,2026-07-08T21:01,23,Comédia,20,0,30,intervalo_0_a_teto,0,3,3,12
+112,2026-07-09T10:47,23,Comédia,23,0,27,intervalo_0_a_teto,1,1,2,9
+113,2026-07-09T21:17,23,Comédia,22,0,28,intervalo_0_a_teto,0,5,5,10
+114,2026-07-10T10:45,23,Comédia,20,0,30,intervalo_0_a_teto,0,3,3,12
+115,2026-07-10T21:02,23,Comédia,21,0,29,intervalo_0_a_teto,0,2,2,11
+116,2026-07-11T09:19,23,Comédia,25,0,25,intervalo_0_a_teto,0,1,1,7
+117,2026-07-11T20:41,23,Comédia,24,0,26,intervalo_0_a_teto,0,4,4,8
+118,2026-07-12T09:44,23,Comédia,27,0,23,intervalo_0_a_teto,1,0,1,5
+119,2026-07-12T20:38,23,Comédia,27,0,23,intervalo_0_a_teto,1,6,7,5
+120,2026-07-13T10:51,23,Comédia,25,0,25,intervalo_0_a_teto,0,3,3,7
+121,2026-07-13T20:53,23,Comédia,26,0,24,intervalo_0_a_teto,0,5,5,6
+122,2026-07-14T09:48,23,Comédia,25,0,25,intervalo_0_a_teto,0,1,1,7
+123,2026-07-14T20:54,23,Comédia,27,0,23,intervalo_0_a_teto,0,3,3,5
+124,2026-07-15T09:52,23,Comédia,29,0,21,intervalo_0_a_teto,0,2,2,3
+125,2026-07-15T20:54,23,Comédia,27,0,23,intervalo_0_a_teto,0,3,3,5
+126,2026-07-16T09:59,23,Comédia,28,0,22,intervalo_0_a_teto,0,3,3,4
+127,2026-07-16T20:51,23,Comédia,29,0,21,intervalo_0_a_teto,0,1,1,3
+128,2026-07-17T09:49,23,Comédia,29,0,21,intervalo_0_a_teto,0,1,1,3
+129,2026-07-17T20:47,23,Comédia,29,0,21,intervalo_0_a_teto,0,2,2,3
+30,2026-05-29T13:19,24,Entretenimento,20,0,30,intervalo_0_a_teto,6,0,6,15
+31,2026-05-29T21:50,24,Entretenimento,21,0,29,intervalo_0_a_teto,2,0,2,14
+32,2026-05-30T09:52,24,Entretenimento,22,0,28,intervalo_0_a_teto,6,0,6,13
+33,2026-05-30T20:50,24,Entretenimento,21,0,29,intervalo_0_a_teto,2,4,6,14
+34,2026-05-31T10:09,24,Entretenimento,23,0,27,intervalo_0_a_teto,2,1,3,12
+35,2026-05-31T20:53,24,Entretenimento,23,0,27,intervalo_0_a_teto,4,5,9,12
+36,2026-06-01T13:29,24,Entretenimento,23,0,27,intervalo_0_a_teto,5,3,8,12
+37,2026-06-01T22:32,24,Entretenimento,23,0,27,intervalo_0_a_teto,4,2,6,12
+38,2026-06-02T11:58,24,Entretenimento,24,0,26,intervalo_0_a_teto,6,2,8,11
+39,2026-06-02T22:20,24,Entretenimento,24,0,26,intervalo_0_a_teto,8,2,10,11
+40,2026-06-03T12:32,24,Entretenimento,26,0,24,intervalo_0_a_teto,7,1,8,9
+41,2026-06-03T22:26,24,Entretenimento,24,0,26,intervalo_0_a_teto,5,2,7,11
+42,2026-06-04T10:56,24,Entretenimento,26,0,24,intervalo_0_a_teto,10,1,11,9
+43,2026-06-04T21:28,24,Entretenimento,27,0,23,intervalo_0_a_teto,9,2,11,8
+44,2026-06-05T11:19,24,Entretenimento,27,0,23,intervalo_0_a_teto,6,1,7,8
+45,2026-06-05T21:20,24,Entretenimento,25,0,25,intervalo_0_a_teto,2,4,6,10
+46,2026-06-06T09:55,24,Entretenimento,25,0,25,intervalo_0_a_teto,5,1,6,10
+47,2026-06-06T20:58,24,Entretenimento,30,0,20,intervalo_0_a_teto,3,2,5,5
+48,2026-06-07T10:23,24,Entretenimento,33,0,17,intervalo_0_a_teto,4,2,6,2
+49,2026-06-07T21:06,24,Entretenimento,32,0,18,intervalo_0_a_teto,2,3,5,3
+50,2026-06-08T12:23,24,Entretenimento,32,0,18,intervalo_0_a_teto,6,0,6,3
+51,2026-06-08T21:47,24,Entretenimento,33,0,17,intervalo_0_a_teto,6,1,7,2
+52,2026-06-09T10:54,24,Entretenimento,32,0,18,intervalo_0_a_teto,9,0,9,3
+53,2026-06-09T21:44,24,Entretenimento,34,0,16,intervalo_0_a_teto,6,1,7,1
+54,2026-06-10T11:32,24,Entretenimento,34,0,16,intervalo_0_a_teto,4,2,6,1
+55,2026-06-10T21:54,24,Entretenimento,30,0,20,intervalo_0_a_teto,3,3,6,5
+56,2026-06-11T12:04,24,Entretenimento,29,0,21,intervalo_0_a_teto,7,0,7,6
+57,2026-06-11T21:57,24,Entretenimento,31,0,19,intervalo_0_a_teto,6,3,9,4
+58,2026-06-12T11:37,24,Entretenimento,35,0,15,intervalo_0_a_teto,7,1,8,0
+59,2026-06-12T21:27,24,Entretenimento,31,0,19,intervalo_0_a_teto,6,2,8,4
+60,2026-06-13T10:22,24,Entretenimento,32,0,18,intervalo_0_a_teto,4,0,4,3
+61,2026-06-13T21:09,24,Entretenimento,34,0,16,intervalo_0_a_teto,0,2,2,1
+62,2026-06-14T10:45,24,Entretenimento,33,0,17,intervalo_0_a_teto,1,1,2,2
+63,2026-06-14T21:05,24,Entretenimento,32,0,18,intervalo_0_a_teto,2,7,9,3
+64,2026-06-15T13:48,24,Entretenimento,31,0,19,intervalo_0_a_teto,5,3,8,4
+65,2026-06-15T22:14,24,Entretenimento,32,0,18,intervalo_0_a_teto,10,3,13,3
+66,2026-06-16T12:47,24,Entretenimento,30,0,20,intervalo_0_a_teto,7,3,10,5
+67,2026-06-16T22:07,24,Entretenimento,27,0,23,intervalo_0_a_teto,5,4,9,8
+68,2026-06-17T12:11,24,Entretenimento,28,0,22,intervalo_0_a_teto,8,3,11,7
+69,2026-06-17T21:56,24,Entretenimento,29,0,21,intervalo_0_a_teto,10,5,15,6
+70,2026-06-18T11:45,24,Entretenimento,26,0,24,intervalo_0_a_teto,12,1,13,9
+71,2026-06-18T22:02,24,Entretenimento,29,0,21,intervalo_0_a_teto,13,1,14,6
+72,2026-06-19T12:00,24,Entretenimento,29,0,21,intervalo_0_a_teto,12,1,13,6
+73,2026-06-19T21:05,24,Entretenimento,28,0,22,intervalo_0_a_teto,7,2,9,7
+74,2026-06-20T10:27,24,Entretenimento,29,0,21,intervalo_0_a_teto,6,2,8,6
+75,2026-06-20T21:10,24,Entretenimento,29,0,21,intervalo_0_a_teto,3,3,6,6
+76,2026-06-21T11:00,24,Entretenimento,29,0,21,intervalo_0_a_teto,6,0,6,6
+77,2026-06-21T21:09,24,Entretenimento,30,0,20,intervalo_0_a_teto,5,3,8,5
+78,2026-06-22T13:28,24,Entretenimento,31,0,19,intervalo_0_a_teto,9,1,10,4
+79,2026-06-22T21:58,24,Entretenimento,32,0,18,intervalo_0_a_teto,9,1,10,3
+80,2026-06-23T10:56,24,Entretenimento,31,0,19,intervalo_0_a_teto,12,2,14,4
+81,2026-06-23T21:27,24,Entretenimento,30,0,20,intervalo_0_a_teto,12,2,14,5
+82,2026-06-24T10:42,24,Entretenimento,28,0,22,intervalo_0_a_teto,8,2,10,7
+83,2026-06-24T21:19,24,Entretenimento,27,0,23,intervalo_0_a_teto,10,3,13,8
+84,2026-06-25T10:36,24,Entretenimento,26,0,24,intervalo_0_a_teto,14,1,15,9
+85,2026-06-25T21:26,24,Entretenimento,27,0,23,intervalo_0_a_teto,14,0,14,8
+86,2026-06-26T10:44,24,Entretenimento,31,0,19,intervalo_0_a_teto,14,0,14,4
+87,2026-06-26T21:15,24,Entretenimento,33,0,17,intervalo_0_a_teto,14,0,14,2
+88,2026-06-27T09:57,24,Entretenimento,34,0,16,intervalo_0_a_teto,14,0,14,1
+89,2026-06-27T20:56,24,Entretenimento,34,0,16,intervalo_0_a_teto,3,1,4,1
+90,2026-06-28T10:22,24,Entretenimento,32,0,18,intervalo_0_a_teto,5,3,8,3
+91,2026-06-28T20:56,24,Entretenimento,32,0,18,intervalo_0_a_teto,3,6,9,3
+92,2026-06-29T12:24,24,Entretenimento,31,0,19,intervalo_0_a_teto,3,4,7,4
+93,2026-06-29T21:20,24,Entretenimento,31,0,19,intervalo_0_a_teto,4,4,8,4
+94,2026-06-30T10:49,24,Entretenimento,30,0,20,intervalo_0_a_teto,4,2,6,5
+95,2026-06-30T21:24,24,Entretenimento,30,0,20,intervalo_0_a_teto,4,1,5,5
+96,2026-07-01T11:17,24,Entretenimento,30,0,20,intervalo_0_a_teto,6,0,6,5
+97,2026-07-01T21:22,24,Entretenimento,34,0,16,intervalo_0_a_teto,10,2,12,1
+98,2026-07-02T10:30,24,Entretenimento,32,0,18,intervalo_0_a_teto,6,2,8,3
+99,2026-07-02T20:58,24,Entretenimento,32,0,18,intervalo_0_a_teto,6,4,10,3
+100,2026-07-03T10:27,24,Entretenimento,30,0,20,intervalo_0_a_teto,3,5,8,5
+101,2026-07-03T20:57,24,Entretenimento,30,0,20,intervalo_0_a_teto,3,3,6,5
+102,2026-07-04T10:01,24,Entretenimento,30,0,20,intervalo_0_a_teto,6,3,9,5
+103,2026-07-04T20:50,24,Entretenimento,31,0,19,intervalo_0_a_teto,4,2,6,4
+104,2026-07-05T10:04,24,Entretenimento,30,0,20,intervalo_0_a_teto,2,2,4,5
+105,2026-07-05T20:52,24,Entretenimento,31,0,19,intervalo_0_a_teto,5,6,11,4
+106,2026-07-06T11:57,24,Entretenimento,34,0,16,intervalo_0_a_teto,5,4,9,1
+107,2026-07-06T21:24,24,Entretenimento,32,0,18,intervalo_0_a_teto,4,3,7,3
+108,2026-07-07T10:47,24,Entretenimento,33,0,17,intervalo_0_a_teto,3,2,5,2
+109,2026-07-07T21:18,24,Entretenimento,32,0,18,intervalo_0_a_teto,5,2,7,3
+110,2026-07-08T10:09,24,Entretenimento,31,0,19,intervalo_0_a_teto,7,2,9,4
+111,2026-07-08T21:01,24,Entretenimento,31,0,19,intervalo_0_a_teto,6,3,9,4
+112,2026-07-09T10:47,24,Entretenimento,28,0,22,intervalo_0_a_teto,6,1,7,7
+113,2026-07-09T21:17,24,Entretenimento,29,0,21,intervalo_0_a_teto,6,5,11,6
+114,2026-07-10T10:45,24,Entretenimento,28,0,22,intervalo_0_a_teto,5,3,8,7
+115,2026-07-10T21:02,24,Entretenimento,31,0,19,intervalo_0_a_teto,4,2,6,4
+116,2026-07-11T09:19,24,Entretenimento,34,0,16,intervalo_0_a_teto,5,1,6,1
+117,2026-07-11T20:41,24,Entretenimento,33,0,17,intervalo_0_a_teto,2,4,6,2
+118,2026-07-12T09:44,24,Entretenimento,31,0,19,intervalo_0_a_teto,3,0,3,4
+119,2026-07-12T20:38,24,Entretenimento,29,0,21,intervalo_0_a_teto,3,6,9,6
+120,2026-07-13T10:51,24,Entretenimento,30,0,20,intervalo_0_a_teto,4,3,7,5
+121,2026-07-13T20:53,24,Entretenimento,29,0,21,intervalo_0_a_teto,6,5,11,6
+122,2026-07-14T09:48,24,Entretenimento,27,0,23,intervalo_0_a_teto,7,1,8,8
+123,2026-07-14T20:54,24,Entretenimento,28,0,22,intervalo_0_a_teto,7,3,10,7
+124,2026-07-15T09:52,24,Entretenimento,28,0,22,intervalo_0_a_teto,6,2,8,7
+125,2026-07-15T20:54,24,Entretenimento,29,0,21,intervalo_0_a_teto,6,3,9,6
+126,2026-07-16T09:59,24,Entretenimento,30,0,20,intervalo_0_a_teto,5,3,8,5
+127,2026-07-16T20:51,24,Entretenimento,28,0,22,intervalo_0_a_teto,3,1,4,7
+128,2026-07-17T09:49,24,Entretenimento,26,0,24,intervalo_0_a_teto,3,1,4,9
+129,2026-07-17T20:47,24,Entretenimento,30,0,20,intervalo_0_a_teto,6,2,8,5
+30,2026-05-29T13:19,25,Notícias e política,50,0,0,zero_medido,1,0,0,0
+31,2026-05-29T21:50,25,Notícias e política,50,0,0,zero_medido,1,0,0,0
+32,2026-05-30T09:52,25,Notícias e política,50,0,0,zero_medido,1,0,0,0
+33,2026-05-30T20:50,25,Notícias e política,50,0,0,zero_medido,1,4,0,0
+34,2026-05-31T10:09,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+35,2026-05-31T20:53,25,Notícias e política,50,0,0,zero_medido,0,5,0,0
+36,2026-06-01T13:29,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+37,2026-06-01T22:32,25,Notícias e política,49,0,1,intervalo_0_a_teto,0,2,1,1
+38,2026-06-02T11:58,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+39,2026-06-02T22:20,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+40,2026-06-03T12:32,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+41,2026-06-03T22:26,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+42,2026-06-04T10:56,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+43,2026-06-04T21:28,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+44,2026-06-05T11:19,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+45,2026-06-05T21:20,25,Notícias e política,50,0,0,zero_medido,0,4,0,0
+46,2026-06-06T09:55,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+47,2026-06-06T20:58,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+48,2026-06-07T10:23,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+49,2026-06-07T21:06,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+50,2026-06-08T12:23,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+51,2026-06-08T21:47,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+52,2026-06-09T10:54,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+53,2026-06-09T21:44,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+54,2026-06-10T11:32,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+55,2026-06-10T21:54,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+56,2026-06-11T12:04,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+57,2026-06-11T21:57,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+58,2026-06-12T11:37,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+59,2026-06-12T21:27,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+60,2026-06-13T10:22,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+61,2026-06-13T21:09,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+62,2026-06-14T10:45,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+63,2026-06-14T21:05,25,Notícias e política,50,0,0,zero_medido,0,7,0,0
+64,2026-06-15T13:48,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+65,2026-06-15T22:14,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+66,2026-06-16T12:47,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+67,2026-06-16T22:07,25,Notícias e política,50,0,0,zero_medido,0,4,0,0
+68,2026-06-17T12:11,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+69,2026-06-17T21:56,25,Notícias e política,50,0,0,zero_medido,0,5,0,0
+70,2026-06-18T11:45,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+71,2026-06-18T22:02,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+72,2026-06-19T12:00,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+73,2026-06-19T21:05,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+74,2026-06-20T10:27,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+75,2026-06-20T21:10,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+76,2026-06-21T11:00,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+77,2026-06-21T21:09,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+78,2026-06-22T13:28,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+79,2026-06-22T21:58,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+80,2026-06-23T10:56,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+81,2026-06-23T21:27,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+82,2026-06-24T10:42,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+83,2026-06-24T21:19,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+84,2026-06-25T10:36,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+85,2026-06-25T21:26,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+86,2026-06-26T10:44,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+87,2026-06-26T21:15,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+88,2026-06-27T09:57,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+89,2026-06-27T20:56,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+90,2026-06-28T10:22,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+91,2026-06-28T20:56,25,Notícias e política,50,0,0,zero_medido,0,6,0,0
+92,2026-06-29T12:24,25,Notícias e política,50,0,0,zero_medido,1,4,0,0
+93,2026-06-29T21:20,25,Notícias e política,50,0,0,zero_medido,1,4,0,0
+94,2026-06-30T10:49,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+95,2026-06-30T21:24,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+96,2026-07-01T11:17,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+97,2026-07-01T21:22,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+98,2026-07-02T10:30,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+99,2026-07-02T20:58,25,Notícias e política,50,0,0,zero_medido,0,4,0,0
+100,2026-07-03T10:27,25,Notícias e política,50,0,0,zero_medido,0,5,0,0
+101,2026-07-03T20:57,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+102,2026-07-04T10:01,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+103,2026-07-04T20:50,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+104,2026-07-05T10:04,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+105,2026-07-05T20:52,25,Notícias e política,50,0,0,zero_medido,0,6,0,0
+106,2026-07-06T11:57,25,Notícias e política,50,0,0,zero_medido,0,4,0,0
+107,2026-07-06T21:24,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+108,2026-07-07T10:47,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+109,2026-07-07T21:18,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+110,2026-07-08T10:09,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+111,2026-07-08T21:01,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+112,2026-07-09T10:47,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+113,2026-07-09T21:17,25,Notícias e política,50,0,0,zero_medido,0,5,0,0
+114,2026-07-10T10:45,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+115,2026-07-10T21:02,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+116,2026-07-11T09:19,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+117,2026-07-11T20:41,25,Notícias e política,50,0,0,zero_medido,0,4,0,0
+118,2026-07-12T09:44,25,Notícias e política,50,0,0,zero_medido,0,0,0,0
+119,2026-07-12T20:38,25,Notícias e política,50,0,0,zero_medido,0,6,0,0
+120,2026-07-13T10:51,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+121,2026-07-13T20:53,25,Notícias e política,50,0,0,zero_medido,0,5,0,0
+122,2026-07-14T09:48,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+123,2026-07-14T20:54,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+124,2026-07-15T09:52,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+125,2026-07-15T20:54,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+126,2026-07-16T09:59,25,Notícias e política,50,0,0,zero_medido,0,3,0,0
+127,2026-07-16T20:51,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+128,2026-07-17T09:49,25,Notícias e política,50,0,0,zero_medido,0,1,0,0
+129,2026-07-17T20:47,25,Notícias e política,50,0,0,zero_medido,0,2,0,0
+30,2026-05-29T13:19,26,Tutoriais e estilo,32,0,18,intervalo_0_a_teto,0,0,0,15
+31,2026-05-29T21:50,26,Tutoriais e estilo,35,0,15,intervalo_0_a_teto,0,0,0,12
+32,2026-05-30T09:52,26,Tutoriais e estilo,37,0,13,intervalo_0_a_teto,0,0,0,10
+33,2026-05-30T20:50,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,4,4,9
+34,2026-05-31T10:09,26,Tutoriais e estilo,37,0,13,intervalo_0_a_teto,0,1,1,10
+35,2026-05-31T20:53,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,5,5,9
+36,2026-06-01T13:29,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,3,3,6
+37,2026-06-01T22:32,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,2,2,6
+38,2026-06-02T11:58,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,2,2,7
+39,2026-06-02T22:20,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,2,2,8
+40,2026-06-03T12:32,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,1,1,9
+41,2026-06-03T22:26,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,2,2,9
+42,2026-06-04T10:56,26,Tutoriais e estilo,37,0,13,intervalo_0_a_teto,0,1,1,10
+43,2026-06-04T21:28,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,2,2,8
+44,2026-06-05T11:19,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,1,1,9
+45,2026-06-05T21:20,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,4,4,9
+46,2026-06-06T09:55,26,Tutoriais e estilo,37,0,13,intervalo_0_a_teto,0,1,1,10
+47,2026-06-06T20:58,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,2,2,7
+48,2026-06-07T10:23,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,2,2,6
+49,2026-06-07T21:06,26,Tutoriais e estilo,43,0,7,intervalo_0_a_teto,0,3,3,4
+50,2026-06-08T12:23,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,0,0,5
+51,2026-06-08T21:47,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,1,1,6
+52,2026-06-09T10:54,26,Tutoriais e estilo,43,0,7,intervalo_0_a_teto,0,0,0,4
+53,2026-06-09T21:44,26,Tutoriais e estilo,43,0,7,intervalo_0_a_teto,0,1,1,4
+54,2026-06-10T11:32,26,Tutoriais e estilo,44,0,6,intervalo_0_a_teto,0,2,2,3
+55,2026-06-10T21:54,26,Tutoriais e estilo,46,0,4,intervalo_0_a_teto,0,3,3,1
+56,2026-06-11T12:04,26,Tutoriais e estilo,46,0,4,intervalo_0_a_teto,0,0,0,1
+57,2026-06-11T21:57,26,Tutoriais e estilo,46,0,4,intervalo_0_a_teto,0,3,3,1
+58,2026-06-12T11:37,26,Tutoriais e estilo,45,0,5,intervalo_0_a_teto,0,1,1,2
+59,2026-06-12T21:27,26,Tutoriais e estilo,44,0,6,intervalo_0_a_teto,0,2,2,3
+60,2026-06-13T10:22,26,Tutoriais e estilo,47,0,3,intervalo_0_a_teto,0,0,0,0
+61,2026-06-13T21:09,26,Tutoriais e estilo,44,0,6,intervalo_0_a_teto,0,2,2,3
+62,2026-06-14T10:45,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,1,1,5
+63,2026-06-14T21:05,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,7,7,6
+64,2026-06-15T13:48,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,3,3,6
+65,2026-06-15T22:14,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,3,3,6
+66,2026-06-16T12:47,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,3,3,6
+67,2026-06-16T22:07,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,4,4,7
+68,2026-06-17T12:11,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,3,3,8
+69,2026-06-17T21:56,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,5,5,8
+70,2026-06-18T11:45,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,1,1,8
+71,2026-06-18T22:02,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,1,1,8
+72,2026-06-19T12:00,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,1,1,8
+73,2026-06-19T21:05,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,2,2,9
+74,2026-06-20T10:27,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,2,2,9
+75,2026-06-20T21:10,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,3,3,9
+76,2026-06-21T11:00,26,Tutoriais e estilo,37,0,13,intervalo_0_a_teto,0,0,0,10
+77,2026-06-21T21:09,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,3,3,8
+78,2026-06-22T13:28,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,1,1,8
+79,2026-06-22T21:58,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,1,1,7
+80,2026-06-23T10:56,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,2,2,7
+81,2026-06-23T21:27,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,2,2,5
+82,2026-06-24T10:42,26,Tutoriais e estilo,43,0,7,intervalo_0_a_teto,0,2,2,4
+83,2026-06-24T21:19,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,3,3,7
+84,2026-06-25T10:36,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,1,1,6
+85,2026-06-25T21:26,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,0,0,6
+86,2026-06-26T10:44,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,0,0,8
+87,2026-06-26T21:15,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,0,0,8
+88,2026-06-27T09:57,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,0,0,9
+89,2026-06-27T20:56,26,Tutoriais e estilo,34,0,16,intervalo_0_a_teto,0,1,1,13
+90,2026-06-28T10:22,26,Tutoriais e estilo,32,0,18,intervalo_0_a_teto,0,3,3,15
+91,2026-06-28T20:56,26,Tutoriais e estilo,33,0,17,intervalo_0_a_teto,0,6,6,14
+92,2026-06-29T12:24,26,Tutoriais e estilo,37,0,13,intervalo_0_a_teto,0,4,4,10
+93,2026-06-29T21:20,26,Tutoriais e estilo,35,0,15,intervalo_0_a_teto,0,4,4,12
+94,2026-06-30T10:49,26,Tutoriais e estilo,37,0,13,intervalo_0_a_teto,0,2,2,10
+95,2026-06-30T21:24,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,1,1,9
+96,2026-07-01T11:17,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,0,0,5
+97,2026-07-01T21:22,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,2,2,8
+98,2026-07-02T10:30,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,2,2,9
+99,2026-07-02T20:58,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,4,4,8
+100,2026-07-03T10:27,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,5,5,7
+101,2026-07-03T20:57,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,3,3,5
+102,2026-07-04T10:01,26,Tutoriais e estilo,43,0,7,intervalo_0_a_teto,0,3,3,4
+103,2026-07-04T20:50,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,2,2,6
+104,2026-07-05T10:04,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,2,2,5
+105,2026-07-05T20:52,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,6,6,5
+106,2026-07-06T11:57,26,Tutoriais e estilo,43,0,7,intervalo_0_a_teto,0,4,4,4
+107,2026-07-06T21:24,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,3,3,6
+108,2026-07-07T10:47,26,Tutoriais e estilo,44,0,6,intervalo_0_a_teto,0,2,2,3
+109,2026-07-07T21:18,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,2,2,5
+110,2026-07-08T10:09,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,2,2,5
+111,2026-07-08T21:01,26,Tutoriais e estilo,43,0,7,intervalo_0_a_teto,0,3,3,4
+112,2026-07-09T10:47,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,1,1,6
+113,2026-07-09T21:17,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,5,5,7
+114,2026-07-10T10:45,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,3,3,6
+115,2026-07-10T21:02,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,2,2,5
+116,2026-07-11T09:19,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,1,1,6
+117,2026-07-11T20:41,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,4,4,7
+118,2026-07-12T09:44,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,0,0,7
+119,2026-07-12T20:38,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,6,6,6
+120,2026-07-13T10:51,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,3,3,7
+121,2026-07-13T20:53,26,Tutoriais e estilo,41,0,9,intervalo_0_a_teto,0,5,5,6
+122,2026-07-14T09:48,26,Tutoriais e estilo,42,0,8,intervalo_0_a_teto,0,1,1,5
+123,2026-07-14T20:54,26,Tutoriais e estilo,40,0,10,intervalo_0_a_teto,0,3,3,7
+124,2026-07-15T09:52,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,2,2,9
+125,2026-07-15T20:54,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,3,3,8
+126,2026-07-16T09:59,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,3,3,8
+127,2026-07-16T20:51,26,Tutoriais e estilo,39,0,11,intervalo_0_a_teto,0,1,1,8
+128,2026-07-17T09:49,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,1,1,9
+129,2026-07-17T20:47,26,Tutoriais e estilo,38,0,12,intervalo_0_a_teto,0,2,2,9
+30,2026-05-29T13:19,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+31,2026-05-29T21:50,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+32,2026-05-30T09:52,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+33,2026-05-30T20:50,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+34,2026-05-31T10:09,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+35,2026-05-31T20:53,28,Ciência e tecnologia,50,0,0,zero_medido,0,5,0,0
+36,2026-06-01T13:29,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+37,2026-06-01T22:32,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+38,2026-06-02T11:58,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+39,2026-06-02T22:20,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+40,2026-06-03T12:32,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+41,2026-06-03T22:26,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+42,2026-06-04T10:56,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+43,2026-06-04T21:28,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+44,2026-06-05T11:19,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+45,2026-06-05T21:20,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+46,2026-06-06T09:55,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+47,2026-06-06T20:58,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+48,2026-06-07T10:23,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+49,2026-06-07T21:06,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+50,2026-06-08T12:23,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+51,2026-06-08T21:47,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+52,2026-06-09T10:54,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+53,2026-06-09T21:44,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+54,2026-06-10T11:32,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+55,2026-06-10T21:54,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+56,2026-06-11T12:04,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+57,2026-06-11T21:57,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+58,2026-06-12T11:37,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+59,2026-06-12T21:27,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+60,2026-06-13T10:22,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+61,2026-06-13T21:09,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+62,2026-06-14T10:45,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+63,2026-06-14T21:05,28,Ciência e tecnologia,50,0,0,zero_medido,0,7,0,0
+64,2026-06-15T13:48,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+65,2026-06-15T22:14,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+66,2026-06-16T12:47,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+67,2026-06-16T22:07,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+68,2026-06-17T12:11,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+69,2026-06-17T21:56,28,Ciência e tecnologia,50,0,0,zero_medido,0,5,0,0
+70,2026-06-18T11:45,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+71,2026-06-18T22:02,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+72,2026-06-19T12:00,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+73,2026-06-19T21:05,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+74,2026-06-20T10:27,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+75,2026-06-20T21:10,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+76,2026-06-21T11:00,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+77,2026-06-21T21:09,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+78,2026-06-22T13:28,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+79,2026-06-22T21:58,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+80,2026-06-23T10:56,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+81,2026-06-23T21:27,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+82,2026-06-24T10:42,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+83,2026-06-24T21:19,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+84,2026-06-25T10:36,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+85,2026-06-25T21:26,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+86,2026-06-26T10:44,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+87,2026-06-26T21:15,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+88,2026-06-27T09:57,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+89,2026-06-27T20:56,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+90,2026-06-28T10:22,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+91,2026-06-28T20:56,28,Ciência e tecnologia,50,0,0,zero_medido,0,6,0,0
+92,2026-06-29T12:24,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+93,2026-06-29T21:20,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+94,2026-06-30T10:49,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+95,2026-06-30T21:24,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+96,2026-07-01T11:17,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+97,2026-07-01T21:22,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+98,2026-07-02T10:30,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+99,2026-07-02T20:58,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+100,2026-07-03T10:27,28,Ciência e tecnologia,50,0,0,zero_medido,0,5,0,0
+101,2026-07-03T20:57,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+102,2026-07-04T10:01,28,Ciência e tecnologia,49,0,1,intervalo_0_a_teto,0,3,1,1
+103,2026-07-04T20:50,28,Ciência e tecnologia,49,0,1,intervalo_0_a_teto,0,2,1,1
+104,2026-07-05T10:04,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+105,2026-07-05T20:52,28,Ciência e tecnologia,50,0,0,zero_medido,0,6,0,0
+106,2026-07-06T11:57,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+107,2026-07-06T21:24,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+108,2026-07-07T10:47,28,Ciência e tecnologia,50,0,0,zero_medido,1,2,0,0
+109,2026-07-07T21:18,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+110,2026-07-08T10:09,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+111,2026-07-08T21:01,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+112,2026-07-09T10:47,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+113,2026-07-09T21:17,28,Ciência e tecnologia,50,0,0,zero_medido,0,5,0,0
+114,2026-07-10T10:45,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+115,2026-07-10T21:02,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+116,2026-07-11T09:19,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+117,2026-07-11T20:41,28,Ciência e tecnologia,50,0,0,zero_medido,0,4,0,0
+118,2026-07-12T09:44,28,Ciência e tecnologia,50,0,0,zero_medido,0,0,0,0
+119,2026-07-12T20:38,28,Ciência e tecnologia,50,0,0,zero_medido,0,6,0,0
+120,2026-07-13T10:51,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+121,2026-07-13T20:53,28,Ciência e tecnologia,50,0,0,zero_medido,0,5,0,0
+122,2026-07-14T09:48,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+123,2026-07-14T20:54,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+124,2026-07-15T09:52,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0
+125,2026-07-15T20:54,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+126,2026-07-16T09:59,28,Ciência e tecnologia,50,0,0,zero_medido,0,3,0,0
+127,2026-07-16T20:51,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+128,2026-07-17T09:49,28,Ciência e tecnologia,50,0,0,zero_medido,0,1,0,0
+129,2026-07-17T20:47,28,Ciência e tecnologia,50,0,0,zero_medido,0,2,0,0

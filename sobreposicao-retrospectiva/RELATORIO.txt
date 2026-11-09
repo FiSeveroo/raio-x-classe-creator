@@ -1,0 +1,106 @@
+RAIO-X — SOBREPOSIÇÃO ENTRE mostPopular GERAL E FILTROS POR CATEGORIA
+Análise retrospectiva, só leitura. Gerada em 09/11/2026.
+
+RECORTE
+Coletas 30 a 129 (100 coletas, 29/05 a 17/07/2026), 52388 linhas, 10102 video_id distintos.
+O pedido falava em 99 coletas; a tabela tem 100 no período. Não localizei a lista original das 99. Tirar uma coleta muda cada contagem em no máximo 1.
+
+CONCLUSÃO
+1. O "100% de exclusão" não se sustenta para todas as categorias: com a remoção de repetidos, 6 dos 12 filtros não podem ser medidos no Termômetro. Nos outros 6, a exclusão é praticamente total.
+2. Sobreposição nula ou de no máximo 3 vídeos por coleta (medida): Filmes e desenhos, Automóveis, Animais, Esportes, Notícias e política, Ciência e tecnologia.
+3. Sobreposição não determinável pelas contagens, só com teto: Música, Jogos, Pessoas e blogs, Comédia, Entretenimento, Tutoriais e estilo.
+4. O geral não exclui Música: categoryId 10 é 1720 (36.0%) das linhas identificadas do geral; Jogos (20) é 1828 (38.2%).
+5. Os filtros não são categorias puras: na maioria deles, a maior parte dos vídeos declara outro categoryId.
+
+A. MEDIÇÃO DIRETA (contagens do banco)
+Regra: o coletor pede no máximo 50. Se gravou 50 de um filtro, nada foi removido, logo sobreposição = 0 com o geral. Se gravou N < 50, a sobreposição fica entre 0 e 50 - N.
+
+filtro                       =50 em    min  med  max  teto médio  teto máx
+1 Filmes e desenhos         100/100    50   50   50         0.0         0
+2 Automóveis                100/100    50   50   50         0.0         0
+10 Música                     0/100    25   29   30        21.5        25
+15 Animais                   33/100    47   49   50         0.9         3
+17 Esportes                  74/100    49   50   50         0.3         1
+20 Jogos                      0/100    26   32   48        17.9        24
+22 Pessoas e blogs            0/100    15   21   30        28.3        35
+23 Comédia                    0/100    16   23   32        26.6        34
+24 Entretenimento             0/100    20   30   35        20.6        30
+25 Notícias e política       99/100    49   50   50         0.0         1
+26 Tutoriais e estilo         0/100    32   40   47        10.0        18
+28 Ciência e tecnologia      98/100    49   50   50         0.0         1
+
+O teto é frouxo: N < 50 também acontece quando o filtro devolveu menos de 50 ou quando o vídeo já tinha aparecido num filtro anterior.
+
+B. MEDIÇÃO DIRETA COM categoryId CONSULTADO EM 09/11/2026
+Consultados 10102 vídeos; não encontrados (apagados ou privados): 606 (6.0%). No geral: 219 de 5000 linhas. É o categoryId de hoje, que pode ter mudado desde a coleta.
+
+Composição do geral no período (% sobre as linhas identificadas):
+  20 Jogos                    1828 (38.2%)
+  10 Música                   1720 (36.0%)
+  24 Entretenimento           598 (12.5%)
+  22 Pessoas e blogs          346 (7.2%)
+   1 Filmes e desenhos        259 (5.4%)
+  23 Comédia                  9 (0.2%)
+  17 Esportes                 6 (0.1%)
+  25 Notícias e política      6 (0.1%)
+  27 Educação                 5 (0.1%)
+  29 Ativismo                 3 (0.1%)
+  28 Ciência e tecnologia     1 (0.0%)
+  não encontrados: 219
+
+Pureza dos filtros (vídeos que declaram o categoryId do próprio filtro):
+  1 Filmes e desenhos          285 de  4544 encontrados (6.3%)
+  2 Automóveis                 752 de  4483 encontrados (16.8%)
+  10 Música                   2475 de  2761 encontrados (89.6%)
+  15 Animais                   200 de  4420 encontrados (4.5%)
+  17 Esportes                 1506 de  4772 encontrados (31.6%)
+  20 Jogos                    2640 de  3137 encontrados (84.2%)
+  22 Pessoas e blogs          1242 de  2164 encontrados (57.4%)
+  23 Comédia                   285 de  2222 encontrados (12.8%)
+  24 Entretenimento           1014 de  2800 encontrados (36.2%)
+  25 Notícias e política      3027 de  4714 encontrados (64.2%)
+  26 Tutoriais e estilo          9 de  3769 encontrados (0.2%)
+  28 Ciência e tecnologia      777 de  4424 encontrados (17.6%)
+
+Filmes é o caso mais claro: o geral traz 259 (5.4%) de vídeos com categoryId 1, e ainda assim o filtro 1 gravou 50 de 50 nas 100 coletas: sobreposição medida = 0.
+Consequência: "zero vídeos do geral com categoryId X, logo sobreposição zero" não vale, porque o filtro X traz vídeos de outros categoryId. Os intervalos medidos usam só as contagens.
+
+C. ESTIMATIVA (não é medição)
+Os charts podem devolver menos de 50 vídeos. Usando a maior contagem de cada filtro no período como aproximação do tamanho do chart:
+  Música: maior contagem 30; remoção estimada mediana 1; o geral traz em média 17.2 vídeos com esse categoryId; correlação entre as duas séries: 0.24.
+  Jogos: maior contagem 48; remoção estimada mediana 16; o geral traz em média 18.3 vídeos com esse categoryId; correlação entre as duas séries: 0.04.
+Leitura: as correlações são baixas. Estes números NÃO sustentam afirmar nem negar sobreposição em Música ou Jogos no período. A resposta depende da série nova.
+
+D. TESTE ATUAL (09/11/2026, chamadas separadas; NÃO é dado do período)
+endpoint  http  total  itens   =X  ∩geral  repetidos de filtros anteriores
+geral     200    200     50                     
+1         200    200     50    1       0       0
+2         200    200     50    5       0       0
+10        200     30     30   26       0       0
+15        200    200     50    4       0       3
+17        200    200     50   19       0       0
+19        404  notFound
+20        200    155     49   44      20       0
+22        200     16     16    7       0       0
+23        200    200     50    8       0      26
+24        200    200     50   16       0      25
+25        200    140     49   34       0       0
+26        200    200     50    1       0      16
+27        404  notFound
+28        200    157     50    5       0       1
+Uma única rodada.
+
+E. LOGS DO GITHUB ACTIONS (amostra de execuções do período + controle recente)
+  2026-07-17T20:46 expirado: sim
+  2026-07-05T10:03 expirado: sim
+  2026-06-22T21:58 expirado: sim
+  2026-06-10T11:31 expirado: sim
+  2026-05-29T13:18 expirado: sim
+  2026-11-08T23:22 (controle recente) expirado: não
+Sem login não dá para baixar os logs nem ver a configuração de retenção.
+
+LIMITAÇÕES
+- categoryId atual, não o da data da coleta.
+- Vídeos não encontrados não têm categoryId.
+- O número "8.264 comparações" não foi localizado no repositório.
+- A medição exata depende da série nova, sem remoção de repetidos.

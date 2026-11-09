@@ -1,0 +1,16 @@
+﻿endpoint,http,erro,pageInfo_totalResults,itens_devolvidos,itens_com_category_id_do_filtro,sobreposicao_com_geral,repetidos_de_filtros_anteriores
+geral,200,,200,50,,,
+1,200,,200,50,1,0,0
+2,200,,200,50,5,0,0
+10,200,,30,30,26,0,0
+15,200,,200,50,4,0,3
+17,200,,200,50,19,0,0
+19,404,notFound,,,,,
+20,200,,155,49,44,20,0
+22,200,,16,16,7,0,0
+23,200,,200,50,8,0,26
+24,200,,200,50,16,0,25
+25,200,,140,49,34,0,0
+26,200,,200,50,1,0,16
+27,404,notFound,,,,,
+28,200,,157,50,5,0,1

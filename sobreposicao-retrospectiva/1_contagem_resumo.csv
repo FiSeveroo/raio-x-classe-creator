@@ -1,0 +1,14 @@
+﻿endpoint,nome,coletas,coletas_com_50,minimo,mediana,maximo
+geral,Geral,100,100,50,50,50
+1,Filmes e desenhos,100,100,50,50,50
+2,Automóveis,100,100,50,50,50
+10,Música,100,0,25,29,30
+15,Animais,100,33,47,49,50
+17,Esportes,100,74,49,50,50
+20,Jogos,100,0,26,32,48
+22,Pessoas e blogs,100,0,15,21,30
+23,Comédia,100,0,16,23,32
+24,Entretenimento,100,0,20,30,35
+25,Notícias e política,100,99,49,50,50
+26,Tutoriais e estilo,100,0,32,40,47
+28,Ciência e tecnologia,100,98,49,50,50

@@ -1,0 +1,13 @@
+﻿filtro,nome,linhas,com_category_id_do_filtro,com_outro_category_id,nao_encontrados,pct_do_filtro_entre_encontrados
+1,Filmes e desenhos,5000,285,4259,456,6.3
+2,Automóveis,5000,752,3731,517,16.8
+10,Música,2850,2475,286,89,89.6
+15,Animais,4908,200,4220,488,4.5
+17,Esportes,4974,1506,3266,202,31.6
+20,Jogos,3208,2640,497,71,84.2
+22,Pessoas e blogs,2173,1242,922,9,57.4
+23,Comédia,2340,285,1937,118,12.8
+24,Entretenimento,2938,1014,1786,138,36.2
+25,Notícias e política,4999,3027,1687,285,64.2
+26,Tutoriais e estilo,4000,9,3760,231,0.2
+28,Ciência e tecnologia,4998,777,3647,574,17.6

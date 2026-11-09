@@ -1,0 +1,136 @@
+﻿filtro,nome_filtro,category_id,nome_categoria,videos
+1,Filmes e desenhos,22,Pessoas e blogs,1681
+1,Filmes e desenhos,24,Entretenimento,1513
+1,Filmes e desenhos,23,Comédia,528
+1,Filmes e desenhos,nao_encontrado,,456
+1,Filmes e desenhos,1,Filmes e desenhos,285
+1,Filmes e desenhos,20,Jogos,242
+1,Filmes e desenhos,27,Educação,112
+1,Filmes e desenhos,10,Música,61
+1,Filmes e desenhos,29,Ativismo,51
+1,Filmes e desenhos,15,Animais,25
+1,Filmes e desenhos,25,Notícias e política,17
+1,Filmes e desenhos,28,Ciência e tecnologia,17
+1,Filmes e desenhos,17,Esportes,12
+2,Automóveis,22,Pessoas e blogs,1779
+2,Automóveis,24,Entretenimento,1159
+2,Automóveis,2,Automóveis,752
+2,Automóveis,nao_encontrado,,517
+2,Automóveis,20,Jogos,300
+2,Automóveis,23,Comédia,148
+2,Automóveis,28,Ciência e tecnologia,130
+2,Automóveis,17,Esportes,114
+2,Automóveis,27,Educação,44
+2,Automóveis,26,Tutoriais e estilo,41
+2,Automóveis,15,Animais,10
+2,Automóveis,10,Música,6
+10,Música,10,Música,2475
+10,Música,22,Pessoas e blogs,203
+10,Música,nao_encontrado,,89
+10,Música,1,Filmes e desenhos,26
+10,Música,24,Entretenimento,23
+10,Música,20,Jogos,19
+10,Música,27,Educação,15
+15,Animais,22,Pessoas e blogs,1806
+15,Animais,24,Entretenimento,1660
+15,Animais,nao_encontrado,,488
+15,Animais,20,Jogos,298
+15,Animais,23,Comédia,249
+15,Animais,15,Animais,200
+15,Animais,10,Música,55
+15,Animais,17,Esportes,43
+15,Animais,27,Educação,37
+15,Animais,28,Ciência e tecnologia,28
+15,Animais,1,Filmes e desenhos,14
+15,Animais,26,Tutoriais e estilo,14
+15,Animais,29,Ativismo,12
+15,Animais,19,Viagens,4
+17,Esportes,17,Esportes,1506
+17,Esportes,22,Pessoas e blogs,1421
+17,Esportes,24,Entretenimento,1259
+17,Esportes,20,Jogos,296
+17,Esportes,nao_encontrado,,202
+17,Esportes,23,Comédia,163
+17,Esportes,10,Música,50
+17,Esportes,1,Filmes e desenhos,30
+17,Esportes,2,Automóveis,20
+17,Esportes,27,Educação,17
+17,Esportes,28,Ciência e tecnologia,10
+20,Jogos,20,Jogos,2640
+20,Jogos,22,Pessoas e blogs,259
+20,Jogos,24,Entretenimento,226
+20,Jogos,nao_encontrado,,71
+20,Jogos,17,Esportes,5
+20,Jogos,1,Filmes e desenhos,2
+20,Jogos,10,Música,2
+20,Jogos,27,Educação,2
+20,Jogos,28,Ciência e tecnologia,1
+22,Pessoas e blogs,22,Pessoas e blogs,1242
+22,Pessoas e blogs,24,Entretenimento,624
+22,Pessoas e blogs,26,Tutoriais e estilo,90
+22,Pessoas e blogs,23,Comédia,78
+22,Pessoas e blogs,19,Viagens,53
+22,Pessoas e blogs,20,Jogos,38
+22,Pessoas e blogs,27,Educação,25
+22,Pessoas e blogs,1,Filmes e desenhos,14
+22,Pessoas e blogs,nao_encontrado,,9
+23,Comédia,24,Entretenimento,888
+23,Comédia,22,Pessoas e blogs,741
+23,Comédia,23,Comédia,285
+23,Comédia,20,Jogos,134
+23,Comédia,nao_encontrado,,118
+23,Comédia,10,Música,46
+23,Comédia,17,Esportes,41
+23,Comédia,28,Ciência e tecnologia,36
+23,Comédia,27,Educação,17
+23,Comédia,29,Ativismo,17
+23,Comédia,1,Filmes e desenhos,13
+23,Comédia,15,Animais,4
+24,Entretenimento,22,Pessoas e blogs,1064
+24,Entretenimento,24,Entretenimento,1014
+24,Entretenimento,20,Jogos,267
+24,Entretenimento,23,Comédia,188
+24,Entretenimento,nao_encontrado,,138
+24,Entretenimento,10,Música,74
+24,Entretenimento,27,Educação,68
+24,Entretenimento,17,Esportes,62
+24,Entretenimento,29,Ativismo,21
+24,Entretenimento,26,Tutoriais e estilo,19
+24,Entretenimento,1,Filmes e desenhos,9
+24,Entretenimento,25,Notícias e política,7
+24,Entretenimento,2,Automóveis,6
+24,Entretenimento,15,Animais,1
+25,Notícias e política,25,Notícias e política,3027
+25,Notícias e política,17,Esportes,683
+25,Notícias e política,22,Pessoas e blogs,511
+25,Notícias e política,24,Entretenimento,381
+25,Notícias e política,nao_encontrado,,285
+25,Notícias e política,27,Educação,100
+25,Notícias e política,23,Comédia,12
+26,Tutoriais e estilo,22,Pessoas e blogs,1550
+26,Tutoriais e estilo,24,Entretenimento,1507
+26,Tutoriais e estilo,20,Jogos,300
+26,Tutoriais e estilo,nao_encontrado,,231
+26,Tutoriais e estilo,23,Comédia,138
+26,Tutoriais e estilo,10,Música,104
+26,Tutoriais e estilo,17,Esportes,80
+26,Tutoriais e estilo,1,Filmes e desenhos,19
+26,Tutoriais e estilo,27,Educação,19
+26,Tutoriais e estilo,28,Ciência e tecnologia,14
+26,Tutoriais e estilo,19,Viagens,13
+26,Tutoriais e estilo,29,Ativismo,12
+26,Tutoriais e estilo,26,Tutoriais e estilo,9
+26,Tutoriais e estilo,25,Notícias e política,4
+28,Ciência e tecnologia,22,Pessoas e blogs,1729
+28,Ciência e tecnologia,24,Entretenimento,777
+28,Ciência e tecnologia,28,Ciência e tecnologia,777
+28,Ciência e tecnologia,20,Jogos,634
+28,Ciência e tecnologia,nao_encontrado,,574
+28,Ciência e tecnologia,27,Educação,208
+28,Ciência e tecnologia,23,Comédia,122
+28,Ciência e tecnologia,29,Ativismo,51
+28,Ciência e tecnologia,10,Música,46
+28,Ciência e tecnologia,1,Filmes e desenhos,44
+28,Ciência e tecnologia,2,Automóveis,20
+28,Ciência e tecnologia,26,Tutoriais e estilo,13
+28,Ciência e tecnologia,25,Notícias e política,3

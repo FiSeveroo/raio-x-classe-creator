@@ -1,0 +1,221 @@
+﻿mes,category_id,categoria,aparicoes,pct
+2025-03,17,Esportes,830,30.74
+2025-03,24,Entretenimento,508,18.81
+2025-03,20,Jogos,430,15.93
+2025-03,10,Música,411,15.22
+2025-03,22,Pessoas e blogs,188,6.96
+2025-03,28,Ciência e tecnologia,134,4.96
+2025-03,1,Filmes e animação,52,1.93
+2025-03,25,Notícias e política,52,1.93
+2025-03,27,Educação,34,1.26
+2025-03,23,Comédia,26,0.96
+2025-03,19,Viagens,15,0.56
+2025-03,2,Automóveis,10,0.37
+2025-03,26,Tutoriais e estilo,10,0.37
+2025-04,17,Esportes,791,26.37
+2025-04,20,Jogos,591,19.70
+2025-04,24,Entretenimento,568,18.93
+2025-04,10,Música,485,16.17
+2025-04,22,Pessoas e blogs,184,6.13
+2025-04,1,Filmes e animação,90,3.00
+2025-04,28,Ciência e tecnologia,86,2.87
+2025-04,25,Notícias e política,75,2.50
+2025-04,23,Comédia,32,1.07
+2025-04,27,Educação,26,0.87
+2025-04,2,Automóveis,23,0.77
+2025-04,19,Viagens,21,0.70
+2025-04,26,Tutoriais e estilo,20,0.67
+2025-04,15,Animais,8,0.27
+2025-05,17,Esportes,776,25.45
+2025-05,24,Entretenimento,659,21.61
+2025-05,10,Música,548,17.97
+2025-05,20,Jogos,490,16.07
+2025-05,22,Pessoas e blogs,175,5.74
+2025-05,28,Ciência e tecnologia,110,3.61
+2025-05,25,Notícias e política,68,2.23
+2025-05,23,Comédia,55,1.80
+2025-05,1,Filmes e animação,51,1.67
+2025-05,2,Automóveis,42,1.38
+2025-05,27,Educação,23,0.75
+2025-05,15,Animais,20,0.66
+2025-05,19,Viagens,15,0.49
+2025-05,26,Tutoriais e estilo,14,0.46
+2025-05,29,Ativismo,3,0.10
+2025-06,20,Jogos,606,20.21
+2025-06,17,Esportes,597,19.91
+2025-06,24,Entretenimento,577,19.25
+2025-06,10,Música,475,15.84
+2025-06,22,Pessoas e blogs,234,7.81
+2025-06,28,Ciência e tecnologia,156,5.20
+2025-06,25,Notícias e política,116,3.87
+2025-06,23,Comédia,104,3.47
+2025-06,1,Filmes e animação,63,2.10
+2025-06,27,Educação,18,0.60
+2025-06,2,Automóveis,13,0.43
+2025-06,26,Tutoriais e estilo,13,0.43
+2025-06,19,Viagens,12,0.40
+2025-06,15,Animais,9,0.30
+2025-06,29,Ativismo,5,0.17
+2025-07,20,Jogos,835,26.94
+2025-07,10,Música,677,21.84
+2025-07,24,Entretenimento,519,16.74
+2025-07,17,Esportes,486,15.68
+2025-07,22,Pessoas e blogs,273,8.81
+2025-07,28,Ciência e tecnologia,106,3.42
+2025-07,1,Filmes e animação,71,2.29
+2025-07,23,Comédia,46,1.48
+2025-07,25,Notícias e política,39,1.26
+2025-07,2,Automóveis,27,0.87
+2025-07,19,Viagens,14,0.45
+2025-07,15,Animais,6,0.19
+2025-07,27,Educação,1,0.03
+2025-08,20,Jogos,1233,39.77
+2025-08,10,Música,1202,38.77
+2025-08,22,Pessoas e blogs,294,9.48
+2025-08,24,Entretenimento,241,7.77
+2025-08,1,Filmes e animação,93,3.00
+2025-08,27,Educação,11,0.35
+2025-08,17,Esportes,10,0.32
+2025-08,2,Automóveis,7,0.23
+2025-08,23,Comédia,5,0.16
+2025-08,28,Ciência e tecnologia,4,0.13
+2025-09,20,Jogos,1223,40.77
+2025-09,10,Música,1095,36.50
+2025-09,22,Pessoas e blogs,273,9.10
+2025-09,24,Entretenimento,250,8.33
+2025-09,1,Filmes e animação,139,4.63
+2025-09,17,Esportes,13,0.43
+2025-09,28,Ciência e tecnologia,4,0.13
+2025-09,27,Educação,3,0.10
+2025-10,20,Jogos,1156,38.56
+2025-10,10,Música,1131,37.73
+2025-10,22,Pessoas e blogs,279,9.31
+2025-10,24,Entretenimento,252,8.41
+2025-10,1,Filmes e animação,106,3.54
+2025-10,17,Esportes,43,1.43
+2025-10,27,Educação,21,0.70
+2025-10,23,Comédia,4,0.13
+2025-10,26,Tutoriais e estilo,3,0.10
+2025-10,28,Ciência e tecnologia,2,0.07
+2025-10,25,Notícias e política,1,0.03
+2025-11,20,Jogos,1152,38.40
+2025-11,10,Música,1097,36.57
+2025-11,22,Pessoas e blogs,309,10.30
+2025-11,24,Entretenimento,284,9.47
+2025-11,1,Filmes e animação,111,3.70
+2025-11,17,Esportes,38,1.27
+2025-11,23,Comédia,5,0.17
+2025-11,27,Educação,2,0.07
+2025-11,2,Automóveis,1,0.03
+2025-11,25,Notícias e política,1,0.03
+2025-12,20,Jogos,1141,36.83
+2025-12,10,Música,1074,34.67
+2025-12,24,Entretenimento,360,11.62
+2025-12,22,Pessoas e blogs,304,9.81
+2025-12,1,Filmes e animação,191,6.17
+2025-12,17,Esportes,9,0.29
+2025-12,27,Educação,7,0.23
+2025-12,28,Ciência e tecnologia,7,0.23
+2025-12,23,Comédia,4,0.13
+2025-12,2,Automóveis,1,0.03
+2026-01,20,Jogos,1127,36.95
+2026-01,10,Música,1083,35.51
+2026-01,22,Pessoas e blogs,320,10.49
+2026-01,24,Entretenimento,292,9.57
+2026-01,1,Filmes e animação,167,5.48
+2026-01,17,Esportes,34,1.11
+2026-01,27,Educação,10,0.33
+2026-01,23,Comédia,9,0.30
+2026-01,15,Animais,6,0.20
+2026-01,28,Ciência e tecnologia,2,0.07
+2026-02,20,Jogos,1053,38.29
+2026-02,10,Música,1024,37.24
+2026-02,22,Pessoas e blogs,268,9.75
+2026-02,24,Entretenimento,268,9.75
+2026-02,1,Filmes e animação,125,4.55
+2026-02,23,Comédia,5,0.18
+2026-02,17,Esportes,3,0.11
+2026-02,2,Automóveis,2,0.07
+2026-02,15,Animais,1,0.04
+2026-02,27,Educação,1,0.04
+2026-03,10,Música,1111,35.84
+2026-03,20,Jogos,1110,35.81
+2026-03,24,Entretenimento,419,13.52
+2026-03,22,Pessoas e blogs,276,8.90
+2026-03,1,Filmes e animação,178,5.74
+2026-03,23,Comédia,2,0.06
+2026-03,15,Animais,1,0.03
+2026-03,17,Esportes,1,0.03
+2026-03,25,Notícias e política,1,0.03
+2026-03,27,Educação,1,0.03
+2026-04,20,Jogos,1049,35.07
+2026-04,10,Música,1007,33.67
+2026-04,24,Entretenimento,391,13.07
+2026-04,22,Pessoas e blogs,279,9.33
+2026-04,1,Filmes e animação,251,8.39
+2026-04,23,Comédia,7,0.23
+2026-04,17,Esportes,2,0.07
+2026-04,25,Notícias e política,2,0.07
+2026-04,28,Ciência e tecnologia,2,0.07
+2026-04,26,Tutoriais e estilo,1,0.03
+2026-05,10,Música,1090,36.21
+2026-05,20,Jogos,1086,36.08
+2026-05,24,Entretenimento,340,11.30
+2026-05,22,Pessoas e blogs,310,10.30
+2026-05,1,Filmes e animação,132,4.39
+2026-05,25,Notícias e política,24,0.80
+2026-05,27,Educação,16,0.53
+2026-05,26,Tutoriais e estilo,5,0.17
+2026-05,23,Comédia,3,0.10
+2026-05,29,Ativismo,3,0.10
+2026-05,17,Esportes,1,0.03
+2026-06,20,Jogos,1102,37.10
+2026-06,10,Música,1060,35.69
+2026-06,24,Entretenimento,420,14.14
+2026-06,22,Pessoas e blogs,225,7.58
+2026-06,1,Filmes e animação,146,4.92
+2026-06,23,Comédia,6,0.20
+2026-06,17,Esportes,4,0.13
+2026-06,29,Ativismo,3,0.10
+2026-06,25,Notícias e política,2,0.07
+2026-06,27,Educação,2,0.07
+2026-07,10,Música,1121,36.62
+2026-07,20,Jogos,1056,34.50
+2026-07,24,Entretenimento,388,12.68
+2026-07,22,Pessoas e blogs,280,9.15
+2026-07,1,Filmes e animação,208,6.80
+2026-07,23,Comédia,3,0.10
+2026-07,17,Esportes,2,0.07
+2026-07,28,Ciência e tecnologia,2,0.07
+2026-07,27,Educação,1,0.03
+2026-08,20,Jogos,1187,38.49
+2026-08,10,Música,1137,36.87
+2026-08,24,Entretenimento,323,10.47
+2026-08,22,Pessoas e blogs,306,9.92
+2026-08,1,Filmes e animação,117,3.79
+2026-08,17,Esportes,5,0.16
+2026-08,28,Ciência e tecnologia,5,0.16
+2026-08,25,Notícias e política,2,0.06
+2026-08,27,Educação,2,0.06
+2026-09,10,Música,1156,38.64
+2026-09,20,Jogos,1128,37.70
+2026-09,24,Entretenimento,321,10.73
+2026-09,22,Pessoas e blogs,261,8.72
+2026-09,1,Filmes e animação,119,3.98
+2026-09,23,Comédia,4,0.13
+2026-09,15,Animais,2,0.07
+2026-09,2,Automóveis,1,0.03
+2026-10,10,Música,1133,39.22
+2026-10,20,Jogos,1127,39.01
+2026-10,22,Pessoas e blogs,282,9.76
+2026-10,24,Entretenimento,236,8.17
+2026-10,1,Filmes e animação,99,3.43
+2026-10,23,Comédia,8,0.28
+2026-10,17,Esportes,4,0.14
+2026-11,10,Música,324,40.96
+2026-11,20,Jogos,298,37.67
+2026-11,22,Pessoas e blogs,84,10.62
+2026-11,24,Entretenimento,58,7.33
+2026-11,1,Filmes e animação,25,3.16
+2026-11,23,Comédia,1,0.13
+2026-11,29,Ativismo,1,0.13

@@ -1,0 +1,72 @@
+RAIO-X — ITEM A: CORPUS HISTÓRICO DA LISTA GERAL mostPopular (BR)
+Gerado por scripts/a_historico.js e scripts/a_relatorio.js. Só leitura, sem IA, sem cota da YouTube API.
+
+FONTE E RECORTE
+Fonte única: repositório FiSeveroo/coletor-youtube, commit a41bdf02be32a55bc80703f6f6624e4fbfb363c4.
+1218 coletas (CSV), de 2025-03-05_15h10m.csv a 2026-11-08_20h14m.csv, 60.731 aparições. Datas no horário de Brasília (nome do arquivo).
+Qualidade: 0 linhas sem categoria, 0 vídeos repetidos dentro de uma coleta, 0 linhas malformadas.
+Categoria: a declarada no momento da coleta (coluna "Categoria do vídeo" = snippet.categoryId).
+Marco de 21/07/2025: data de vigência informada pelo Filipe (nota de 10/07/2025 no revision history da API); não conferida neste script.
+
+[MEDIÇÃO DIRETA] A QUEDA É SÚBITA E DOIS DIAS DEPOIS DE 21/07
+Fonte: A2_por_coleta_15jun_31ago_2025.csv, A2_diario_01jul_15ago_2025.csv, A2_trechos.csv
+- Coleta de 23/07/2025 às 05h14: Esportes 13, Notícias 1, Jogos+Música 17, de 50.
+- Coleta de 23/07/2025 às 17h10: Esportes 0, Notícias 0, Jogos+Música 37, de 50.
+- 21/07 e 22/07 seguem no padrão anterior (Esportes 23 e 25 por dia, de 100). A queda não começou antes de 21/07.
+- Antes disso, não há tendência de queda em julho: Esportes oscila de 12 a 34 por dia entre 01/07 e 20/07.
+
+Trecho                  coletas  Esportes        Notícias       Jogos+Música
+2025-06-01 a 2025-06-30    60    597 ( 19,9%)   116 ( 3,9%)    36,1%
+2025-07-01 a 2025-07-09    18    181 ( 20,1%)    12 ( 1,3%)    39,2%
+2025-07-10 a 2025-07-20    22    238 ( 21,6%)    19 ( 1,7%)    37,9%
+2025-07-21 a 2025-07-31    22     67 (  6,1%)     8 ( 0,7%)    67,5%
+2025-08-01 a 2025-08-15    30      9 (  0,6%)     0 ( 0,0%)    76,5%
+2025-08-16 a 2025-08-31    32      1 (  0,1%)     0 ( 0,0%)    80,4%
+
+Depois da virada, Esportes não voltou ao patamar anterior: de ago/2025 em diante o maior mês tem 1,4%. Notícias tem máximo mensal de 0,8%.
+Fonte: A1_composicao_mensal.csv
+
+[MEDIÇÃO DIRETA] ANTES E DEPOIS
+Fonte: A3_categorias_antes_depois.csv, A3_resumo_antes_depois.csv
+Corte                                Esportes           Notícias          Jogos+Música
+21/07/2025 (principal)                24,8% →  0,5%    2,5% →  0,1%    35,0% →  74,1%
+Sem a janela 01/07–31/08/2025         25,5% →  0,4%    2,6% →  0,1%    34,4% →  73,9%
+01/08/2025 (reconcilia 23,4% e 37%)   23,4% →  0,4%    2,4% →  0,1%    37,4% →  74,3%
+
+Categorias, corte principal (antes → depois):
+  Jogos                     18,7% →  37,5%
+  Música                    16,2% →  36,6%
+  Entretenimento            19,8% →  10,5%
+  Pessoas e blogs            7,0% →   9,5%
+  Filmes e animação          2,0% →   4,8%
+  Esportes                  24,8% →   0,5%
+  Educação                   0,7% →   0,2%
+  Comédia                    1,9% →   0,2%
+  Notícias e política        2,5% →   0,1%
+  Ciência e tecnologia       4,2% →   0,1%
+  Automóveis                 0,8% →   0,0%
+  Viagens                    0,6% →   0,0%
+
+Antes: 2025-03-05 a 2025-07-20, 275 coletas. Depois: 2025-07-21 a 2026-11-08, 943 coletas.
+
+Canais mais frequentes (aparições):
+  Antes:  CazéTV 546; Emilly Vick 440; ge 361; ProbIems 212; ESPN Brasil 200; Enaldinho 195; Canal GOAT 178; Jazzghost 175
+  Depois: ProbIems 922; Jazzghost 868; Canal Clash War 715; alanzoka 608; Athos 573; Amy Scarletona 560; Kass & KR 539; PIZÃO 518
+Fonte: A3_canais_mais_frequentes.csv
+
+[MEDIÇÃO DIRETA] CONCENTRAÇÃO: NÃO AUMENTOU
+Fonte: A1_resumo_mensal.csv, A3_resumo_antes_depois.csv
+- Por coleta, canais que somam metade da lista (mediana): 19 antes, 25 depois. 25 é o máximo possível numa lista de 50: cada canal aparece só uma vez nessa metade.
+- Por mês (abr–jun/2025 contra set/2025–out/2026): canais que somam metade das aparições, mediana 88 contra 87.5.
+- Média mensal de vídeos distintos: 771 contra 1.762. Canais distintos: 440 contra 741.
+- Comparar os totais dos períodos inteiros (133 e 157 canais) é enviesado: o período depois é cerca de 3 vezes mais longo.
+
+LEITURA
+Os dados sustentam que a lista mudou de natureza: troca abrupta de composição, com Esportes e Notícias saindo e Jogos e Música dobrando.
+Os dados NÃO sustentam "estreita" no sentido de menos canais ou mais concentração: o giro aumentou. A lista ficou estreita em tipos de conteúdo, não em quantidade de canais.
+
+LIMITAÇÕES
+- Mar/2025 começa no dia 5 e nov/2026 termina no dia 8.
+- Faltam 11 coletas em 614 dias (coletas por mês em A1_resumo_mensal.csv); nenhuma dentro de 01/07 a 15/08/2025.
+- Coincidência temporal com o anúncio não prova causa; o que se mede é o momento da mudança.
+- Um único país (BR) e uma única fonte; a virada não foi cruzada com o Raio-X, que só começa em 2026.

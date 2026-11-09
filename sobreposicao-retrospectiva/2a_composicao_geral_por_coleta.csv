@@ -1,0 +1,608 @@
+﻿coleta_id,data_coleta_utc,category_id,nome,videos
+30,2026-05-29T13:19,20,Jogos,18
+30,2026-05-29T13:19,10,Música,16
+30,2026-05-29T13:19,22,Pessoas e blogs,7
+30,2026-05-29T13:19,24,Entretenimento,6
+30,2026-05-29T13:19,1,Filmes e desenhos,2
+30,2026-05-29T13:19,25,Notícias e política,1
+31,2026-05-29T21:50,20,Jogos,20
+31,2026-05-29T21:50,10,Música,16
+31,2026-05-29T21:50,22,Pessoas e blogs,6
+31,2026-05-29T21:50,1,Filmes e desenhos,4
+31,2026-05-29T21:50,24,Entretenimento,2
+31,2026-05-29T21:50,17,Esportes,1
+31,2026-05-29T21:50,25,Notícias e política,1
+32,2026-05-30T09:52,10,Música,19
+32,2026-05-30T09:52,20,Jogos,18
+32,2026-05-30T09:52,24,Entretenimento,6
+32,2026-05-30T09:52,22,Pessoas e blogs,4
+32,2026-05-30T09:52,1,Filmes e desenhos,2
+32,2026-05-30T09:52,25,Notícias e política,1
+33,2026-05-30T20:50,10,Música,20
+33,2026-05-30T20:50,20,Jogos,16
+33,2026-05-30T20:50,22,Pessoas e blogs,5
+33,2026-05-30T20:50,nao_encontrado,,4
+33,2026-05-30T20:50,24,Entretenimento,2
+33,2026-05-30T20:50,1,Filmes e desenhos,1
+33,2026-05-30T20:50,25,Notícias e política,1
+33,2026-05-30T20:50,27,Educação,1
+34,2026-05-31T10:09,20,Jogos,21
+34,2026-05-31T10:09,10,Música,19
+34,2026-05-31T10:09,22,Pessoas e blogs,5
+34,2026-05-31T10:09,24,Entretenimento,2
+34,2026-05-31T10:09,1,Filmes e desenhos,1
+34,2026-05-31T10:09,27,Educação,1
+34,2026-05-31T10:09,nao_encontrado,,1
+35,2026-05-31T20:53,10,Música,17
+35,2026-05-31T20:53,20,Jogos,14
+35,2026-05-31T20:53,22,Pessoas e blogs,9
+35,2026-05-31T20:53,nao_encontrado,,5
+35,2026-05-31T20:53,24,Entretenimento,4
+35,2026-05-31T20:53,1,Filmes e desenhos,1
+36,2026-06-01T13:29,10,Música,19
+36,2026-06-01T13:29,20,Jogos,16
+36,2026-06-01T13:29,22,Pessoas e blogs,6
+36,2026-06-01T13:29,24,Entretenimento,5
+36,2026-06-01T13:29,nao_encontrado,,3
+36,2026-06-01T13:29,1,Filmes e desenhos,1
+37,2026-06-01T22:32,20,Jogos,18
+37,2026-06-01T22:32,10,Música,17
+37,2026-06-01T22:32,22,Pessoas e blogs,5
+37,2026-06-01T22:32,1,Filmes e desenhos,4
+37,2026-06-01T22:32,24,Entretenimento,4
+37,2026-06-01T22:32,nao_encontrado,,2
+38,2026-06-02T11:58,10,Música,17
+38,2026-06-02T11:58,20,Jogos,17
+38,2026-06-02T11:58,24,Entretenimento,6
+38,2026-06-02T11:58,1,Filmes e desenhos,5
+38,2026-06-02T11:58,22,Pessoas e blogs,3
+38,2026-06-02T11:58,nao_encontrado,,2
+39,2026-06-02T22:20,20,Jogos,21
+39,2026-06-02T22:20,10,Música,14
+39,2026-06-02T22:20,24,Entretenimento,8
+39,2026-06-02T22:20,1,Filmes e desenhos,4
+39,2026-06-02T22:20,nao_encontrado,,2
+39,2026-06-02T22:20,22,Pessoas e blogs,1
+40,2026-06-03T12:32,20,Jogos,20
+40,2026-06-03T12:32,10,Música,13
+40,2026-06-03T12:32,24,Entretenimento,7
+40,2026-06-03T12:32,1,Filmes e desenhos,4
+40,2026-06-03T12:32,22,Pessoas e blogs,4
+40,2026-06-03T12:32,29,Ativismo,1
+40,2026-06-03T12:32,nao_encontrado,,1
+41,2026-06-03T22:26,20,Jogos,18
+41,2026-06-03T22:26,10,Música,15
+41,2026-06-03T22:26,1,Filmes e desenhos,5
+41,2026-06-03T22:26,22,Pessoas e blogs,5
+41,2026-06-03T22:26,24,Entretenimento,5
+41,2026-06-03T22:26,nao_encontrado,,2
+42,2026-06-04T10:56,20,Jogos,19
+42,2026-06-04T10:56,10,Música,14
+42,2026-06-04T10:56,24,Entretenimento,10
+42,2026-06-04T10:56,1,Filmes e desenhos,3
+42,2026-06-04T10:56,22,Pessoas e blogs,3
+42,2026-06-04T10:56,nao_encontrado,,1
+43,2026-06-04T21:28,20,Jogos,20
+43,2026-06-04T21:28,10,Música,17
+43,2026-06-04T21:28,24,Entretenimento,9
+43,2026-06-04T21:28,1,Filmes e desenhos,2
+43,2026-06-04T21:28,nao_encontrado,,2
+44,2026-06-05T11:19,20,Jogos,20
+44,2026-06-05T11:19,10,Música,19
+44,2026-06-05T11:19,24,Entretenimento,6
+44,2026-06-05T11:19,1,Filmes e desenhos,2
+44,2026-06-05T11:19,22,Pessoas e blogs,2
+44,2026-06-05T11:19,nao_encontrado,,1
+45,2026-06-05T21:20,10,Música,20
+45,2026-06-05T21:20,20,Jogos,19
+45,2026-06-05T21:20,nao_encontrado,,4
+45,2026-06-05T21:20,1,Filmes e desenhos,3
+45,2026-06-05T21:20,22,Pessoas e blogs,2
+45,2026-06-05T21:20,24,Entretenimento,2
+46,2026-06-06T09:55,20,Jogos,28
+46,2026-06-06T09:55,10,Música,15
+46,2026-06-06T09:55,24,Entretenimento,5
+46,2026-06-06T09:55,22,Pessoas e blogs,1
+46,2026-06-06T09:55,nao_encontrado,,1
+47,2026-06-06T20:58,20,Jogos,27
+47,2026-06-06T20:58,10,Música,15
+47,2026-06-06T20:58,24,Entretenimento,3
+47,2026-06-06T20:58,22,Pessoas e blogs,2
+47,2026-06-06T20:58,nao_encontrado,,2
+47,2026-06-06T20:58,1,Filmes e desenhos,1
+48,2026-06-07T10:23,20,Jogos,27
+48,2026-06-07T10:23,10,Música,15
+48,2026-06-07T10:23,24,Entretenimento,4
+48,2026-06-07T10:23,nao_encontrado,,2
+48,2026-06-07T10:23,1,Filmes e desenhos,1
+48,2026-06-07T10:23,22,Pessoas e blogs,1
+49,2026-06-07T21:06,20,Jogos,21
+49,2026-06-07T21:06,10,Música,19
+49,2026-06-07T21:06,22,Pessoas e blogs,4
+49,2026-06-07T21:06,nao_encontrado,,3
+49,2026-06-07T21:06,24,Entretenimento,2
+49,2026-06-07T21:06,1,Filmes e desenhos,1
+50,2026-06-08T12:23,20,Jogos,23
+50,2026-06-08T12:23,10,Música,14
+50,2026-06-08T12:23,24,Entretenimento,6
+50,2026-06-08T12:23,22,Pessoas e blogs,5
+50,2026-06-08T12:23,1,Filmes e desenhos,2
+51,2026-06-08T21:47,20,Jogos,20
+51,2026-06-08T21:47,10,Música,16
+51,2026-06-08T21:47,22,Pessoas e blogs,6
+51,2026-06-08T21:47,24,Entretenimento,6
+51,2026-06-08T21:47,1,Filmes e desenhos,1
+51,2026-06-08T21:47,nao_encontrado,,1
+52,2026-06-09T10:54,20,Jogos,18
+52,2026-06-09T10:54,10,Música,15
+52,2026-06-09T10:54,24,Entretenimento,9
+52,2026-06-09T10:54,22,Pessoas e blogs,6
+52,2026-06-09T10:54,1,Filmes e desenhos,2
+53,2026-06-09T21:44,20,Jogos,23
+53,2026-06-09T21:44,10,Música,15
+53,2026-06-09T21:44,24,Entretenimento,6
+53,2026-06-09T21:44,1,Filmes e desenhos,4
+53,2026-06-09T21:44,22,Pessoas e blogs,1
+53,2026-06-09T21:44,nao_encontrado,,1
+54,2026-06-10T11:32,20,Jogos,22
+54,2026-06-10T11:32,10,Música,16
+54,2026-06-10T11:32,24,Entretenimento,4
+54,2026-06-10T11:32,1,Filmes e desenhos,3
+54,2026-06-10T11:32,22,Pessoas e blogs,3
+54,2026-06-10T11:32,nao_encontrado,,2
+55,2026-06-10T21:54,20,Jogos,18
+55,2026-06-10T21:54,10,Música,16
+55,2026-06-10T21:54,22,Pessoas e blogs,8
+55,2026-06-10T21:54,24,Entretenimento,3
+55,2026-06-10T21:54,nao_encontrado,,3
+55,2026-06-10T21:54,1,Filmes e desenhos,2
+56,2026-06-11T12:04,20,Jogos,19
+56,2026-06-11T12:04,10,Música,15
+56,2026-06-11T12:04,22,Pessoas e blogs,7
+56,2026-06-11T12:04,24,Entretenimento,7
+56,2026-06-11T12:04,1,Filmes e desenhos,1
+56,2026-06-11T12:04,23,Comédia,1
+57,2026-06-11T21:57,20,Jogos,18
+57,2026-06-11T21:57,10,Música,15
+57,2026-06-11T21:57,24,Entretenimento,6
+57,2026-06-11T21:57,22,Pessoas e blogs,4
+57,2026-06-11T21:57,1,Filmes e desenhos,3
+57,2026-06-11T21:57,nao_encontrado,,3
+57,2026-06-11T21:57,23,Comédia,1
+58,2026-06-12T11:37,10,Música,17
+58,2026-06-12T11:37,20,Jogos,16
+58,2026-06-12T11:37,24,Entretenimento,7
+58,2026-06-12T11:37,22,Pessoas e blogs,4
+58,2026-06-12T11:37,1,Filmes e desenhos,3
+58,2026-06-12T11:37,23,Comédia,2
+58,2026-06-12T11:37,nao_encontrado,,1
+59,2026-06-12T21:27,10,Música,18
+59,2026-06-12T21:27,20,Jogos,16
+59,2026-06-12T21:27,24,Entretenimento,6
+59,2026-06-12T21:27,22,Pessoas e blogs,4
+59,2026-06-12T21:27,1,Filmes e desenhos,3
+59,2026-06-12T21:27,nao_encontrado,,2
+59,2026-06-12T21:27,23,Comédia,1
+60,2026-06-13T10:22,10,Música,21
+60,2026-06-13T10:22,20,Jogos,18
+60,2026-06-13T10:22,24,Entretenimento,4
+60,2026-06-13T10:22,1,Filmes e desenhos,3
+60,2026-06-13T10:22,22,Pessoas e blogs,3
+60,2026-06-13T10:22,23,Comédia,1
+61,2026-06-13T21:09,10,Música,22
+61,2026-06-13T21:09,20,Jogos,20
+61,2026-06-13T21:09,22,Pessoas e blogs,6
+61,2026-06-13T21:09,nao_encontrado,,2
+62,2026-06-14T10:45,20,Jogos,22
+62,2026-06-14T10:45,10,Música,21
+62,2026-06-14T10:45,22,Pessoas e blogs,4
+62,2026-06-14T10:45,1,Filmes e desenhos,1
+62,2026-06-14T10:45,24,Entretenimento,1
+62,2026-06-14T10:45,nao_encontrado,,1
+63,2026-06-14T21:05,20,Jogos,18
+63,2026-06-14T21:05,10,Música,17
+63,2026-06-14T21:05,nao_encontrado,,7
+63,2026-06-14T21:05,22,Pessoas e blogs,5
+63,2026-06-14T21:05,24,Entretenimento,2
+63,2026-06-14T21:05,1,Filmes e desenhos,1
+64,2026-06-15T13:48,10,Música,21
+64,2026-06-15T13:48,20,Jogos,18
+64,2026-06-15T13:48,24,Entretenimento,5
+64,2026-06-15T13:48,nao_encontrado,,3
+64,2026-06-15T13:48,22,Pessoas e blogs,2
+64,2026-06-15T13:48,1,Filmes e desenhos,1
+65,2026-06-15T22:14,10,Música,18
+65,2026-06-15T22:14,20,Jogos,17
+65,2026-06-15T22:14,24,Entretenimento,10
+65,2026-06-15T22:14,nao_encontrado,,3
+65,2026-06-15T22:14,22,Pessoas e blogs,2
+66,2026-06-16T12:47,10,Música,19
+66,2026-06-16T12:47,20,Jogos,18
+66,2026-06-16T12:47,24,Entretenimento,7
+66,2026-06-16T12:47,nao_encontrado,,3
+66,2026-06-16T12:47,22,Pessoas e blogs,2
+66,2026-06-16T12:47,1,Filmes e desenhos,1
+67,2026-06-16T22:07,10,Música,18
+67,2026-06-16T22:07,20,Jogos,18
+67,2026-06-16T22:07,24,Entretenimento,5
+67,2026-06-16T22:07,nao_encontrado,,4
+67,2026-06-16T22:07,1,Filmes e desenhos,3
+67,2026-06-16T22:07,22,Pessoas e blogs,2
+68,2026-06-17T12:11,10,Música,18
+68,2026-06-17T12:11,20,Jogos,15
+68,2026-06-17T12:11,24,Entretenimento,8
+68,2026-06-17T12:11,1,Filmes e desenhos,3
+68,2026-06-17T12:11,22,Pessoas e blogs,3
+68,2026-06-17T12:11,nao_encontrado,,3
+69,2026-06-17T21:56,20,Jogos,13
+69,2026-06-17T21:56,10,Música,11
+69,2026-06-17T21:56,24,Entretenimento,10
+69,2026-06-17T21:56,22,Pessoas e blogs,6
+69,2026-06-17T21:56,1,Filmes e desenhos,5
+69,2026-06-17T21:56,nao_encontrado,,5
+70,2026-06-18T11:45,20,Jogos,15
+70,2026-06-18T11:45,10,Música,12
+70,2026-06-18T11:45,24,Entretenimento,12
+70,2026-06-18T11:45,22,Pessoas e blogs,6
+70,2026-06-18T11:45,1,Filmes e desenhos,4
+70,2026-06-18T11:45,nao_encontrado,,1
+71,2026-06-18T22:02,20,Jogos,16
+71,2026-06-18T22:02,10,Música,15
+71,2026-06-18T22:02,24,Entretenimento,13
+71,2026-06-18T22:02,1,Filmes e desenhos,4
+71,2026-06-18T22:02,22,Pessoas e blogs,1
+71,2026-06-18T22:02,nao_encontrado,,1
+72,2026-06-19T12:00,20,Jogos,16
+72,2026-06-19T12:00,10,Música,14
+72,2026-06-19T12:00,24,Entretenimento,12
+72,2026-06-19T12:00,1,Filmes e desenhos,5
+72,2026-06-19T12:00,22,Pessoas e blogs,2
+72,2026-06-19T12:00,nao_encontrado,,1
+73,2026-06-19T21:05,10,Música,17
+73,2026-06-19T21:05,20,Jogos,16
+73,2026-06-19T21:05,24,Entretenimento,7
+73,2026-06-19T21:05,1,Filmes e desenhos,5
+73,2026-06-19T21:05,22,Pessoas e blogs,3
+73,2026-06-19T21:05,nao_encontrado,,2
+74,2026-06-20T10:27,10,Música,18
+74,2026-06-20T10:27,20,Jogos,18
+74,2026-06-20T10:27,24,Entretenimento,6
+74,2026-06-20T10:27,1,Filmes e desenhos,4
+74,2026-06-20T10:27,nao_encontrado,,2
+74,2026-06-20T10:27,17,Esportes,1
+74,2026-06-20T10:27,22,Pessoas e blogs,1
+75,2026-06-20T21:10,10,Música,19
+75,2026-06-20T21:10,20,Jogos,18
+75,2026-06-20T21:10,1,Filmes e desenhos,4
+75,2026-06-20T21:10,22,Pessoas e blogs,3
+75,2026-06-20T21:10,24,Entretenimento,3
+75,2026-06-20T21:10,nao_encontrado,,3
+76,2026-06-21T11:00,20,Jogos,21
+76,2026-06-21T11:00,10,Música,19
+76,2026-06-21T11:00,24,Entretenimento,6
+76,2026-06-21T11:00,1,Filmes e desenhos,3
+76,2026-06-21T11:00,22,Pessoas e blogs,1
+77,2026-06-21T21:09,10,Música,19
+77,2026-06-21T21:09,20,Jogos,19
+77,2026-06-21T21:09,24,Entretenimento,5
+77,2026-06-21T21:09,22,Pessoas e blogs,3
+77,2026-06-21T21:09,nao_encontrado,,3
+77,2026-06-21T21:09,1,Filmes e desenhos,1
+78,2026-06-22T13:28,20,Jogos,19
+78,2026-06-22T13:28,10,Música,18
+78,2026-06-22T13:28,24,Entretenimento,9
+78,2026-06-22T13:28,22,Pessoas e blogs,2
+78,2026-06-22T13:28,1,Filmes e desenhos,1
+78,2026-06-22T13:28,nao_encontrado,,1
+79,2026-06-22T21:58,20,Jogos,19
+79,2026-06-22T21:58,10,Música,18
+79,2026-06-22T21:58,24,Entretenimento,9
+79,2026-06-22T21:58,22,Pessoas e blogs,2
+79,2026-06-22T21:58,1,Filmes e desenhos,1
+79,2026-06-22T21:58,nao_encontrado,,1
+80,2026-06-23T10:56,20,Jogos,17
+80,2026-06-23T10:56,10,Música,16
+80,2026-06-23T10:56,24,Entretenimento,12
+80,2026-06-23T10:56,nao_encontrado,,2
+80,2026-06-23T10:56,1,Filmes e desenhos,1
+80,2026-06-23T10:56,22,Pessoas e blogs,1
+80,2026-06-23T10:56,29,Ativismo,1
+81,2026-06-23T21:27,20,Jogos,17
+81,2026-06-23T21:27,10,Música,16
+81,2026-06-23T21:27,24,Entretenimento,12
+81,2026-06-23T21:27,nao_encontrado,,2
+81,2026-06-23T21:27,1,Filmes e desenhos,1
+81,2026-06-23T21:27,22,Pessoas e blogs,1
+81,2026-06-23T21:27,29,Ativismo,1
+82,2026-06-24T10:42,20,Jogos,19
+82,2026-06-24T10:42,10,Música,15
+82,2026-06-24T10:42,24,Entretenimento,8
+82,2026-06-24T10:42,1,Filmes e desenhos,3
+82,2026-06-24T10:42,22,Pessoas e blogs,3
+82,2026-06-24T10:42,nao_encontrado,,2
+83,2026-06-24T21:19,10,Música,16
+83,2026-06-24T21:19,20,Jogos,15
+83,2026-06-24T21:19,24,Entretenimento,10
+83,2026-06-24T21:19,1,Filmes e desenhos,4
+83,2026-06-24T21:19,nao_encontrado,,3
+83,2026-06-24T21:19,22,Pessoas e blogs,2
+84,2026-06-25T10:36,10,Música,15
+84,2026-06-25T10:36,24,Entretenimento,14
+84,2026-06-25T10:36,20,Jogos,11
+84,2026-06-25T10:36,1,Filmes e desenhos,4
+84,2026-06-25T10:36,22,Pessoas e blogs,4
+84,2026-06-25T10:36,17,Esportes,1
+84,2026-06-25T10:36,nao_encontrado,,1
+85,2026-06-25T21:26,10,Música,17
+85,2026-06-25T21:26,24,Entretenimento,14
+85,2026-06-25T21:26,20,Jogos,12
+85,2026-06-25T21:26,22,Pessoas e blogs,4
+85,2026-06-25T21:26,1,Filmes e desenhos,3
+86,2026-06-26T10:44,10,Música,17
+86,2026-06-26T10:44,24,Entretenimento,14
+86,2026-06-26T10:44,20,Jogos,12
+86,2026-06-26T10:44,22,Pessoas e blogs,4
+86,2026-06-26T10:44,1,Filmes e desenhos,3
+87,2026-06-26T21:15,10,Música,16
+87,2026-06-26T21:15,24,Entretenimento,14
+87,2026-06-26T21:15,20,Jogos,13
+87,2026-06-26T21:15,22,Pessoas e blogs,4
+87,2026-06-26T21:15,1,Filmes e desenhos,3
+88,2026-06-27T09:57,10,Música,16
+88,2026-06-27T09:57,24,Entretenimento,14
+88,2026-06-27T09:57,20,Jogos,13
+88,2026-06-27T09:57,22,Pessoas e blogs,4
+88,2026-06-27T09:57,1,Filmes e desenhos,3
+89,2026-06-27T20:56,10,Música,20
+89,2026-06-27T20:56,20,Jogos,20
+89,2026-06-27T20:56,22,Pessoas e blogs,4
+89,2026-06-27T20:56,24,Entretenimento,3
+89,2026-06-27T20:56,1,Filmes e desenhos,1
+89,2026-06-27T20:56,27,Educação,1
+89,2026-06-27T20:56,nao_encontrado,,1
+90,2026-06-28T10:22,20,Jogos,19
+90,2026-06-28T10:22,10,Música,18
+90,2026-06-28T10:22,24,Entretenimento,5
+90,2026-06-28T10:22,22,Pessoas e blogs,3
+90,2026-06-28T10:22,nao_encontrado,,3
+90,2026-06-28T10:22,1,Filmes e desenhos,1
+90,2026-06-28T10:22,27,Educação,1
+91,2026-06-28T20:56,10,Música,21
+91,2026-06-28T20:56,20,Jogos,19
+91,2026-06-28T20:56,nao_encontrado,,6
+91,2026-06-28T20:56,24,Entretenimento,3
+91,2026-06-28T20:56,22,Pessoas e blogs,1
+92,2026-06-29T12:24,20,Jogos,21
+92,2026-06-29T12:24,10,Música,18
+92,2026-06-29T12:24,nao_encontrado,,4
+92,2026-06-29T12:24,24,Entretenimento,3
+92,2026-06-29T12:24,1,Filmes e desenhos,2
+92,2026-06-29T12:24,22,Pessoas e blogs,1
+92,2026-06-29T12:24,25,Notícias e política,1
+93,2026-06-29T21:20,20,Jogos,21
+93,2026-06-29T21:20,10,Música,17
+93,2026-06-29T21:20,24,Entretenimento,4
+93,2026-06-29T21:20,nao_encontrado,,4
+93,2026-06-29T21:20,1,Filmes e desenhos,2
+93,2026-06-29T21:20,17,Esportes,1
+93,2026-06-29T21:20,25,Notícias e política,1
+94,2026-06-30T10:49,20,Jogos,22
+94,2026-06-30T10:49,10,Música,18
+94,2026-06-30T10:49,24,Entretenimento,4
+94,2026-06-30T10:49,22,Pessoas e blogs,2
+94,2026-06-30T10:49,nao_encontrado,,2
+94,2026-06-30T10:49,1,Filmes e desenhos,1
+94,2026-06-30T10:49,17,Esportes,1
+95,2026-06-30T21:24,10,Música,19
+95,2026-06-30T21:24,20,Jogos,19
+95,2026-06-30T21:24,22,Pessoas e blogs,4
+95,2026-06-30T21:24,24,Entretenimento,4
+95,2026-06-30T21:24,1,Filmes e desenhos,3
+95,2026-06-30T21:24,nao_encontrado,,1
+96,2026-07-01T11:17,10,Música,20
+96,2026-07-01T11:17,20,Jogos,20
+96,2026-07-01T11:17,24,Entretenimento,6
+96,2026-07-01T11:17,1,Filmes e desenhos,2
+96,2026-07-01T11:17,22,Pessoas e blogs,2
+97,2026-07-01T21:22,10,Música,17
+97,2026-07-01T21:22,20,Jogos,15
+97,2026-07-01T21:22,24,Entretenimento,10
+97,2026-07-01T21:22,1,Filmes e desenhos,3
+97,2026-07-01T21:22,22,Pessoas e blogs,3
+97,2026-07-01T21:22,nao_encontrado,,2
+98,2026-07-02T10:30,20,Jogos,17
+98,2026-07-02T10:30,10,Música,16
+98,2026-07-02T10:30,22,Pessoas e blogs,6
+98,2026-07-02T10:30,24,Entretenimento,6
+98,2026-07-02T10:30,1,Filmes e desenhos,2
+98,2026-07-02T10:30,nao_encontrado,,2
+98,2026-07-02T10:30,27,Educação,1
+99,2026-07-02T20:58,20,Jogos,18
+99,2026-07-02T20:58,10,Música,16
+99,2026-07-02T20:58,24,Entretenimento,6
+99,2026-07-02T20:58,22,Pessoas e blogs,5
+99,2026-07-02T20:58,nao_encontrado,,4
+99,2026-07-02T20:58,1,Filmes e desenhos,1
+100,2026-07-03T10:27,20,Jogos,20
+100,2026-07-03T10:27,10,Música,18
+100,2026-07-03T10:27,nao_encontrado,,5
+100,2026-07-03T10:27,22,Pessoas e blogs,3
+100,2026-07-03T10:27,24,Entretenimento,3
+100,2026-07-03T10:27,1,Filmes e desenhos,1
+101,2026-07-03T20:57,10,Música,19
+101,2026-07-03T20:57,20,Jogos,19
+101,2026-07-03T20:57,22,Pessoas e blogs,5
+101,2026-07-03T20:57,24,Entretenimento,3
+101,2026-07-03T20:57,nao_encontrado,,3
+101,2026-07-03T20:57,1,Filmes e desenhos,1
+102,2026-07-04T10:01,20,Jogos,18
+102,2026-07-04T10:01,10,Música,15
+102,2026-07-04T10:01,24,Entretenimento,6
+102,2026-07-04T10:01,1,Filmes e desenhos,4
+102,2026-07-04T10:01,22,Pessoas e blogs,4
+102,2026-07-04T10:01,nao_encontrado,,3
+103,2026-07-04T20:50,10,Música,19
+103,2026-07-04T20:50,20,Jogos,18
+103,2026-07-04T20:50,1,Filmes e desenhos,6
+103,2026-07-04T20:50,24,Entretenimento,4
+103,2026-07-04T20:50,nao_encontrado,,2
+103,2026-07-04T20:50,22,Pessoas e blogs,1
+104,2026-07-05T10:04,20,Jogos,20
+104,2026-07-05T10:04,10,Música,18
+104,2026-07-05T10:04,1,Filmes e desenhos,7
+104,2026-07-05T10:04,24,Entretenimento,2
+104,2026-07-05T10:04,nao_encontrado,,2
+104,2026-07-05T10:04,22,Pessoas e blogs,1
+105,2026-07-05T20:52,20,Jogos,17
+105,2026-07-05T20:52,10,Música,14
+105,2026-07-05T20:52,nao_encontrado,,6
+105,2026-07-05T20:52,22,Pessoas e blogs,5
+105,2026-07-05T20:52,24,Entretenimento,5
+105,2026-07-05T20:52,1,Filmes e desenhos,3
+106,2026-07-06T11:57,20,Jogos,20
+106,2026-07-06T11:57,10,Música,15
+106,2026-07-06T11:57,24,Entretenimento,5
+106,2026-07-06T11:57,nao_encontrado,,4
+106,2026-07-06T11:57,1,Filmes e desenhos,3
+106,2026-07-06T11:57,22,Pessoas e blogs,3
+107,2026-07-06T21:24,10,Música,18
+107,2026-07-06T21:24,20,Jogos,18
+107,2026-07-06T21:24,1,Filmes e desenhos,4
+107,2026-07-06T21:24,24,Entretenimento,4
+107,2026-07-06T21:24,22,Pessoas e blogs,3
+107,2026-07-06T21:24,nao_encontrado,,3
+108,2026-07-07T10:47,10,Música,20
+108,2026-07-07T10:47,20,Jogos,17
+108,2026-07-07T10:47,22,Pessoas e blogs,5
+108,2026-07-07T10:47,24,Entretenimento,3
+108,2026-07-07T10:47,1,Filmes e desenhos,2
+108,2026-07-07T10:47,nao_encontrado,,2
+108,2026-07-07T10:47,28,Ciência e tecnologia,1
+109,2026-07-07T21:18,20,Jogos,20
+109,2026-07-07T21:18,10,Música,19
+109,2026-07-07T21:18,24,Entretenimento,5
+109,2026-07-07T21:18,22,Pessoas e blogs,3
+109,2026-07-07T21:18,nao_encontrado,,2
+109,2026-07-07T21:18,1,Filmes e desenhos,1
+110,2026-07-08T10:09,20,Jogos,19
+110,2026-07-08T10:09,10,Música,18
+110,2026-07-08T10:09,24,Entretenimento,7
+110,2026-07-08T10:09,22,Pessoas e blogs,3
+110,2026-07-08T10:09,nao_encontrado,,2
+110,2026-07-08T10:09,1,Filmes e desenhos,1
+111,2026-07-08T21:01,10,Música,18
+111,2026-07-08T21:01,20,Jogos,16
+111,2026-07-08T21:01,24,Entretenimento,6
+111,2026-07-08T21:01,22,Pessoas e blogs,5
+111,2026-07-08T21:01,nao_encontrado,,3
+111,2026-07-08T21:01,1,Filmes e desenhos,2
+112,2026-07-09T10:47,10,Música,19
+112,2026-07-09T10:47,20,Jogos,19
+112,2026-07-09T10:47,24,Entretenimento,6
+112,2026-07-09T10:47,1,Filmes e desenhos,2
+112,2026-07-09T10:47,22,Pessoas e blogs,2
+112,2026-07-09T10:47,23,Comédia,1
+112,2026-07-09T10:47,nao_encontrado,,1
+113,2026-07-09T21:17,10,Música,17
+113,2026-07-09T21:17,20,Jogos,16
+113,2026-07-09T21:17,24,Entretenimento,6
+113,2026-07-09T21:17,nao_encontrado,,5
+113,2026-07-09T21:17,1,Filmes e desenhos,4
+113,2026-07-09T21:17,22,Pessoas e blogs,2
+114,2026-07-10T10:45,20,Jogos,17
+114,2026-07-10T10:45,10,Música,16
+114,2026-07-10T10:45,1,Filmes e desenhos,7
+114,2026-07-10T10:45,24,Entretenimento,5
+114,2026-07-10T10:45,nao_encontrado,,3
+114,2026-07-10T10:45,22,Pessoas e blogs,2
+115,2026-07-10T21:02,10,Música,20
+115,2026-07-10T21:02,20,Jogos,15
+115,2026-07-10T21:02,1,Filmes e desenhos,5
+115,2026-07-10T21:02,22,Pessoas e blogs,4
+115,2026-07-10T21:02,24,Entretenimento,4
+115,2026-07-10T21:02,nao_encontrado,,2
+116,2026-07-11T09:19,10,Música,19
+116,2026-07-11T09:19,20,Jogos,17
+116,2026-07-11T09:19,24,Entretenimento,5
+116,2026-07-11T09:19,1,Filmes e desenhos,4
+116,2026-07-11T09:19,22,Pessoas e blogs,4
+116,2026-07-11T09:19,nao_encontrado,,1
+117,2026-07-11T20:41,10,Música,23
+117,2026-07-11T20:41,20,Jogos,16
+117,2026-07-11T20:41,22,Pessoas e blogs,4
+117,2026-07-11T20:41,nao_encontrado,,4
+117,2026-07-11T20:41,24,Entretenimento,2
+117,2026-07-11T20:41,1,Filmes e desenhos,1
+118,2026-07-12T09:44,10,Música,22
+118,2026-07-12T09:44,20,Jogos,22
+118,2026-07-12T09:44,24,Entretenimento,3
+118,2026-07-12T09:44,17,Esportes,1
+118,2026-07-12T09:44,22,Pessoas e blogs,1
+118,2026-07-12T09:44,23,Comédia,1
+119,2026-07-12T20:38,10,Música,20
+119,2026-07-12T20:38,20,Jogos,17
+119,2026-07-12T20:38,nao_encontrado,,6
+119,2026-07-12T20:38,24,Entretenimento,3
+119,2026-07-12T20:38,22,Pessoas e blogs,2
+119,2026-07-12T20:38,1,Filmes e desenhos,1
+119,2026-07-12T20:38,23,Comédia,1
+120,2026-07-13T10:51,10,Música,18
+120,2026-07-13T10:51,20,Jogos,18
+120,2026-07-13T10:51,22,Pessoas e blogs,6
+120,2026-07-13T10:51,24,Entretenimento,4
+120,2026-07-13T10:51,nao_encontrado,,3
+120,2026-07-13T10:51,1,Filmes e desenhos,1
+121,2026-07-13T20:53,20,Jogos,16
+121,2026-07-13T20:53,10,Música,14
+121,2026-07-13T20:53,22,Pessoas e blogs,7
+121,2026-07-13T20:53,24,Entretenimento,6
+121,2026-07-13T20:53,nao_encontrado,,5
+121,2026-07-13T20:53,1,Filmes e desenhos,2
+122,2026-07-14T09:48,20,Jogos,19
+122,2026-07-14T09:48,10,Música,17
+122,2026-07-14T09:48,24,Entretenimento,7
+122,2026-07-14T09:48,22,Pessoas e blogs,4
+122,2026-07-14T09:48,1,Filmes e desenhos,2
+122,2026-07-14T09:48,nao_encontrado,,1
+123,2026-07-14T20:54,20,Jogos,16
+123,2026-07-14T20:54,10,Música,14
+123,2026-07-14T20:54,24,Entretenimento,7
+123,2026-07-14T20:54,22,Pessoas e blogs,6
+123,2026-07-14T20:54,1,Filmes e desenhos,4
+123,2026-07-14T20:54,nao_encontrado,,3
+124,2026-07-15T09:52,20,Jogos,20
+124,2026-07-15T09:52,10,Música,15
+124,2026-07-15T09:52,24,Entretenimento,6
+124,2026-07-15T09:52,22,Pessoas e blogs,4
+124,2026-07-15T09:52,1,Filmes e desenhos,3
+124,2026-07-15T09:52,nao_encontrado,,2
+125,2026-07-15T20:54,10,Música,20
+125,2026-07-15T20:54,20,Jogos,15
+125,2026-07-15T20:54,24,Entretenimento,6
+125,2026-07-15T20:54,1,Filmes e desenhos,4
+125,2026-07-15T20:54,nao_encontrado,,3
+125,2026-07-15T20:54,22,Pessoas e blogs,2
+126,2026-07-16T09:59,20,Jogos,18
+126,2026-07-16T09:59,10,Música,17
+126,2026-07-16T09:59,24,Entretenimento,5
+126,2026-07-16T09:59,1,Filmes e desenhos,4
+126,2026-07-16T09:59,22,Pessoas e blogs,3
+126,2026-07-16T09:59,nao_encontrado,,3
+127,2026-07-16T20:51,20,Jogos,22
+127,2026-07-16T20:51,10,Música,15
+127,2026-07-16T20:51,22,Pessoas e blogs,5
+127,2026-07-16T20:51,1,Filmes e desenhos,4
+127,2026-07-16T20:51,24,Entretenimento,3
+127,2026-07-16T20:51,nao_encontrado,,1
+128,2026-07-17T09:49,20,Jogos,20
+128,2026-07-17T09:49,10,Música,16
+128,2026-07-17T09:49,1,Filmes e desenhos,6
+128,2026-07-17T09:49,22,Pessoas e blogs,4
+128,2026-07-17T09:49,24,Entretenimento,3
+128,2026-07-17T09:49,nao_encontrado,,1
+129,2026-07-17T20:47,20,Jogos,18
+129,2026-07-17T20:47,10,Música,15
+129,2026-07-17T20:47,1,Filmes e desenhos,6
+129,2026-07-17T20:47,24,Entretenimento,6
+129,2026-07-17T20:47,22,Pessoas e blogs,3
+129,2026-07-17T20:47,nao_encontrado,,2
