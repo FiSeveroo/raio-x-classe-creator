@@ -1,0 +1,36 @@
+name: Relatório de Sobreposição (geral × filtros)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  relatorio:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: pip install "supabase>=2,<3"
+
+      - name: Gerar relatório
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: python relatorio_sobreposicao.py
+
+      - name: Guardar relatório
+        uses: actions/upload-artifact@v6
+        with:
+          name: relatorio-sobreposicao
+          path: relatorio-sobreposicao/
+          retention-days: 90
