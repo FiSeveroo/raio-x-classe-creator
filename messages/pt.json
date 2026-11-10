@@ -563,8 +563,8 @@
     "sobreTitulo": "Sobre este termômetro",
     "sobreTexto": [
       "O Termômetro é um **sistema de coleta longitudinal** que tira \"fotografias\" do YouTube Brasil, classifica cada vídeo segundo a tipologia dupla (Produtor × Conteúdo) desenvolvida na dissertação de mestrado de Filipe Severo (PUCRS/FAMECOS, 2026), e armazena o resultado em um corpus auditável.",
-      "**Por que coletamos centenas de vídeos e não 50?** A pesquisa original usava o endpoint geral `chart=mostPopular`, que retorna apenas 50 vídeos. A partir de julho de 2025, segundo o Google, esse endpoint passou a reunir os charts de Música, Filmes e Jogos. Entre maio e julho de 2026, Jogos e Música somaram cerca de 74% dos vídeos do geral, enquanto Esportes e Notícias quase não apareceram (0,1% cada). Por isso consultamos também cada categoria separadamente: a vitrine \"Em Alta\" do YouTube é *mais opaca* do que aparenta.",
-      "A solução: coletamos os vídeos mais populares de **cada uma das 12 categorias válidas para o Brasil**, mais o endpoint geral — totalizando 13 chamadas e cerca de **500–600 vídeos únicos por coleta** (após deduplicação). Cada vídeo registra qual endpoint o capturou (`categoria_coleta`), preservando rastreabilidade metodológica.",
+      "**Por que coletamos centenas de vídeos e não 50?** A pesquisa original usava o endpoint geral `chart=mostPopular`, que retorna apenas 50 vídeos. A partir de julho de 2025, segundo o Google, esse endpoint passou a reunir os charts de Música, Filmes e Jogos. Desde 23/07/2025, as categorias que correspondem aos três charts anunciados pelo Google (Música, Filmes e Jogos) somam cerca de 79% das aparições na lista geral, contra 37% antes da mudança. Esportes caiu de 25% para 0,5%, e Notícias de 2,5% para 0,1%. Por isso consultamos também cada categoria separadamente: a vitrine \"Em Alta\" do YouTube é *mais opaca* do que aparenta.",
+      "A solução: coletamos os vídeos mais populares de **cada uma das 12 categorias válidas para o Brasil**, mais o endpoint geral — totalizando 13 chamadas e cerca de **500–600 vídeos únicos por coleta** (após deduplicação). Cada vídeo registra a primeira lista em que foi capturado (`categoria_coleta`). Uma nova versão da coleta vai registrar todas as listas em que cada vídeo aparece.",
       "A coleta roda automaticamente **duas vezes por dia** (5h e 17h, horário de Brasília), via GitHub Actions. O horário real de cada coleta fica registrado no snapshot — a fila do GitHub costuma atrasar os disparos agendados.",
       "**Por que não exibimos o trending em tempo real?** Porque a tese central da pesquisa demonstra que a vitrine \"Em Alta\" do YouTube é uma construção editorial corporativa, não um espelho neutro da audiência. Replicar essa vitrine sem contexto reproduziria a opacidade que a ferramenta busca desnaturalizar. O dado relevante é a **composição estrutural** acumulada ao longo do tempo — e isso só fica visível com séries longitudinais."
     ],
@@ -601,7 +601,7 @@
     "semDadosFormato": "Sem dados de formato",
     "semDadosFormatoAjuda": "Coletados antes da detecção de formato ou sem dimensões de player.",
     "endpointsTitulo": "De onde vieram os vídeos",
-    "endpointsLegenda": "Endpoint da API que capturou cada vídeo (`categoria_coleta`): o geral (`chart=mostPopular` sem filtro) ou uma das categorias do YouTube.",
+    "endpointsLegenda": "Primeira lista em que cada vídeo foi capturado (`categoria_coleta`): a geral (`chart=mostPopular` sem filtro) ou a de uma das categorias do YouTube.",
     "endpointGeral": "Geral (mostPopular)",
     "endpointCategoria": "Categoria {id}",
     "eixoA": "Eixo A — Quem produz?",

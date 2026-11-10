@@ -563,8 +563,8 @@
     "sobreTitulo": "About this thermometer",
     "sobreTexto": [
       "The Thermometer is a **longitudinal collection system** that takes \"snapshots\" of YouTube Brazil, classifies each video according to the dual typology (Producer × Content) developed in Filipe Severo's master's dissertation (PUCRS/FAMECOS, 2026), and stores the result in an auditable corpus.",
-      "**Why do we collect hundreds of videos and not 50?** The original research used the general endpoint `chart=mostPopular`, which returns only 50 videos. Since July 2025, according to Google, this endpoint has combined the Music, Movies and Gaming charts. Between May and July 2026, Gaming and Music made up about 74% of the videos in the general endpoint, while Sports and News barely appeared (0.1% each). That is why we also query each category separately: YouTube's \"Trending\" showcase is *more opaque* than it appears.",
-      "The solution: we collect the most popular videos from **each of the 12 categories valid for Brazil**, plus the general endpoint — 13 calls in total and about **500–600 unique videos per collection** (after deduplication). Each video records which endpoint captured it (`categoria_coleta`), preserving methodological traceability.",
+      "**Why do we collect hundreds of videos and not 50?** The original research used the general endpoint `chart=mostPopular`, which returns only 50 videos. Since July 2025, according to Google, this endpoint has combined the Music, Movies and Gaming charts. Since 23 July 2025, the categories matching the three charts announced by Google (Music, Movies and Gaming) have accounted for about 79% of appearances in the general list, compared with 37% before the change. Sports fell from 25% to 0.5%, and News from 2.5% to 0.1%. That is why we also query each category separately: YouTube's \"Trending\" showcase is *more opaque* than it appears.",
+      "The solution: we collect the most popular videos from **each of the 12 categories valid for Brazil**, plus the general endpoint — 13 calls in total and about **500–600 unique videos per collection** (after deduplication). Each video records the first list in which it was captured (`categoria_coleta`). A new version of the collection will record every list in which each video appears.",
       "Collection runs automatically **twice a day** (5am and 5pm, Brasília time) via GitHub Actions. The actual time of each collection is recorded in the snapshot — GitHub's queue often delays scheduled runs.",
       "**Why don't we show trending in real time?** Because the central thesis of the research shows that YouTube's \"Trending\" showcase is a corporate editorial construction, not a neutral mirror of the audience. Replicating it without context would reproduce the opacity the tool seeks to denaturalize. The relevant data is the **structural composition** accumulated over time — and that only becomes visible with longitudinal series."
     ],
@@ -601,7 +601,7 @@
     "semDadosFormato": "No format data",
     "semDadosFormatoAjuda": "Collected before format detection or without player dimensions.",
     "endpointsTitulo": "Where the videos came from",
-    "endpointsLegenda": "API endpoint that captured each video (`categoria_coleta`): the general one (`chart=mostPopular` unfiltered) or one of YouTube's categories.",
+    "endpointsLegenda": "First list in which each video was captured (`categoria_coleta`): the general one (`chart=mostPopular` unfiltered) or one of YouTube's categories.",
     "endpointGeral": "General (mostPopular)",
     "endpointCategoria": "Category {id}",
     "eixoA": "Axis A — Who produces?",
