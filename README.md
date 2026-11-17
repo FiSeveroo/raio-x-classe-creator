@@ -2,6 +2,8 @@
 
 Ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube, desenvolvida pelo **Observatório Classe Creator**.
 
+**👉 Use em: [raiox.classecreator.com](https://raiox.classecreator.com)** — em português, inglês e espanhol, aberta a todos; com uma conta gratuita, você organiza suas análises em projetos de pesquisa.
+
 Automatiza, em escala, a análise sociológica que pesquisadores precisariam fazer manualmente — cruzando extração de dados via APIs oficiais com classificação assistida por LLMs — a partir de uma **tipologia dupla** mutuamente exclusiva, ancorada na dissertação de mestrado:
 
 > SEVERO, Filipe Machado Leal. *O Novo "You" do YouTube: a ascensão dos produtores plataformizados e a falência da promessa participativa no Brasil.* Dissertação (Mestrado em Comunicação Social) — PUCRS/FAMECOS, Porto Alegre, 2026.
@@ -22,7 +24,7 @@ Romper com a visão alienante da "economia dos criadores" e devolver materialida
 |---|---|---|---|
 | 🏠 | **Home** | — | Apresentação institucional, manifesto, agenda de pesquisa, vitrine acadêmica |
 | 🔍 | **A Lupa** | Micro · 1 vídeo | Classifica na tipologia dupla com justificativa sociológica |
-| 🌡️ | **Termômetro do Em Alta** | Macro longitudinal | Coleta automatizada semanal do trending BR (GitHub Actions) |
+| 🌡️ | **Termômetro do Em Alta** | Macro longitudinal | Coleta automatizada do trending BR duas vezes por dia (GitHub Actions) |
 | ⚔️ | **Disputa de Narrativa** | Transversal temática | Audita autoridade algorítmica em temas; calcula desvio editorial |
 | 📋 | **Dossiê do Canal** | Meso · 1 produtor | Investigação estrutural; confronta auto-narrativa com realidade |
 | 💬 | **A Voz da Base** | Comunitária | Análise qualitativa de comentários; IPP; contradição estrutural |
@@ -66,46 +68,25 @@ A **Biblioteca de Pesquisa** (módulo 📚) permite navegar todo o corpus acumul
 
 ---
 
+## Onde está cada parte
+
+| Parte | Onde | O que é |
+|---|---|---|
+| **Site** | branch [`nextjs`](https://github.com/FiSeveroo/raio-x-classe-creator/tree/nextjs) | Next.js 16 + TypeScript, hospedado na Vercel em [raiox.classecreator.com](https://raiox.classecreator.com) (no ar desde 2/out/2026) |
+| **Coletores e export** | este branch (`main`), pasta `.github/workflows/` | Termômetro (`coletor.py`, 2x/dia), importador do histórico e export semanal do corpus em Releases — o GitHub só roda agendamentos no branch padrão |
+| **Coletor original da dissertação** | [FiSeveroo/coletor-youtube](https://github.com/FiSeveroo/coletor-youtube) | `chart=mostPopular` geral do Brasil, 2x/dia desde março de 2025 |
+| **Versão em Streamlit (legado)** | este branch, `app.py` | A primeira versão da ferramenta. Não está mais no ar; fica como referência da lógica, da tipologia e dos prompts |
+
 ## Stack
 
-- **Python + Streamlit** — interface responsiva, hospedada no Streamlit Community Cloud
+- **Next.js 16 + TypeScript** (site), **Python** (coletores e export)
 - **YouTube Data API v3** — extração de metadados estruturados
-- **Anthropic Claude Haiku 4.5** — classificação tipológica (Eixo A × Eixo B)
-- **Anthropic Claude Sonnet 4.6** — síntese sociológica narrativa (Dossiê e Voz da Base)
-- **Supabase (PostgreSQL)** — corpus longitudinal versionado e biblioteca pública
-- **GitHub Actions** — coleta semanal do Termômetro + exportação semanal do corpus
-- **scipy** — testes estatísticos (qui-quadrado de aderência no Desvio Editorial)
+- **Anthropic Claude** — Haiku 5.5 na classificação tipológica (Eixo A × Eixo B) e Sonnet 5.5 nas leituras qualitativas (Dossiê e Voz da Base), desde 17/11/2026; antes, Haiku 4.5 e Sonnet 4.6
+- **Supabase (PostgreSQL)** — corpus longitudinal versionado, biblioteca pública e contas de pesquisador
+- **GitHub Actions** — coleta do Termômetro + exportação semanal do corpus
+- **Cloudflare Turnstile** (anti-robô), **Resend** (e-mails de login), **Vercel** (hospedagem e estatísticas de visitas sem cookies)
 
----
-
-## Como executar localmente
-
-```bash
-pip install -r requirements.txt
-cp .streamlit/secrets.toml.example .streamlit/secrets.toml
-# Preencha as 4 chaves no secrets.toml:
-# YOUTUBE_API_KEY, ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY
-streamlit run app.py
-```
-
-### Secrets necessários (também para deploy no Streamlit Cloud)
-
-| Secret | Como obter |
-|---|---|
-| `YOUTUBE_API_KEY` | Google Cloud Console → APIs & Services → YouTube Data API v3 |
-| `ANTHROPIC_API_KEY` | console.anthropic.com → API Keys |
-| `SUPABASE_URL` | Supabase → Project Settings → API (sem barra final) |
-| `SUPABASE_PUBLISHABLE_KEY` | Supabase → Project Settings → API → anon key |
-
-### SQL necessário (Supabase)
-
-Execute os arquivos SQL nesta ordem para criar todas as tabelas:
-
-1. `sql_modulo4.sql` — buscas e resultados (Disputa de Narrativa)
-2. `sql_modulo2.sql` — dossiês de canal
-3. `sql_modulo5.sql` — análises de comentários (Voz da Base)
-4. `sql_telemetria.sql` — eventos de uso
-5. `sql_migracao_versionamento.sql` — campos de versionamento (rodar por último)
+A lista completa de dependências, para que serve cada uma e o que acontece se ela falhar está na página [Sobre → Limites e dependências](https://raiox.classecreator.com/sobre#limites).
 
 ---
 
@@ -130,12 +111,21 @@ Ao utilizar resultados desta ferramenta em publicações, cite:
 > SEVERO, Filipe Machado Leal. *O Novo "You" do YouTube: a ascensão dos produtores plataformizados e a falência da promessa participativa no Brasil.* Dissertação (Mestrado em Comunicação Social) — Pontifícia Universidade Católica do Rio Grande do Sul, Porto Alegre, 2026.
 
 **A ferramenta:**
-> OBSERVATÓRIO CLASSE CREATOR. *Raio-X Classe Creator: ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.* v1.0. Porto Alegre, 2026. Disponível em: https://raiox.classecreator.com
+> OBSERVATÓRIO CLASSE CREATOR. *Raio-X Classe Creator: ferramenta de auditoria algorítmica e pesquisa acadêmica do trabalho plataformizado no YouTube.* Porto Alegre, 2026. Disponível em: https://raiox.classecreator.com
+
+**Os dados do corpus:** cite também o export usado (tag `corpus-AAAA-MM-DD` nos [Releases](https://github.com/FiSeveroo/raio-x-classe-creator/releases)).
+
+---
+
+## Licenças
+
+- **Código:** [GNU AGPL-3.0](LICENSE) — quem usar e modificar o código, inclusive para rodar como site, precisa abrir o próprio código também.
+- **Dados do corpus:** [CC BY 4.0](LICENCA-DADOS.md) — uso livre, citando a fonte.
 
 ---
 
 ## Contato e contribuição
 
-Pesquisadores, jornalistas e organizações da sociedade civil interessados em colaborar — submetendo pesquisas para a vitrine, propondo refinamentos metodológicos, ou relatando erros de classificação — podem entrar em contato pelos canais do Observatório Classe Creator.
+Pesquisadores, jornalistas e organizações da sociedade civil interessados em colaborar — submetendo pesquisas para a vitrine, propondo refinamentos metodológicos, ou relatando erros de classificação — podem entrar em contato pelos canais do Observatório Classe Creator. Privacidade e dados de conta: [raiox.classecreator.com/privacidade](https://raiox.classecreator.com/privacidade).
 
 *"Criar é trabalho."*
