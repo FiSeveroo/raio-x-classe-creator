@@ -1,5 +1,6 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
+import { registrarErro } from "@/lib/erros";
 import { parsearJsonLlm } from "@/lib/lupa/prompt";
 
 /**
@@ -48,6 +49,8 @@ export async function chamarClaudeJson(p: Parameters<typeof chamarClaude>[0]): P
   } catch (primeiro) {
     if (!(primeiro instanceof ErroJsonLlm)) throw primeiro;
     console.warn(`[llm] JSON malformado (${p.model}), repetindo a chamada: ${primeiro.message}`);
+    // Registra a repetição mesmo quando a segunda dá certo: mede a frequência.
+    registrarErro({ modulo: "llm", codigo: "json_repetido", mensagem: `${p.model}: ${primeiro.message}` });
     return lerJson(await chamarClaude(p));
   }
 }

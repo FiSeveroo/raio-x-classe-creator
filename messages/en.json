@@ -578,7 +578,8 @@
       "coleta": "Collection",
       "serie": "Time series",
       "canais": "Channels",
-      "exportar": "Export"
+      "exportar": "Export",
+      "erros": "Errors"
     },
     "coletaExaminar": "Collection to examine",
     "ver": "View",
@@ -637,7 +638,17 @@
     "exportarPublicoLink": "Download the latest export",
     "atualizadoEm": "Corpus aggregates calculated on {data}; refreshed every hour.",
     "curadoriaNota": "Classification curation (manual correction and anchors) remains in the current version's panel: it writes with the collector's write key.",
-    "serieAmostraPequena": "Hollow points: collections with fewer than {n} classified videos — too small a sample to read as a trend."
+    "serieAmostraPequena": "Hollow points: collections with fewer than {n} classified videos — too small a sample to read as a trend.",
+    "errosTitulo": "System errors",
+    "errosLegenda": "System failures in the last 30 days (malformed AI response, YouTube API error, unexpected server error). User errors, such as an invalid link or a usage limit, are not included. No personal data.",
+    "errosVazio": "No errors recorded in the last 30 days.",
+    "errosIndisponivel": "The error log is not available yet (the erros_app table has not been created in the database).",
+    "errosModulo": "Module",
+    "errosCodigo": "Code",
+    "errosSemana": "7 days",
+    "errosMes": "30 days",
+    "errosUltimo": "Latest",
+    "errosRecentes": "Most recent"
   },
   "Disputa": {
     "subtitulo": "Who is YouTube handing the microphone to?",

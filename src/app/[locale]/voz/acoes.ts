@@ -21,6 +21,7 @@ import {
   registrarAnaliseComentarios,
 } from "@/lib/voz/registro";
 import { ErroHttpYoutube, ErroPrevisto } from "@/lib/youtube";
+import { registrarSeDoSistema } from "@/lib/erros";
 
 /*
  * Fluxo da Voz da Base — porte de renderizar_voz_da_base (app.py):
@@ -119,8 +120,13 @@ export async function analisarComentarios(entrada: {
     await consumirSlots("voz", peso);
     return { estado: "ok", id };
   } catch (e) {
-    if (e instanceof ErroPrevisto) return { estado: "erro", codigo: e.codigo, detalhe: e.message };
+    if (e instanceof ErroPrevisto) {
+      registrarSeDoSistema("voz", e.codigo, e.message, entrada.valor);
+      return { estado: "erro", codigo: e.codigo, detalhe: e.message };
+    }
     console.error("[voz]", e);
-    return { estado: "erro", codigo: "falha", detalhe: e instanceof Error ? e.message : String(e) };
+    const detalhe = e instanceof Error ? e.message : String(e);
+    registrarSeDoSistema("voz", "falha", e instanceof Error && e.stack ? e.stack : detalhe, entrada.valor);
+    return { estado: "erro", codigo: "falha", detalhe };
   }
 }

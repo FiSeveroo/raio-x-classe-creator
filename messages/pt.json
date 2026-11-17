@@ -578,7 +578,8 @@
       "coleta": "Coleta",
       "serie": "Série temporal",
       "canais": "Canais",
-      "exportar": "Exportar"
+      "exportar": "Exportar",
+      "erros": "Erros"
     },
     "coletaExaminar": "Coleta a examinar",
     "ver": "Ver",
@@ -637,7 +638,17 @@
     "exportarPublicoLink": "Baixar o export mais recente",
     "atualizadoEm": "Agregados do corpus calculados em {data}; atualizam a cada hora.",
     "curadoriaNota": "A curadoria de classificações (correção manual e âncoras) continua no painel da versão atual: ela grava com a chave de escrita do coletor.",
-    "serieAmostraPequena": "Pontos vazados: coletas com menos de {n} vídeos classificados — amostra pequena demais para ler como tendência."
+    "serieAmostraPequena": "Pontos vazados: coletas com menos de {n} vídeos classificados — amostra pequena demais para ler como tendência.",
+    "errosTitulo": "Erros do sistema",
+    "errosLegenda": "Falhas do sistema nos últimos 30 dias (resposta quebrada da IA, erro da API do YouTube, erro inesperado do servidor). Erros de quem usa, como link inválido ou limite de uso, não entram. Sem dado pessoal.",
+    "errosVazio": "Nenhum erro registrado nos últimos 30 dias.",
+    "errosIndisponivel": "O registro de erros ainda não está disponível (a tabela erros_app não foi criada no banco).",
+    "errosModulo": "Módulo",
+    "errosCodigo": "Código",
+    "errosSemana": "7 dias",
+    "errosMes": "30 dias",
+    "errosUltimo": "Último",
+    "errosRecentes": "Mais recentes"
   },
   "Disputa": {
     "subtitulo": "Para quem o YouTube está dando o microfone?",

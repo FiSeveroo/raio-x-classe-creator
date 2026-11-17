@@ -578,7 +578,8 @@
       "coleta": "Recolección",
       "serie": "Serie temporal",
       "canais": "Canales",
-      "exportar": "Exportar"
+      "exportar": "Exportar",
+      "erros": "Errores"
     },
     "coletaExaminar": "Recolección a examinar",
     "ver": "Ver",
@@ -637,7 +638,17 @@
     "exportarPublicoLink": "Descargar la exportación más reciente",
     "atualizadoEm": "Agregados del corpus calculados el {data}; se actualizan cada hora.",
     "curadoriaNota": "La curaduría de clasificaciones (corrección manual y anclas) sigue en el panel de la versión actual: escribe con la clave de escritura del recolector.",
-    "serieAmostraPequena": "Puntos huecos: recolecciones con menos de {n} videos clasificados — muestra demasiado pequeña para leerla como tendencia."
+    "serieAmostraPequena": "Puntos huecos: recolecciones con menos de {n} videos clasificados — muestra demasiado pequeña para leerla como tendencia.",
+    "errosTitulo": "Errores del sistema",
+    "errosLegenda": "Fallas del sistema en los últimos 30 días (respuesta malformada de la IA, error de la API de YouTube, error inesperado del servidor). Los errores de quien usa la herramienta, como un enlace inválido o un límite de uso, no se incluyen. Sin datos personales.",
+    "errosVazio": "No hay errores registrados en los últimos 30 días.",
+    "errosIndisponivel": "El registro de errores aún no está disponible (la tabla erros_app no fue creada en la base de datos).",
+    "errosModulo": "Módulo",
+    "errosCodigo": "Código",
+    "errosSemana": "7 días",
+    "errosMes": "30 días",
+    "errosUltimo": "Último",
+    "errosRecentes": "Más recientes"
   },
   "Disputa": {
     "subtitulo": "¿A quién le está dando el micrófono YouTube?",

@@ -19,13 +19,14 @@ import {
   type Snapshot,
 } from "@/lib/termometro/corpus";
 import { CONTEUDOS, PRODUTORES, nomeConteudo, nomeProdutor } from "@/lib/tipologia";
+import { buscarErrosRecentes, resumirErros } from "@/lib/erros";
 import { cn } from "@/lib/utils";
 import { painelLiberado, sairPainel } from "./acoes";
 import { FormularioSenha } from "./formulario-senha";
 
 export const maxDuration = 60;
 
-const ABAS = ["coleta", "serie", "canais", "exportar"] as const;
+const ABAS = ["coleta", "serie", "canais", "exportar", "erros"] as const;
 type Aba = (typeof ABAS)[number];
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/termometro">): Promise<Metadata> {
@@ -148,6 +149,7 @@ export default async function Termometro({ params, searchParams }: PageProps<"/[
                 {aba === "serie" && <AbaSerie snapshots={snapshots} agregados={agregados} locale={locale} />}
                 {aba === "canais" && <AbaCanais agregados={agregados} locale={locale} />}
                 {aba === "exportar" && <AbaExportar agregados={agregados} />}
+                {aba === "erros" && <AbaErros />}
               </div>
               <p className="mt-12 text-xs text-muted-foreground">
                 {t("atualizadoEm", { data: format.dateTime(new Date(agregados.geradoEm), { dateStyle: "short", timeStyle: "short" }) })}
@@ -459,6 +461,66 @@ async function AbaExportar({ agregados }: { agregados: Agregados }) {
       >
         {t("exportarPublicoLink")} <ArrowUpRight aria-hidden className="size-3.5" />
       </a>
+    </section>
+  );
+}
+
+/** Falhas do sistema dos últimos 30 dias (src/lib/erros.ts), agrupadas por módulo e código. */
+async function AbaErros() {
+  const t = await getTranslations("Termometro");
+  const format = await getFormatter();
+  const erros = await buscarErrosRecentes(30);
+  if (erros === null) return <Aviso>{t("errosIndisponivel")}</Aviso>;
+
+  const linhas = resumirErros(erros);
+  const quando = (d: string) => format.dateTime(new Date(d), { dateStyle: "short", timeStyle: "short" });
+
+  return (
+    <section>
+      <SectionTitle as="h3">{t("errosTitulo")}</SectionTitle>
+      <p className="-mt-2 mb-6 max-w-prose text-sm text-muted-foreground">{t("errosLegenda")}</p>
+      {!erros.length ? (
+        <p className="text-muted-foreground">{t("errosVazio")}</p>
+      ) : (
+        <>
+          <div className="overflow-x-auto rounded-xl border border-cc-line">
+            <table className="w-full text-sm">
+              <thead className="bg-cc-surface text-left">
+                <tr>
+                  <th className="label-caps px-3 py-2">{t("errosModulo")}</th>
+                  <th className="label-caps px-3 py-2">{t("errosCodigo")}</th>
+                  <th className="label-caps px-3 py-2 text-right">{t("errosSemana")}</th>
+                  <th className="label-caps px-3 py-2 text-right">{t("errosMes")}</th>
+                  <th className="label-caps px-3 py-2">{t("errosUltimo")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {linhas.map((g) => (
+                  <tr key={`${g.modulo}|${g.codigo}`} className="border-t border-cc-line">
+                    <td className="px-3 py-2">{g.modulo}</td>
+                    <td className="px-3 py-2 font-mono text-xs">{g.codigo}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{format.number(g.semana)}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{format.number(g.total)}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{quando(g.ultimo)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h4 className="label-caps mt-10 mb-3 text-muted-foreground">{t("errosRecentes")}</h4>
+          <ol className="space-y-3">
+            {erros.slice(0, 30).map((e) => (
+              <li key={e.id} className="rounded-lg border border-cc-line bg-cc-surface px-4 py-3 text-sm">
+                <p className="text-muted-foreground">
+                  {quando(e.criado_em)} · {e.modulo} · <span className="font-mono text-xs">{e.codigo}</span>
+                  {e.entrada && <> · <span className="break-all">{e.entrada}</span></>}
+                </p>
+                <p className="mt-1 line-clamp-3 break-words font-mono text-xs">{e.mensagem}</p>
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
     </section>
   );
 }

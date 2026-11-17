@@ -15,6 +15,7 @@ import {
   type ResultadoModulo,
 } from "@/lib/versionamento";
 import { humanoVerificado } from "@/lib/turnstile";
+import { registrarErro, registrarSeDoSistema } from "@/lib/erros";
 import { ErroPrevisto } from "@/lib/youtube";
 
 /** Classificações simultâneas ao Claude (o Python fazia uma por vez). */
@@ -104,6 +105,7 @@ export async function auditarTema(entrada: {
       } catch (e) {
         falhas++;
         console.error("[disputa] item", i + 1, e);
+        registrarErro({ modulo: "disputa", codigo: "item_sem_classificacao", mensagem: e instanceof Error ? e.message : String(e), entrada: termo });
         classif = {
           tipo_produtor: "outros",
           tipo_conteudo: "outros",
@@ -148,8 +150,13 @@ export async function auditarTema(entrada: {
     await consumirSlots("disputa", peso);
     return { estado: "ok", id };
   } catch (e) {
-    if (e instanceof ErroPrevisto) return { estado: "erro", codigo: e.codigo, detalhe: e.message };
+    if (e instanceof ErroPrevisto) {
+      registrarSeDoSistema("disputa", e.codigo, e.message, entrada.valor);
+      return { estado: "erro", codigo: e.codigo, detalhe: e.message };
+    }
     console.error("[disputa]", e);
-    return { estado: "erro", codigo: "falha", detalhe: e instanceof Error ? e.message : String(e) };
+    const detalhe = e instanceof Error ? e.message : String(e);
+    registrarSeDoSistema("disputa", "falha", e instanceof Error && e.stack ? e.stack : detalhe, entrada.valor);
+    return { estado: "erro", codigo: "falha", detalhe };
   }
 }
