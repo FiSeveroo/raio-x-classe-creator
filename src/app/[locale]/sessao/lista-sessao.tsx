@@ -3,6 +3,7 @@
 import { Download, Loader2, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { AdicionarAoProjeto } from "@/components/adicionar-projeto";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { limparSessao, removerDaSessao, useSessao, type ModuloSessao } from "@/lib/sessao/carrinho";
@@ -57,6 +58,7 @@ export function ListaSessao({ nomes }: { nomes: Record<ModuloSessao, string> }) 
         <Button type="button" size="lg" variant="outline" onClick={() => limparSessao()} disabled={baixando}>
           <Trash2 aria-hidden /> {t("limpar")}
         </Button>
+        <AdicionarAoProjeto itens={itens.map((i) => ({ modulo: i.modulo, id: i.id }))} />
       </div>
       {erro && (
         <p role="alert" className="mt-4 rounded-lg border-l-2 border-cc-orange bg-cc-surface px-4 py-3 text-sm">

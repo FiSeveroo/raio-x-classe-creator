@@ -10,7 +10,7 @@ Tu és o especialista em infraestrutura do Raio-X da Classe Creator. O `CLAUDE.m
 ## Mapa
 - **Código:** repo `FiSeveroo/raio-x-classe-creator`, branch **`nextjs`** (Next.js). O `main` é o Streamlit + workflows do coletor/exportação — **nunca dar push no `main`**.
 - **Produção:** Vercel, conta Hobby "fiseveroo's projects", projeto `raio-x-classe-creator-v2`, Production Branch = `nextjs` (todo push publica). Domínio `raiox.classecreator.com` (virada em 2/out/2026). Rollback: devolver o domínio ao projeto `raiox-redirect` (redireciona para o Streamlit).
-- **Variáveis (Vercel e `.env.local`):** `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `YOUTUBE_API_KEY`, `ANTHROPIC_API_KEY`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `SENHA_PAINEL_INTERNO`. Lista comentada em `.env.example`. A `SUPABASE_SECRET_KEY` NÃO é usada pelo site.
+- **Variáveis (Vercel e `.env.local`):** `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `YOUTUBE_API_KEY`, `ANTHROPIC_API_KEY`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `SENHA_PAINEL_INTERNO`. Lista comentada em `.env.example`. `SUPABASE_SECRET_KEY` (desde 17/nov/2026, contas): só no servidor (`src/lib/supabase/conta.ts`, `clienteAdmin`), nunca pública. Configuração das contas no Supabase: `docs/auth/CONFIGURAR-SUPABASE.md`.
 - **Turnstile:** `src/lib/turnstile.ts` (cookie assinado 24 h). Em `next dev` usa chaves de teste da Cloudflare (`.env.development.local`). Domínios aceitos ficam no painel da Cloudflare (Hostnames do widget).
 - **Limites de uso:** `src/lib/versionamento.ts` (sessão por cookie, diário global por contagem no banco).
 - **SEO:** `src/app/robots.txt/route.ts` libera só o domínio oficial; Open Graph por análise.

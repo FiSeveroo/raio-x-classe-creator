@@ -6,7 +6,7 @@ import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { SUGESTOES_BUSCA } from "@/lib/disputa/sugestoes";
 import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
-import { LIMITES, slotsUsados } from "@/lib/versionamento";
+import { LIMITES, cotaAtual } from "@/lib/versionamento";
 import { auditarTema } from "./acoes";
 
 // Até 50 classificações (Haiku) por busca: pode levar 1–2 minutos.
@@ -23,7 +23,7 @@ export default async function Disputa({ params }: PageProps<"/[locale]/disputa">
   setRequestLocale(locale);
   const t = await getTranslations("Disputa");
   const tm = await getTranslations("Modulos");
-  const usados = await slotsUsados("disputa");
+  const cota = await cotaAtual("disputa");
 
   return (
     <Pagina>
@@ -39,8 +39,10 @@ export default async function Disputa({ params }: PageProps<"/[locale]/disputa">
         acao={auditarTema}
         destino="/biblioteca/tema/"
         tipoEntrada="text"
-        restantesIniciais={LIMITES.disputa.sessao - usados}
-        limiteSessao={LIMITES.disputa.sessao}
+        restantesIniciais={cota.restantes}
+        limiteSessao={cota.limite}
+        comConta={cota.conta}
+        emailConta={cota.email}
         limiteDiario={LIMITES.disputa.diario}
         siteKeyTurnstile={turnstileSiteKey()}
         verificadoInicial={await humanoVerificado()}

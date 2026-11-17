@@ -10,6 +10,7 @@ import { Metricas } from "@/components/metricas";
 import { Aviso, Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
+import { AdicionarAoProjeto } from "@/components/adicionar-projeto";
 import { BotaoSessao } from "@/components/sessao/botao-sessao";
 import { dossiePorId, historicoVersoesDossie } from "@/lib/corpus";
 import { aparicoesEmBuscas, aparicoesNoTermometro } from "@/lib/dossie/registro";
@@ -117,6 +118,7 @@ export default async function DossieCanal({ params, searchParams }: Props) {
 
       <div className="mt-6">
         <BotaoSessao modulo="dossie" id={d.id} rotulo={d.canal_nome ?? d.canal_id} automatico={nova === "1"} />
+        <AdicionarAoProjeto itens={[{ modulo: "dossie", id: d.id }]} />
       </div>
 
       <div className="mt-8">

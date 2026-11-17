@@ -1,5 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
+import { clienteAdmin, usuarioAtual } from "@/lib/supabase/conta";
 import { supabaseGravacao, supabaseLeitura } from "@/lib/supabase/server";
 
 /*
@@ -91,8 +92,53 @@ export async function slotsUsados(modulo: Modulo): Promise<number> {
   return Number.isFinite(n) && n >= 0 ? n : 0;
 }
 
+// ---------------------------------------------------------------------------
+// Cota de quem tem conta (decisão do Filipe em 17/nov/2026): o DOBRO do limite
+// por sessão, contado por conta e por dia (UTC) na tabela uso_conta, ou o
+// limite personalizado que o Observatório definir (limites_conta). O limite
+// diário global continua valendo para todos.
+// ---------------------------------------------------------------------------
+
+export const FATOR_CONTA = 2;
+
+export type Cota = { limite: number; usados: number; restantes: number; conta: boolean; email?: string };
+
+async function cotaDaConta(userId: string, modulo: Modulo): Promise<{ limite: number; usados: number } | null> {
+  const db = clienteAdmin();
+  if (!db) return null;
+  const hoje = new Date().toISOString().slice(0, 10);
+  const [lim, uso] = await Promise.all([
+    db.from("limites_conta").select(modulo).eq("user_id", userId).maybeSingle(),
+    db.from("uso_conta").select("slots").eq("user_id", userId).eq("dia", hoje).eq("modulo", modulo).maybeSingle(),
+  ]);
+  if (lim.error || uso.error) return null;
+  const personalizado = (lim.data as Record<string, number | null> | null)?.[modulo];
+  return {
+    limite: typeof personalizado === "number" ? personalizado : LIMITES[modulo].sessao * FATOR_CONTA,
+    usados: (uso.data as { slots: number } | null)?.slots ?? 0,
+  };
+}
+
+/** Limite e uso de quem está usando agora: da conta (por dia) ou da sessão (cookie). */
+export async function cotaAtual(modulo: Modulo): Promise<Cota> {
+  const usuario = await usuarioAtual();
+  if (usuario) {
+    const c = await cotaDaConta(usuario.id, modulo);
+    if (c) return { ...c, restantes: c.limite - c.usados, conta: true, email: usuario.email };
+  }
+  const usados = await slotsUsados(modulo);
+  return { limite: LIMITES[modulo].sessao, usados, restantes: LIMITES[modulo].sessao - usados, conta: false };
+}
+
 /** Só pode ser chamado em Server Action / Route Handler (escreve cookie). */
 export async function consumirSlots(modulo: Modulo, peso: number) {
+  const usuario = await usuarioAtual();
+  const db = clienteAdmin();
+  if (usuario && db) {
+    const { error } = await db.rpc("somar_uso_conta", { p_user: usuario.id, p_modulo: modulo, p_slots: peso });
+    if (!error) return;
+    console.warn("[cota] uso da conta não gravado, usando o cookie:", error.message);
+  }
   const usados = await slotsUsados(modulo);
   (await cookies()).set(nomeCookie(modulo), String(usados + peso), {
     httpOnly: true,

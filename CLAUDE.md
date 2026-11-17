@@ -138,7 +138,7 @@ Isso significa que qualquer pesquisa acadêmica que use `chart=mostPopular` sem 
 2. **Auditabilidade primeiro** — todo cálculo precisa ser explicável e reproduzível
 3. **Corpus público longitudinal** — todas as análises viram parte do corpus (não são efêmeras)
 4. **Versionamento canônico** — análises repetidas de mesmo objeto criam novas versões, antiga preservada
-5. **Zero coleta de dado pessoal do usuário** — sem nome, email, IP
+5. **Zero dado pessoal de quem não tem conta** (reescrito pelo Filipe em 17/nov/2026; antes: "zero coleta de dado pessoal do usuário — sem nome, email, IP"). Quem cria conta fornece só o e-mail, usado apenas para entrar; ele nunca aparece no site, no corpus nem no export
 6. **Transparência sobre limitações do algoritmo** — Voz da Base tem disclaimer explícito sobre modelo poder errar em ironia/regionalismo
 7. **Termos técnicos preservados** em traduções (endpoint, mostPopular, Shorts)
 8. **Marcas mantidas em todos os idiomas** (Raio-X, Classe Creator, Observatório)
@@ -169,6 +169,8 @@ Isso significa que qualquer pesquisa acadêmica que use `chart=mostPopular` sem 
 
 Existe carrinho de sessão que agrupa análises feitas e permite exportar como XLSX ao final.
 
+**Com conta (17/nov/2026):** o dobro dos limites por sessão, contado por conta e por dia (UTC) — Lupa 30, Disputa 6, Dossiê 10, Voz 10 —, ou limite personalizado definido no painel "Contas". Os diários globais valem para todos. A partir de 80% do limite: aviso + pop-up 1x/dia (sem conta → criar conta; com conta → WhatsApp do Filipe, número só para quem tem conta).
+
 ---
 
 ## DADOS SENSÍVEIS / SECRETS
@@ -180,7 +182,7 @@ YOUTUBE_API_KEY=          # YouTube Data API v3
 ANTHROPIC_API_KEY=        # Claude Haiku + Sonnet
 SUPABASE_URL=
 SUPABASE_PUBLISHABLE_KEY= # Para leitura (frontend)
-SUPABASE_SECRET_KEY=      # Para escrita (backend/coletor)
+SUPABASE_SECRET_KEY=      # Coletor (escrita) e, desde 17/nov/2026, contas no servidor do site
 TURNSTILE_SITE_KEY=       # Cloudflare Turnstile pública
 TURNSTILE_SECRET_KEY=     # Cloudflare Turnstile privada
 SENHA_PAINEL_INTERNO=     # Senha simples para /termometro?painel
@@ -310,6 +312,7 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 - **Registro bruto das consultas (9/nov/2026, aprovado pelo Filipe):** branch `feat/registro-consultas`, tabelas `consultas_coleta` e `consultas_coleta_videos` (`sql/consultas_coleta.sql`), fora do export público durante a coleta de 4 a 6 semanas. Aguardando SQL + merge.
 - **Registro de erros (17/nov/2026, opção C aprovada pelo Filipe; revisão semanal):** tabela nova `erros_app` (`docs/sql/erros_app.sql`, com GRANTs explícitos; fora do export). Grava só falhas do sistema (`falha`, `resposta_malformada`, `youtube`, `codigo_invalido`, item da Disputa sem classificação, `json_repetido` quando a IA devolve JSON quebrado e a chamada é repetida, erros não tratados do servidor via `src/instrumentation.ts`). Sem dado pessoal. Leitura na aba "Erros" do painel com senha do Termômetro. Código em `src/lib/erros.ts`. Se o volume crescer, escalar para Sentry ou issues automáticas no GitHub.
 - **Modelos do Claude (decisão do Filipe em 17/nov/2026, sem teste prévio — "as análises são complementares na parte científica"):** Haiku 4.5 → `claude-haiku-5-5` (Lupa, Disputa, classificação do Dossiê; esforço `low`) e Sonnet 4.6 → `claude-sonnet-5-5` (veredito do Dossiê, Voz da Base; esforço `medium`). Prompts do app.py inalterados (`npm run verificar` confere prompts e o mapa de sucessores). Os modelos novos raciocinam antes de responder: `max_tokens` aumentados, resposta lida pelo primeiro bloco de texto, recusa (`recusa_ia`) e corte (`resposta_truncada`) viram erro registrado. O banco não guarda o modelo de cada análise: a data de corte é 17/11/2026 (análises até 16/11 = Haiku 4.5 / Sonnet 4.6), e os avisos do site dizem isso. Próximo passo possível: saída em formato garantido (structured outputs), que os dois modelos novos aceitam.
+- **Contas de pesquisador e projetos (sabatina de 17/nov/2026, tudo aprovado pelo Filipe; branch `feat/contas`):** conta opcional (módulos seguem abertos); login por link mágico ou e-mail + senha (mín. 10), e-mails pela Resend (SMTP do Supabase, remetente `@classecreator.com`, DNS na Wix) com modelos trilíngues e links para `/api/auth/confirmar`; configuração dos painéis em `docs/auth/CONFIGURAR-SUPABASE.md`. Tabelas novas (`docs/sql/contas.sql`, fora do export): `projetos`, `projeto_itens` (versão EXATA da análise; aviso + botão para a versão mais nova), `perfis` (projeto ativo), `limites_conta` e `uso_conta` (só o servidor grava). Análises continuam públicas e o corpus NÃO registra quem rodou. Projeto ativo recebe cada análise; "Adicionar ao projeto" na Biblioteca e "Salvar num projeto" no carrinho; mover/copiar entre projetos; notas; link de leitura (mostra notas); XLSX; painel visual (tipologia, linha do tempo, canais). Páginas: `/entrar`, `/conta`, `/projetos`, `/projetos/[id]`, `/p/[token]`, `/privacidade` (responsável: Filipe, pessoa física; contato filipe.leal.severo@gmail.com). Painel interno: abas "Uso" e "Contas" (limite personalizado). Visitas: Vercel Web Analytics (sem cookies). Textos em "você".
 - Convenções: textos só em `messages/*.json` (markdown-lite `**negrito**` renderizado por `src/components/rico.tsx`); consultas ao banco só em `src/lib/corpus.ts`; traduções novas entram em `messages/REVISAO.md`.
 
 **Gravação no banco durante a migração (decidido pelo Filipe em 1/out/2026):**

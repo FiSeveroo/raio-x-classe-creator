@@ -5,7 +5,7 @@ import { FormularioAnalise } from "@/components/formulario-analise";
 import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
-import { LIMITES, slotsUsados } from "@/lib/versionamento";
+import { LIMITES, cotaAtual } from "@/lib/versionamento";
 import { analisarVideo } from "./acoes";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/lupa">): Promise<Metadata> {
@@ -19,7 +19,7 @@ export default async function Lupa({ params }: PageProps<"/[locale]/lupa">) {
   setRequestLocale(locale);
   const t = await getTranslations("Lupa");
   const tm = await getTranslations("Modulos");
-  const usados = await slotsUsados("lupa");
+  const cota = await cotaAtual("lupa");
 
   return (
     <Pagina>
@@ -34,8 +34,10 @@ export default async function Lupa({ params }: PageProps<"/[locale]/lupa">) {
         namespace="Lupa"
         acao={analisarVideo}
         destino="/biblioteca/video/"
-        restantesIniciais={LIMITES.lupa.sessao - usados}
-        limiteSessao={LIMITES.lupa.sessao}
+        restantesIniciais={cota.restantes}
+        limiteSessao={cota.limite}
+        comConta={cota.conta}
+        emailConta={cota.email}
         limiteDiario={LIMITES.lupa.diario}
         siteKeyTurnstile={turnstileSiteKey()}
         verificadoInicial={await humanoVerificado()}

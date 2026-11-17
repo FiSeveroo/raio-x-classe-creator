@@ -5,7 +5,7 @@ import { FormularioAnalise } from "@/components/formulario-analise";
 import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
-import { LIMITES, slotsUsados } from "@/lib/versionamento";
+import { LIMITES, cotaAtual } from "@/lib/versionamento";
 import { analisarComentarios } from "./acoes";
 
 // Uma chamada Sonnet com 100 comentários e até 8.000 tokens de saída: 1–2 minutos.
@@ -22,7 +22,7 @@ export default async function Voz({ params }: PageProps<"/[locale]/voz">) {
   setRequestLocale(locale);
   const t = await getTranslations("Voz");
   const tm = await getTranslations("Modulos");
-  const usados = await slotsUsados("voz");
+  const cota = await cotaAtual("voz");
   const etica = t.raw("etica") as string[];
 
   return (
@@ -48,8 +48,10 @@ export default async function Voz({ params }: PageProps<"/[locale]/voz">) {
         namespace="Voz"
         acao={analisarComentarios}
         destino="/biblioteca/voz/"
-        restantesIniciais={LIMITES.voz.sessao - usados}
-        limiteSessao={LIMITES.voz.sessao}
+        restantesIniciais={cota.restantes}
+        limiteSessao={cota.limite}
+        comConta={cota.conta}
+        emailConta={cota.email}
         limiteDiario={LIMITES.voz.diario}
         siteKeyTurnstile={turnstileSiteKey()}
         verificadoInicial={await humanoVerificado()}

@@ -5,7 +5,7 @@ import { FormularioAnalise } from "@/components/formulario-analise";
 import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
-import { LIMITES, slotsUsados } from "@/lib/versionamento";
+import { LIMITES, cotaAtual } from "@/lib/versionamento";
 import { gerarDossie } from "./acoes";
 
 // O Dossiê faz 3 chamadas ao Claude (uma delas Sonnet): pode levar 1 minuto.
@@ -22,7 +22,7 @@ export default async function Dossie({ params }: PageProps<"/[locale]/dossie">) 
   setRequestLocale(locale);
   const t = await getTranslations("Dossie");
   const tm = await getTranslations("Modulos");
-  const usados = await slotsUsados("dossie");
+  const cota = await cotaAtual("dossie");
 
   return (
     <Pagina>
@@ -38,8 +38,10 @@ export default async function Dossie({ params }: PageProps<"/[locale]/dossie">) 
         acao={gerarDossie}
         destino="/biblioteca/canal/"
         tipoEntrada="text"
-        restantesIniciais={LIMITES.dossie.sessao - usados}
-        limiteSessao={LIMITES.dossie.sessao}
+        restantesIniciais={cota.restantes}
+        limiteSessao={cota.limite}
+        comConta={cota.conta}
+        emailConta={cota.email}
         limiteDiario={LIMITES.dossie.diario}
         siteKeyTurnstile={turnstileSiteKey()}
         verificadoInicial={await humanoVerificado()}

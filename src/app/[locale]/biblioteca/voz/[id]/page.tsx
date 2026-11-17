@@ -9,6 +9,7 @@ import { Barras } from "@/components/barras";
 import { Aviso, Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
+import { AdicionarAoProjeto } from "@/components/adicionar-projeto";
 import { BotaoSessao } from "@/components/sessao/botao-sessao";
 import { comentariosPorId, dossieCanonicoDoCanal, historicoVersoesComentarios } from "@/lib/corpus";
 import { faixaIpp, MIN_CORPUS_PARA_PERCENTIS } from "@/lib/voz/analise";
@@ -131,6 +132,7 @@ export default async function VozDaBase({ params, searchParams }: Props) {
 
       <div className="mt-6">
         <BotaoSessao modulo="voz" id={a.id} rotulo={a.titulo_video ?? a.video_id} automatico={nova === "1"} />
+        <AdicionarAoProjeto itens={[{ modulo: "voz", id: a.id }]} />
       </div>
 
       {/* Índice de Pressão Produtiva */}

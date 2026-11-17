@@ -9,7 +9,7 @@ import {
   contarUsoDiario,
   descreverExistente,
   LIMITES,
-  slotsUsados,
+  cotaAtual,
   type ResultadoModulo,
 } from "@/lib/versionamento";
 import { humanoVerificado } from "@/lib/turnstile";
@@ -22,6 +22,7 @@ import {
 } from "@/lib/voz/registro";
 import { ErroHttpYoutube, ErroPrevisto } from "@/lib/youtube";
 import { registrarSeDoSistema } from "@/lib/erros";
+import { adicionarAoProjetoAtivo } from "@/lib/projetos";
 
 /*
  * Fluxo da Voz da Base — porte de renderizar_voz_da_base (app.py):
@@ -38,7 +39,7 @@ export async function analisarComentarios(entrada: {
 }): Promise<ResultadoModulo> {
   // Portão anti-robô (Turnstile) — antes de qualquer custo de API.
   if (!(await humanoVerificado())) return { estado: "erro", codigo: "verificacao" };
-  const restantes = LIMITES.voz.sessao - (await slotsUsados("voz"));
+  const { restantes } = await cotaAtual("voz");
   if (restantes <= 0) return { estado: "erro", codigo: "limite_sessao" };
 
   try {
@@ -118,6 +119,7 @@ export async function analisarComentarios(entrada: {
     });
 
     await consumirSlots("voz", peso);
+    await adicionarAoProjetoAtivo("voz", id);
     return { estado: "ok", id };
   } catch (e) {
     if (e instanceof ErroPrevisto) {

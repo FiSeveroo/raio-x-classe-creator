@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Menu, UserRound, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
@@ -10,6 +10,23 @@ import { MODULOS } from "@/lib/navegacao";
 import { cn } from "@/lib/utils";
 import { IndicadorSessao } from "@/components/sessao/botao-sessao";
 import { SeletorIdioma } from "./seletor-idioma";
+
+/** Logado = cookie de sessão do Supabase presente (lido no navegador, sem ida ao servidor). */
+function useLogado() {
+  const [logado, setLogado] = useState(false);
+  const pathname = usePathname();
+  useEffect(() => {
+    const id = setTimeout(() => {
+      try {
+        setLogado(document.cookie.split(";").some((c) => c.trim().startsWith("sb-")));
+      } catch {
+        setLogado(false);
+      }
+    }, 0);
+    return () => clearTimeout(id);
+  }, [pathname]);
+  return logado;
+}
 
 /** Logo oficial + nome do produto. */
 function Marca() {
@@ -68,8 +85,11 @@ function ListaModulos({ aoNavegar, compacta }: { aoNavegar: () => void; compacta
   );
 }
 
-export function Cabecalho() {
+export function Cabecalho({ contas = false }: { contas?: boolean }) {
   const t = useTranslations("Nav");
+  const logado = useLogado();
+  const hrefConta = logado ? "/conta" : "/entrar";
+  const rotuloConta = logado ? t("minhaConta") : t("entrar");
   const pathname = usePathname();
   const [painel, setPainel] = useState(false);
   const [mobile, setMobile] = useState(false);
@@ -141,6 +161,17 @@ export function Cabecalho() {
           </button>
           {linkTopo("/biblioteca", t("biblioteca"))}
           {linkTopo("/sobre", t("sobre"))}
+          {contas && (
+            <Link
+              href={hrefConta}
+              className={cn(
+                "label-caps inline-flex items-center gap-1.5 transition-colors hover:text-foreground",
+                pathname.startsWith("/conta") || pathname.startsWith("/projetos") || pathname.startsWith("/entrar") ? "text-cc-green" : "text-muted-foreground",
+              )}
+            >
+              <UserRound aria-hidden className="size-3.5" /> {rotuloConta}
+            </Link>
+          )}
           <IndicadorSessao />
           <span aria-hidden className="h-4 w-px bg-cc-line" />
           <SeletorIdioma />
@@ -182,6 +213,7 @@ export function Cabecalho() {
             {[
               ["/biblioteca", t("biblioteca")],
               ["/sobre", t("sobre")],
+              ...(contas ? [[hrefConta, rotuloConta]] : []),
             ].map(([href, rotulo]) => (
               <Link
                 key={href}

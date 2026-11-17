@@ -3,6 +3,7 @@
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useCallback, useEffect, useState, useTransition } from "react";
+import { AvisoLimite } from "@/components/aviso-limite";
 import { Eyebrow } from "@/components/brand/Brand";
 import { rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,8 @@ export function FormularioAnalise({
   restantesIniciais,
   limiteSessao,
   limiteDiario,
+  comConta = false,
+  emailConta = null,
   tipoEntrada = "url",
   sugestoes,
   siteKeyTurnstile = null,
@@ -37,6 +40,9 @@ export function FormularioAnalise({
   restantesIniciais: number;
   limiteSessao: number;
   limiteDiario: number;
+  /** Logado: limite por conta e por dia (o dobro), aviso com WhatsApp. */
+  comConta?: boolean;
+  emailConta?: string | null;
   tipoEntrada?: "url" | "text";
   /** Termos clicáveis que preenchem o campo (Disputa). Textos: sugestoesTitulo, sugestoesTexto. */
   sugestoes?: { grupo: string; termos: string[] }[];
@@ -46,6 +52,8 @@ export function FormularioAnalise({
   verificadoInicial?: boolean;
 }) {
   const t = useTranslations(namespace);
+  const tm = useTranslations("Modulos");
+  const codigoModulo = ({ Lupa: "lupa", Dossie: "dossie", Disputa: "disputa", Voz: "voz" } as const)[namespace];
   const format = useFormatter();
   const router = useRouter();
   const [valor, setValor] = useState("");
@@ -85,9 +93,17 @@ export function FormularioAnalise({
   return (
     <div className="mt-12 max-w-3xl">
       <div className="mb-4 flex items-center gap-3 rounded-lg border-l-2 border-cc-green bg-cc-surface px-4 py-2.5 text-sm">
-        <Eyebrow>{t("sessao")}</Eyebrow>
+        <Eyebrow>{comConta ? t("sessaoConta") : t("sessao")}</Eyebrow>
         <span className="text-cc-green">{t("restantes", { n: Math.max(0, restantesIniciais) })}</span>
       </div>
+
+      <AvisoLimite
+        limite={limiteSessao}
+        restantes={restantesIniciais}
+        comConta={comConta}
+        email={emailConta}
+        modulo={tm(`${codigoModulo}.nome`)}
+      />
 
       {!verificado && !bloqueado && siteKeyTurnstile && (
         <VerificacaoHumana siteKey={siteKeyTurnstile} aoVerificar={aoVerificar} />
@@ -156,7 +172,7 @@ export function FormularioAnalise({
 
         {bloqueado && !resultado && (
           <p role="alert" className="rounded-lg border-l-2 border-cc-orange bg-cc-surface px-4 py-3 text-sm">
-            {t("erros.limite_sessao", { limite: limiteSessao })}
+            {t(comConta ? "erros.limite_conta" : "erros.limite_sessao", { limite: limiteSessao })}
           </p>
         )}
 

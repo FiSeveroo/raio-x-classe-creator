@@ -20,7 +20,10 @@
     "abrirMenu": "Open menu",
     "fecharMenu": "Close menu",
     "idioma": "Language",
-    "pularParaConteudo": "Skip to content"
+    "pularParaConteudo": "Skip to content",
+    "entrar": "Sign in",
+    "minhaConta": "My account",
+    "privacidade": "Privacy"
   },
   "Comum": {
     "semDados": "no data",
@@ -436,8 +439,10 @@
       "falha": "Analysis error: {detalhe}",
       "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent.",
       "recusa_ia": "The AI declined to analyze this content. Nothing was saved. (Technical detail: {detalhe})",
-      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})"
-    }
+      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})",
+      "limite_conta": "Your account's daily limit of {limite} analyses has been reached. It resets at midnight (UTC)."
+    },
+    "sessaoConta": "Your account · today"
   },
   "Analise": {
     "nova": "Analysis completed and added to the Observatório corpus.",
@@ -486,14 +491,16 @@
       "codigo_invalido": "The model returned a category outside the typology. Nothing was saved. Please try again.",
       "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent.",
       "recusa_ia": "The AI declined to analyze this content. Nothing was saved. (Technical detail: {detalhe})",
-      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})"
+      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})",
+      "limite_conta": "Your account's daily limit of {limite} dossiers has been reached. It resets at midnight (UTC)."
     },
     "sessao": "Your session",
     "existenteRotulo": "Existing analysis in the corpus",
     "verExistente": "View existing analysis",
     "gerar": "Generate v{versao} ({peso, plural, one {# slot} other {# slots}})",
     "aguardar": "Update available in {dias, plural, one {# day} other {# days}}",
-    "avisoCusto": "Generating v{versao} uses {peso, plural, one {# slot} other {# slots}} of your session. The previous version is preserved in the history."
+    "avisoCusto": "Generating v{versao} uses {peso, plural, one {# slot} other {# slots}} of your session. The previous version is preserved in the history.",
+    "sessaoConta": "Your account · today"
   },
   "DossieResultado": {
     "rotulo": "Channel dossier · v{versao} · {data}",
@@ -583,7 +590,9 @@
       "serie": "Time series",
       "canais": "Channels",
       "exportar": "Export",
-      "erros": "Errors"
+      "erros": "Errors",
+      "uso": "Usage",
+      "contas": "Accounts"
     },
     "coletaExaminar": "Collection to examine",
     "ver": "View",
@@ -652,7 +661,27 @@
     "errosSemana": "7 days",
     "errosMes": "30 days",
     "errosUltimo": "Latest",
-    "errosRecentes": "Most recent"
+    "errosRecentes": "Most recent",
+    "usoTitulo": "Site usage (last 30 days)",
+    "usoLegenda": "Analyses saved to the corpus by module, accounts and projects. Visits and page views are in Vercel Analytics.",
+    "usoContas": "Accounts",
+    "usoContasNovas": "New accounts (30 days)",
+    "usoProjetos": "Projects",
+    "usoPorDia": "Analyses per day",
+    "usoVisitas": "Visits, most viewed pages and traffic sources:",
+    "usoIndisponivel": "Usage unavailable right now (the database did not respond).",
+    "contasTitulo": "Accounts",
+    "contasLegenda": "Search by email to see today's usage and set a custom limit. Empty field = account default (twice the limit without signing in).",
+    "contasBusca": "Search by email",
+    "contasBuscar": "Search",
+    "contasNenhuma": "No accounts found.",
+    "contasDesde": "created {data}",
+    "contasUltimo": "last sign-in {data}",
+    "contasProjetos": "{n, plural, =0 {no projects} one {# project} other {# projects}}",
+    "contasHoje": "today {n}",
+    "contasSalvar": "Save limits",
+    "contasSemSenha": "Set SENHA_PAINEL_INTERNO to manage accounts.",
+    "contasIndisponivel": "Accounts unavailable: the Supabase secret key (SUPABASE_SECRET_KEY) is missing."
   },
   "Disputa": {
     "subtitulo": "Who is YouTube handing the microphone to?",
@@ -689,14 +718,16 @@
       "falha": "Analysis error: {detalhe}",
       "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent.",
       "recusa_ia": "The AI declined to analyze this content. Nothing was saved. (Technical detail: {detalhe})",
-      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})"
+      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})",
+      "limite_conta": "Your account's daily limit of {limite} searches has been reached. It resets at midnight (UTC)."
     },
     "sessao": "Your session",
     "existenteRotulo": "Existing analysis in the corpus",
     "verExistente": "View existing analysis",
     "gerar": "Generate v{versao} ({peso, plural, one {# slot} other {# slots}})",
     "aguardar": "Update available in {dias, plural, one {# day} other {# days}}",
-    "avisoCusto": "Generating v{versao} uses {peso, plural, one {# slot} other {# slots}} of your session. The previous version is preserved in the history."
+    "avisoCusto": "Generating v{versao} uses {peso, plural, one {# slot} other {# slots}} of your session. The previous version is preserved in the history.",
+    "sessaoConta": "Your account · today"
   },
   "DisputaResultado": {
     "rotulo": "Narrative dispute · v{versao} · {data}",
@@ -803,7 +834,8 @@
       "falha": "Analysis error: {detalhe}",
       "verificacao": "The anti-bot check expired or was not completed. Complete the check above and try again. Nothing was spent.",
       "recusa_ia": "The AI declined to analyze this content. Nothing was saved. (Technical detail: {detalhe})",
-      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})"
+      "resposta_truncada": "The AI response was cut off before it finished. Please try again. Nothing was saved. (Technical detail: {detalhe})",
+      "limite_conta": "Your account's daily limit of {limite} analyses has been reached. It resets at midnight (UTC)."
     },
     "dimensoes": {
       "publico_patrao": {
@@ -836,7 +868,8 @@
     "verExistente": "View existing analysis",
     "gerar": "Generate v{versao} ({peso, plural, one {# slot} other {# slots}})",
     "aguardar": "Update available in {dias, plural, one {# day} other {# days}}",
-    "avisoCusto": "Generating v{versao} uses {peso, plural, one {# slot} other {# slots}} of your session. The previous version is preserved in the history."
+    "avisoCusto": "Generating v{versao} uses {peso, plural, one {# slot} other {# slots}} of your session. The previous version is preserved in the history.",
+    "sessaoConta": "Your account · today"
   },
   "VozResultado": {
     "rotulo": "Voice of the Base · v{versao} · {data}",
@@ -896,5 +929,202 @@
     "remover": "Remove",
     "removerItem": "Remove {rotulo} from the session",
     "indicador": "Session: {n, plural, one {# analysis} other {# analyses}} to export"
+  },
+  "Limite": {
+    "titulo": "Your research needs more room.",
+    "coletivo": "Raio-X is run by an independent, unfunded collective. Every analysis has a real cost, paid out of our own pockets, and the limits keep the tool online for everyone.",
+    "semConta": "With a free account, your limit doubles and everything you collect is saved and organized into projects.",
+    "comConta": "If your work needs more collections, talk to us: we can agree on a higher limit for your account.",
+    "botaoCriarConta": "Create a free account",
+    "botaoWhatsapp": "Chat on WhatsApp",
+    "mensagemWhatsapp": "Hi! I use Raio-X in my research (account: {email}) and need a higher limit in the {modulo} module.",
+    "fechar": "Close"
+  },
+  "Entrar": {
+    "eyebrow": "Researcher account",
+    "titulo": "Sign in",
+    "intro": "The account is **free and optional**: the modules remain open to everyone. With an account, your daily limit doubles and your analyses are organized into **research projects**.",
+    "abas": {
+      "link": "Email link",
+      "senha": "Password",
+      "criar": "Create account"
+    },
+    "explicacao": {
+      "link": "We send a sign-in link to your email. If you don't have an account yet, one is created right away.",
+      "senha": "Sign in with your account's email and password.",
+      "criar": "Create an account with email and password. We send a link to confirm your email.",
+      "esqueci": "Enter your account's email: we send a link for you to set a new password."
+    },
+    "email": "Email",
+    "senha": "Password",
+    "senhaRegra": "At least 10 characters.",
+    "botao": {
+      "link": "Send link",
+      "senha": "Sign in",
+      "criar": "Create account",
+      "esqueci": "Send new-password link"
+    },
+    "esqueci": "Forgot password",
+    "voltarSenha": "Back to password sign-in",
+    "avisos": {
+      "link_enviado": "Done: we sent a link to your email. It is valid for 1 hour. If it doesn't arrive, check your spam folder.",
+      "confirme_email": "Account created. We sent a link to confirm your email; then just sign in.",
+      "senha_enviada": "If an account exists for this email, we sent a link to set a new password."
+    },
+    "erros": {
+      "email_invalido": "This email doesn't look valid.",
+      "credenciais": "Incorrect email or password.",
+      "nao_confirmado": "Confirm your email through the link we sent before signing in.",
+      "ja_existe": "An account with this email already exists. Sign in with your password or request a link.",
+      "senha_curta": "The password must have at least 10 characters.",
+      "senha_fraca": "This password is too easy to guess. Choose another one.",
+      "muitas_tentativas": "Too many attempts in a row. Wait a few minutes and try again.",
+      "verificacao": "Confirm you're not a robot to continue.",
+      "desligado": "Accounts are not available yet.",
+      "link": "This link has expired or was already used. Request a new one.",
+      "falha": "Something went wrong. Try again in a moment."
+    },
+    "desligado": "Researcher accounts are on the way. For now, use the modules without signing in.",
+    "privacidade": "Your email is used only to sign you in: it never appears on the site, in the corpus or in the public data.",
+    "privacidadeLink": "Read the privacy policy"
+  },
+  "Conta": {
+    "eyebrow": "Researcher account",
+    "titulo": "My account",
+    "logadoComo": "You are signed in as",
+    "projetosTitulo": "Research projects",
+    "ativoTexto": "Active project: {nome}. Every analysis you run goes into it automatically.",
+    "semAtivoTexto": "You have no active project. Create a project so your analyses are saved automatically.",
+    "verProjetos": "{n, plural, =0 {Create a project} one {See # project} other {See # projects}}",
+    "usoTitulo": "Your usage today",
+    "usoTexto": "With an account, the limit is per day (UTC) and twice the limit without signing in.",
+    "senhaTitulo": "Password",
+    "senhaRecuperacao": "You signed in through the recovery link. Set your new password.",
+    "novaSenha": "New password",
+    "senhaRegra": "At least 10 characters.",
+    "salvarSenha": "Save password",
+    "senhaSalva": "Password saved.",
+    "sair": "Sign out",
+    "apagarConta": "Delete my account",
+    "apagarExplicacao": "This deletes your email, your projects and your notes, immediately and permanently. The analyses you ran remain in the public corpus, with no link to you.",
+    "apagarDigite": "To confirm, type DELETE",
+    "apagarConfirmar": "Delete permanently",
+    "cancelar": "Cancel",
+    "privacidadeLink": "Privacy policy",
+    "erros": {
+      "senha_curta": "The password must have at least 10 characters.",
+      "senha_fraca": "This password is too easy to guess. Choose another one.",
+      "mesma_senha": "The new password is the same as the current one.",
+      "confirmacao": "Type DELETE to confirm.",
+      "sem_login": "Your session has expired. Sign in again.",
+      "falha": "Something went wrong. Try again in a moment."
+    }
+  },
+  "Projetos": {
+    "eyebrow": "Researcher account",
+    "titulo": "Projects",
+    "intro": "Each project gathers the analyses of a piece of research, with your notes and charts of what you collected. The **active project** automatically receives every analysis you run.",
+    "novoTitulo": "New project",
+    "nome": "Name",
+    "nomeExemplo": "E.g.: Labor reform on YouTube (2026)",
+    "descricao": "Description (optional)",
+    "novoAtivo": "The new project becomes your active project.",
+    "criar": "Create project",
+    "erro": "That didn't work. Try again.",
+    "ativo": "Active",
+    "tornarAtivo": "Make active",
+    "contagem": "{n, plural, =0 {no analyses} one {# analysis} other {# analyses}}",
+    "atualizado": "updated {data}",
+    "editar": "Edit name and description",
+    "salvar": "Save",
+    "cancelar": "Cancel",
+    "exportar": "Export spreadsheet (.xlsx)",
+    "gerarLink": "Create read-only link",
+    "desligarLink": "Turn off read-only link",
+    "linkLeitura": "Read-only link:",
+    "linkAviso": "Anyone with the link sees the analyses, the charts and your notes, without an account. You can turn the link off at any time.",
+    "copiarLink": "Copy",
+    "copiado": "Copied",
+    "apagar": "Delete project",
+    "apagarConfirmacao": "Delete this project and your notes? The analyses remain in the corpus.",
+    "vazioDono": "This project is still empty. Make it active and run analyses in the modules, or use \"Add to project\" on the Library pages.",
+    "vazioLeitura": "This project has no analyses yet.",
+    "total": "Analyses",
+    "tipologiaTitulo": "Dual typology of what you collected",
+    "tipologiaLegenda": "Who produces × what kind of work, across the {n, plural, one {# analysis} other {# analyses}} from the Lens and the Dossier in this project.",
+    "produtorConteudo": "Producer ↓ · Content →",
+    "tempoTitulo": "Timeline",
+    "canaisTitulo": "Recurring channels",
+    "analisesTitulo": "Analyses",
+    "buscar": "Search by title, channel or note",
+    "filtroModulo": "Filter by module",
+    "todosModulos": "All modules",
+    "nadaEncontrado": "Nothing found with this filter.",
+    "nota": "Note",
+    "notaPlaceholder": "Write a note about this analysis…",
+    "salvando": "Saving…",
+    "naoSalvo": "Not saved (click outside to save)",
+    "versaoNova": "There is a newer version of this analysis.",
+    "verVersaoNova": "See the new version",
+    "atualizarVersao": "Use the new version",
+    "destino": "Project",
+    "outroProjeto": "Another project…",
+    "mover": "Move",
+    "copiar": "Copy",
+    "remover": "Remove from project",
+    "adicionarAoProjeto": "Add to project",
+    "salvarNoProjeto": "Save {n} analyses to a project",
+    "novoProjetoOpcao": "+ New project",
+    "adicionar": "Add",
+    "adicionado": "Added.",
+    "abrirProjeto": "Open the project",
+    "carregando": "Loading your projects…",
+    "leituraEyebrow": "Research project · read-only"
+  },
+  "PaginaPrivacidade": {
+    "eyebrow": "Observatório Classe Creator",
+    "titulo": "Privacy",
+    "descricao": "What Raio-X stores, why, and how to ask for deletion.",
+    "intro": [
+      "Raio-X is run by an independent collective. The data controller is **Filipe Severo**, as an individual. For any request about your data (access, correction, deletion), write to **filipe.leal.severo@gmail.com**."
+    ],
+    "semConta": {
+      "titulo": "If you use it without an account",
+      "textos": [
+        "We store nothing that identifies you: no name, no email, no IP address.",
+        "We use only what the site needs to work: a cookie that counts how many analyses you ran in this session (for the limit), the cookie of Cloudflare's anti-robot check (Turnstile, valid for 24 hours) and the session cart, which stays in your browser only.",
+        "To know how many people visit the site, we use Vercel Web Analytics, which uses no cookies and shows only aggregate numbers (most viewed pages, where visits come from, country), without identifying anyone."
+      ]
+    },
+    "comConta": {
+      "titulo": "If you create an account",
+      "textos": [
+        "We store your **email**, used only to sign you in. The password, if you create one, is stored encrypted by Supabase: not even we have access to it.",
+        "We also store your **projects**, the **notes** you write, how many analyses you ran per day (for the limit) and any higher limit agreed with the Observatório.",
+        "We use this data only to provide the service you asked for (Brazilian General Data Protection Law, LGPD, art. 7, V)."
+      ]
+    },
+    "naoFazemos": {
+      "titulo": "What we don't do",
+      "textos": [
+        "We don't sell, lend or use your data for advertising.",
+        "Your email never appears on the site, in the public corpus or in exported data. The analyses you run enter the public corpus **without your name**: the corpus does not record who ran each analysis.",
+        "Projects are private. If you create a **read-only link**, anyone with the link sees the project and your notes, until you turn the link off."
+      ]
+    },
+    "onde": {
+      "titulo": "Where the data lives",
+      "textos": [
+        "Database and sign-in: Supabase (Amazon Web Services servers). Website: Vercel. Sign-in emails: Resend. This means the data may be processed outside Brazil, by companies that follow their own data protection rules."
+      ]
+    },
+    "direitos": {
+      "titulo": "Your rights",
+      "textos": [
+        "You can **delete your account at any time**, on the My account page: this immediately deletes your email, projects, notes and usage history.",
+        "Inactive accounts are not deleted automatically. To request a copy of your data, a correction or anything else, write to filipe.leal.severo@gmail.com."
+      ]
+    },
+    "atualizado": "Last updated on November 17, 2026."
   }
 }
