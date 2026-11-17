@@ -27,7 +27,7 @@ Tu és o especialista em infraestrutura do Raio-X da Classe Creator. O `CLAUDE.m
 - **Semanal:** olhar a aba "Erros" do painel do Termômetro (`erros_app`), principalmente `recusa_ia`, `resposta_truncada` e `json_repetido` na primeira semana dos modelos 5.5 e das contas. Se `json_repetido` for frequente: saída em formato garantido (structured outputs).
 - **Custo:** comparar o gasto da Anthropic antes/depois de 17/11 (troca para Haiku 5.5 / Sonnet 5.5).
 - **Rollback do Streamlit:** o app do Streamlit Cloud foi apagado em 17/nov/2026; o projeto `raiox-redirect` na Vercel fica algumas semanas e depois pode ser apagado (perguntar ao Filipe).
-- **Contas:** XLSX do projeto ainda sem as notas; plano Hobby da Vercel é para uso não comercial — reavaliar antes do lançamento internacional.
+- **Contas:** XLSX do projeto com notas publicado em 17/nov/2026 (rota `/api/projetos/[id]/xlsx`, só o dono) — conferir no teste logado com o Filipe; plano Hobby da Vercel é para uso não comercial — reavaliar antes do lançamento internacional.
 - **PR aberto de outro chat:** FiSeveroo/raio-x-classe-creator#4 (registro bruto de topicCategories, do `/raiox-dados`).
 - Opcional: redirecionar `*.vercel.app` para o domínio oficial.
 - Feito: Streamlit sem chaves (2/out), Search Console com a propriedade de domínio `classecreator.com` e o sitemap do Raio-X enviado (17/nov), licenças AGPL-3.0 + CC BY 4.0, README do `main`, página do repositório, branches velhos apagados.

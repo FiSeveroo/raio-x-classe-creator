@@ -124,11 +124,8 @@ export function BarraProjeto({
   async function exportar() {
     setBaixando(true);
     try {
-      const r = await fetch("/api/sessao/xlsx", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ itens }),
-      });
+      // Rota própria do projeto: lê as notas do banco e só responde ao dono.
+      const r = await fetch(`/api/projetos/${id}/xlsx`);
       if (!r.ok) return;
       const blob = await r.blob();
       const a = document.createElement("a");
