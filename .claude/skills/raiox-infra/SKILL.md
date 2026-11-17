@@ -23,9 +23,14 @@ Tu és o especialista em infraestrutura do Raio-X da Classe Creator. O `CLAUDE.m
 4. Next.js 16 tem mudanças: ler `node_modules/next/dist/docs/` antes de usar API nova (AGENTS.md).
 5. Funções com IA usam `maxDuration` 300 s (limite do plano Hobby). Plano Hobby é para uso não comercial — reavaliar antes do lançamento internacional.
 
-## Pendências
-- (feito 2/out/2026) Streamlit Cloud sem chaves do Supabase — não grava mais. Rollback para o Streamlit exige recolar os Secrets.
-- Opcional: Google Search Console; redirecionar `*.vercel.app` para o domínio.
+## Pendências (atualizado em 17/nov/2026, depois do lançamento público)
+- **Semanal:** olhar a aba "Erros" do painel do Termômetro (`erros_app`), principalmente `recusa_ia`, `resposta_truncada` e `json_repetido` na primeira semana dos modelos 5.5 e das contas. Se `json_repetido` for frequente: saída em formato garantido (structured outputs).
+- **Custo:** comparar o gasto da Anthropic antes/depois de 17/11 (troca para Haiku 5.5 / Sonnet 5.5).
+- **Rollback do Streamlit:** o app do Streamlit Cloud foi apagado em 17/nov/2026; o projeto `raiox-redirect` na Vercel fica algumas semanas e depois pode ser apagado (perguntar ao Filipe).
+- **Contas:** XLSX do projeto ainda sem as notas; plano Hobby da Vercel é para uso não comercial — reavaliar antes do lançamento internacional.
+- **PR aberto de outro chat:** FiSeveroo/raio-x-classe-creator#4 (registro bruto de topicCategories, do `/raiox-dados`).
+- Opcional: redirecionar `*.vercel.app` para o domínio oficial.
+- Feito: Streamlit sem chaves (2/out), Search Console com a propriedade de domínio `classecreator.com` e o sitemap do Raio-X enviado (17/nov), licenças AGPL-3.0 + CC BY 4.0, README do `main`, página do repositório, branches velhos apagados.
 
 ## Ao terminar
 Registre mudanças de ambiente/deploy no `CLAUDE.md` (Estado). Problemas de dados → `/raiox-dados`.
