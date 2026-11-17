@@ -56,7 +56,7 @@ def main() -> None:
         cliente, "consultas_coleta",
         "id,coleta_uuid,coletado_em,snapshot_id,endpoint,http_status,erro_motivo,itens_devolvidos",
     )
-    videos = ler_tudo(cliente, "consultas_coleta_videos", "id,consulta_id,posicao,video_id,category_id,visualizacoes")
+    videos = ler_tudo(cliente, "consultas_coleta_videos", "id,consulta_id,posicao,video_id,category_id,visualizacoes,topic_categories")
 
     por_consulta = defaultdict(list)
     for v in videos:
@@ -107,6 +107,18 @@ def main() -> None:
     semanal = [[s, e, len(v), round(mean(v), 2), min(v), max(v)] for (s, e), v in sorted(acumulado.items())]
     gravar_csv("estabilidade_semanal.csv", ["semana_iso", "filtro", "coletas", "pct_em_comum_media", "minimo", "maximo"], semanal)
 
+    # Tópicos declarados pela API na data da coleta, por aparição em cada consulta
+    topicos, com_topico = defaultdict(Counter), Counter()
+    for c in consultas:
+        for v in por_consulta[c["id"]]:
+            if v.get("topic_categories"):
+                com_topico[c["endpoint"]] += 1
+                for t in set(v["topic_categories"]):
+                    topicos[c["endpoint"]][t.rsplit("/", 1)[-1]] += 1
+    gravar_csv("topicos_por_endpoint.csv", ["endpoint", "topico", "aparicoes", "pct_das_aparicoes_com_topico"], [
+        [e, t, n, pct(n, com_topico[e])] for e in sorted(topicos) for t, n in topicos[e].most_common()
+    ])
+
     filtros = defaultdict(list)
     for linha in sobrepos:
         if linha[5] != "":
@@ -127,7 +139,7 @@ def main() -> None:
         texto.append(f"{f:>5}  {len(v):>6}  {mean(v):6.2f}  {min(v):6.2f}  {max(v):6.2f}")
     texto += ["", "Erros por endpoint (endpoint, http, motivo, coletas):"]
     texto += [f"  {e}, {s}, {m}: {n}" for (e, s, m), n in sorted(erros_por.items())] or ["  nenhum"]
-    texto += ["", "Detalhes: sobreposicao_por_coleta.csv, composicao_geral_por_coleta.csv, estabilidade_semanal.csv, consultas_por_coleta.csv, checagem_por_coleta.csv."]
+    texto += ["", "Detalhes: sobreposicao_por_coleta.csv, composicao_geral_por_coleta.csv, estabilidade_semanal.csv, consultas_por_coleta.csv, checagem_por_coleta.csv, topicos_por_endpoint.csv."]
     (SAIDA / "relatorio.txt").write_text("\n".join(texto) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(texto))
 

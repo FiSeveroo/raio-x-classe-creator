@@ -35,6 +35,7 @@ def anotar_sucesso(registro: dict, endpoint: str, items: list[dict]) -> None:
                 "category_id": item.get("snippet", {}).get("categoryId"),
                 "canal_id": item.get("snippet", {}).get("channelId"),
                 "visualizacoes": _inteiro(item.get("statistics", {}).get("viewCount")),
+                "topic_categories": item.get("topicDetails", {}).get("topicCategories"),
             }
             for posicao, item in enumerate(items, start=1)
         ]
