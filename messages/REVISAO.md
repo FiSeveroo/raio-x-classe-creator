@@ -102,3 +102,7 @@ Decisão do Filipe, sem teste prévio. Textos alterados nas três línguas (EN/E
 - avisos do Dossiê, da Disputa e da Voz: "Claude Sonnet/Haiku (4.x até 16/11/2026; 5.5 a partir de 17/11/2026)", porque o banco não guarda o modelo de cada análise;
 - "Sobre o modelo" da Voz: sem número de versão; mensagem de progresso da Voz: Sonnet 5.5;
 - erros novos nos quatro módulos: `recusa_ia` e `resposta_truncada`.
+
+## Voz da Base — número dos comentários e ordenação (17/nov/2026)
+
+Pedido do Filipe. Cada comentário mostra o número que o Sonnet recebeu (#1 a #100, ordem de relevância do YouTube na coleta), que a síntese cita. Novo seletor "Ordenar" (número / mais curtidos / menos curtidos); o CSV ganha a coluna `numero`. Diferença deliberada do Streamlit: a lista mostra todos os comentários (antes, 50), senão os citados acima de #50 não apareciam. EN/ES dos rótulos traduzidos pelo Claude — revisar.

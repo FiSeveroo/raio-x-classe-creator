@@ -872,11 +872,15 @@
     "todas": "(all)",
     "semDimensao": "no dimension",
     "nenhum": "No comments in this dimension.",
-    "mostrando": "Showing {n} of {total}. Use the export for the full set.",
     "baixarCsv": "Download CSV with all classified comments",
     "verVideo": "View video on YouTube",
     "verDossie": "View channel dossier",
-    "novaAnalise": "Analyze another video"
+    "novaAnalise": "Analyze another video",
+    "ordenar": "Sort",
+    "ordemNumero": "number (YouTube relevance)",
+    "ordemMaisCurtidos": "most liked",
+    "ordemMenosCurtidos": "least liked",
+    "numero": "Comment {n}"
   },
   "Sessao": {
     "titulo": "Your session",

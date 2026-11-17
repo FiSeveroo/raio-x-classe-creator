@@ -15,8 +15,7 @@ export type ComentarioClassificado = {
   dimensoes?: unknown;
 };
 
-/** Mesmo teto do Streamlit: 50 na tela, o conjunto completo no CSV. */
-const NA_TELA = 50;
+type Ordem = "numero" | "mais_curtidos" | "menos_curtidos";
 
 function celulaCsv(v: unknown): string {
   if (v === null || v === undefined) return "";
@@ -25,7 +24,12 @@ function celulaCsv(v: unknown): string {
   return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
-/** Lista filtrável por dimensão + exportação CSV (porte do bloco "Comentários classificados"). */
+/**
+ * Lista filtrável por dimensão + exportação CSV (porte do bloco "Comentários
+ * classificados"). Cada comentário leva o número que o Sonnet recebeu ([1] a
+ * [100], na ordem de relevância do YouTube na coleta), para achar os citados
+ * na síntese. Diferença deliberada: o Streamlit mostrava só 50 e sem número.
+ */
 export function Comentarios({
   comentarios,
   dimensoes,
@@ -38,13 +42,20 @@ export function Comentarios({
 }) {
   const t = useTranslations("VozResultado");
   const [filtro, setFiltro] = useState("");
+  const [ordem, setOrdem] = useState<Ordem>("numero");
   const nomes = Object.fromEntries(dimensoes.map((d) => [d.codigo, d.nome]));
   const dimsDe = (c: ComentarioClassificado) => (Array.isArray(c.dimensoes) ? (c.dimensoes as string[]) : []);
-  const filtrados = filtro ? comentarios.filter((c) => dimsDe(c).includes(filtro)) : comentarios;
+  const numerados = comentarios.map((c, i) => ({ c, n: i + 1 }));
+  const filtrados = (filtro ? numerados.filter(({ c }) => dimsDe(c).includes(filtro)) : numerados).slice();
+  if (ordem === "mais_curtidos") filtrados.sort((a, b) => (b.c.likes ?? 0) - (a.c.likes ?? 0) || a.n - b.n);
+  if (ordem === "menos_curtidos") filtrados.sort((a, b) => (a.c.likes ?? 0) - (b.c.likes ?? 0) || a.n - b.n);
 
   function baixar() {
     const colunas = [...new Set(comentarios.flatMap((c) => Object.keys(c)))];
-    const linhas = [colunas.join(","), ...comentarios.map((c) => colunas.map((k) => celulaCsv((c as Record<string, unknown>)[k])).join(","))];
+    const linhas = [
+      ["numero", ...colunas].join(","),
+      ...comentarios.map((c, i) => [String(i + 1), ...colunas.map((k) => celulaCsv((c as Record<string, unknown>)[k]))].join(",")),
+    ];
     const blob = new Blob(["﻿" + linhas.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -55,7 +66,7 @@ export function Comentarios({
 
   return (
     <div>
-      <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_auto]">
+      <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
         <label className="block">
           <span className="sr-only">{t("filtro")}</span>
           <select
@@ -69,6 +80,18 @@ export function Comentarios({
             ))}
           </select>
         </label>
+        <label className="block">
+          <span className="sr-only">{t("ordenar")}</span>
+          <select
+            value={ordem}
+            onChange={(e) => setOrdem(e.target.value as Ordem)}
+            className="h-10 w-full rounded-lg border border-input bg-input/30 px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <option value="numero">{t("ordenar")}: {t("ordemNumero")}</option>
+            <option value="mais_curtidos">{t("ordenar")}: {t("ordemMaisCurtidos")}</option>
+            <option value="menos_curtidos">{t("ordenar")}: {t("ordemMenosCurtidos")}</option>
+          </select>
+        </label>
         <Button type="button" variant="outline" onClick={baixar} className="h-10">
           <Download aria-hidden /> {t("baixarCsv")}
         </Button>
@@ -79,9 +102,10 @@ export function Comentarios({
       ) : (
         <>
           <ul className="space-y-2" lang="pt-BR">
-            {filtrados.slice(0, NA_TELA).map((c, i) => (
-              <li key={c.id ?? i} className="rounded-lg border-l-2 border-cc-line bg-cc-surface px-4 py-3">
+            {filtrados.map(({ c, n }) => (
+              <li key={c.id ?? n} id={`comentario-${n}`} className="rounded-lg border-l-2 border-cc-line bg-cc-surface px-4 py-3">
                 <p className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
+                  <span className="font-mono font-semibold text-foreground tabular-nums" aria-label={t("numero", { n })}>#{n}</span>
                   <span className="inline-flex items-center gap-1 tabular-nums">
                     <ThumbsUp aria-hidden className="size-3" /> {c.likes ?? 0}
                   </span>
@@ -107,9 +131,6 @@ export function Comentarios({
               </li>
             ))}
           </ul>
-          {filtrados.length > NA_TELA && (
-            <p className="mt-3 text-xs text-muted-foreground">{t("mostrando", { n: NA_TELA, total: filtrados.length })}</p>
-          )}
         </>
       )}
     </div>

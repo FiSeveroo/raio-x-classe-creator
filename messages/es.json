@@ -872,11 +872,15 @@
     "todas": "(todas)",
     "semDimensao": "sin dimensión",
     "nenhum": "Ningún comentario en esa dimensión.",
-    "mostrando": "Mostrando {n} de {total}. Usa la exportación para el conjunto completo.",
     "baixarCsv": "Descargar CSV con todos los comentarios clasificados",
     "verVideo": "Ver video en YouTube",
     "verDossie": "Ver dossier del canal",
-    "novaAnalise": "Analizar otro video"
+    "novaAnalise": "Analizar otro video",
+    "ordenar": "Ordenar",
+    "ordemNumero": "número (relevancia en YouTube)",
+    "ordemMaisCurtidos": "más gustados",
+    "ordemMenosCurtidos": "menos gustados",
+    "numero": "Comentario {n}"
   },
   "Sessao": {
     "titulo": "Tu sesión",
