@@ -1,7 +1,6 @@
 "use server";
 
-import { chamarClaude } from "@/lib/llm";
-import { parsearJsonLlm } from "@/lib/lupa/prompt";
+import { chamarClaudeJson, ErroJsonLlm } from "@/lib/llm";
 import { buscarMetadadosVideo, extrairVideoId } from "@/lib/lupa/youtube";
 import { pyJsonDumps } from "@/lib/py";
 import {
@@ -73,17 +72,17 @@ export async function analisarComentarios(entrada: {
 
     const dossie = await buscarDossieCanalExistente(meta.canal_id);
 
-    const texto = await chamarClaude({
-      model: MODELO_VOZ,
-      max_tokens: MAX_TOKENS_VOZ,
-      system: montarPromptVoz(),
-      user: montarPayloadVoz(meta.titulo, meta.canal_nome, comentarios, dossie),
-    });
     let resultado: Record<string, unknown>;
     try {
-      resultado = parsearJsonLlm(texto);
+      resultado = await chamarClaudeJson({
+        model: MODELO_VOZ,
+        max_tokens: MAX_TOKENS_VOZ,
+        system: montarPromptVoz(),
+        user: montarPayloadVoz(meta.titulo, meta.canal_nome, comentarios, dossie),
+      });
     } catch (e) {
-      throw new ErroPrevisto("resposta_malformada", e instanceof Error ? e.message : String(e));
+      if (e instanceof ErroJsonLlm) throw new ErroPrevisto("resposta_malformada", e.message);
+      throw e;
     }
     // Como no Python: sem índice ou sem síntese, a análise não é gravada (KeyError).
     if (!("indice_pressao_produtiva" in resultado) || !("sintese_qualitativa" in resultado)) {

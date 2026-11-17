@@ -91,3 +91,7 @@ Prompts: `npm run verificar` confere, caractere por caractere, os prompts de Lup
 Pedido do Filipe (só texto). PT dele; EN e ES traduzidos pelo Claude — revisar.
 - `termometro` (parágrafo "Por que coletamos centenas de vídeos"): número antigo (74% Jogos+Música, mai–jul/2026, dados do Supabase) trocado pela série do coletor v1 (`coletor-youtube`, commit `a41bdf0`, 1.218 coletas de 05/03/2025 a 08/11/2026, corte em 21/07/2025): ~79% das aparições nas categorias dos três charts (Música, Filmes, Jogos) desde 23/07/2025, contra 37% antes; Esportes 25% → 0,5%; Notícias 2,5% → 0,1%.
 - `termometro` (parágrafo "A solução") e `endpointsLegenda`: `categoria_coleta` registra só a **primeira** lista em que o vídeo apareceu (dedup com a geral processada primeiro), não todas.
+
+## Resposta malformada do Claude: uma nova tentativa (17/nov/2026)
+
+Diferença deliberada em relação ao app.py: quando a resposta não é JSON válido (ex.: aspa sem escape na síntese da Voz da Base), Lupa, Dossiê, Disputa e Voz repetem a MESMA chamada uma vez antes de mostrar o erro (`chamarClaudeJson` em `src/lib/llm.ts`). Prompt, modelo e payload não mudam; custo extra só quando a primeira resposta vem quebrada.

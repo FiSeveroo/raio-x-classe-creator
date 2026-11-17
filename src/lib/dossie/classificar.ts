@@ -1,7 +1,6 @@
 import "server-only";
-import { chamarClaude } from "@/lib/llm";
+import { chamarClaude, chamarClaudeJson } from "@/lib/llm";
 import { buscarCanalValidado, buscarExemplosAncora } from "@/lib/lupa/registro";
-import { parsearJsonLlm } from "@/lib/lupa/prompt";
 import { codigosConteudo, codigosProdutor } from "@/lib/tipologia";
 import { ErroPrevisto, type ItemVideoApi } from "@/lib/youtube";
 import type { CanalRelacionado } from "./canal";
@@ -54,13 +53,12 @@ export async function classificarCanalHaiku(
     );
   }
 
-  const texto = await chamarClaude({
+  const r = (await chamarClaudeJson({
     model: MODELO_CANAL,
     max_tokens: MAX_TOKENS_CANAL,
     system: montarPromptCanal(exemplos),
     user: montarPayloadCanal(canal, videos, sintomas),
-  });
-  const r = parsearJsonLlm(texto) as unknown as ClassificacaoCanal;
+  })) as unknown as ClassificacaoCanal;
   if (!codigosProdutor().includes(String(r.tipo_produtor))) {
     throw new ErroPrevisto("codigo_invalido", `Código de produtor inválido: ${r.tipo_produtor}`);
   }
@@ -75,13 +73,12 @@ export type ClassificacaoVideoLote = { posicao: number; titulo: string; tipo_con
 /** app.py: classificar_lote_eixo_b — todos os vídeos numa única chamada. */
 export async function classificarLoteEixoB(videos: ItemVideoApi[]): Promise<ClassificacaoVideoLote[]> {
   if (!videos.length) return [];
-  const texto = await chamarClaude({
+  const r = (await chamarClaudeJson({
     model: MODELO_LOTE_B,
     max_tokens: MAX_TOKENS_LOTE_B,
     system: montarPromptLoteB(),
     user: montarPayloadLoteB(videos),
-  });
-  const r = parsearJsonLlm(texto) as { classificacoes?: { posicao?: unknown; tipo_conteudo?: unknown }[] };
+  })) as { classificacoes?: { posicao?: unknown; tipo_conteudo?: unknown }[] };
 
   // Posição → código validado ("outros" se inválido). Como no Python, só casa
   // posição numérica (a chave "1" em texto não casa com o inteiro 1).

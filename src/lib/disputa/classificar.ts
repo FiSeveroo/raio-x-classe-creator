@@ -1,7 +1,6 @@
 import "server-only";
-import { chamarClaude } from "@/lib/llm";
+import { chamarClaudeJson } from "@/lib/llm";
 import { buscarCanalValidado } from "@/lib/lupa/registro";
-import { parsearJsonLlm } from "@/lib/lupa/prompt";
 import { codigosConteudo, codigosProdutor } from "@/lib/tipologia";
 import { MAX_TOKENS_ITEM, MODELO_ITEM, montarPayloadItem, montarPromptItem, type DadosExtras, type ItemBusca } from "./prompts";
 
@@ -26,13 +25,12 @@ export async function classificarItem(item: ItemBusca, extras: DadosExtras, exem
     }
   }
 
-  const texto = await chamarClaude({
+  const r = (await chamarClaudeJson({
     model: MODELO_ITEM,
     max_tokens: MAX_TOKENS_ITEM,
     system: montarPromptItem(exemplos),
     user: montarPayloadItem(item, extras),
-  });
-  const r = parsearJsonLlm(texto) as unknown as ClassificacaoItem;
+  })) as unknown as ClassificacaoItem;
   if (!codigosProdutor().includes(String(r.tipo_produtor))) throw new Error(`Código de produtor inválido: ${r.tipo_produtor}`);
   if (!codigosConteudo().includes(String(r.tipo_conteudo))) throw new Error(`Código de conteúdo inválido: ${r.tipo_conteudo}`);
   return r;

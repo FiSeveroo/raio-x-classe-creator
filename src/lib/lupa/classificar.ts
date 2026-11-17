@@ -1,8 +1,8 @@
 import "server-only";
-import Anthropic from "@anthropic-ai/sdk";
+import { chamarClaudeJson } from "@/lib/llm";
 import { codigosConteudo, codigosProdutor } from "@/lib/tipologia";
 import { ErroLupa, type MetaCanal, type MetaVideo } from "./youtube";
-import { montarExemplosDinamicos, montarPayload, montarPromptSistema, parsearJsonLlm } from "./prompt";
+import { montarExemplosDinamicos, montarPayload, montarPromptSistema } from "./prompt";
 import { buscarCanalValidado, buscarExemplosAncora } from "./registro";
 
 // Mesmos parâmetros do app.py (conferidos por scripts/verificar-prompt-lupa.mts).
@@ -37,18 +37,12 @@ export async function classificarComClaude(video: MetaVideo, canal: MetaCanal): 
     // falha silenciosa — segue para a IA sem exemplos (igual ao Python)
   }
 
-  const cliente = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-  const resposta = await cliente.messages.create({
+  const resultado = (await chamarClaudeJson({
     model: MODELO_LUPA,
     max_tokens: MAX_TOKENS_LUPA,
     system: montarPromptSistema(exemplosDinamicos),
-    messages: [{ role: "user", content: montarPayload(video, canal) }],
-  });
-
-  // Python: resposta.content[0].text
-  const primeiro = resposta.content[0];
-  const texto = primeiro?.type === "text" ? primeiro.text : "";
-  const resultado = parsearJsonLlm(texto) as Partial<Classificacao>;
+    user: montarPayload(video, canal),
+  })) as Partial<Classificacao>;
 
   if (!codigosProdutor().includes(String(resultado.tipo_produtor))) {
     throw new ErroLupa("codigo_invalido", `Código de produtor inválido: ${resultado.tipo_produtor}`);
