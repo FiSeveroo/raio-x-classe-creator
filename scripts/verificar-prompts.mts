@@ -70,13 +70,24 @@ function comparar(nome: string, esperado: string, obtido: string) {
   console.error(`  ts    : ${JSON.stringify(obtido.slice(Math.max(0, i - 50), i + 60))}`);
 }
 
+/**
+ * Migração de modelos decidida pelo Filipe em 17/nov/2026 (src/lib/llm.ts):
+ * cada modelo do app.py tem um sucessor fixo, e o max_tokens só pode subir
+ * (os modelos novos raciocinam antes de responder, e isso conta no teto).
+ */
+const SUCESSOR: Record<string, string> = {
+  "claude-haiku-4-5": "claude-haiku-5-5",
+  "claude-sonnet-4-6": "claude-sonnet-5-5",
+};
+
 /** Confere model= e max_tokens= da chamada messages.create dentro da função. */
 function conferirChamada(funcao: string, modeloTs: string, maxTs: number) {
   const corpo = corpoFuncao(funcao);
   const chamada = corpo.slice(corpo.indexOf("messages.create("));
   const modelo = chamada.match(/model="([^"]+)"/)?.[1];
   const max = Number(chamada.match(/max_tokens=(\d+)/)?.[1]);
-  if (modelo === modeloTs && max === maxTs) console.log(`✓ ${funcao}: ${modelo}, max_tokens=${max}`);
+  if (modelo && SUCESSOR[modelo] === modeloTs && maxTs >= max)
+    console.log(`✓ ${funcao}: app.py ${modelo}/${max} → ${modeloTs}/${maxTs}`);
   else {
     ok = false;
     console.error(`✗ ${funcao}: app.py=${modelo}/${max} ts=${modeloTs}/${maxTs}`);

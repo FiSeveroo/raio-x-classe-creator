@@ -12,7 +12,7 @@ import { supabaseGravacao, supabaseLeitura } from "@/lib/supabase/server";
  */
 
 /** Códigos de ErroPrevisto que indicam falha do sistema, não de quem usa. */
-const CODIGOS_DO_SISTEMA = new Set(["falha", "resposta_malformada", "youtube", "codigo_invalido"]);
+const CODIGOS_DO_SISTEMA = new Set(["falha", "resposta_malformada", "youtube", "codigo_invalido", "recusa_ia", "resposta_truncada"]);
 
 export type RegistroErro = { modulo: string; codigo: string; mensagem: string; entrada?: string | null };
 

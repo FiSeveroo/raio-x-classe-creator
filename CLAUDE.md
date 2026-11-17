@@ -24,7 +24,7 @@ Contexto completo do projeto para o Claude Code. Leia este arquivo sempre antes 
 
 - **Backend + Frontend:** Streamlit (Python), tudo num `app.py` de ~6500 linhas
 - **Banco de dados:** Supabase (Postgres)
-- **APIs externas:** YouTube Data API v3, Anthropic API (Claude Haiku 4.5 para classificação em batch, Claude Sonnet 4.6 para análises qualitativas)
+- **APIs externas:** YouTube Data API v3, Anthropic API (Claude Haiku 4.5 para classificação em batch, Claude Sonnet 4.6 para análises qualitativas — no site Next.js, Haiku 5.5 e Sonnet 5.5 desde 17/nov/2026, ver Estado)
 - **Coletor automatizado:** Python + GitHub Actions (roda 2x/dia)
 - **Auth/Anti-bot:** Cloudflare Turnstile (managed mode, com persistência 24h via localStorage)
 - **Deploy:** Streamlit Cloud
@@ -309,6 +309,7 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 - **Análises (9/nov/2026):** branch órfão `analises` (só documentos, sem `package.json`, não dispara deploy). `mostpopular-2025-2026/` tem o item A: na lista geral, Esportes e Notícias somem entre as coletas de 23/07/2025 (05h14 e 17h10), dois dias depois da vigência de 21/07; corte em 21/07: Esportes 24,8% → 0,5%, Jogos+Música 35,0% → 74,1% (23,4% e 37,4% são o corte em 01/08). A concentração NÃO aumentou. Itens B e C pendentes.
 - **Registro bruto das consultas (9/nov/2026, aprovado pelo Filipe):** branch `feat/registro-consultas`, tabelas `consultas_coleta` e `consultas_coleta_videos` (`sql/consultas_coleta.sql`), fora do export público durante a coleta de 4 a 6 semanas. Aguardando SQL + merge.
 - **Registro de erros (17/nov/2026, opção C aprovada pelo Filipe; revisão semanal):** tabela nova `erros_app` (`docs/sql/erros_app.sql`, com GRANTs explícitos; fora do export). Grava só falhas do sistema (`falha`, `resposta_malformada`, `youtube`, `codigo_invalido`, item da Disputa sem classificação, `json_repetido` quando a IA devolve JSON quebrado e a chamada é repetida, erros não tratados do servidor via `src/instrumentation.ts`). Sem dado pessoal. Leitura na aba "Erros" do painel com senha do Termômetro. Código em `src/lib/erros.ts`. Se o volume crescer, escalar para Sentry ou issues automáticas no GitHub.
+- **Modelos do Claude (decisão do Filipe em 17/nov/2026, sem teste prévio — "as análises são complementares na parte científica"):** Haiku 4.5 → `claude-haiku-5-5` (Lupa, Disputa, classificação do Dossiê; esforço `low`) e Sonnet 4.6 → `claude-sonnet-5-5` (veredito do Dossiê, Voz da Base; esforço `medium`). Prompts do app.py inalterados (`npm run verificar` confere prompts e o mapa de sucessores). Os modelos novos raciocinam antes de responder: `max_tokens` aumentados, resposta lida pelo primeiro bloco de texto, recusa (`recusa_ia`) e corte (`resposta_truncada`) viram erro registrado. O banco não guarda o modelo de cada análise: a data de corte é 17/11/2026 (análises até 16/11 = Haiku 4.5 / Sonnet 4.6), e os avisos do site dizem isso. Próximo passo possível: saída em formato garantido (structured outputs), que os dois modelos novos aceitam.
 - Convenções: textos só em `messages/*.json` (markdown-lite `**negrito**` renderizado por `src/components/rico.tsx`); consultas ao banco só em `src/lib/corpus.ts`; traduções novas entram em `messages/REVISAO.md`.
 
 **Gravação no banco durante a migração (decidido pelo Filipe em 1/out/2026):**

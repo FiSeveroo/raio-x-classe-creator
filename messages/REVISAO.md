@@ -95,3 +95,10 @@ Pedido do Filipe (só texto). PT dele; EN e ES traduzidos pelo Claude — revisa
 ## Resposta malformada do Claude: uma nova tentativa (17/nov/2026)
 
 Diferença deliberada em relação ao app.py: quando a resposta não é JSON válido (ex.: aspa sem escape na síntese da Voz da Base), Lupa, Dossiê, Disputa e Voz repetem a MESMA chamada uma vez antes de mostrar o erro (`chamarClaudeJson` em `src/lib/llm.ts`). Prompt, modelo e payload não mudam; custo extra só quando a primeira resposta vem quebrada.
+
+## Troca de modelos — Haiku 5.5 e Sonnet 5.5 (17/nov/2026)
+
+Decisão do Filipe, sem teste prévio. Textos alterados nas três línguas (EN/ES traduzidos pelo Claude):
+- avisos do Dossiê, da Disputa e da Voz: "Claude Sonnet/Haiku (4.x até 16/11/2026; 5.5 a partir de 17/11/2026)", porque o banco não guarda o modelo de cada análise;
+- "Sobre o modelo" da Voz: sem número de versão; mensagem de progresso da Voz: Sonnet 5.5;
+- erros novos nos quatro módulos: `recusa_ia` e `resposta_truncada`.

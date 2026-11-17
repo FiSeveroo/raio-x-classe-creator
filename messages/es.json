@@ -434,7 +434,9 @@
       "video_nao_encontrado": "Video no encontrado. Verifica que la URL sea correcta y que el video sea público.",
       "codigo_invalido": "El modelo devolvió una categoría fuera de la tipología. No se guardó nada. Inténtalo de nuevo.",
       "falha": "Error en el análisis: {detalhe}",
-      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
+      "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
     }
   },
   "Analise": {
@@ -482,7 +484,9 @@
       "slots_insuficientes": "Esta operación consumiría {peso} slot(s), pero solo te quedan {restantes} en esta sesión.",
       "falha": "Error en el análisis: {detalhe}",
       "codigo_invalido": "El modelo devolvió una categoría fuera de la tipología. No se guardó nada. Inténtalo de nuevo.",
-      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
+      "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
     },
     "sessao": "Tu sesión",
     "existenteRotulo": "Análisis existente en el corpus",
@@ -543,7 +547,7 @@
     "verBuscas": "Ver en qué búsquedas apareció este canal",
     "buscaItem": "\"{termo}\" (posición #{pos}, el {data})",
     "leituraTitulo": "Lectura final",
-    "aviso": "**Aviso metodológico.** Este análisis fue *generado automáticamente* por Claude Sonnet 4.6, usando como referencia de estilo y marco teórico la disertación de Filipe Severo (PUCRS/FAMECOS, 2026), pero **no fue escrito ni revisado por el autor**. El texto refleja una síntesis inferencial del LLM, no un posicionamiento humano. Trátalo como **lectura interpretativa asistida** — útil para inspirar el análisis, no como conclusión científica cerrada.",
+    "aviso": "**Aviso metodológico.** Este análisis fue *generado automáticamente* por Claude Sonnet (4.6 hasta el 16/11/2026; 5.5 desde el 17/11/2026), usando como referencia de estilo y marco teórico la disertación de Filipe Severo (PUCRS/FAMECOS, 2026), pero **no fue escrito ni revisado por el autor**. El texto refleja una síntesis inferencial del LLM, no un posicionamiento humano. Trátalo como **lectura interpretativa asistida** — útil para inspirar el análisis, no como conclusión científica cerrada.",
     "novoDossie": "Investigar otro canal",
     "verNoYoutube": "Ver canal en YouTube"
   },
@@ -683,7 +687,9 @@
       "limite_diario": "Límite diario de la herramienta alcanzado para este módulo ({uso}/{limite} análisis hoy). Inténtalo mañana o contacta al Observatório para acceso ampliado.",
       "slots_insuficientes": "Esta operación consumiría {peso} slot(s), pero solo te quedan {restantes} en esta sesión.",
       "falha": "Error en el análisis: {detalhe}",
-      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
+      "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
     },
     "sessao": "Tu sesión",
     "existenteRotulo": "Análisis existente en el corpus",
@@ -761,7 +767,7 @@
     "mostrando": "Mostrando {n} de {total} ítems",
     "baixarCsv": "Descargar CSV de esta búsqueda",
     "novaBusca": "Auditar otro tema",
-    "avisoIa": "Clasificaciones generadas automáticamente por Claude Haiku 4.5 a partir de los metadatos públicos de cada ítem (las justificaciones están en portugués). Los ítems marcados con \"Falha na classificação automática\" quedaron como \"otros\" y deben leerse con cautela."
+    "avisoIa": "Clasificaciones generadas automáticamente por Claude Haiku (4.5 hasta el 16/11/2026; 5.5 desde el 17/11/2026) a partir de los metadatos públicos de cada ítem (las justificaciones están en portugués). Los ítems marcados con \"Falha na classificação automática\" quedaron como \"otros\" y deben leerse con cautela."
   },
   "Voz": {
     "subtitulo": "Lo que dicen los comentarios — y lo que revelan sobre la relación con el canal",
@@ -780,7 +786,7 @@
       "Identificando video y canal...",
       "Recolectando los 100 comentarios principales...",
       "Verificando el Dossier del canal en el corpus...",
-      "Sometiendo a Claude Sonnet 4.6 (análisis de las 6 dimensiones)... 1-2 minutos",
+      "Sometiendo a Claude Sonnet 5.5 (análisis de las 6 dimensiones)... 1-2 minutos",
       "Guardando el análisis en el corpus del Observatório..."
     ],
     "existenteTexto": "Ya existe un análisis canónico de los comentarios de este video en el Observatório (versión **{versao}**, realizada el **{data}**). Consultar el análisis existente preserva los recursos colectivos del Observatório.",
@@ -795,7 +801,9 @@
       "limite_diario": "Límite diario de la herramienta alcanzado para este módulo ({uso}/{limite} análisis hoy). Inténtalo mañana o contacta al Observatório para acceso ampliado.",
       "slots_insuficientes": "Esta operación consumiría {peso} slot(s), pero solo te quedan {restantes} en esta sesión.",
       "falha": "Error en el análisis: {detalhe}",
-      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada."
+      "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
+      "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
     },
     "dimensoes": {
       "publico_patrao": {
@@ -855,7 +863,7 @@
     "multiRotulo": "Los comentarios pueden pertenecer a múltiples dimensiones a la vez (ej: '¡amo tu trabajo! ¡publica más!' = afectivo + público-patrón). Los porcentajes de cada dimensión son independientes — la suma puede superar el 100%.",
     "deComentarios": "de {n} comentarios",
     "sinteseTitulo": "Síntesis cualitativa",
-    "avisoSintese": "**Aviso metodológico.** Esta síntesis fue *generada automáticamente* por Claude Sonnet 4.6, usando como marco teórico la disertación de Filipe Severo (PUCRS/FAMECOS, 2026), pero **no fue escrita ni revisada por el autor**. Trátala como **lectura interpretativa asistida** sobre los comentarios — útil como punto de partida analítico, no como conclusión científica cerrada. El texto está en portugués.",
+    "avisoSintese": "**Aviso metodológico.** Esta síntesis fue *generada automáticamente* por Claude Sonnet (4.6 hasta el 16/11/2026; 5.5 desde el 17/11/2026), usando como marco teórico la disertación de Filipe Severo (PUCRS/FAMECOS, 2026), pero **no fue escrita ni revisada por el autor**. Trátala como **lectura interpretativa asistida** sobre los comentarios — útil como punto de partida analítico, no como conclusión científica cerrada. El texto está en portugués.",
     "contradicaoTitulo": "Contradicción detectada",
     "contradicaoLegenda": "Brecha entre lo que el canal entrega (estructura real) y lo que el público pide. Cruce con el Dossier del canal.",
     "comentariosTitulo": "Comentarios clasificados",

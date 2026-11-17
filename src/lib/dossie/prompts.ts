@@ -11,12 +11,12 @@ import { duracaoIsoParaSegundos, type ItemVideoApi } from "../youtube-util.ts";
 import type { ExemploAncora } from "../lupa/prompt.ts";
 import type { CanalApi, Sintomas } from "./sintomas.ts";
 
-export const MODELO_CANAL = "claude-haiku-4-5";
-export const MAX_TOKENS_CANAL = 800;
-export const MODELO_LOTE_B = "claude-haiku-4-5";
-export const MAX_TOKENS_LOTE_B = 4000;
-export const MODELO_VEREDITO = "claude-sonnet-4-6";
-export const MAX_TOKENS_VEREDITO = 1200;
+export const MODELO_CANAL = "claude-haiku-5-5";
+export const MAX_TOKENS_CANAL = 2500;
+export const MODELO_LOTE_B = "claude-haiku-5-5";
+export const MAX_TOKENS_LOTE_B = 8000;
+export const MODELO_VEREDITO = "claude-sonnet-5-5";
+export const MAX_TOKENS_VEREDITO = 4000;
 
 /**
  * Bloco de exemplos validados do Dossiê (cabeçalho difere do da Lupa). "" sem

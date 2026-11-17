@@ -7,8 +7,8 @@
 import { codigosConteudo, codigosProdutor, tipologiaParaPrompt } from "../tipologia.ts";
 import { pyCorte, pyInt, pyJsonDumps, pyMilhar } from "../py.ts";
 
-export const MODELO_ITEM = "claude-haiku-4-5";
-export const MAX_TOKENS_ITEM = 600;
+export const MODELO_ITEM = "claude-haiku-5-5";
+export const MAX_TOKENS_ITEM = 2000;
 
 // O bloco de exemplos é o mesmo do Dossiê (mesmo cabeçalho no app.py).
 export { montarExemplosCanal as montarExemplosItem } from "../dossie/prompts.ts";

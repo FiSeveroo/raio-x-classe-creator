@@ -9,8 +9,8 @@
  */
 import { pyCorte, pyStr } from "../py.ts";
 
-export const MODELO_VOZ = "claude-sonnet-4-6";
-export const MAX_TOKENS_VOZ = 8000;
+export const MODELO_VOZ = "claude-sonnet-5-5";
+export const MAX_TOKENS_VOZ = 16000;
 export const COMENTARIOS_POR_ANALISE = 100;
 
 // Ordem das chaves = ordem do dict do Python (vale para o prompt e para a interface).

@@ -434,7 +434,9 @@
       "video_nao_encontrado": "Vídeo não encontrado. Verifique se a URL está correta e se o vídeo é público.",
       "codigo_invalido": "O modelo devolveu uma categoria fora da tipologia. Nada foi gravado. Tente de novo.",
       "falha": "Erro na análise: {detalhe}",
-      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto.",
+      "recusa_ia": "A IA se recusou a analisar este conteúdo. Nada foi gravado. (Detalhe técnico: {detalhe})",
+      "resposta_truncada": "A resposta da IA foi interrompida antes de terminar. Tente novamente. Nada foi gravado. (Detalhe técnico: {detalhe})"
     }
   },
   "Analise": {
@@ -482,7 +484,9 @@
       "slots_insuficientes": "Esta operação consumiria {peso} slot(s), mas você só tem {restantes} restante(s) nesta sessão.",
       "falha": "Erro na análise: {detalhe}",
       "codigo_invalido": "O modelo devolveu uma categoria fora da tipologia. Nada foi gravado. Tente de novo.",
-      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto.",
+      "recusa_ia": "A IA se recusou a analisar este conteúdo. Nada foi gravado. (Detalhe técnico: {detalhe})",
+      "resposta_truncada": "A resposta da IA foi interrompida antes de terminar. Tente novamente. Nada foi gravado. (Detalhe técnico: {detalhe})"
     },
     "sessao": "Sua sessão",
     "existenteRotulo": "Análise existente no corpus",
@@ -543,7 +547,7 @@
     "verBuscas": "Ver em quais buscas este canal apareceu",
     "buscaItem": "\"{termo}\" (posição #{pos}, em {data})",
     "leituraTitulo": "Leitura final",
-    "aviso": "**Aviso metodológico.** Esta análise foi *gerada automaticamente* por Claude Sonnet 4.6, usando como referência de estilo e referencial teórico a dissertação de Filipe Severo (PUCRS/FAMECOS, 2026), mas **não foi escrita nem revisada pelo autor**. O texto reflete uma síntese inferencial do LLM, não posicionamento humano. Trate como **leitura interpretativa assistida** — útil para inspirar análise, não como conclusão científica fechada.",
+    "aviso": "**Aviso metodológico.** Esta análise foi *gerada automaticamente* por Claude Sonnet (4.6 até 16/11/2026; 5.5 a partir de 17/11/2026), usando como referência de estilo e referencial teórico a dissertação de Filipe Severo (PUCRS/FAMECOS, 2026), mas **não foi escrita nem revisada pelo autor**. O texto reflete uma síntese inferencial do LLM, não posicionamento humano. Trate como **leitura interpretativa assistida** — útil para inspirar análise, não como conclusão científica fechada.",
     "novoDossie": "Investigar outro canal",
     "verNoYoutube": "Ver canal no YouTube"
   },
@@ -683,7 +687,9 @@
       "limite_diario": "Limite diário da ferramenta atingido para este módulo ({uso}/{limite} análises hoje). Tente novamente amanhã ou entre em contato com o Observatório para acesso ampliado.",
       "slots_insuficientes": "Esta operação consumiria {peso} slot(s), mas você só tem {restantes} restante(s) nesta sessão.",
       "falha": "Erro na análise: {detalhe}",
-      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto.",
+      "recusa_ia": "A IA se recusou a analisar este conteúdo. Nada foi gravado. (Detalhe técnico: {detalhe})",
+      "resposta_truncada": "A resposta da IA foi interrompida antes de terminar. Tente novamente. Nada foi gravado. (Detalhe técnico: {detalhe})"
     },
     "sessao": "Sua sessão",
     "existenteRotulo": "Análise existente no corpus",
@@ -761,7 +767,7 @@
     "mostrando": "Mostrando {n} de {total} itens",
     "baixarCsv": "Baixar CSV desta busca",
     "novaBusca": "Auditar outro tema",
-    "avisoIa": "Classificações geradas automaticamente por Claude Haiku 4.5 a partir dos metadados públicos de cada item. Itens marcados com \"Falha na classificação automática\" ficaram como \"outros\" e devem ser lidos com cautela."
+    "avisoIa": "Classificações geradas automaticamente por Claude Haiku (4.5 até 16/11/2026; 5.5 a partir de 17/11/2026) a partir dos metadados públicos de cada item. Itens marcados com \"Falha na classificação automática\" ficaram como \"outros\" e devem ser lidos com cautela."
   },
   "Voz": {
     "subtitulo": "O que os comentários dizem — e o que revelam sobre a relação com o canal",
@@ -770,7 +776,7 @@
     "etica": [
       "**Sobre a amostra.** O YouTube ordena comentários por *relevância* (likes + recência). Isso é um corte editorial da plataforma, não uma amostra estatística. As conclusões valem para *o que a plataforma decidiu tornar visível* — não para o universo total de comentários.",
       "**Sobre os comentaristas.** Comentários públicos do YouTube são públicos por definição, mas isso não dispensa cuidado ético. A ferramenta analisa **padrões coletivos**, não indivíduos. Não use o resultado para expor, constranger ou perseguir comentaristas específicos. Pesquisa acadêmica que cite comentários nominalmente deve seguir as diretrizes do CEP/CONEP.",
-      "**Sobre o modelo.** O Claude Sonnet 4.6 é capaz, mas pode errar em ironia, sarcasmo regional ou referência de nicho. Trate os resultados como **leitura analítica assistida**, não como verdade absoluta."
+      "**Sobre o modelo.** O Claude Sonnet é capaz, mas pode errar em ironia, sarcasmo regional ou referência de nicho. Trate os resultados como **leitura analítica assistida**, não como verdade absoluta."
     ],
     "rotuloUrl": "URL do vídeo a analisar",
     "placeholder": "https://www.youtube.com/watch?v=...",
@@ -780,7 +786,7 @@
       "Identificando vídeo e canal...",
       "Coletando 100 comentários principais...",
       "Verificando Dossiê do canal no corpus...",
-      "Submetendo a Claude Sonnet 4.6 (análise das 6 dimensões)... 1-2 minutos",
+      "Submetendo a Claude Sonnet 5.5 (análise das 6 dimensões)... 1-2 minutos",
       "Salvando análise no corpus do Observatório..."
     ],
     "existenteTexto": "Já existe análise canônica dos comentários deste vídeo no Observatório (versão **{versao}**, realizada em **{data}**). Consultar a análise existente preserva recursos coletivos do Observatório.",
@@ -795,7 +801,9 @@
       "limite_diario": "Limite diário da ferramenta atingido para este módulo ({uso}/{limite} análises hoje). Tente novamente amanhã ou entre em contato com o Observatório para acesso ampliado.",
       "slots_insuficientes": "Esta operação consumiria {peso} slot(s), mas você só tem {restantes} restante(s) nesta sessão.",
       "falha": "Erro na análise: {detalhe}",
-      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto."
+      "verificacao": "A verificação anti-robô expirou ou não foi concluída. Conclua a verificação acima e tente de novo. Nada foi gasto.",
+      "recusa_ia": "A IA se recusou a analisar este conteúdo. Nada foi gravado. (Detalhe técnico: {detalhe})",
+      "resposta_truncada": "A resposta da IA foi interrompida antes de terminar. Tente novamente. Nada foi gravado. (Detalhe técnico: {detalhe})"
     },
     "dimensoes": {
       "publico_patrao": {
@@ -855,7 +863,7 @@
     "multiRotulo": "Comentários podem pertencer a múltiplas dimensões simultaneamente (ex: 'amo seu trabalho! posta mais!' = afetivo + público-patrão). Os percentuais de cada dimensão são independentes — a soma pode ultrapassar 100%.",
     "deComentarios": "de {n} comentários",
     "sinteseTitulo": "Síntese qualitativa",
-    "avisoSintese": "**Aviso metodológico.** Esta síntese foi *gerada automaticamente* por Claude Sonnet 4.6, usando como referencial teórico a dissertação de Filipe Severo (PUCRS/FAMECOS, 2026), mas **não foi escrita nem revisada pelo autor**. Trate como **leitura interpretativa assistida** sobre os comentários — útil como ponto de partida analítico, não como conclusão científica fechada.",
+    "avisoSintese": "**Aviso metodológico.** Esta síntese foi *gerada automaticamente* por Claude Sonnet (4.6 até 16/11/2026; 5.5 a partir de 17/11/2026), usando como referencial teórico a dissertação de Filipe Severo (PUCRS/FAMECOS, 2026), mas **não foi escrita nem revisada pelo autor**. Trate como **leitura interpretativa assistida** sobre os comentários — útil como ponto de partida analítico, não como conclusão científica fechada.",
     "contradicaoTitulo": "Contradição detectada",
     "contradicaoLegenda": "Gap entre o que o canal entrega (estrutura real) e o que o público pede. Cruzamento com o Dossiê do canal.",
     "comentariosTitulo": "Comentários classificados",

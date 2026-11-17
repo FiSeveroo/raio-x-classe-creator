@@ -7,8 +7,8 @@ import { buscarCanalValidado, buscarExemplosAncora } from "./registro";
 
 // Mesmos parâmetros do app.py (conferidos por scripts/verificar-prompt-lupa.mts).
 // Modelo mantido de propósito: trocar muda a classificação e a comparabilidade do corpus.
-export const MODELO_LUPA = "claude-haiku-4-5";
-export const MAX_TOKENS_LUPA = 600;
+export const MODELO_LUPA = "claude-haiku-5-5";
+export const MAX_TOKENS_LUPA = 2000;
 
 export type Classificacao = {
   tipo_produtor: string;
