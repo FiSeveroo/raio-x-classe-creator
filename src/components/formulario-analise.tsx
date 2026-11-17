@@ -28,6 +28,7 @@ export function FormularioAnalise({
   limiteDiario,
   comConta = false,
   emailConta = null,
+  whatsapp = null,
   tipoEntrada = "url",
   sugestoes,
   siteKeyTurnstile = null,
@@ -43,6 +44,8 @@ export function FormularioAnalise({
   /** Logado: limite por conta e por dia (o dobro), aviso com WhatsApp. */
   comConta?: boolean;
   emailConta?: string | null;
+  /** Número do Observatório, só para quem tem conta. */
+  whatsapp?: string | null;
   tipoEntrada?: "url" | "text";
   /** Termos clicáveis que preenchem o campo (Disputa). Textos: sugestoesTitulo, sugestoesTexto. */
   sugestoes?: { grupo: string; termos: string[] }[];
@@ -100,7 +103,7 @@ export function FormularioAnalise({
       <AvisoLimite
         limite={limiteSessao}
         restantes={restantesIniciais}
-        comConta={comConta}
+        whatsapp={comConta ? whatsapp : null}
         email={emailConta}
         modulo={tm(`${codigoModulo}.nome`)}
       />

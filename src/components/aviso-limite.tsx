@@ -14,18 +14,18 @@ import { Link } from "@/i18n/navigation";
  * Observatório para pedir limite maior — o número só aparece para quem tem conta.
  */
 
-const WHATSAPP = "5551991006411";
 const CHAVE_DIA = "raiox_aviso_limite";
 
 export function precisaAviso(limite: number, restantes: number) {
   return limite > 0 && restantes <= limite * 0.2;
 }
 
-function linkWhatsapp(mensagem: string) {
-  return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+function linkWhatsapp(numero: string, mensagem: string) {
+  return `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
 }
 
-function Conteudo({ comConta, email, modulo }: { comConta: boolean; email?: string | null; modulo: string }) {
+function Conteudo({ whatsapp, email, modulo }: { whatsapp?: string | null; email?: string | null; modulo: string }) {
+  const comConta = Boolean(whatsapp);
   const t = useTranslations("Limite");
   return (
     <>
@@ -33,7 +33,7 @@ function Conteudo({ comConta, email, modulo }: { comConta: boolean; email?: stri
       <p className="text-sm leading-relaxed">{comConta ? t("comConta") : t("semConta")}</p>
       {comConta ? (
         <Button asChild variant="cta" className="mt-1 w-fit">
-          <a href={linkWhatsapp(t("mensagemWhatsapp", { email: email ?? "", modulo }))} target="_blank" rel="noopener noreferrer">
+          <a href={linkWhatsapp(whatsapp!, t("mensagemWhatsapp", { email: email ?? "", modulo }))} target="_blank" rel="noopener noreferrer">
             <MessageCircle aria-hidden /> {t("botaoWhatsapp")}
           </a>
         </Button>
@@ -51,13 +51,14 @@ function Conteudo({ comConta, email, modulo }: { comConta: boolean; email?: stri
 export function AvisoLimite({
   limite,
   restantes,
-  comConta,
+  whatsapp,
   email,
   modulo,
 }: {
   limite: number;
   restantes: number;
-  comConta: boolean;
+  /** Só vem preenchido para quem tem conta (o servidor decide). */
+  whatsapp?: string | null;
   email?: string | null;
   /** Nome do módulo, já traduzido (vai na mensagem do WhatsApp). */
   modulo: string;
@@ -93,7 +94,7 @@ export function AvisoLimite({
     <>
       <aside className="mb-4 space-y-3 rounded-lg border-l-2 border-cc-orange bg-cc-surface px-4 py-4">
         <p className="font-display text-lg text-cc-orange">{t("titulo")}</p>
-        <Conteudo comConta={comConta} email={email} modulo={modulo} />
+        <Conteudo whatsapp={whatsapp} email={email} modulo={modulo} />
       </aside>
       <Dialog open={aberto} onOpenChange={setAberto}>
         <DialogContent closeLabel={t("fechar")} className="border border-cc-line bg-cc-surface">
@@ -102,7 +103,7 @@ export function AvisoLimite({
             <DialogDescription className="sr-only">{t("coletivo")}</DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
-            <Conteudo comConta={comConta} email={email} modulo={modulo} />
+            <Conteudo whatsapp={whatsapp} email={email} modulo={modulo} />
           </div>
         </DialogContent>
       </Dialog>

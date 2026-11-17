@@ -5,6 +5,7 @@ import { FormularioAnalise } from "@/components/formulario-analise";
 import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
+import { WHATSAPP_OBSERVATORIO } from "@/lib/contato";
 import { LIMITES, cotaAtual } from "@/lib/versionamento";
 import { analisarComentarios } from "./acoes";
 
@@ -52,6 +53,7 @@ export default async function Voz({ params }: PageProps<"/[locale]/voz">) {
         limiteSessao={cota.limite}
         comConta={cota.conta}
         emailConta={cota.email}
+        whatsapp={cota.conta ? WHATSAPP_OBSERVATORIO : null}
         limiteDiario={LIMITES.voz.diario}
         siteKeyTurnstile={turnstileSiteKey()}
         verificadoInicial={await humanoVerificado()}

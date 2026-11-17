@@ -6,6 +6,7 @@ import { Pagina } from "@/components/pagina";
 import { rico } from "@/components/rico";
 import { SUGESTOES_BUSCA } from "@/lib/disputa/sugestoes";
 import { humanoVerificado, turnstileSiteKey } from "@/lib/turnstile";
+import { WHATSAPP_OBSERVATORIO } from "@/lib/contato";
 import { LIMITES, cotaAtual } from "@/lib/versionamento";
 import { auditarTema } from "./acoes";
 
@@ -43,6 +44,7 @@ export default async function Disputa({ params }: PageProps<"/[locale]/disputa">
         limiteSessao={cota.limite}
         comConta={cota.conta}
         emailConta={cota.email}
+        whatsapp={cota.conta ? WHATSAPP_OBSERVATORIO : null}
         limiteDiario={LIMITES.disputa.diario}
         siteKeyTurnstile={turnstileSiteKey()}
         verificadoInicial={await humanoVerificado()}
