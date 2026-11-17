@@ -4,6 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Cabecalho } from "@/components/navegacao/cabecalho";
+import { contasLigadas } from "@/lib/supabase/conta";
+import { Analytics } from "@vercel/analytics/next";
 import { Rodape } from "@/components/rodape";
 import { CORES_MARCA } from "@/lib/marca";
 import "@fontsource-variable/dm-sans";
@@ -63,12 +65,13 @@ export default async function LayoutLocale({
             {t("pularParaConteudo")}
           </a>
 
-          <Cabecalho />
+          <Cabecalho contas={contasLigadas()} />
           <main id="conteudo" className="min-h-[70dvh]">
             {children}
           </main>
           <Rodape />
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );

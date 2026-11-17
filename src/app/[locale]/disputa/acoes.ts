@@ -11,11 +11,12 @@ import {
   contarUsoDiario,
   descreverExistente,
   LIMITES,
-  slotsUsados,
+  cotaAtual,
   type ResultadoModulo,
 } from "@/lib/versionamento";
 import { humanoVerificado } from "@/lib/turnstile";
 import { registrarErro, registrarSeDoSistema } from "@/lib/erros";
+import { adicionarAoProjetoAtivo } from "@/lib/projetos";
 import { ErroPrevisto } from "@/lib/youtube";
 
 /** Classificações simultâneas ao Claude (o Python fazia uma por vez). */
@@ -40,7 +41,7 @@ export async function auditarTema(entrada: {
 }): Promise<ResultadoModulo> {
   // Portão anti-robô (Turnstile) — antes de qualquer custo de API.
   if (!(await humanoVerificado())) return { estado: "erro", codigo: "verificacao" };
-  const restantes = LIMITES.disputa.sessao - (await slotsUsados("disputa"));
+  const { restantes } = await cotaAtual("disputa");
   if (restantes <= 0) return { estado: "erro", codigo: "limite_sessao" };
 
   const termo = entrada.valor.trim().toLowerCase();
@@ -148,6 +149,7 @@ export async function auditarTema(entrada: {
     });
 
     await consumirSlots("disputa", peso);
+    await adicionarAoProjetoAtivo("disputa", id);
     return { estado: "ok", id };
   } catch (e) {
     if (e instanceof ErroPrevisto) {

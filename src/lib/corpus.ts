@@ -371,3 +371,106 @@ export function registrosPorIds(modulo: keyof typeof TABELAS_SESSAO, ids: number
   return consultar<Record<string, unknown>[]>((db) => db.from(TABELAS_SESSAO[modulo]).select("*").in("id", ids.slice(0, 200)));
 }
 
+
+// ---------------------------------------------------------------------------
+// Projetos de pesquisa (contas): resumo das análises e versão mais nova
+// ---------------------------------------------------------------------------
+
+export type ModuloProjeto = "lupa" | "dossie" | "disputa" | "voz";
+
+/** Uma análise do corpus no formato comum dos projetos. */
+export type ResumoAnalise = {
+  modulo: ModuloProjeto;
+  id: number;
+  rotulo: string;
+  data: string | null;
+  versao: number;
+  canonica: boolean;
+  /** Eixo A / Eixo B, quando o módulo classifica (Lupa e Dossiê). */
+  eixoA: string | null;
+  eixoB: string | null;
+  canalId: string | null;
+  canalNome: string | null;
+  /** id da versão canônica atual, quando esta não é a mais nova. */
+  versaoMaisNovaId: number | null;
+};
+
+const CONFIG_PROJETO: Record<
+  ModuloProjeto,
+  { tabela: string; colunas: string; chave: string; montar: (r: Record<string, unknown>) => Omit<ResumoAnalise, "modulo" | "versaoMaisNovaId"> }
+> = {
+  lupa: {
+    tabela: "classificacoes_video",
+    colunas: "id, video_id, titulo, canal_id, canal_nome, tipo_produtor, tipo_conteudo, data_classificacao, versao_numero, canonica",
+    chave: "video_id",
+    montar: (r) => ({
+      id: r.id as number, rotulo: String(r.titulo ?? r.video_id), data: (r.data_classificacao as string) ?? null,
+      versao: (r.versao_numero as number) ?? 1, canonica: r.canonica !== false,
+      eixoA: (r.tipo_produtor as string) ?? null, eixoB: (r.tipo_conteudo as string) ?? null,
+      canalId: (r.canal_id as string) ?? null, canalNome: (r.canal_nome as string) ?? null,
+    }),
+  },
+  dossie: {
+    tabela: "dossies_canal",
+    colunas: "id, canal_id, canal_nome, classificacao_sociologica, tipo_conteudo_predominante, data_dossie, versao_numero, canonica",
+    chave: "canal_id",
+    montar: (r) => ({
+      id: r.id as number, rotulo: String(r.canal_nome ?? r.canal_id), data: (r.data_dossie as string) ?? null,
+      versao: (r.versao_numero as number) ?? 1, canonica: r.canonica !== false,
+      eixoA: (r.classificacao_sociologica as string) ?? null, eixoB: (r.tipo_conteudo_predominante as string) ?? null,
+      canalId: (r.canal_id as string) ?? null, canalNome: (r.canal_nome as string) ?? null,
+    }),
+  },
+  disputa: {
+    tabela: "buscas_narrativa",
+    colunas: "id, termo_buscado, tipo_resultado, data_busca, versao_numero, canonica",
+    chave: "termo_buscado",
+    montar: (r) => ({
+      id: r.id as number, rotulo: String(r.termo_buscado), data: (r.data_busca as string) ?? null,
+      versao: (r.versao_numero as number) ?? 1, canonica: r.canonica !== false,
+      eixoA: null, eixoB: null, canalId: null, canalNome: null,
+    }),
+  },
+  voz: {
+    tabela: "analises_comentarios",
+    colunas: "id, video_id, titulo_video, canal_id, canal_nome, data_analise, versao_numero, canonica",
+    chave: "video_id",
+    montar: (r) => ({
+      id: r.id as number, rotulo: String(r.titulo_video ?? r.video_id), data: (r.data_analise as string) ?? null,
+      versao: (r.versao_numero as number) ?? 1, canonica: r.canonica !== false,
+      eixoA: null, eixoB: null, canalId: (r.canal_id as string) ?? null, canalNome: (r.canal_nome as string) ?? null,
+    }),
+  },
+};
+
+/**
+ * Resumo das análises de um projeto, com a versão canônica atual de cada
+ * objeto quando a salva ficou para trás (o projeto guarda a versão exata).
+ */
+export async function resumosParaProjeto(refs: { modulo: ModuloProjeto; id: number }[]): Promise<Map<string, ResumoAnalise>> {
+  const db = supabaseLeitura();
+  const saida = new Map<string, ResumoAnalise>();
+  if (!db || !refs.length) return saida;
+  await Promise.all(
+    (Object.keys(CONFIG_PROJETO) as ModuloProjeto[]).map(async (modulo) => {
+      const ids = [...new Set(refs.filter((r) => r.modulo === modulo).map((r) => r.id))];
+      if (!ids.length) return;
+      const cfg = CONFIG_PROJETO[modulo];
+      const { data } = await db.from(cfg.tabela).select(`${cfg.colunas}, ${cfg.chave}`).in("id", ids.slice(0, 1000));
+      const linhas = (data ?? []) as unknown as Record<string, unknown>[];
+      // Versões antigas: busca a canônica atual do mesmo objeto.
+      const antigas = linhas.filter((r) => r.canonica === false);
+      const canonicas = new Map<string, number>();
+      if (antigas.length) {
+        const chaves = [...new Set(antigas.map((r) => String(r[cfg.chave])))];
+        const { data: atuais } = await db.from(cfg.tabela).select(`id, ${cfg.chave}`).in(cfg.chave, chaves).eq("canonica", true);
+        for (const a of (atuais ?? []) as unknown as Record<string, unknown>[]) canonicas.set(String(a[cfg.chave]), a.id as number);
+      }
+      for (const r of linhas) {
+        const atual = r.canonica === false ? (canonicas.get(String(r[cfg.chave])) ?? null) : null;
+        saida.set(`${modulo}:${r.id}`, { modulo, ...cfg.montar(r), versaoMaisNovaId: atual !== r.id ? atual : null });
+      }
+    }),
+  );
+  return saida;
+}

@@ -48,6 +48,7 @@ export async function Rodape() {
           <ul className="space-y-2">
             <li><Link href="/biblioteca" className={estiloLink}>{nav("biblioteca")}</Link></li>
             <li><Link href="/sobre" className={estiloLink}>{nav("sobre")}</Link></li>
+            <li><Link href="/privacidade" className={estiloLink}>{nav("privacidade")}</Link></li>
             <li>
               <a
                 href="https://github.com/FiSeveroo/raio-x-classe-creator"

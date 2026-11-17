@@ -22,11 +22,12 @@ import { CONTEUDOS, PRODUTORES, nomeConteudo, nomeProdutor } from "@/lib/tipolog
 import { buscarErrosRecentes, resumirErros } from "@/lib/erros";
 import { cn } from "@/lib/utils";
 import { painelLiberado, sairPainel } from "./acoes";
+import { AbaContas, AbaUso } from "./abas-contas";
 import { FormularioSenha } from "./formulario-senha";
 
 export const maxDuration = 60;
 
-const ABAS = ["coleta", "serie", "canais", "exportar", "erros"] as const;
+const ABAS = ["coleta", "serie", "canais", "exportar", "erros", "uso", "contas"] as const;
 type Aba = (typeof ABAS)[number];
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/termometro">): Promise<Metadata> {
@@ -150,6 +151,8 @@ export default async function Termometro({ params, searchParams }: PageProps<"/[
                 {aba === "canais" && <AbaCanais agregados={agregados} locale={locale} />}
                 {aba === "exportar" && <AbaExportar agregados={agregados} />}
                 {aba === "erros" && <AbaErros />}
+                {aba === "uso" && <AbaUso />}
+                {aba === "contas" && <AbaContas busca={typeof sp.busca === "string" ? sp.busca : ""} />}
               </div>
               <p className="mt-12 text-xs text-muted-foreground">
                 {t("atualizadoEm", { data: format.dateTime(new Date(agregados.geradoEm), { dateStyle: "short", timeStyle: "short" }) })}

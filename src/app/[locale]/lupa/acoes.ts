@@ -9,11 +9,12 @@ import {
   contarUsoDiario,
   descreverExistente,
   LIMITES,
-  slotsUsados,
+  cotaAtual,
   type ResultadoModulo,
 } from "@/lib/versionamento";
 import { humanoVerificado } from "@/lib/turnstile";
 import { registrarSeDoSistema } from "@/lib/erros";
+import { adicionarAoProjetoAtivo } from "@/lib/projetos";
 import { ErroPrevisto } from "@/lib/youtube";
 
 /*
@@ -38,7 +39,7 @@ export async function analisarVideo(entrada: {
   const videoId = extrairVideoId(entrada.valor.trim());
   if (!videoId) return { estado: "erro", codigo: "url_invalida" };
 
-  const restantes = LIMITES.lupa.sessao - (await slotsUsados("lupa"));
+  const { restantes } = await cotaAtual("lupa");
   if (restantes <= 0) return { estado: "erro", codigo: "limite_sessao" };
 
   try {
@@ -85,6 +86,7 @@ export async function analisarVideo(entrada: {
     });
 
     await consumirSlots("lupa", peso);
+    await adicionarAoProjetoAtivo("lupa", id);
     return { estado: "ok", id };
   } catch (e) {
     if (e instanceof ErroPrevisto) {

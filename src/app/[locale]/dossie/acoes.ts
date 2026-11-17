@@ -16,11 +16,12 @@ import {
   contarUsoDiario,
   descreverExistente,
   LIMITES,
-  slotsUsados,
+  cotaAtual,
   type ResultadoModulo,
 } from "@/lib/versionamento";
 import { humanoVerificado } from "@/lib/turnstile";
 import { registrarSeDoSistema } from "@/lib/erros";
+import { adicionarAoProjetoAtivo } from "@/lib/projetos";
 import { ErroPrevisto } from "@/lib/youtube";
 
 /*
@@ -39,7 +40,7 @@ export async function gerarDossie(entrada: {
 }): Promise<ResultadoModulo> {
   // Portão anti-robô (Turnstile) — antes de qualquer custo de API.
   if (!(await humanoVerificado())) return { estado: "erro", codigo: "verificacao" };
-  const restantes = LIMITES.dossie.sessao - (await slotsUsados("dossie"));
+  const { restantes } = await cotaAtual("dossie");
   if (restantes <= 0) return { estado: "erro", codigo: "limite_sessao" };
 
   try {
@@ -106,6 +107,7 @@ export async function gerarDossie(entrada: {
     });
 
     await consumirSlots("dossie", peso);
+    await adicionarAoProjetoAtivo("dossie", id);
     return { estado: "ok", id };
   } catch (e) {
     if (e instanceof ErroPrevisto) {

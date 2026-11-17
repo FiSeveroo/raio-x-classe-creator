@@ -20,7 +20,10 @@
     "abrirMenu": "Abrir menú",
     "fecharMenu": "Cerrar menú",
     "idioma": "Idioma",
-    "pularParaConteudo": "Saltar al contenido"
+    "pularParaConteudo": "Saltar al contenido",
+    "entrar": "Entrar",
+    "minhaConta": "Mi cuenta",
+    "privacidade": "Privacidad"
   },
   "Comum": {
     "semDados": "sin datos",
@@ -436,8 +439,10 @@
       "falha": "Error en el análisis: {detalhe}",
       "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
       "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
-      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
-    }
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})",
+      "limite_conta": "Se alcanzó el límite diario de {limite} análisis de tu cuenta. Se reinicia a medianoche (UTC)."
+    },
+    "sessaoConta": "Tu cuenta · hoy"
   },
   "Analise": {
     "nova": "Análisis completado y añadido al corpus del Observatório.",
@@ -486,14 +491,16 @@
       "codigo_invalido": "El modelo devolvió una categoría fuera de la tipología. No se guardó nada. Inténtalo de nuevo.",
       "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
       "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
-      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})",
+      "limite_conta": "Se alcanzó el límite diario de {limite} dosieres de tu cuenta. Se reinicia a medianoche (UTC)."
     },
     "sessao": "Tu sesión",
     "existenteRotulo": "Análisis existente en el corpus",
     "verExistente": "Ver análisis existente",
     "gerar": "Generar v{versao} ({peso, plural, one {# slot} other {# slots}})",
     "aguardar": "Actualización disponible en {dias, plural, one {# día} other {# días}}",
-    "avisoCusto": "Generar la v{versao} consume {peso, plural, one {# slot} other {# slots}} de la sesión. La versión anterior queda preservada en el historial."
+    "avisoCusto": "Generar la v{versao} consume {peso, plural, one {# slot} other {# slots}} de la sesión. La versión anterior queda preservada en el historial.",
+    "sessaoConta": "Tu cuenta · hoy"
   },
   "DossieResultado": {
     "rotulo": "Dossier del canal · v{versao} · {data}",
@@ -583,7 +590,9 @@
       "serie": "Serie temporal",
       "canais": "Canales",
       "exportar": "Exportar",
-      "erros": "Errores"
+      "erros": "Errores",
+      "uso": "Uso",
+      "contas": "Cuentas"
     },
     "coletaExaminar": "Recolección a examinar",
     "ver": "Ver",
@@ -652,7 +661,27 @@
     "errosSemana": "7 días",
     "errosMes": "30 días",
     "errosUltimo": "Último",
-    "errosRecentes": "Más recientes"
+    "errosRecentes": "Más recientes",
+    "usoTitulo": "Uso del sitio (últimos 30 días)",
+    "usoLegenda": "Análisis guardados en el corpus por módulo, cuentas y proyectos. Visitas y páginas vistas están en Vercel Analytics.",
+    "usoContas": "Cuentas",
+    "usoContasNovas": "Cuentas nuevas (30 días)",
+    "usoProjetos": "Proyectos",
+    "usoPorDia": "Análisis por día",
+    "usoVisitas": "Visitas, páginas más vistas y origen del acceso:",
+    "usoIndisponivel": "Uso no disponible ahora (la base de datos no respondió).",
+    "contasTitulo": "Cuentas",
+    "contasLegenda": "Busca por e-mail para ver el uso de hoy y definir un límite personalizado. Campo vacío = estándar de cuenta (el doble del límite sin iniciar sesión).",
+    "contasBusca": "Buscar por e-mail",
+    "contasBuscar": "Buscar",
+    "contasNenhuma": "No se encontró ninguna cuenta.",
+    "contasDesde": "creada el {data}",
+    "contasUltimo": "último acceso {data}",
+    "contasProjetos": "{n, plural, =0 {sin proyectos} one {# proyecto} other {# proyectos}}",
+    "contasHoje": "hoy {n}",
+    "contasSalvar": "Guardar límites",
+    "contasSemSenha": "Define SENHA_PAINEL_INTERNO para gestionar cuentas.",
+    "contasIndisponivel": "Cuentas no disponibles: falta la clave secreta de Supabase (SUPABASE_SECRET_KEY)."
   },
   "Disputa": {
     "subtitulo": "¿A quién le está dando el micrófono YouTube?",
@@ -689,14 +718,16 @@
       "falha": "Error en el análisis: {detalhe}",
       "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
       "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
-      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})",
+      "limite_conta": "Se alcanzó el límite diario de {limite} búsquedas de tu cuenta. Se reinicia a medianoche (UTC)."
     },
     "sessao": "Tu sesión",
     "existenteRotulo": "Análisis existente en el corpus",
     "verExistente": "Ver análisis existente",
     "gerar": "Generar v{versao} ({peso, plural, one {# slot} other {# slots}})",
     "aguardar": "Actualización disponible en {dias, plural, one {# día} other {# días}}",
-    "avisoCusto": "Generar la v{versao} consume {peso, plural, one {# slot} other {# slots}} de la sesión. La versión anterior queda preservada en el historial."
+    "avisoCusto": "Generar la v{versao} consume {peso, plural, one {# slot} other {# slots}} de la sesión. La versión anterior queda preservada en el historial.",
+    "sessaoConta": "Tu cuenta · hoy"
   },
   "DisputaResultado": {
     "rotulo": "Disputa de narrativa · v{versao} · {data}",
@@ -803,7 +834,8 @@
       "falha": "Error en el análisis: {detalhe}",
       "verificacao": "La verificación anti-robot expiró o no se completó. Completa la verificación arriba e inténtalo de nuevo. No se gastó nada.",
       "recusa_ia": "La IA se negó a analizar este contenido. No se guardó nada. (Detalle técnico: {detalhe})",
-      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})"
+      "resposta_truncada": "La respuesta de la IA se interrumpió antes de terminar. Inténtalo de nuevo. No se guardó nada. (Detalle técnico: {detalhe})",
+      "limite_conta": "Se alcanzó el límite diario de {limite} análisis de tu cuenta. Se reinicia a medianoche (UTC)."
     },
     "dimensoes": {
       "publico_patrao": {
@@ -836,7 +868,8 @@
     "verExistente": "Ver análisis existente",
     "gerar": "Generar v{versao} ({peso, plural, one {# slot} other {# slots}})",
     "aguardar": "Actualización disponible en {dias, plural, one {# día} other {# días}}",
-    "avisoCusto": "Generar la v{versao} consume {peso, plural, one {# slot} other {# slots}} de la sesión. La versión anterior queda preservada en el historial."
+    "avisoCusto": "Generar la v{versao} consume {peso, plural, one {# slot} other {# slots}} de la sesión. La versión anterior queda preservada en el historial.",
+    "sessaoConta": "Tu cuenta · hoy"
   },
   "VozResultado": {
     "rotulo": "Voz de la Base · v{versao} · {data}",
@@ -896,5 +929,202 @@
     "remover": "Quitar",
     "removerItem": "Quitar {rotulo} de la sesión",
     "indicador": "Sesión: {n, plural, one {# análisis} other {# análisis}} para exportar"
+  },
+  "Limite": {
+    "titulo": "Tu investigación necesita más espacio.",
+    "coletivo": "Raio-X lo mantiene un colectivo independiente y sin financiamiento. Cada análisis tiene un costo real, pagado de nuestro bolsillo, y los límites existen para que la herramienta siga disponible para todos.",
+    "semConta": "Con una cuenta gratuita, tu límite se duplica y todo lo que recolectes queda guardado y organizado en proyectos.",
+    "comConta": "Si tu trabajo necesita más recolecciones, escríbenos: podemos acordar un límite mayor para tu cuenta.",
+    "botaoCriarConta": "Crear cuenta gratis",
+    "botaoWhatsapp": "Conversar por WhatsApp",
+    "mensagemWhatsapp": "¡Hola! Uso Raio-X en mi investigación (cuenta: {email}) y necesito más límite en el módulo {modulo}.",
+    "fechar": "Cerrar"
+  },
+  "Entrar": {
+    "eyebrow": "Cuenta de investigador",
+    "titulo": "Entrar",
+    "intro": "La cuenta es **gratuita y opcional**: los módulos siguen abiertos para todos. Con ella, tu límite diario se duplica y tus análisis quedan organizados en **proyectos de investigación**.",
+    "abas": {
+      "link": "Enlace por e-mail",
+      "senha": "Contraseña",
+      "criar": "Crear cuenta"
+    },
+    "explicacao": {
+      "link": "Enviamos un enlace de acceso a tu e-mail. Si todavía no tienes cuenta, se crea en el momento.",
+      "senha": "Entra con el e-mail y la contraseña de tu cuenta.",
+      "criar": "Crea una cuenta con e-mail y contraseña. Enviamos un enlace para confirmar el e-mail.",
+      "esqueci": "Indica el e-mail de la cuenta: enviamos un enlace para que crees una nueva contraseña."
+    },
+    "email": "E-mail",
+    "senha": "Contraseña",
+    "senhaRegra": "Al menos 10 caracteres.",
+    "botao": {
+      "link": "Enviar enlace",
+      "senha": "Entrar",
+      "criar": "Crear cuenta",
+      "esqueci": "Enviar enlace de nueva contraseña"
+    },
+    "esqueci": "Olvidé la contraseña",
+    "voltarSenha": "Volver a entrar con contraseña",
+    "avisos": {
+      "link_enviado": "Listo: enviamos un enlace a tu e-mail. Vale por 1 hora. Si no llega, revisa el spam.",
+      "confirme_email": "Cuenta creada. Enviamos un enlace para confirmar tu e-mail; después, solo tienes que entrar.",
+      "senha_enviada": "Si existe una cuenta con ese e-mail, enviamos un enlace para crear una nueva contraseña."
+    },
+    "erros": {
+      "email_invalido": "Ese e-mail no parece válido.",
+      "credenciais": "E-mail o contraseña incorrectos.",
+      "nao_confirmado": "Confirma tu e-mail con el enlace que enviamos antes de entrar.",
+      "ja_existe": "Ya existe una cuenta con ese e-mail. Entra con la contraseña o pide un enlace.",
+      "senha_curta": "La contraseña debe tener al menos 10 caracteres.",
+      "senha_fraca": "Esa contraseña es demasiado fácil de adivinar. Elige otra.",
+      "muitas_tentativas": "Demasiados intentos seguidos. Espera unos minutos y vuelve a intentarlo.",
+      "verificacao": "Confirma que no eres un robot para continuar.",
+      "desligado": "Las cuentas todavía no están disponibles.",
+      "link": "Ese enlace expiró o ya se usó. Pide uno nuevo.",
+      "falha": "Algo salió mal. Vuelve a intentarlo en un momento."
+    },
+    "desligado": "Las cuentas de investigador están llegando. Por ahora, usa los módulos sin iniciar sesión.",
+    "privacidade": "El e-mail sirve solo para que entres: nunca aparece en el sitio, en el corpus ni en los datos públicos.",
+    "privacidadeLink": "Ver la política de privacidad"
+  },
+  "Conta": {
+    "eyebrow": "Cuenta de investigador",
+    "titulo": "Mi cuenta",
+    "logadoComo": "Entraste como",
+    "projetosTitulo": "Proyectos de investigación",
+    "ativoTexto": "Proyecto activo: {nome}. Cada análisis que hagas entra en él automáticamente.",
+    "semAtivoTexto": "No tienes proyecto activo. Crea un proyecto para que tus análisis se guarden automáticamente.",
+    "verProjetos": "{n, plural, =0 {Crear proyecto} one {Ver # proyecto} other {Ver # proyectos}}",
+    "usoTitulo": "Tu uso hoy",
+    "usoTexto": "Con cuenta, el límite es por día (UTC) y vale el doble del límite sin iniciar sesión.",
+    "senhaTitulo": "Contraseña",
+    "senhaRecuperacao": "Entraste con el enlace de recuperación. Define tu nueva contraseña.",
+    "novaSenha": "Nueva contraseña",
+    "senhaRegra": "Al menos 10 caracteres.",
+    "salvarSenha": "Guardar contraseña",
+    "senhaSalva": "Contraseña guardada.",
+    "sair": "Salir",
+    "apagarConta": "Borrar mi cuenta",
+    "apagarExplicacao": "Esto borra tu e-mail, tus proyectos y tus notas, en el momento y sin vuelta atrás. Los análisis que hiciste siguen en el corpus público, sin ningún vínculo contigo.",
+    "apagarDigite": "Para confirmar, escribe BORRAR",
+    "apagarConfirmar": "Borrar definitivamente",
+    "cancelar": "Cancelar",
+    "privacidadeLink": "Política de privacidad",
+    "erros": {
+      "senha_curta": "La contraseña debe tener al menos 10 caracteres.",
+      "senha_fraca": "Esa contraseña es demasiado fácil de adivinar. Elige otra.",
+      "mesma_senha": "La nueva contraseña es igual a la actual.",
+      "confirmacao": "Escribe BORRAR para confirmar.",
+      "sem_login": "Tu sesión expiró. Vuelve a entrar.",
+      "falha": "Algo salió mal. Vuelve a intentarlo en un momento."
+    }
+  },
+  "Projetos": {
+    "eyebrow": "Cuenta de investigador",
+    "titulo": "Proyectos",
+    "intro": "Cada proyecto reúne los análisis de una investigación, con tus notas y gráficos de lo que recolectaste. El **proyecto activo** recibe automáticamente cada análisis que hagas.",
+    "novoTitulo": "Nuevo proyecto",
+    "nome": "Nombre",
+    "nomeExemplo": "Ej.: Reforma laboral en YouTube (2026)",
+    "descricao": "Descripción (opcional)",
+    "novoAtivo": "El proyecto nuevo pasa a ser tu proyecto activo.",
+    "criar": "Crear proyecto",
+    "erro": "No funcionó. Vuelve a intentarlo.",
+    "ativo": "Activo",
+    "tornarAtivo": "Hacer activo",
+    "contagem": "{n, plural, =0 {ningún análisis} one {# análisis} other {# análisis}}",
+    "atualizado": "actualizado el {data}",
+    "editar": "Editar nombre y descripción",
+    "salvar": "Guardar",
+    "cancelar": "Cancelar",
+    "exportar": "Exportar planilla (.xlsx)",
+    "gerarLink": "Crear enlace de lectura",
+    "desligarLink": "Desactivar enlace de lectura",
+    "linkLeitura": "Enlace de lectura:",
+    "linkAviso": "Quien tenga el enlace ve los análisis, los gráficos y tus notas, sin necesidad de cuenta. Puedes desactivar el enlace cuando quieras.",
+    "copiarLink": "Copiar",
+    "copiado": "Copiado",
+    "apagar": "Borrar proyecto",
+    "apagarConfirmacao": "¿Borrar este proyecto y tus notas? Los análisis siguen en el corpus.",
+    "vazioDono": "Este proyecto todavía está vacío. Hazlo activo y haz análisis en los módulos, o usa \"Agregar al proyecto\" en las páginas de la Biblioteca.",
+    "vazioLeitura": "Este proyecto todavía no tiene análisis.",
+    "total": "Análisis",
+    "tipologiaTitulo": "Tipología dual de lo que recolectaste",
+    "tipologiaLegenda": "Quién produce × qué tipo de trabajo, en {n, plural, one {el # análisis} other {los # análisis}} de la Lupa y del Dossier de este proyecto.",
+    "produtorConteudo": "Productor ↓ · Contenido →",
+    "tempoTitulo": "Línea de tiempo",
+    "canaisTitulo": "Canales recurrentes",
+    "analisesTitulo": "Análisis",
+    "buscar": "Buscar por título, canal o nota",
+    "filtroModulo": "Filtrar por módulo",
+    "todosModulos": "Todos los módulos",
+    "nadaEncontrado": "No se encontró nada con ese filtro.",
+    "nota": "Nota",
+    "notaPlaceholder": "Escribe una nota sobre este análisis…",
+    "salvando": "Guardando…",
+    "naoSalvo": "No guardado (haz clic fuera para guardar)",
+    "versaoNova": "Hay una versión más nueva de este análisis.",
+    "verVersaoNova": "Ver la versión nueva",
+    "atualizarVersao": "Usar la versión nueva",
+    "destino": "Proyecto",
+    "outroProjeto": "Otro proyecto…",
+    "mover": "Mover",
+    "copiar": "Copiar",
+    "remover": "Quitar del proyecto",
+    "adicionarAoProjeto": "Agregar al proyecto",
+    "salvarNoProjeto": "Guardar {n} análisis en un proyecto",
+    "novoProjetoOpcao": "+ Nuevo proyecto",
+    "adicionar": "Agregar",
+    "adicionado": "Agregado.",
+    "abrirProjeto": "Abrir el proyecto",
+    "carregando": "Cargando tus proyectos…",
+    "leituraEyebrow": "Proyecto de investigación · lectura"
+  },
+  "PaginaPrivacidade": {
+    "eyebrow": "Observatório Classe Creator",
+    "titulo": "Privacidad",
+    "descricao": "Qué guarda Raio-X, por qué y cómo pedir que se borre.",
+    "intro": [
+      "Raio-X lo mantiene un colectivo independiente. El responsable de los datos es **Filipe Severo**, persona física. Para cualquier pedido sobre tus datos (acceso, corrección, eliminación), escribe a **filipe.leal.severo@gmail.com**."
+    ],
+    "semConta": {
+      "titulo": "Si lo usas sin cuenta",
+      "textos": [
+        "No guardamos nada que te identifique: ni nombre, ni e-mail, ni dirección IP.",
+        "Usamos solo lo necesario para que el sitio funcione: una cookie que cuenta cuántos análisis hiciste en esta sesión (para el límite), la cookie de la verificación anti-robot de Cloudflare (Turnstile, válida por 24 horas) y el carrito de la sesión, que queda solo en tu navegador.",
+        "Para saber cuántas personas visitan el sitio, usamos Vercel Web Analytics, que no usa cookies y muestra solo números agregados (páginas más vistas, de dónde vienen las visitas, país), sin identificar a nadie."
+      ]
+    },
+    "comConta": {
+      "titulo": "Si creas una cuenta",
+      "textos": [
+        "Guardamos tu **e-mail**, que sirve solo para que entres. La contraseña, si creas una, la guarda cifrada Supabase: ni nosotros tenemos acceso a ella.",
+        "Guardamos también tus **proyectos**, las **notas** que escribes, cuántos análisis hiciste por día (para el límite) y un eventual límite mayor acordado con el Observatório.",
+        "Usamos esos datos solo para prestar el servicio que pediste (Ley General de Protección de Datos de Brasil, LGPD, art. 7º, V)."
+      ]
+    },
+    "naoFazemos": {
+      "titulo": "Lo que no hacemos",
+      "textos": [
+        "No vendemos, no prestamos y no usamos tus datos para publicidad.",
+        "El e-mail nunca aparece en el sitio, en el corpus público ni en los datos exportados. Los análisis que haces entran en el corpus público **sin tu nombre**: el corpus no registra quién hizo cada análisis.",
+        "Los proyectos son privados. Si creas un **enlace de lectura**, quien tenga el enlace ve el proyecto y tus notas, hasta que desactives el enlace."
+      ]
+    },
+    "onde": {
+      "titulo": "Dónde quedan los datos",
+      "textos": [
+        "Base de datos e inicio de sesión: Supabase (servidores de Amazon Web Services). Sitio: Vercel. E-mails de acceso: Resend. Esto significa que los datos pueden procesarse fuera de Brasil, en empresas que siguen sus propias reglas de protección de datos."
+      ]
+    },
+    "direitos": {
+      "titulo": "Tus derechos",
+      "textos": [
+        "Puedes **borrar tu cuenta en cualquier momento**, en la página Mi cuenta: esto borra en el momento el e-mail, los proyectos, las notas y el historial de uso.",
+        "Las cuentas inactivas no se borran automáticamente. Para pedir una copia de tus datos, una corrección o cualquier otra cosa, escribe a filipe.leal.severo@gmail.com."
+      ]
+    },
+    "atualizado": "Actualizada el 17 de noviembre de 2026."
   }
 }

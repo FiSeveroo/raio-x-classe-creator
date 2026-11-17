@@ -40,3 +40,22 @@ export async function sairPainel(dados: FormData) {
   (await cookies()).delete(COOKIE);
   redirect(String(dados.get("voltar") ?? "/termometro"));
 }
+
+/**
+ * Limite personalizado de uma conta (aba "Contas" do painel). Exige o painel
+ * liberado E a senha configurada: sem senha (modo desenvolvimento) não mexe
+ * em conta de ninguém.
+ */
+export async function definirLimitesConta(dados: FormData) {
+  if (!process.env.SENHA_PAINEL_INTERNO || !(await painelLiberado())) return;
+  const { definirLimites } = await import("@/lib/contas-admin");
+  const userId = String(dados.get("user_id") ?? "");
+  if (!/^[0-9a-f-]{36}$/.test(userId)) return;
+  const valor = (m: string) => {
+    const v = String(dados.get(m) ?? "").trim();
+    const n = Number(v);
+    return v === "" || !Number.isInteger(n) || n < 0 ? null : Math.min(n, 10_000);
+  };
+  await definirLimites(userId, { lupa: valor("lupa"), dossie: valor("dossie"), disputa: valor("disputa"), voz: valor("voz") });
+  redirect(String(dados.get("voltar") ?? "/termometro?aba=contas"));
+}
