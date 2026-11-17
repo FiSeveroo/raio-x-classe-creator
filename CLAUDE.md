@@ -20,27 +20,16 @@ Contexto completo do projeto para o Claude Code. Leia este arquivo sempre antes 
 
 ---
 
-## STACK ATUAL (a ser migrado)
+## STACK (no ar desde 2/out/2026)
 
-- **Backend + Frontend:** Streamlit (Python), tudo num `app.py` de ~6500 linhas
-- **Banco de dados:** Supabase (Postgres)
-- **APIs externas:** YouTube Data API v3, Anthropic API (Claude Haiku 4.5 para classificação em batch, Claude Sonnet 4.6 para análises qualitativas — no site Next.js, Haiku 5.5 e Sonnet 5.5 desde 17/nov/2026, ver Estado)
-- **Coletor automatizado:** Python + GitHub Actions (roda 2x/dia)
-- **Auth/Anti-bot:** Cloudflare Turnstile (managed mode, com persistência 24h via localStorage)
-- **Deploy:** Streamlit Cloud
-- **Idioma atual:** Português (PT-BR)
-
----
-
-## STACK ALVO DA MIGRAÇÃO
-
-- **Frontend:** Next.js 16 (App Router) + TypeScript
-- **Styling:** Tailwind CSS + shadcn/ui
-- **Backend:** Manter Python para coletor + criar API routes Next.js para operações interativas (ou Server Actions)
-- **Banco:** MANTER Supabase (não migrar dados, apenas trocar quem consome)
-- **Auth/Anti-bot:** MANTER Cloudflare Turnstile
-- **Deploy:** Vercel
-- **Multi-idioma:** i18n nativo Next.js (PT + EN + ES)
+- **Site:** Next.js 16 (App Router) + TypeScript, Tailwind + shadcn/ui, next-intl (PT sem prefixo, /en, /es) — branch `nextjs`, hospedado na Vercel (`raiox.classecreator.com`)
+- **Banco:** Supabase (Postgres) — corpus, Termômetro, erros e contas
+- **APIs externas:** YouTube Data API v3; Anthropic API — Claude Haiku 5.5 (classificação) e Sonnet 5.5 (leituras qualitativas) desde 17/nov/2026; antes, Haiku 4.5 e Sonnet 4.6
+- **Coletores:** Python + GitHub Actions no `main` (Termômetro, 2x/dia; importador; export semanal em Releases) e o repo `FiSeveroo/coletor-youtube` (coletor original da dissertação)
+- **Contas:** Supabase Auth (link mágico ou senha) + e-mails pela Resend; anti-robô: Cloudflare Turnstile (cookie assinado de 24 h)
+- **Visitas:** Vercel Web Analytics (sem cookies)
+- **Licenças (17/nov/2026):** código GNU AGPL-3.0 (`LICENSE`); dados do corpus CC BY 4.0 (`LICENCA-DADOS.md`)
+- **Legado:** o app Streamlit (`app.py`, ~6500 linhas) segue no `main` como referência somente-leitura para lógica, tipologia e prompts
 
 ---
 
@@ -271,7 +260,7 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 
 ---
 
-## PLANO SUGERIDO DE MIGRAÇÃO (para o Claude Code seguir)
+## PLANO DE MIGRAÇÃO (concluído) E ESTADO
 
 ### Fase 1 — Fundação
 1. Criar projeto Next.js 16 com App Router + TypeScript
@@ -298,12 +287,12 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 18. Comparação lado a lado com Streamlit antes de aposentar
 
 ### Estado (atualizar a cada fase)
-- **Fase 1 — concluída**. Leitura do Supabase de produção testada em 1/out/2026 (contadores, 4 abas da Biblioteca, página e imagem OG de análise). Next.js 16 + next-intl (PT sem prefixo, /en, /es), tema, Home, Sobre, Biblioteca (4 abas, só leitura) e página por análise de vídeo (`/biblioteca/video/[id]`, com imagem Open Graph). Módulos da Fase 2 têm página provisória que aponta para o Streamlit.
-- **Repaginada da UX (30/set–1/out/2026):** a barra lateral virou cabeçalho com painel "Módulos" + rodapé completo; Home reorganizada como narrativa (hero com CTA laranja, faixa do corpus, bloco roxo com as duas perguntas, módulos em linhas numeradas). Aguardando feedback do Filipe e o logo.
+- **Fase 1 — concluída**. Leitura do Supabase de produção testada em 1/out/2026 (contadores, 4 abas da Biblioteca, página e imagem OG de análise). Next.js 16 + next-intl (PT sem prefixo, /en, /es), tema, Home, Sobre, Biblioteca (4 abas, só leitura) e página por análise de vídeo (`/biblioteca/video/[id]`, com imagem Open Graph).
+- **Repaginada da UX (30/set–1/out/2026):** a barra lateral virou cabeçalho com painel "Módulos" + rodapé completo; Home reorganizada como narrativa (hero com CTA laranja, faixa do corpus, bloco roxo com as duas perguntas, módulos em linhas numeradas).
 - **Git:** o código novo vive no branch `nextjs` do repo `FiSeveroo/raio-x-classe-creator` (histórico separado do Streamlit). NUNCA enviar para o `main`: lá rodam o Streamlit e os workflows agendados do coletor, do importador e da exportação semanal, que o GitHub só executa no branch padrão.
 - **Fase 2 — Lupa portada (1/out/2026):** `src/lib/lupa/` (youtube, prompt, classificar, registro) + `src/app/[locale]/lupa/`. Resultado abre em `/biblioteca/video/[id]`. Testada de ponta a ponta com gravação real no corpus (registro 20). Fidelidade conferida por `npm run verificar` (tipologia + prompt idênticos ao app.py). Pendências e diferenças em `messages/REVISAO.md`.
-- **Fase 2 — concluída em 1/out/2026:** os 5 módulos portados e testados com gravação real no Supabase. Dossiê (`src/lib/dossie/`, resultado em `/biblioteca/canal/[id]`), Termômetro (`src/lib/termometro/`, painel com senha e CSV em `/api/termometro/csv`), Disputa (`src/lib/disputa/`, resultado em `/biblioteca/tema/[id]`), Voz da Base (`src/lib/voz/`, resultado em `/biblioteca/voz/[id]`). Todas as abas da Biblioteca abrem a análise completa. `npm run verificar` confere tipologia, todos os prompts (Lupa, Dossiê ×3, Disputa, Voz) e sintomas contra o legado. Diferenças deliberadas e pendências de decisão em `messages/REVISAO.md`. Próximo: Fase 3 (Turnstile, carrinho/XLSX, deploy).
-- **Fase 3 — em andamento (1/out/2026):** Turnstile e carrinho/XLSX prontos. Deploy: projeto NOVO na Vercel (conta Hobby "fiseveroo's projects"), Production Branch = `nextjs`, URL de teste `*.vercel.app`, indexação bloqueada (`PERMITIR_INDEXACAO`). O domínio `raiox.classecreator.com` continua no projeto `raiox-redirect` (repo `FiSeveroo/raiox-redirect`, redireciona para o Streamlit) até a virada: aí basta mover o domínio entre projetos (o `raiox-redirect` fica como rollback).
+- **Fase 2 — concluída em 1/out/2026:** os 5 módulos portados e testados com gravação real no Supabase. Dossiê (`src/lib/dossie/`, resultado em `/biblioteca/canal/[id]`), Termômetro (`src/lib/termometro/`, painel com senha e CSV em `/api/termometro/csv`), Disputa (`src/lib/disputa/`, resultado em `/biblioteca/tema/[id]`), Voz da Base (`src/lib/voz/`, resultado em `/biblioteca/voz/[id]`). Todas as abas da Biblioteca abrem a análise completa. `npm run verificar` confere tipologia, todos os prompts (Lupa, Dossiê ×3, Disputa, Voz) e sintomas contra o legado. Diferenças deliberadas e pendências de decisão em `messages/REVISAO.md`.
+- **Fase 3 — concluída (1–2/out/2026):** Turnstile, carrinho/XLSX e deploy na Vercel (conta Hobby "fiseveroo's projects", projeto `raio-x-classe-creator-v2`, Production Branch = `nextjs`). O projeto `raiox-redirect` (repo `FiSeveroo/raiox-redirect`, redireciona para o Streamlit) fica como rollback por algumas semanas depois do lançamento público.
 - **VIRADA FEITA em 2/out/2026:** `raiox.classecreator.com` aponta para o projeto Vercel `raio-x-classe-creator-v2` (branch `nextjs`). Links antigos `?m=` redirecionam para os módulos. Rollback: devolver o domínio ao projeto `raiox-redirect` (Streamlit). Indexação: `robots.txt` libera só o domínio oficial (bloqueia *.vercel.app), sem precisar de variável. Streamlit Cloud neutralizado em 2/out/2026: chaves do Supabase removidas dos Secrets do app (cópia guardada pelo Filipe, fora do Git); o app abre mas não grava. Rollback do Streamlit exige recolar as chaves.
 - **Workflows do `main` (19/out/2026, PR FiSeveroo/raio-x-classe-creator#2, merge `24b8014`):** todos fixados em `runs-on: ubuntu-24.04` (o `ubuntu-latest` virou Ubuntu 26) e actions em Node 24 (`checkout@v5`, `setup-python@v6`, `upload-artifact@v6`). Subir para Ubuntu 26 ou majors novas = teste deliberado, não automático. Os crons do coletor rodam com ~4 h de atraso do horário agendado (normal do GitHub). Uma coleta perdida em 4/out (22h39 UTC): a YouTube API devolveu 503 em `channels` (`coletar_metadados_canais`, coletor.py:183) e o coletor não tenta de novo, então a coleta inteira caiu. Retry com espera para erro 5xx = melhoria possível no coletor (decisão do Filipe, área `/raiox-dados`).
 - **Vercel — Ignored Build Step (19/out/2026):** `test ! -f package.json` no painel do projeto. Branches sem `package.json` (o `main` do Streamlit e PRs feitos a partir dele) não montam prévia, e não sai e-mail de falha. Branches do site montam normal.
@@ -313,12 +302,12 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
 - **Registro de erros (17/nov/2026, opção C aprovada pelo Filipe; revisão semanal):** tabela nova `erros_app` (`docs/sql/erros_app.sql`, com GRANTs explícitos; fora do export). Grava só falhas do sistema (`falha`, `resposta_malformada`, `youtube`, `codigo_invalido`, item da Disputa sem classificação, `json_repetido` quando a IA devolve JSON quebrado e a chamada é repetida, erros não tratados do servidor via `src/instrumentation.ts`). Sem dado pessoal. Leitura na aba "Erros" do painel com senha do Termômetro. Código em `src/lib/erros.ts`. Se o volume crescer, escalar para Sentry ou issues automáticas no GitHub.
 - **Modelos do Claude (decisão do Filipe em 17/nov/2026, sem teste prévio — "as análises são complementares na parte científica"):** Haiku 4.5 → `claude-haiku-5-5` (Lupa, Disputa, classificação do Dossiê; esforço `low`) e Sonnet 4.6 → `claude-sonnet-5-5` (veredito do Dossiê, Voz da Base; esforço `medium`). Prompts do app.py inalterados (`npm run verificar` confere prompts e o mapa de sucessores). Os modelos novos raciocinam antes de responder: `max_tokens` aumentados, resposta lida pelo primeiro bloco de texto, recusa (`recusa_ia`) e corte (`resposta_truncada`) viram erro registrado. O banco não guarda o modelo de cada análise: a data de corte é 17/11/2026 (análises até 16/11 = Haiku 4.5 / Sonnet 4.6), e os avisos do site dizem isso. Próximo passo possível: saída em formato garantido (structured outputs), que os dois modelos novos aceitam.
 - **Contas de pesquisador e projetos (sabatina de 17/nov/2026, tudo aprovado pelo Filipe; publicado em produção em 17/nov/2026, merge `42568f5`; teste logado pendente com o Filipe):** conta opcional (módulos seguem abertos); login por link mágico ou e-mail + senha (mín. 10), e-mails pela Resend (SMTP do Supabase, remetente `@classecreator.com`, DNS na Wix) com modelos trilíngues e links para `/api/auth/confirmar`; configuração dos painéis em `docs/auth/CONFIGURAR-SUPABASE.md`. Tabelas novas (`docs/sql/contas.sql`, fora do export): `projetos`, `projeto_itens` (versão EXATA da análise; aviso + botão para a versão mais nova), `perfis` (projeto ativo), `limites_conta` e `uso_conta` (só o servidor grava). Análises continuam públicas e o corpus NÃO registra quem rodou. Projeto ativo recebe cada análise; "Adicionar ao projeto" na Biblioteca e "Salvar num projeto" no carrinho; mover/copiar entre projetos; notas; link de leitura (mostra notas); XLSX; painel visual (tipologia, linha do tempo, canais). Sobre ganhou a seção 04 "Limites e dependências" (dependências externas conferidas no código, limites de uso e por quê). Senha e apagar conta ficam recolhidos em "Informações da conta". Páginas: `/entrar`, `/conta`, `/projetos`, `/projetos/[id]`, `/p/[token]`, `/privacidade` (responsável: Filipe, pessoa física; contato filipe.leal.severo@gmail.com). Painel interno: abas "Uso" e "Contas" (limite personalizado). Visitas: Vercel Web Analytics (sem cookies). Textos em "você".
+- **Lançamento público (17/nov/2026):** varredura sem segredos no código nem no histórico do Git; `sitemap.xml` (páginas fixas + análises canônicas, 3 línguas) e robots.txt apontando para ele, com conta/projetos/link de leitura fora dos buscadores; licenças AGPL-3.0 (código) e CC BY 4.0 (dados). Filipe vai apagar o app do Streamlit Cloud (sem chaves desde 2/out). Google Search Console fica para depois (junto com o site da Classe Creator).
 - Convenções: textos só em `messages/*.json` (markdown-lite `**negrito**` renderizado por `src/components/rico.tsx`); consultas ao banco só em `src/lib/corpus.ts`; traduções novas entram em `messages/REVISAO.md`.
 
-**Gravação no banco durante a migração (decidido pelo Filipe em 1/out/2026):**
-- Os módulos portados (Lupa em diante) PODEM gravar no Supabase de produção durante os testes, com a mesma lógica de versionamento do Streamlit. O corpus atual é considerado dado de teste.
+**Gravação no banco:**
 - **RESET FEITO em 1/out/2026** (pelo Filipe, SQL de `docs/sql/reset-corpus-lancamento.sql`): Lupa, Dossiê, Disputa e Voz zerados; Termômetro (259 snapshots / 130.985 vídeos), `arquivo_bruto` (57.011) e `canais_validados` (6) preservados. IDs não reiniciados. A partir daqui o corpus é REAL — não gravar análises de teste sem combinar.
-- No lançamento, o corpus será ZERADO, EXCETO o Termômetro (`snapshots`, `videos_snapshot`), que é preservado. Nada de reset sem confirmação explícita do Filipe na hora, e com backup completo feito antes.
+- **Sem reset no lançamento (decidido pelo Filipe em 17/nov/2026):** o corpus é real desde 1/out/2026 e não será zerado. Qualquer apagamento futuro só com confirmação explícita do Filipe na hora e backup completo antes. `docs/sql/reset-corpus-lancamento.sql` fica só como registro histórico.
 - NUNCA tocar nas tabelas do Termômetro a partir do Next.js (são do coletor Python).
 
 **Fase atual = COLETA (decidido pelo Filipe em 1/out/2026):**
@@ -339,8 +328,8 @@ Existe uma planilha `TEXTOS_RAIOX_PARA_TRADUZIR.xlsx` com 286 textos do site org
    - **Totais:** protocolo completo (29/mai manhã → 18/out noite) = 1 lacuna em 286 turnos; série inteira = 2 turnos sem coleta válida em 290.
    - **Decidido pelo Filipe em 22/out/2026: NÃO APAGAR.** Coletas quebradas, duplicadas e do piloto ficam no banco como estão; leituras e export devem **marcar**, nunca excluir na fonte. Pendente: onde publicar a observação (MANIFEST do export, calculado pelo exportador via PR; aba do Termômetro com o `/raiox-ux`) e como as leituras tratam as marcadas (`/raiox-metodologia`).
 
-**OBRIGATÓRIO antes da virada / do reset** (SQL pronto para revisão em `docs/sql/reset-corpus-lancamento.sql`; **backup completo FEITO em 1/out/2026**: `Desktop/backup-raiox-2026-10-01/supabase-completo.sql` — pg_dump do schema public, 9 tabelas, estrutura + dados + RLS, contagens conferidas (videos_snapshot 130.985, arquivo_bruto 57.011, canais_validados 6), sha256 b9691a3841d113a5…, fora do Git; feito SEM privilégios — depois de 30/out/2026 o Supabase não dá mais GRANT automático a tabela nova, então ao restaurar rodar `docs/sql/grants-restauracao.sql`, senão a Data API responde "permission denied"):
-- Backup completo do Supabase (dump de schema + dados de todas as tabelas), confirmado íntegro com o Filipe.
+**Backup completo** (feito em 1/out/2026, antes do reset: `Desktop/backup-raiox-2026-10-01/supabase-completo.sql` — pg_dump do schema public, 9 tabelas, estrutura + dados + RLS, contagens conferidas (videos_snapshot 130.985, arquivo_bruto 57.011, canais_validados 6), sha256 b9691a3841d113a5…, fora do Git; feito SEM privilégios — depois de 30/out/2026 o Supabase não dá mais GRANT automático a tabela nova, então ao restaurar rodar `docs/sql/grants-restauracao.sql`, senão a Data API responde "permission denied"):
+- Antes de qualquer mudança de schema ou apagamento: novo backup completo, conferido com o Filipe.
 
 **Preservar SEMPRE:**
 - URLs de análises canônicas (para links já compartilhados continuarem funcionando)

@@ -1,6 +1,8 @@
 # Raio-X da Classe Creator — Next.js
 
-Nova versão do [Raio-X da Classe Creator](https://raiox.classecreator.com), migrada do Streamlit. Contexto completo, princípios metodológicos e plano de migração: [CLAUDE.md](CLAUDE.md).
+Site do [Raio-X da Classe Creator](https://raiox.classecreator.com) (no ar desde 2/out/2026; substituiu a versão em Streamlit, que vive no branch `main` junto com os coletores). Contexto completo, princípios metodológicos e estado do projeto: [CLAUDE.md](CLAUDE.md).
+
+**Licenças:** código sob [GNU AGPL-3.0](LICENSE); dados do corpus sob [CC BY 4.0](LICENCA-DADOS.md).
 
 ## Rodar localmente
 
@@ -28,8 +30,11 @@ messages/            textos PT/EN/ES (next-intl) + REVISAO.md (traduções a rev
 src/app/[locale]/    páginas; PT sem prefixo (/lupa), EN e ES com (/en/lupa)
 src/proxy.ts         idioma + redirecionamento das URLs antigas do Streamlit (?m=lupa → /lupa)
 src/lib/tipologia.ts tipologia dupla (porte literal do tipologia.py)
-src/lib/corpus.ts    consultas de LEITURA ao Supabase (porte do db.py)
-src/lib/supabase/    cliente só-leitura
+src/lib/corpus.ts    consultas ao corpus no Supabase (porte do db.py)
+src/lib/supabase/    clientes: corpus (chave publicável) e contas (sessão + chave secreta, só no servidor)
+src/lib/projetos.ts  contas de pesquisador e projetos de pesquisa
+docs/sql/            SQL das tabelas novas (rodado à mão no Supabase)
+docs/auth/           configuração do login no Supabase (e-mails, URLs)
 ```
 
 ## Problema conhecido no Windows (SWC)

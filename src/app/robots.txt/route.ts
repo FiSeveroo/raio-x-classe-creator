@@ -19,7 +19,18 @@ export function GET(req: Request) {
         "Disallow: /sessao",
         "Disallow: /en/sessao",
         "Disallow: /es/sessao",
+        // Contas e projetos são pessoais (o link de leitura também tem noindex).
+        "Disallow: /conta",
+        "Disallow: /en/conta",
+        "Disallow: /es/conta",
+        "Disallow: /projetos",
+        "Disallow: /en/projetos",
+        "Disallow: /es/projetos",
+        "Disallow: /p/",
+        "Disallow: /en/p/",
+        "Disallow: /es/p/",
         "",
+        `Sitemap: https://${host}/sitemap.xml`,
         `Host: https://${host}`,
         "",
       ].join("\n")
