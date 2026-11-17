@@ -106,3 +106,7 @@ Decisão do Filipe, sem teste prévio. Textos alterados nas três línguas (EN/E
 ## Voz da Base — número dos comentários e ordenação (17/nov/2026)
 
 Pedido do Filipe. Cada comentário mostra o número que o Sonnet recebeu (#1 a #100, ordem de relevância do YouTube na coleta), que a síntese cita. Novo seletor "Ordenar" (número / mais curtidos / menos curtidos); o CSV ganha a coluna `numero`. Diferença deliberada do Streamlit: a lista mostra todos os comentários (antes, 50), senão os citados acima de #50 não apareciam. EN/ES dos rótulos traduzidos pelo Claude — revisar.
+
+## Contas, projetos e Sobre "Limites e dependências" (17/nov/2026)
+
+Textos novos escritos pelo Claude a partir da sabatina com o Filipe (PT em "você"; EN e ES traduzidos — revisar): namespaces `Limite`, `Entrar`, `Conta`, `Projetos`, `PaginaPrivacidade`, chaves novas em `Nav` e `Termometro` (abas Uso e Contas), e a seção 04 do Sobre (`Sobre.limites*`, `Sobre.dependencias`). A lista de dependências foi conferida no código em 17/nov/2026 (fontes locais; navegador só carrega o próprio site, o Turnstile nas páginas com verificação e o Web Analytics no próprio domínio). Ao trocar de serviço, atualizar `Sobre.dependencias` e `PaginaPrivacidade.onde`.

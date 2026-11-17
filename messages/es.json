@@ -338,7 +338,65 @@
       "Soy investigador en comunicación y plataformización, y creador de contenido desde hace más de 15 años. Fundé Classe Creator para reunir en un solo lugar lo que estudio, lo que atiendo como consultor y lo que vivo como creador.",
       "La disertación que originó Raio-X (PUCRS/FAMECOS, 2026) clasificó manualmente **1.049 videos** del trending brasileño a lo largo de **21 semanas**, desarrollando la tipología doble que la herramienta ahora opera a escala con inteligencia artificial."
     ],
-    "rodape": "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
+    "rodape": "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026",
+    "limitesTitulo": "Límites y dependencias",
+    "limitesTexto": [
+      "Raio-X estudia cómo las plataformas deciden lo que circula y, para existir, depende de la infraestructura de esas mismas empresas. No lo escondemos: es un ejemplo práctico de lo que la investigación critica. Un colectivo independiente y sin financiamiento no puede mantener servidores, base de datos y modelos de lenguaje propios.",
+      "Abajo, cada servicio del que depende la herramienta, para qué sirve y qué pasa si se cae o cambia sus reglas."
+    ],
+    "dependenciasTitulo": "De quién depende Raio-X",
+    "dependencias": [
+      {
+        "nome": "YouTube Data API v3 (Google)",
+        "papel": "La fuente de todos los datos: metadatos de videos y canales, comentarios y las listas En Tendencia.",
+        "risco": "Sin ella, ningún módulo funciona. Google define la cuota diaria, los campos que expone y cómo arma el `mostPopular`, que, como muestra el Termómetro, no es auditable de forma fidedigna."
+      },
+      {
+        "nome": "Anthropic (Claude)",
+        "papel": "Clasifica videos y canales en la tipología dual y escribe las lecturas cualitativas: Claude Haiku 5.5 y Sonnet 5.5 desde el 17/11/2026 (antes, Haiku 4.5 y Sonnet 4.6).",
+        "risco": "Cuando la empresa cambia o retira un modelo, las clasificaciones cambian con él. Por eso registramos la fecha de cada cambio."
+      },
+      {
+        "nome": "Supabase (sobre Amazon Web Services)",
+        "papel": "Base de datos del corpus e inicio de sesión de las cuentas.",
+        "risco": "Si se cae, el sitio no lee ni guarda análisis. Mantenemos una copia de seguridad completa de la base fuera de la plataforma."
+      },
+      {
+        "nome": "Vercel (sobre Amazon Web Services)",
+        "papel": "Aloja el sitio y cuenta las visitas (Web Analytics, sin cookies).",
+        "risco": "Si se cae, el sitio desaparece. El código es abierto y puede publicarse en otro lugar."
+      },
+      {
+        "nome": "GitHub (Microsoft)",
+        "papel": "Guarda el código, ejecuta los recolectores automáticos dos veces al día (GitHub Actions) y publica el corpus cada semana (Releases).",
+        "risco": "Si cambian las reglas de las Actions, la recolección se detiene. Ya pasó: en octubre de 2026, un cambio de versión del sistema tumbó recolecciones durante dos días."
+      },
+      {
+        "nome": "Cloudflare (Turnstile)",
+        "papel": "Verificación anti-robot antes de los análisis y del inicio de sesión.",
+        "risco": "Si se cae, los análisis quedan detenidos en la verificación."
+      },
+      {
+        "nome": "Resend (sobre Amazon Web Services)",
+        "papel": "Envía los e-mails de inicio de sesión de las cuentas.",
+        "risco": "Si se cae, nadie entra por enlace ni recupera la contraseña. Quien ya inició sesión sigue usando la herramienta."
+      },
+      {
+        "nome": "Wix",
+        "papel": "Administra el dominio classecreator.com (DNS).",
+        "risco": "Si el DNS falla, la dirección raiox.classecreator.com deja de llevar al sitio."
+      }
+    ],
+    "limitesFeito": [
+      "Lo que hicimos para depender menos: el **código es abierto**; el **corpus es público** y sale cada semana en formatos abiertos (Parquet y CSV), para que cualquiera guarde una copia fuera de aquí; **no hay inicio de sesión con Google ni con Meta**; quien lo usa sin cuenta **no deja ningún dato personal**; y las fuentes tipográficas las sirve el propio sitio, sin servicios de terceros.",
+      "Lo que todavía depende de ellas: casi todo lo que funciona. Reemplazar cada pieza por infraestructura propia o pública exige un financiamiento que el proyecto no tiene, y eso forma parte de la agenda del Observatório."
+    ],
+    "limitesUsoTitulo": "Por qué existen límites de uso",
+    "limitesUso": [
+      "Cada análisis llama a la API de YouTube y a un modelo de lenguaje pago, y ese costo sale del bolsillo del colectivo. Para que la herramienta siga abierta para todos, hay límites: sin cuenta, por sesión (La Lupa 15, Dossier del Canal 5, Disputa de Narrativa 3, Voz de la Base 5); con una **cuenta gratuita**, el doble, por día; y un tope diario que suma el uso de todas las personas.",
+      "Si tu investigación necesita más, habla con el Observatório: podemos acordar un límite mayor para tu cuenta."
+    ],
+    "linkPrivacidade": "Política de privacidad"
   },
   "Biblioteca": {
     "titulo": "Biblioteca de Investigación",
@@ -1018,7 +1076,9 @@
       "confirmacao": "Escribe BORRAR para confirmar.",
       "sem_login": "Tu sesión expiró. Vuelve a entrar.",
       "falha": "Algo salió mal. Vuelve a intentarlo en un momento."
-    }
+    },
+    "informacoes": "Información de la cuenta",
+    "apagarTitulo": "Borrar cuenta"
   },
   "Projetos": {
     "eyebrow": "Cuenta de investigador",
@@ -1051,7 +1111,7 @@
     "vazioLeitura": "Este proyecto todavía no tiene análisis.",
     "total": "Análisis",
     "tipologiaTitulo": "Tipología dual de lo que recolectaste",
-    "tipologiaLegenda": "Quién produce × qué tipo de trabajo, en {n, plural, one {el # análisis} other {los # análisis}} de la Lupa y del Dossier de este proyecto.",
+    "tipologiaLegenda": "Quién produce × qué tipo de trabajo, en {n, plural, one {el # análisis} other {los # análisis}} de La Lupa y del Dossier del Canal de este proyecto.",
     "produtorConteudo": "Productor ↓ · Contenido →",
     "tempoTitulo": "Línea de tiempo",
     "canaisTitulo": "Canales recurrentes",

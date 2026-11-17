@@ -5,8 +5,9 @@ import type { Locale } from "@/i18n/routing";
 import { BrandBlock, Eyebrow } from "@/components/brand/Brand";
 import { Logo } from "@/components/brand/Logo";
 import { Pagina, Secao } from "@/components/pagina";
-import { Paragrafos } from "@/components/rico";
+import { Paragrafos, rico } from "@/components/rico";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/sobre">): Promise<Metadata> {
   const { locale } = await params;
@@ -81,6 +82,28 @@ export default async function Sobre({ params }: PageProps<"/[locale]/sobre">) {
             { rotulo: t("linkInstagram"), href: "https://www.instagram.com/severo_filipe/" },
           ]}
         />
+      </Secao>
+
+      {/* Limites e soberania técnica (pedido do Filipe em 17/nov/2026). */}
+      <Secao numero="04" id="limites" titulo={t("limitesTitulo")}>
+        <Paragrafos textos={t.raw("limitesTexto") as string[]} className="prosa text-lg" />
+        <h3 className="label-caps mt-10 mb-4 text-muted-foreground">{t("dependenciasTitulo")}</h3>
+        <dl className="divide-y divide-cc-line border-y border-cc-line">
+          {(t.raw("dependencias") as { nome: string; papel: string; risco: string }[]).map((d) => (
+            <div key={d.nome} className="grid gap-1 py-4 sm:grid-cols-[12rem_1fr] sm:gap-6">
+              <dt className="font-semibold">{d.nome}</dt>
+              <dd className="text-muted-foreground">
+                {rico(d.papel)} <span className="text-foreground/80">{rico(d.risco)}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <Paragrafos textos={t.raw("limitesFeito") as string[]} className="prosa mt-10 text-lg" />
+        <h3 className="label-caps mt-10 mb-4 text-muted-foreground">{t("limitesUsoTitulo")}</h3>
+        <Paragrafos textos={t.raw("limitesUso") as string[]} className="prosa text-lg" />
+        <Button asChild variant="outline" size="sm" font="caps" className="mt-6">
+          <Link href="/privacidade">{t("linkPrivacidade")}</Link>
+        </Button>
       </Secao>
     </Pagina>
   );

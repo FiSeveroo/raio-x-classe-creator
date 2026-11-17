@@ -338,7 +338,65 @@
       "Sou pesquisador em comunicação e plataformização, e criador de conteúdo há mais de 15 anos. Fundei a Classe Creator para reunir num só lugar o que estudo, o que atendo como consultor e o que vivo como creator.",
       "A dissertação que originou o Raio-X (PUCRS/FAMECOS, 2026) classificou manualmente **1.049 vídeos** do trending brasileiro ao longo de **21 semanas**, desenvolvendo a tipologia dupla que a ferramenta agora opera em escala com inteligência artificial."
     ],
-    "rodape": "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
+    "rodape": "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026",
+    "limitesTitulo": "Limites e dependências",
+    "limitesTexto": [
+      "O Raio-X estuda como as plataformas decidem o que circula, e, para existir, depende da infraestrutura dessas mesmas empresas. Não escondemos isso: é um exemplo prático do que a pesquisa critica. Um coletivo independente e sem financiamento não tem como manter servidores, banco de dados e modelos de linguagem próprios.",
+      "Abaixo, cada serviço de que a ferramenta depende, para que serve e o que acontece se ele sair do ar ou mudar as regras."
+    ],
+    "dependenciasTitulo": "De quem o Raio-X depende",
+    "dependencias": [
+      {
+        "nome": "YouTube Data API v3 (Google)",
+        "papel": "A fonte de todos os dados: metadados de vídeos e canais, comentários e as listas Em Alta.",
+        "risco": "Sem ela, nenhum módulo funciona. O Google define a cota diária, os campos que expõe e como monta o `mostPopular`, que, como mostra o Termômetro, não é auditável de forma fidedigna."
+      },
+      {
+        "nome": "Anthropic (Claude)",
+        "papel": "Classifica vídeos e canais na tipologia dupla e escreve as leituras qualitativas: Claude Haiku 5.5 e Sonnet 5.5 desde 17/11/2026 (antes, Haiku 4.5 e Sonnet 4.6).",
+        "risco": "Quando a empresa muda ou aposenta um modelo, as classificações mudam junto. Por isso registramos a data de cada troca."
+      },
+      {
+        "nome": "Supabase (sobre a Amazon Web Services)",
+        "papel": "Banco de dados do corpus e login das contas.",
+        "risco": "Fora do ar, o site não lê nem grava análises. Mantemos um backup completo do banco fora da plataforma."
+      },
+      {
+        "nome": "Vercel (sobre a Amazon Web Services)",
+        "papel": "Hospeda o site e conta as visitas (Web Analytics, sem cookies).",
+        "risco": "Fora do ar, o site some. O código é aberto e pode ser publicado em outro lugar."
+      },
+      {
+        "nome": "GitHub (Microsoft)",
+        "papel": "Guarda o código, roda os coletores automáticos duas vezes por dia (GitHub Actions) e publica o corpus toda semana (Releases).",
+        "risco": "Se as regras das Actions mudam, a coleta para. Já aconteceu: em outubro de 2026, uma troca de versão do sistema derrubou coletas por dois dias."
+      },
+      {
+        "nome": "Cloudflare (Turnstile)",
+        "papel": "Verificação anti-robô antes das análises e do login.",
+        "risco": "Fora do ar, as análises ficam paradas na verificação."
+      },
+      {
+        "nome": "Resend (sobre a Amazon Web Services)",
+        "papel": "Envia os e-mails de login das contas.",
+        "risco": "Fora do ar, ninguém entra por link nem recupera a senha. Quem já está logado continua usando."
+      },
+      {
+        "nome": "Wix",
+        "papel": "Administra o domínio classecreator.com (DNS).",
+        "risco": "Se o DNS falha, o endereço raiox.classecreator.com deixa de levar ao site."
+      }
+    ],
+    "limitesFeito": [
+      "O que fizemos para depender menos: o **código é aberto**; o **corpus é público** e sai toda semana em formatos abertos (Parquet e CSV), para qualquer pessoa guardar uma cópia fora daqui; **não há login por Google nem por Meta**; quem usa sem conta **não deixa nenhum dado pessoal**; e as fontes do site são servidas pelo próprio site, sem serviços de fontes de terceiros.",
+      "O que ainda depende delas: quase tudo o que roda. Trocar cada peça por infraestrutura própria ou pública exige uma verba que o projeto não tem, e isso faz parte da agenda do Observatório."
+    ],
+    "limitesUsoTitulo": "Por que existem limites de uso",
+    "limitesUso": [
+      "Cada análise chama a API do YouTube e um modelo de linguagem pago, e esse custo sai do bolso do coletivo. Para a ferramenta continuar aberta para todo mundo, há limites: sem conta, por sessão (A Lupa 15, Dossiê do Canal 5, Disputa de Narrativa 3, A Voz da Base 5); com uma **conta gratuita**, o dobro, por dia; e um teto diário que soma o uso de todas as pessoas.",
+      "Se a sua pesquisa precisa de mais, fale com o Observatório: dá para combinar um limite maior para a sua conta."
+    ],
+    "linkPrivacidade": "Política de privacidade"
   },
   "Biblioteca": {
     "titulo": "Biblioteca de Pesquisa",
@@ -1018,7 +1076,9 @@
       "confirmacao": "Digite APAGAR para confirmar.",
       "sem_login": "Sua sessão expirou. Entre de novo.",
       "falha": "Algo deu errado. Tente de novo em instantes."
-    }
+    },
+    "informacoes": "Informações da conta",
+    "apagarTitulo": "Apagar conta"
   },
   "Projetos": {
     "eyebrow": "Conta de pesquisador",

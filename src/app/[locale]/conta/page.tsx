@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, FolderOpen } from "lucide-react";
+import { ArrowRight, ChevronDown, FolderOpen, Settings } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow, SectionTitle } from "@/components/brand/Brand";
 import { Metricas } from "@/components/metricas";
@@ -39,9 +39,12 @@ export default async function Conta({ params, searchParams }: PageProps<"/[local
     <Pagina>
       <Eyebrow className="mb-6">{t("eyebrow")}</Eyebrow>
       <h1 className="font-display text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.9]">{t("titulo")}</h1>
-      <p className="mt-6 text-muted-foreground">
-        {t("logadoComo")} <span className="text-foreground">{usuario!.email}</span>
-      </p>
+      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <p className="text-muted-foreground">
+          {t("logadoComo")} <span className="text-foreground">{usuario!.email}</span>
+        </p>
+        <BotaoSair />
+      </div>
 
       <section className="mt-14" aria-labelledby="projetos">
         <SectionTitle>
@@ -80,22 +83,32 @@ export default async function Conta({ params, searchParams }: PageProps<"/[local
         />
       </section>
 
-      <section className="mt-14" aria-labelledby="senha">
-        <SectionTitle tone="secondary">
-          <span id="senha">{t("senhaTitulo")}</span>
-        </SectionTitle>
-        <FormularioSenha destacar={sp.senha === "1"} />
-      </section>
-
-      <section className="mt-14 flex flex-wrap items-start gap-6 border-t border-cc-line pt-10">
-        <BotaoSair />
-        <ApagarConta />
-      </section>
-      <p className="mt-8 text-sm text-muted-foreground">
-        <Link href="/privacidade" className="underline-offset-4 hover:text-foreground hover:underline">
-          {t("privacidadeLink")}
-        </Link>
-      </p>
+      {/* Senha e apagar conta ficam recolhidos (pedido do Filipe em 17/nov/2026). */}
+      <details id="senha" open={sp.senha === "1"} className="group mt-14 border-t border-cc-line pt-8">
+        <summary className="label-caps inline-flex cursor-pointer list-none items-center gap-2 rounded-md border border-cc-line px-4 py-2.5 text-muted-foreground transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
+          <Settings aria-hidden className="size-4" /> {t("informacoes")}
+          <ChevronDown aria-hidden className="size-4 transition-transform group-open:rotate-180" />
+        </summary>
+        <div className="mt-8 space-y-12">
+          <section aria-labelledby="titulo-senha">
+            <h2 id="titulo-senha" className="font-display text-xl">{t("senhaTitulo")}</h2>
+            <div className="mt-4">
+              <FormularioSenha destacar={sp.senha === "1"} />
+            </div>
+          </section>
+          <section aria-labelledby="titulo-apagar">
+            <h2 id="titulo-apagar" className="font-display text-xl">{t("apagarTitulo")}</h2>
+            <div className="mt-4">
+              <ApagarConta />
+            </div>
+          </section>
+          <p className="text-sm text-muted-foreground">
+            <Link href="/privacidade" className="underline-offset-4 hover:text-foreground hover:underline">
+              {t("privacidadeLink")}
+            </Link>
+          </p>
+        </div>
+      </details>
     </Pagina>
   );
 }

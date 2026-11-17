@@ -338,7 +338,65 @@
       "I'm a researcher in communication and platformization, and a content creator for over 15 years. I founded Classe Creator to bring together in one place what I study, what I serve as a consultant, and what I live as a creator.",
       "The dissertation that originated Raio-X (PUCRS/FAMECOS, 2026) manually classified **1,049 videos** from the Brazilian trending over **21 weeks**, developing the dual typology that the tool now operates at scale with artificial intelligence."
     ],
-    "rodape": "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026"
+    "rodape": "Raio-X da Classe Creator · Observatório Classe Creator · PUCRS/FAMECOS, 2026",
+    "limitesTitulo": "Limits and dependencies",
+    "limitesTexto": [
+      "Raio-X studies how platforms decide what circulates, and, to exist, it depends on those same companies' infrastructure. We don't hide this: it is a practical example of what the research criticizes. An independent, unfunded collective cannot run its own servers, database and language models.",
+      "Below is each service the tool depends on, what it is for and what happens if it goes down or changes its rules."
+    ],
+    "dependenciasTitulo": "What Raio-X depends on",
+    "dependencias": [
+      {
+        "nome": "YouTube Data API v3 (Google)",
+        "papel": "The source of all data: video and channel metadata, comments and the Trending lists.",
+        "risco": "Without it, no module works. Google sets the daily quota, the fields it exposes and how it builds `mostPopular`, which, as the Thermometer shows, cannot be reliably audited."
+      },
+      {
+        "nome": "Anthropic (Claude)",
+        "papel": "Classifies videos and channels in the dual typology and writes the qualitative readings: Claude Haiku 5.5 and Sonnet 5.5 since 17 Nov 2026 (before that, Haiku 4.5 and Sonnet 4.6).",
+        "risco": "When the company changes or retires a model, the classifications change too. That is why we record the date of every switch."
+      },
+      {
+        "nome": "Supabase (on Amazon Web Services)",
+        "papel": "The corpus database and account sign-in.",
+        "risco": "If it goes down, the site can neither read nor save analyses. We keep a full database backup outside the platform."
+      },
+      {
+        "nome": "Vercel (on Amazon Web Services)",
+        "papel": "Hosts the site and counts visits (Web Analytics, no cookies).",
+        "risco": "If it goes down, the site disappears. The code is open and can be deployed elsewhere."
+      },
+      {
+        "nome": "GitHub (Microsoft)",
+        "papel": "Stores the code, runs the automatic collectors twice a day (GitHub Actions) and publishes the corpus every week (Releases).",
+        "risco": "If the Actions rules change, collection stops. It has happened: in October 2026, a system version change brought collections down for two days."
+      },
+      {
+        "nome": "Cloudflare (Turnstile)",
+        "papel": "Anti-robot check before analyses and sign-in.",
+        "risco": "If it goes down, analyses get stuck at the check."
+      },
+      {
+        "nome": "Resend (on Amazon Web Services)",
+        "papel": "Sends the account sign-in emails.",
+        "risco": "If it goes down, nobody can sign in by link or recover a password. Anyone already signed in keeps working."
+      },
+      {
+        "nome": "Wix",
+        "papel": "Manages the classecreator.com domain (DNS).",
+        "risco": "If DNS fails, raiox.classecreator.com no longer leads to the site."
+      }
+    ],
+    "limitesFeito": [
+      "What we did to depend less: the **code is open**; the **corpus is public** and released every week in open formats (Parquet and CSV), so anyone can keep a copy elsewhere; **there is no Google or Meta sign-in**; people using it without an account **leave no personal data**; and the site's fonts are served by the site itself, with no third-party font services.",
+      "What still depends on them: almost everything that runs. Replacing each piece with our own or public infrastructure requires funding the project doesn't have, and that is part of the Observatório's agenda."
+    ],
+    "limitesUsoTitulo": "Why there are usage limits",
+    "limitesUso": [
+      "Every analysis calls the YouTube API and a paid language model, and that cost comes out of the collective's own pocket. To keep the tool open to everyone, there are limits: without an account, per session (The Magnifier 15, Channel Dossier 5, Narrative Dispute 3, Voice of the Base 5); with a **free account**, twice that, per day; and a daily cap that adds up everyone's usage.",
+      "If your research needs more, talk to the Observatório: we can agree on a higher limit for your account."
+    ],
+    "linkPrivacidade": "Privacy policy"
   },
   "Biblioteca": {
     "titulo": "Research Library",
@@ -1018,7 +1076,9 @@
       "confirmacao": "Type DELETE to confirm.",
       "sem_login": "Your session has expired. Sign in again.",
       "falha": "Something went wrong. Try again in a moment."
-    }
+    },
+    "informacoes": "Account settings",
+    "apagarTitulo": "Delete account"
   },
   "Projetos": {
     "eyebrow": "Researcher account",
@@ -1051,7 +1111,7 @@
     "vazioLeitura": "This project has no analyses yet.",
     "total": "Analyses",
     "tipologiaTitulo": "Dual typology of what you collected",
-    "tipologiaLegenda": "Who produces × what kind of work, across the {n, plural, one {# analysis} other {# analyses}} from the Lens and the Dossier in this project.",
+    "tipologiaLegenda": "Who produces × what kind of work, across the {n, plural, one {# analysis} other {# analyses}} from The Magnifier and the Channel Dossier in this project.",
     "produtorConteudo": "Producer ↓ · Content →",
     "tempoTitulo": "Timeline",
     "canaisTitulo": "Recurring channels",
